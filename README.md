@@ -1,2 +1,35 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/Bwpk2ByU)
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=17427211&assignment_repo_type=AssignmentRepo)
+# Scrum-based Software Development Project
+
+## Project Overview
+
+This project focuses on improving an existing software system by employing the **Scrum framework**, a methodology emphasizing teamwork and agility in project management and software development.
+
+---
+
+## Objectives
+
+1. **Enhance teamwork skills**  
+   Promote effective collaboration and communication among team members.
+
+2. **Develop understanding of Scrum processes**  
+   Implement and adapt Scrum principles for efficient project management.
+
+3. **Meet user requirements**  
+   Deliver a product that aligns with the specifications outlined in the **Product Backlog**, ensuring adaptability to changes and user feedback.
+
+---
+
+## Team Members
+
+| Student ID       | Name                          |
+|-------------------|-------------------------------|
+| 643020037-5      | Mr.  JAKKAPAN SANGPROM       |
+| 653380015-9      | Miss TIDAPORN TEAMSOOK         |
+| 653380024-8      | Mr.  WITCHAKORN BOONPRAKOM     |
+| 653380128-6      | Mr.  NAPAT PARSONGDEE        |
+| 653380141-4      | Miss PLOYCHOMPU WONGKEERATIKUL|
+| 653380148-0      | Mr.  WITTAWAT PARIYANON         |
+| 653380274-5      | Miss PUNNITA PETHPHUKDEE       |
+| 653380262-2      | Miss KUNYAKON PHONGMANEESIN       |
+
+---
