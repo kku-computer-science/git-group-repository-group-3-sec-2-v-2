@@ -33,3 +33,11 @@ This project focuses on improving an existing software system by employing the *
 | 653380262-2      | Miss KUNYAKON PHONGMANEESIN       |
 
 ---
+
+## Branch Structure
+
+- **[`main-dev`](https://github.com/kku-computer-science/git-group-repository-group-3-sec-2-v-2/tree/main-dev)**:  
+  This branch is dedicated to development purposes. It serves as a testing ground for implementing new features, bug fixes, and experimental changes. Use this branch for verifying and refining updates before proposing them for production.
+
+- **[`main`](https://github.com/kku-computer-science/git-group-repository-group-3-sec-2-v-2/tree/main)**:  
+  This is the primary production branch. Only stable, thoroughly tested, and reviewed changes should be merged into this branch. It represents the latest stable version of the project.
