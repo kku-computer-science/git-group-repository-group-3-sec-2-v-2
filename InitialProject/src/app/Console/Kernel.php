@@ -26,7 +26,11 @@ class Kernel extends ConsoleKernel
     {
         // กำหนดให้คำสั่ง demo:cron ทำงานตามเวลาที่กำหนด
         #$schedule->command('demo:cron')->cron('0 0 15 2,5,8,11 *')->timezone('Asia/Bangkok');
-        $schedule->command('demo:cron')->at('16:38')->timezone('Asia/Bangkok');
+        $schedule->command('demo:cron')
+         ->at('02:59')
+         ->timezone('Asia/Bangkok')
+         ->appendOutputTo(storage_path('logs/demo_cron.log'));
+
         //$schedule->command('demo:cron')->cron('58 15 20 2,4,8,11 *')->timezone('Asia/Bangkok');
     }
      
