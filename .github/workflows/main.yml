@@ -1,0 +1,61 @@
+name: Laravel CI/CD
+
+on:
+  push:
+    branches:
+      - witchakorn-test
+  pull_request:
+    branches:
+      - witchakorn-test
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.1
+          extensions: mbstring, exif, pcntl, bcmath
+          ini-values: post_max_size=256M, max_execution_time=300
+          coverage: none
+          
+      - name: Cache Composer Dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install Dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Cache Node Modules
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: npm-
+
+      - name: Install NPM Dependencies
+        run: npm install
+
+      - name: Run Lint
+        run: |
+          composer lint
+
+      - name: Run Tests
+        env:
+          APP_ENV: testing
+          DB_CONNECTION: sqlite
+          CACHE_DRIVER: array
+          SESSION_DRIVER: array
+          QUEUE_CONNECTION: sync
+        run: php artisan test
+
+      - name: Build Assets
+        run: npm run production
