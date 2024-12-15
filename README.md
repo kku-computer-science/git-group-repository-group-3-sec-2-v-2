@@ -21,18 +21,19 @@ This project focuses on improving an existing software system by employing the *
 
 ## Team Members
 
-| Student ID       | Name                          |
-|-------------------|-------------------------------|
-| 643020037-5      | Mr.  JAKKAPAN SANGPROM       |
-| 653380015-9      | Miss TIDAPORN TEAMSOOK         |
-| 653380024-8      | Mr.  WITCHAKORN BOONPRAKOM     |
-| 653380128-6      | Mr.  NAPAT PARSONGDEE        |
-| 653380141-4      | Miss PLOYCHOMPU WONGKEERATIKUL|
-| 653380148-0      | Mr.  WITTAWAT PARIYANON         |
-| 653380274-5      | Miss PUNNITA PETHPHUKDEE       |
-| 653380262-2      | Miss KUNYAKON PHONGMANEESIN       |
+| **Student ID**   | **Name**                        | **Branch**                                                                                       |
+|-------------------|---------------------------------|--------------------------------------------------------------------------------------------------|
+| 643020037-5      | Mr. Jakkapan Sangprom          | -                                                                                                |
+| 653380015-9      | Miss Tidaporn Teamsook          | [`Tidaporn_0159`](https://github.com/kku-computer-science/git-group-repository-group-3-sec-2-v-2/tree/Tidaporn_0159)          |
+| 653380024-8      | Mr. Witchakorn Boonprakom       | [`Witchakorn_0248`](https://github.com/kku-computer-science/git-group-repository-group-3-sec-2-v-2/tree/Witchakorn_0248)      |
+| 653380128-6      | Mr. Napat Parsongdee           | [`Napat_1286`](https://github.com/kku-computer-science/git-group-repository-group-3-sec-2-v-2/tree/Napat_1286)              |
+| 653380141-4      | Miss Ploychompu Wongkeeratikul  | [`Ploychompu_1414`](https://github.com/kku-computer-science/git-group-repository-group-3-sec-2-v-2/tree/Ploychompu_1414)     |
+| 653380148-0      | Mr. Wittawat Pariyanon          | [`Wittawat_1480`](https://github.com/kku-computer-science/git-group-repository-group-3-sec-2-v-2/tree/Wittawat_1480)        |
+| 653380274-5      | Miss Punnita Phetphukdee        | [`Punnita_274-5`](https://github.com/kku-computer-science/git-group-repository-group-3-sec-2-v-2/tree/Punnita_274-5)        |
+| 653380262-2      | Miss Kunyakon Phongmaneesin     | [`kunyakon_2622`](https://github.com/kku-computer-science/git-group-repository-group-3-sec-2-v-2/tree/kunyakon_2622)        |
 
 ---
+
 
 ## Branch Structure
 
