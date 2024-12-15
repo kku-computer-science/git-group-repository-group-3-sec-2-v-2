@@ -8,7 +8,7 @@ use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
+     * คำสั่ง Artisan ที่แอปพลิเคชันของคุณให้บริการ
      *
      * @var array
      */
@@ -17,27 +17,30 @@ class Kernel extends ConsoleKernel
     ];
      
     /**
-     * Define the application's command schedule.
+     * กำหนดตารางเวลาของคำสั่งแอปพลิเคชัน
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
+        // กำหนดให้คำสั่ง demo:cron ทำงานตามเวลาที่กำหนด
         #$schedule->command('demo:cron')->cron('0 0 15 2,5,8,11 *')->timezone('Asia/Bangkok');
         $schedule->command('demo:cron')->at('16:38')->timezone('Asia/Bangkok');
         //$schedule->command('demo:cron')->cron('58 15 20 2,4,8,11 *')->timezone('Asia/Bangkok');
     }
      
     /**
-     * Register the commands for the application.
+     * ลงทะเบียนคำสั่งสำหรับแอปพลิเคชัน
      *
      * @return void
      */
     protected function commands()
     {
+        // โหลดคำสั่งจากไดเรกทอรี Commands
         $this->load(__DIR__.'/Commands');
      
+        // รวมไฟล์ console.php ที่อยู่ในไดเรกทอรี routes
         require base_path('routes/console.php');
     }
 }

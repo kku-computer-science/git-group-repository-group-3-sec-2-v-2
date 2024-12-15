@@ -23,12 +23,19 @@ class ResetPasswordController extends Controller
     use ResetsPasswords;
 
     /**
-     * Where to redirect users after resetting their password.
+     * สถานที่ที่จะเปลี่ยนเส้นทางผู้ใช้หลังจากการรีเซ็ตรหัสผ่านเสร็จสิ้น
      *
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+    /**
+     * ฟังก์ชันเพื่อกำหนดเส้นทางการเปลี่ยนเส้นทางหลังจากการรีเซ็ตรหัสผ่าน
+     *
+     * @return string
+     */
     protected function redirectTo(){
+        // ตรวจสอบบทบาทของผู้ใช้และเปลี่ยนเส้นทางตามบทบาท
         if( Auth()->user()->role == 1 ){
             return route('admin.dashboard');
         }

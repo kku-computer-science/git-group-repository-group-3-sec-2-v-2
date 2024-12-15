@@ -22,21 +22,24 @@ class VerificationController extends Controller
     use VerifiesEmails;
 
     /**
-     * Where to redirect users after verification.
+     * สถานที่ที่จะเปลี่ยนเส้นทางผู้ใช้หลังจากการยืนยันอีเมลเสร็จสิ้น
      *
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Create a new controller instance.
+     * สร้างอินสแตนซ์ของคอนโทรลเลอร์ใหม่
      *
      * @return void
      */
     public function __construct()
     {
+        // กำหนด middleware เพื่อให้แน่ใจว่าผู้ใช้ได้เข้าสู่ระบบแล้ว
         $this->middleware('auth');
+        // กำหนด middleware เพื่อให้แน่ใจว่าลิงก์ยืนยันอีเมลถูกต้อง
         $this->middleware('signed')->only('verify');
+        // กำหนด middleware เพื่อจำกัดจำนวนครั้งในการยืนยันอีเมลและการส่งอีเมลใหม่
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 }

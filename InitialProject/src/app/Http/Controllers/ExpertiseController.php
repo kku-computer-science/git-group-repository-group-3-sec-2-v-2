@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class ExpertiseController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * แสดงรายการของทรัพยากร
      *
      * @return \Illuminate\Http\Response
      */
@@ -19,8 +19,10 @@ class ExpertiseController extends Controller
     {
         $id = auth()->user()->id;
         if (auth()->user()->hasRole('admin')) {
+            // ถ้าเป็น admin ให้ดึงข้อมูลทั้งหมด
             $experts = Expertise::all();
         } else {
+            // ถ้าไม่ใช่ admin ให้ดึงข้อมูลเฉพาะที่เกี่ยวข้องกับผู้ใช้ที่ล็อกอินอยู่
             $experts = Expertise::with('user')->whereHas('user', function ($query) use ($id) {
                 $query->where('users.id', '=', $id);
             })->paginate(10);
@@ -30,7 +32,7 @@ class ExpertiseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * แสดงฟอร์มสำหรับสร้างทรัพยากรใหม่
      *
      * @return \Illuminate\Http\Response
      */
@@ -40,7 +42,7 @@ class ExpertiseController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * เก็บทรัพยากรใหม่ในฐานข้อมูล
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -49,23 +51,25 @@ class ExpertiseController extends Controller
     {
         $r = $request->validate([
             'expert_name' => 'required',
-
         ]);
+
         $exp = Expertise::find($request->exp_id);
         //return $exp;
         $exp_id = $request->exp_id;
         //dd($custId);
         if (auth()->user()->hasRole('admin')) {
+            // ถ้าเป็น admin ให้ทำการอัพเดตข้อมูล
             $exp->update($request->all());
         } else {
+            // ถ้าไม่ใช่ admin ให้ทำการสร้างหรืออัพเดตข้อมูลที่เกี่ยวข้องกับผู้ใช้ที่ล็อกอินอยู่
             $user = User::find(Auth::user()->id);
             $user->expertise()->updateOrCreate(['id' => $exp_id], ['expert_name' => $request->expert_name]);
         }
 
         if (empty($request->exp_id))
-            $msg = 'Expertise entry created successfully.';
+            $msg = 'สร้างข้อมูลความเชี่ยวชาญสำเร็จ';
         else
-            $msg = 'Expertise data is updated successfully';
+            $msg = 'อัพเดตข้อมูลความเชี่ยวชาญสำเร็จ';
 
         if (auth()->user()->hasRole('admin')) {
             return redirect()->route('experts.index')->with('success', $msg);
@@ -79,9 +83,8 @@ class ExpertiseController extends Controller
         //return redirect()->route('experts.index')->with('success',$msg);
     }
 
-
     /**
-     * Display the specified resource.
+     * แสดงทรัพยากรที่ระบุ
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -95,7 +98,7 @@ class ExpertiseController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * แสดงฟอร์มสำหรับแก้ไขทรัพยากรที่ระบุ
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -108,7 +111,7 @@ class ExpertiseController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * อัพเดตทรัพยากรที่ระบุในฐานข้อมูล
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -120,7 +123,7 @@ class ExpertiseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * ลบทรัพยากรที่ระบุออกจากฐานข้อมูล
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -129,7 +132,7 @@ class ExpertiseController extends Controller
     {
         //dd($id);
         $exp = Expertise::where('id', $id)->delete();
-        $msg = 'Expertise entry created successfully.';
+        $msg = 'ลบข้อมูลความเชี่ยวชาญสำเร็จ';
         if (auth()->user()->hasRole('admin')) {
             return redirect()->route('experts.index')->with('success', $msg);
         } else {

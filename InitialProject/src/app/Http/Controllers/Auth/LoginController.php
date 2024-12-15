@@ -26,42 +26,58 @@ class LoginController extends Controller
     use AuthenticatesUsers;
     use ThrottlesLogins;
     /**
-     * Where to redirect users after login.
+     * สถานที่ที่จะเปลี่ยนเส้นทางผู้ใช้หลังจากการเข้าสู่ระบบเสร็จสิ้น
      *
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
-    protected $maxAttempts = 10; // Default is 5
-    protected $decayMinutes = 5; // Default is 1  //define 5 minute
+    protected $maxAttempts = 10; // จำนวนครั้งสูงสุดที่อนุญาตให้พยายามเข้าสู่ระบบ
+    protected $decayMinutes = 5; // ระยะเวลาที่ต้องรอก่อนที่จะพยายามเข้าสู่ระบบใหม่
 
     /**
-     * Create a new controller instance.
+     * สร้างอินสแตนซ์ของคอนโทรลเลอร์ใหม่
      *
      * @return void
      */
-
-
     public function __construct()
     {
-
+        // กำหนด middleware เพื่อให้แน่ใจว่าผู้ใช้ไม่ได้เข้าสู่ระบบ
         $this->middleware(['guest'])->except('logout');
     }
 
+    /**
+     * กำหนดฟิลด์ที่ใช้สำหรับการเข้าสู่ระบบ
+     *
+     * @return string
+     */
     public function username()
     {
         return 'email';
     }
 
+    /**
+     * ฟังก์ชันสำหรับการออกจากระบบ
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
+        // ล้างข้อมูลเซสชันและออกจากระบบ
         $request->session()->flush();
         $request->session()->regenerate();
         Auth::logout();
         return redirect('/login');
     }
 
+    /**
+     * ฟังก์ชันเพื่อกำหนดเส้นทางการเปลี่ยนเส้นทางหลังจากการเข้าสู่ระบบ
+     *
+     * @return string
+     */
     protected function redirectTo()
     {
+        // ตรวจสอบบทบาทของผู้ใช้และเปลี่ยนเส้นทางตามบทบาท
         if (Auth::user()->hasRole('admin')) {
             return route('dashboard');
         } elseif (Auth::user()->hasRole('staff')) {
@@ -74,46 +90,24 @@ class LoginController extends Controller
         }
     }
 
+    /**
+     * ฟังก์ชันสำหรับการเข้าสู่ระบบ
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function login(Request $request)
     {
-
-
+        // ตรวจสอบว่ามีการพยายามเข้าสู่ระบบเกินจำนวนครั้งที่กำหนดหรือไม่
         if (
             method_exists($this, 'hasTooManyLoginAttempts') &&
             $this->hasTooManyLoginAttempts($request)
         ) {
-            /*$this->fireLockoutEvent($request);
-            return $this->sendLockoutResponse($request);*/
-            /*$key = $this->throttleKey($request);
-                $rateLimiter = $this->limiter();
-                
-                $limit = [3 => 1, 5 => 5];
-                $attempts = $rateLimiter->attempts($key);  // return how attapts already yet
-                if (array_key_exists($attempts, $limit)) {
-                    $this->decayMinutes = $limit[$attempts];
-                }
-                $this->incrementLoginAttempts($request);*/ // login สำเร็จ
-
             $this->fireLockoutEvent($request);
             return $this->sendLockoutResponse($request);
         }
 
-        // $input = $request->all();
-        // $this->validate($request, [
-        //     'username' => 'required',
-        //     'password' => 'required',
-        // ]);
-
-        // $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        // if(auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password'])))
-        // {
-        //     return redirect()->route('dashboard');
-        // }else{
-        //     return redirect()->back()
-        //                 ->withInput($request->all())
-        //                 ->withErrors(['error' => 'Login Failed: Your user ID or password is incorrect']);
-        // }
-
+        // ตรวจสอบข้อมูลที่ส่งมาให้ตรงตามเงื่อนไขที่กำหนด
         $credentials = $request->only('username', 'password');
         $response = request('recaptcha');
 
@@ -127,40 +121,25 @@ class LoginController extends Controller
             'password' => 'required'
         ];
 
-
         $validator = Validator::make($data, $rules);
 
         $input = $request->all();
-        // $validator = $this->validate($request, [
-        //     'username' => 'required',
-        //     'password' => 'required',
-        // ]);
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         if (!$validator->fails()) {
-
+            // ตรวจสอบข้อมูลการเข้าสู่ระบบและ reCAPTCHA
             if (auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password'])) && $this->checkValidGoogleRecaptchaV3($response)) {
-                //success
+                // เปลี่ยนเส้นทางตามบทบาทของผู้ใช้
                 if (Auth::user()->hasRole('admin')) {
                     return redirect()->route('dashboard');
                 } elseif (Auth::user()->hasRole('student')) { //นักศึกษา
-                    //$user=auth()->user();
-                    //$user->assignRole('student');
                     return redirect()->route('dashboard');
                 } elseif (Auth::user()->hasRole('staff')) { //อาจารย์
-                    //$user=auth()->user();
-                    //$user->assignRole('teacher');
-                    //$user->givePermissionTo('addResearchProject','editResearchProject','deleteResearchProject');
-                    //return redirect()->route('teacher.dashboard');
                     return redirect()->route('dashboard');
                 } elseif (Auth::user()->hasRole('teacher')) { //เจ้าหน้าที่
-                    //$user=auth()->user();
-                    //$user->assignRole('teacher');
-                    //$user->givePermissionTo('addResearchProject','editResearchProject','deleteResearchProject');
-                    //return redirect()->route('teacher.dashboard');
                     return redirect()->route('dashboard');
                 } 
             } else {
-                //fail
+                // เพิ่มจำนวนครั้งที่พยายามเข้าสู่ระบบและแสดงข้อผิดพลาด
                 $this->incrementLoginAttempts($request);
                 return redirect()->back()
                     ->withInput($request->all())
@@ -171,7 +150,12 @@ class LoginController extends Controller
         }
     }
 
-
+    /**
+     * ฟังก์ชันสำหรับตรวจสอบ reCAPTCHA ของ Google
+     *
+     * @param  string  $response
+     * @return bool
+     */
     public function checkValidGoogleRecaptchaV3($response)
     {
         $url = "https://www.google.com/recaptcha/api/siteverify";
@@ -188,7 +172,6 @@ class LoginController extends Controller
                 'content' => http_build_query($data)
             ]
         ];
-
 
         $context = stream_context_create($options);
         $result = file_get_contents($url, false, $context);

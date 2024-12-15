@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class CourseController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * แสดงรายการของทรัพยากร
      *
      * @return \Illuminate\Http\Response
      */
@@ -21,7 +21,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * แสดงฟอร์มสำหรับสร้างทรัพยากรใหม่
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,7 +31,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * เก็บทรัพยากรที่สร้างขึ้นใหม่ในที่เก็บข้อมูล
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -60,7 +60,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * แสดงทรัพยากรที่ระบุ
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -71,7 +71,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * แสดงฟอร์มสำหรับแก้ไขทรัพยากรที่ระบุ
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -84,7 +84,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * อัปเดตทรัพยากรที่ระบุในที่เก็บข้อมูล
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -96,7 +96,7 @@ class CourseController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * ลบทรัพยากรที่ระบุออกจากที่เก็บข้อมูล
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

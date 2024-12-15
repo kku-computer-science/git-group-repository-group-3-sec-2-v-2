@@ -10,12 +10,13 @@ use Illuminate\Support\Facades\Redirect;
 class DepartmentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * แสดงรายการของทรัพยากร
      *
      * @return \Illuminate\Http\Response
      */
     function __construct()
     {
+         // กำหนด middleware เพื่อให้เฉพาะผู้ที่มีสิทธิ์ที่กำหนดเท่านั้นที่สามารถเข้าถึงฟังก์ชันต่างๆ ได้
          $this->middleware('permission:departments-list|departments-create|departments-edit|departments-delete', ['only' => ['index','store']]);
          $this->middleware('permission:departments-create', ['only' => ['create','store']]);
          $this->middleware('permission:departments-edit', ['only' => ['edit','update']]);
@@ -25,13 +26,14 @@ class DepartmentController extends Controller
 
     public function index(Request $request)
     {
+        // ดึงข้อมูลแผนกทั้งหมดและแบ่งหน้า
         $data = Department::latest()->paginate(5);
 
         return view('departments.index',compact('data'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * แสดงฟอร์มสำหรับสร้างทรัพยากรใหม่
      *
      * @return \Illuminate\Http\Response
      */
@@ -40,29 +42,30 @@ class DepartmentController extends Controller
         return view('departments.create');
     }
 
-    
     /**
-     * Store a newly created resource in storage.
+     * เก็บทรัพยากรใหม่ในฐานข้อมูล
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
+        // ตรวจสอบความถูกต้องของข้อมูลที่ส่งมา
         $this->validate($request, [
             'department_name_th' => 'required',
             'department_name_th' => 'required',
         ]);
         $input = $request->except(['_token']);
     
+        // สร้างข้อมูลแผนกใหม่
         Department::create($input);
     
         return redirect()->route('departments.index')
-            ->with('success','departments created successfully.');
+            ->with('success','สร้างแผนกสำเร็จ');
     }
 
     /**
-     * Display the specified resource.
+     * แสดงทรัพยากรที่ระบุ
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -73,7 +76,7 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * แสดงฟอร์มสำหรับแก้ไขทรัพยากรที่ระบุ
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -86,7 +89,7 @@ class DepartmentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * อัพเดตทรัพยากรที่ระบุในฐานข้อมูล
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -94,21 +97,23 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, Department $department)
     {
+        // อัพเดตข้อมูลแผนก
         $department->update($request->all());
         return redirect()->route('departments.index')
-                        ->with('success','Department updated successfully');
+                        ->with('success','อัพเดตแผนกสำเร็จ');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * ลบทรัพยากรที่ระบุออกจากฐานข้อมูล
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Department $department)
     {
+        // ลบข้อมูลแผนก
         $department->delete();
         return redirect()->route('departments.index')
-                        ->with('success','Department delete successfully');
+                        ->with('success','ลบแผนกสำเร็จ');
     }
 }

@@ -27,30 +27,32 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     /**
-     * Where to redirect users after registration.
+     * สถานที่ที่จะเปลี่ยนเส้นทางผู้ใช้หลังจากการลงทะเบียนเสร็จสิ้น
      *
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Create a new controller instance.
+     * สร้างอินสแตนซ์ของคอนโทรลเลอร์ใหม่
      *
      * @return void
      */
     public function __construct()
     {
+        // กำหนด middleware เพื่อให้แน่ใจว่าผู้ใช้ไม่ได้เข้าสู่ระบบ
         $this->middleware('guest');
     }
 
     /**
-     * Get a validator for an incoming registration request.
+     * รับตัวตรวจสอบสำหรับคำขอลงทะเบียนที่เข้ามา
      *
      * @param  array  $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
+        // ตรวจสอบข้อมูลที่ส่งมาให้ตรงตามเงื่อนไขที่กำหนด
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -60,58 +62,45 @@ class RegisterController extends Controller
     }
 
     /**
-     * Create a new user instance after a valid registration.
+     * ฟังก์ชันสำหรับการลงทะเบียนผู้ใช้ใหม่
      *
-     * @param  array  $data
-     * @return \App\Models\User
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    // protected function create(array $data)
-    // {
-    //     return User::create([
-    //         'name' => $data['name'],
-    //         'email' => $data['email'],
-    //         'role'=>2,
-    //         'favoriteColor'=>$data['favoriteColor'],
-    //         'password' => Hash::make($data['password']),
-    //     ]);
-    // }
-
     function register(Request $request){
 
-         $request->validate([
+        // ตรวจสอบข้อมูลที่ส่งมาให้ตรงตามเงื่อนไขที่กำหนด
+        $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'favoriteColor'=>'required',
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-         ]);
+        ]);
 
-         /** Make avata */
+        /** สร้างอวาตาร์ */
+        $path = 'images/imag_user/';
+        $fontPath = public_path('fonts/Oliciy.ttf');
+        $char = strtoupper($request->name[0]);
+        $newAvatarName = rand(12,34353).time().'_avatar.png';
+        $dest = $path.$newAvatarName;
 
-         $path = 'images/imag_user/';
-         $fontPath = public_path('fonts/Oliciy.ttf');
-         $char = strtoupper($request->name[0]);
-         $newAvatarName = rand(12,34353).time().'_avatar.png';
-         $dest = $path.$newAvatarName;
+        $createAvatar = makeAvatar($fontPath,$dest,$char);
+        $picture = $createAvatar == true ? $newAvatarName : '';
 
-         $createAvatar = makeAvatar($fontPath,$dest,$char);
-         $picture = $createAvatar == true ? $newAvatarName : '';
+        // สร้างผู้ใช้ใหม่และบันทึกข้อมูลลงในฐานข้อมูล
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->role = 2;
+        $user->favoriteColor = $request->favoriteColor;
+        $user->picture = $picture;
+        $user->password = \Hash::make($request->password);
 
-         $user = new User();
-         $user->name = $request->name;
-         $user->email = $request->email;
-         $user->role = 2;
-         $user->favoriteColor = $request->favoriteColor;
-         $user->picture = $picture;
-         $user->password = \Hash::make($request->password);
-
-         if( $user->save() ){
-
-            return redirect()->back()->with('success','You are now successfully registerd');
-         }else{
-             return redirect()->back()->with('error','Failed to register');
-         }
-
+        // ตรวจสอบว่าการบันทึกข้อมูลสำเร็จหรือไม่
+        if( $user->save() ){
+            return redirect()->back()->with('success','You are now successfully registered');
+        }else{
+            return redirect()->back()->with('error','Failed to register');
+        }
     }
-
-
 }

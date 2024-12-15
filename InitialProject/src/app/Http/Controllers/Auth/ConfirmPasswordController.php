@@ -22,19 +22,20 @@ class ConfirmPasswordController extends Controller
     use ConfirmsPasswords;
 
     /**
-     * Where to redirect users when the intended url fails.
+     * สถานที่ที่จะเปลี่ยนเส้นทางผู้ใช้เมื่อ URL ที่ตั้งใจไว้ล้มเหลว
      *
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
     /**
-     * Create a new controller instance.
+     * สร้างอินสแตนซ์ของคอนโทรลเลอร์ใหม่
      *
      * @return void
      */
     public function __construct()
     {
+        // กำหนด middleware เพื่อให้แน่ใจว่าผู้ใช้ได้เข้าสู่ระบบแล้ว
         $this->middleware('auth');
     }
 }

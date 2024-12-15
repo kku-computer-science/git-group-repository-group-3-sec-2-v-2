@@ -12,7 +12,7 @@ class EducationController extends Controller
 {
     function updateEdInfo(Request $request)
     {
-
+        // ตรวจสอบความถูกต้องของข้อมูลที่ส่งมา
         $validator = Validator::make($request->all(), [
             'b_uname' => 'required',
             'b_qua_name' => 'required',
@@ -26,13 +26,16 @@ class EducationController extends Controller
             'd_qua_name' => 'required',
             'd_year' => 'required',
         ]);
+
         //return response()->json(['status' => 1, 'msg' =>  $request->all()]);
         if (!$validator->passes()) {
+            // ถ้าข้อมูลไม่ถูกต้อง ส่งกลับข้อผิดพลาด
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
         } else {
             $id = Auth::user()->id;
             $user = User::find($id);
 
+            // อัพเดตหรือสร้างข้อมูลการศึกษาระดับปริญญาตรี
             $user->education()->updateOrCreate([
                 'level' => 1
             ],
@@ -43,6 +46,7 @@ class EducationController extends Controller
                 'level' => 1
             ]);
 
+            // อัพเดตหรือสร้างข้อมูลการศึกษาระดับปริญญาโท
             $user->education()->updateOrCreate([
                 'level'=> 2
             ],
@@ -53,6 +57,7 @@ class EducationController extends Controller
                 'level'=> 2
             ]);
 
+            // อัพเดตหรือสร้างข้อมูลการศึกษาระดับปริญญาเอก
             $user->education()->updateOrCreate([
                 'level'=> 3
             ],
@@ -63,7 +68,7 @@ class EducationController extends Controller
                 'level'=> 3
             ]);
 
-            return response()->json(['status' => 1, 'msg' => 'Your profile info has been update successfuly.']);
+            return response()->json(['status' => 1, 'msg' => 'อัพเดตข้อมูลโปรไฟล์สำเร็จ']);
         }
     }
 }

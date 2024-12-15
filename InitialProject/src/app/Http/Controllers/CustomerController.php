@@ -6,102 +6,98 @@ use Redirect,Response;
 class CustomerController extends Controller
 {
 
-	/**
-	* Display a listing of the resource.
-	*
-	* @return \Illuminate\Http\Response
-	*/
+    /**
+    * แสดงรายการของทรัพยากร
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function index()
+    {
+        // ดึงข้อมูลลูกค้าทั้งหมดและแบ่งหน้า
+        $customers = Customer::latest()->paginate(4);
+        return view('customers.index',compact('customers'))->with('i', (request()->input('page', 1) - 1) * 4);
+    }
 
-	public function index()
-	{
-		$customers = Customer::latest()->paginate(4);
-		return view('customers.index',compact('customers'))->with('i', (request()->input('page', 1) - 1) * 4);
-	}
+    /**
+    * แสดงฟอร์มสำหรับสร้างทรัพยากรใหม่
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function create()
+    {
+        return view('customers.create');
+    }
 
-	/**
-	* Show the form for creating a new resource.
-	*
-	* @return \Illuminate\Http\Response
-	*/
+    /**
+    * เก็บทรัพยากรใหม่ในฐานข้อมูล
+    *
+    * @param \Illuminate\Http\Request $request
+    * @return \Illuminate\Http\Response
+    */
+    public function store(Request $request)
+    {
+        // ตรวจสอบความถูกต้องของข้อมูลที่ส่งมา
+        $r=$request->validate([
+        'name' => 'required',
+        'email' => 'required',
+        'address' => 'required',
+        ]);
+        $custId = $request->cust_id;
+        // สร้างหรืออัพเดตข้อมูลลูกค้า
+        Customer::updateOrCreate(['id' => $custId],['name' => $request->name, 'email' => $request->email,'address'=>$request->address]);
+        if(empty($request->cust_id))
+            $msg = 'สร้างข้อมูลลูกค้าสำเร็จ';
+        else
+            $msg = 'อัพเดตข้อมูลลูกค้าสำเร็จ';
+        return redirect()->route('customers.index')->with('success',$msg);
+    }
 
-	public function create()
-	{
-		return view('customers.create');
-	}
+    /**
+    * แสดงทรัพยากรที่ระบุ
+    *
+    * @param int $id
+    * @return \Illuminate\Http\Response
+    */
+    public function show(Customer $customer)
+    {
+        return view('customers.show',compact('customer'));
+    }
 
-	/**
-	* Store a newly created resource in storage.
-	*
-	* @param \Illuminate\Http\Request $request
-	* @return \Illuminate\Http\Response
-	*/
+    /**
+    * แสดงฟอร์มสำหรับแก้ไขทรัพยากรที่ระบุ
+    *
+    * @param int $id
+    * @return \Illuminate\Http\Response
+    */
+    public function edit($id)
+    {
+        $where = array('id' => $id);
+        $customer = Customer::where($where)->first();
+        return response()->json($customer);
+    }
 
-	public function store(Request $request)
-	{
+    /**
+    * อัพเดตทรัพยากรที่ระบุในฐานข้อมูล
+    *
+    * @param \Illuminate\Http\Request $request
+    * @param int $id
+    * @return \Illuminate\Http\Response
+    */
+    public function update(Request $request)
+    {
+        //
+    }
 
-		$r=$request->validate([
-		'name' => 'required',
-		'email' => 'required',
-		'address' => 'required',
-		]);
-		$custId = $request->cust_id;
-		Customer::updateOrCreate(['id' => $custId],['name' => $request->name, 'email' => $request->email,'address'=>$request->address]);
-		if(empty($request->cust_id))
-			$msg = 'Customer entry created successfully.';
-		else
-			$msg = 'Customer data is updated successfully';
-		return redirect()->route('customers.index')->with('success',$msg);
-	}
-
-	/**
-	* Display the specified resource.
-	*
-	* @param int $id
-	* @return \Illuminate\Http\Response
-	*/
-
-	public function show(Customer $customer)
-	{
-		return view('customers.show',compact('customer'));
-	}
-
-	/**
-	* Show the form for editing the specified resource.
-	*
-	* @param int $id
-	* @return \Illuminate\Http\Response
-	*/
-	
-	public function edit($id)
-	{
-		$where = array('id' => $id);
-		$customer = Customer::where($where)->first();
-		return response()->json($customer);
-	}
-
-	/**
-	* Update the specified resource in storage.
-	*
-	* @param \Illuminate\Http\Request $request
-	* @param int $id
-	* @return \Illuminate\Http\Response
-	*/
-
-	public function update(Request $request)
-	{
-
-	}
-
-	/**
-	* Remove the specified resource from storage.
-	*
-	* @param int $id
-	* @return \Illuminate\Http\Response
-	*/
-
-	public function destroy($id)
-	{
-		$cust = Customer::where('id',$id)->delete();
-		return response()->json($cust);
-	}
+    /**
+    * ลบทรัพยากรที่ระบุออกจากฐานข้อมูล
+    *
+    * @param int $id
+    * @return \Illuminate\Http\Response
+    */
+    public function destroy($id)
+    {
+        // ลบข้อมูลลูกค้า
+        $cust = Customer::where('id',$id)->delete();
+        return response()->json($cust);
+    }
 }
