@@ -62,10 +62,11 @@
           mysql -u root -e "CREATE DATABASE IF NOT EXISTS example_app;"
         '';
 
-        # Run database migrations
-        dbMigrate = "cd InitialProject/src && php artisan migrate --force";
 
         generateAppKey = "cd InitialProject/src && php artisan key:generate --force";
+
+        # Run database migrations
+        dbMigrate = "cd InitialProject/src && php artisan migrate --force";
 
       };
     };
