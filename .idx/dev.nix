@@ -7,6 +7,7 @@
     pkgs.php81
     pkgs.php81Packages.composer
     pkgs.nodejs_20
+    pkgs.tzdata
   ];
 
   services.mysql = {
@@ -17,11 +18,13 @@
   env = {
     # APP_ENV = "development";
     # APP_KEY = "base64:your_app_key_here";
-    DB_CONNECTION = "mysql";
-    DB_HOST = "127.0.0.1";
-    DB_PORT = "3306";
-    DB_DATABASE = "example_app";
+    # DB_CONNECTION = "mysql";
+    # DB_HOST = "127.0.0.1";
+    # DB_PORT = "3306";
+    # DB_DATABASE = "example_app";
     # DB_USERNAME = "your_username";
+    TZDIR = "/usr/share/zoneinfo";
+    TZ = "Asia/Bangkok";
 
   };
 
