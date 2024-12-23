@@ -20,7 +20,7 @@
     DB_CONNECTION = "mysql";
     DB_HOST = "127.0.0.1";
     DB_PORT = "3306";
-    # DB_DATABASE = "example_app";
+    DB_DATABASE = "example_app";
     # DB_USERNAME = "your_username";
 
   };
@@ -28,6 +28,8 @@
   idx = {
     # Search for the extensions you want on https://open-vsx.org/ and use "publisher.id"
     extensions = [
+      "mhutchie.git-graph"
+      "cweijan.vscode-mysql-client2"
       # Uncomment or add extensions as needed
       # "vscodevim.vim"
       # "bmewburn.vscode-intelephense-client" # PHP IntelliSense
@@ -37,6 +39,9 @@
     workspace = {
       # Runs when a workspace is first created with this `dev.nix` file
       onCreate = {
+
+        copyEnvFile = "cp InitialProject/src/.env.example InitialProject/src/.env";
+
         # Install PHP dependencies using Composer
         composerInstall = "cd InitialProject/src && composer install";
 
@@ -47,23 +52,21 @@
         default.openFiles = [ "README.md"];
       };
 
-      # To run something each time the workspace is (re)started, use the `onStart` hook
-      # onStart = {
-      #   # Example: Running database migrations
-      #   dbMigrate = "cd InitialProject/src && php artisan migrate --force";
-      # };
             # To run something each time the workspace is (re)started, use the `onStart` hook
       onStart = {
+        
+        # copyEnvFile = "cp InitialProject/src/.env.example InitialProject/src/.env";
+
         # Start MySQL server and create the database
         mysqlStart = ''
-          service mysql start
           mysql -u root -e "CREATE DATABASE IF NOT EXISTS example_app;"
         '';
-        
-        generateAppKey = "cd InitialProject/src && php artisan key:generate --force";
 
         # Run database migrations
         dbMigrate = "cd InitialProject/src && php artisan migrate --force";
+
+        generateAppKey = "cd InitialProject/src && php artisan key:generate --force";
+
       };
     };
 
