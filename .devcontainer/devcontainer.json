@@ -1,34 +1,8 @@
-// // https://aka.ms/devcontainer.json
-// {
-// 	"name": "Existing Docker Compose (Extend)",
-// 	"dockerComposeFile": [
-// 		"../docker-compose.yml"
-// 	],
-// 	"service": "laravel.test",
-// 	"workspaceFolder": "/var/www/html",
-// 	"settings": {},
-// 	"extensions": [
-// 		// "mikestead.dotenv",
-// 		// "amiralizadeh9480.laravel-extra-intellisense",
-// 		// "ryannaddy.laravel-artisan",
-// 		// "onecentlin.laravel5-snippets",
-// 		// "onecentlin.laravel-blade"
-// 	],
-// 	"remoteUser": "sail"
-// 	// "forwardPorts": [],
-// 	// "runServices": [],
-// 	// "postCreateCommand": "apt-get update && apt-get install -y curl",
-// 	// "shutdownAction": "none",
-// }
-
 {
   "name": "PHP",
   "dockerComposeFile": "../docker-compose.yml",
   "service": "php",
   "workspaceFolder": "/var/www/html/InitialProject/src",
-  // "mounts": [
-  //   "source=laravel_storage,target=/var/www/html/InitialProject/src/storage"
-  // ],
   "customizations": {
     "vscode": {
       "extensions": [
@@ -40,25 +14,5 @@
       ]
     }
   },
-  "forwardPorts": [8000, 80],
-  // "portsAttributes": {
-  //   "8000": {
-  //     "label": "Application",
-  //     "onAutoForward": "notify"
-  //   }
-  // },
-  // "forwardPorts": [8000],
-  "postCreateCommand": "git config --global --add safe.directory /var/www/html && composer install",
-  // "ports": [
-  //   {
-  //     "containerPort": 8000,
-  //     "label": "Laravel",
-  //     "onAutoForward": "openPreview"
-  //   },
-  //   {
-  //     "containerPort": 8080,
-  //     "label": "phpMyAdmin"
-  //   }
-  // ]
-
+  "postCreateCommand": "git config --global --add safe.directory /var/www/html && composer install"
 }

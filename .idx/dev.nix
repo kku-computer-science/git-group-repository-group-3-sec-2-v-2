@@ -62,7 +62,7 @@
 
         # Start MySQL server and create the database
         mysqlStart = ''
-          mysql -u root -e "CREATE DATABASE IF NOT EXISTS example_app;"
+          mysql -u root -e "CREATE DATABASE IF NOT EXISTS laravel;"
         '';
 
 
