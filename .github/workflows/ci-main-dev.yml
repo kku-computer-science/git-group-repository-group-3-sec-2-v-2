@@ -31,18 +31,6 @@ jobs:
       - name: Install Composer
         run: composer install --prefer-dist --no-progress --no-suggest --working-dir=InitialProject/src
 
-      # Install PHPStan
-      - name: Install PHPStan
-        run: composer require --dev phpstan/phpstan --working-dir=InitialProject/src
-
-      # Install Laravel Pint
-      - name: Install Laravel Pint
-        run: composer require --dev laravel/pint --working-dir=InitialProject/src
-
-      # Install PHPUnit
-      - name: Install PHPUnit
-        run: composer require --dev phpunit/phpunit --working-dir=InitialProject/src
-
       # Setup application environment
       - name: Setup .env
         run: cp InitialProject/src/.env.example InitialProject/src/.env
@@ -52,7 +40,7 @@ jobs:
         run: php InitialProject/src/artisan key:generate
 
       # Run database migrations
-      - name: Run database migrations
+      - name: Setup SQLite database for testing
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: /tmp/database.sqlite
@@ -60,14 +48,10 @@ jobs:
           touch /tmp/database.sqlite
           php InitialProject/src/artisan migrate --force
 
-      # Run PHPStan
-      # - name: Run PHPStan
-      #   run: php InitialProject/src/vendor/bin/phpstan analyse InitialProject/src/app --level=max --memory-limit=1G
+      # Seed database (optional)
+      - name: Seed database
+        run: php InitialProject/src/artisan db:seed
 
-      # Run Laravel Pint
-      # - name: Run Laravel Pint
-      #   run: php InitialProject/src/vendor/bin/pint --test
-
-      # Run Laravel-specific tests
-      - name: Run Laravel tests
-        run: php InitialProject/src/artisan test --verbose
+      # Run PHPUnit tests
+      - name: Run PHPUnit tests
+        run: php InitialProject/src/vendor/bin/phpunit --verbose
