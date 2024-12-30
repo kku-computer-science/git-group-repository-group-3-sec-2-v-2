@@ -48,10 +48,13 @@ jobs:
           touch /tmp/database.sqlite
           php InitialProject/src/artisan migrate --force
 
-      # Debug: Check PHPUnit files
-      - name: Debug PHPUnit files
-        run: ls -al InitialProject/src/vendor/phpunit/phpunit
+      # Debug Path
+      - name: Debug Path
+        run: |
+          echo "PWD: $(pwd)"
+          ls -al InitialProject/src/vendor/bin
 
       # Run Laravel tests
       - name: Run Laravel tests
-        run: php InitialProject/src/artisan test --verbose --no-interaction --no-tty
+        working-directory: InitialProject/src
+        run: php artisan test --verbose --no-interaction --no-tty
