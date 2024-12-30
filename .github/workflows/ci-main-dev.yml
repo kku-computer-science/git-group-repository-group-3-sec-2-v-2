@@ -60,9 +60,15 @@ jobs:
           touch /tmp/database.sqlite
           php InitialProject/src/artisan migrate --force
 
+<<<<<<< HEAD
       # Run PHPStan
       - name: Run PHPStan
         run: php InitialProject/src/vendor/bin/phpstan analyse --level=max --memory-limit=1G
+=======
+      # # Run PHPStan
+      # - name: Run PHPStan
+      #   run: php InitialProject/src/vendor/bin/phpstan analyse InitialProject/src/app --level=max --memory-limit=1G
+>>>>>>> 699ef2ecf575620bf96f70e6cbc5c49e4d755bea
 
       # Run Laravel Pint
       - name: Run Laravel Pint
