@@ -48,10 +48,6 @@ jobs:
           touch /tmp/database.sqlite
           php InitialProject/src/artisan migrate --force
 
-      # # Seed database (optional)
-      # - name: Seed database
-      #   run: php InitialProject/src/artisan db:seed
-
       # Run Laravel tests
       - name: Run Laravel tests
-        run: php InitialProject/src/artisan test --verbose --no-interaction
+        run: php InitialProject/src/artisan test --verbose --no-interaction --no-tty
