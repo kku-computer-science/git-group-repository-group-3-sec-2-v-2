@@ -62,7 +62,7 @@ jobs:
 
       # Run PHPStan
       - name: Run PHPStan
-        run: php InitialProject/src/vendor/bin/phpstan analyse --level=max --memory-limit=1G
+        run: php InitialProject/src/vendor/bin/phpstan analyse src --level=max --memory-limit=1G
 
       # Run Laravel Pint
       - name: Run Laravel Pint
