@@ -1,0 +1,53 @@
+name: Laravel Code Check and Auto Fix
+
+on:
+  pull_request:
+    branches:
+      - main-dev
+  workflow_dispatch:
+
+jobs:
+  laravel-code-check-and-fix:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up PHP
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: mbstring, bcmath, intl, pcntl
+          coverage: none
+
+      # Install Composer dependencies
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest --working-dir=InitialProject/src
+
+      # Install PHPStan
+      - name: Install PHPStan
+        run: composer require --dev phpstan/phpstan --working-dir=InitialProject/src
+
+      # Run PHPStan (Code Check)
+      - name: Run PHPStan
+        run: php InitialProject/src/vendor/bin/phpstan analyse InitialProject/src/app --level=max --memory-limit=1G
+
+      # Install Laravel Pint
+      - name: Install Laravel Pint
+        run: composer require --dev laravel/pint --working-dir=InitialProject/src
+
+      # Run Laravel Pint (Auto Fix)
+      - name: Run Laravel Pint
+        run: php InitialProject/src/vendor/bin/pint --verbose
+
+      # Commit and push changes
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "Witchakorn Boonprakom"
+          git config --global user.email "Witchakorn.b@kkumail.com"
+          git add .
+          git commit -m "Auto-fixed code style using Laravel Pint" || echo "No changes to commit"
+          git push origin main-dev
