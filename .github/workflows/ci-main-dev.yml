@@ -48,9 +48,9 @@ jobs:
           touch /tmp/database.sqlite
           php InitialProject/src/artisan migrate --force
 
-      # Seed database (optional)
-      - name: Seed database
-        run: php InitialProject/src/artisan db:seed
+      # # Seed database (optional)
+      # - name: Seed database
+      #   run: php InitialProject/src/artisan db:seed
 
       # Run PHPUnit tests
       - name: Run PHPUnit tests
