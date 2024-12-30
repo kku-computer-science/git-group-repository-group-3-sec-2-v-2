@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-      - main-dev
   pull_request:
     branches:
       - main
-      - main-dev
 
 jobs:
   laravel-tests:
@@ -23,7 +21,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.2'
           extensions: mbstring, bcmath, intl, pcntl
           coverage: none
 
@@ -62,12 +60,12 @@ jobs:
 
       # Run PHPStan
       - name: Run PHPStan
-        run: vendor/bin/phpstan analyse --level=max --memory-limit=1G --working-dir=InitialProject/src
+        run: php InitialProject/src/vendor/bin/phpstan analyse --level=max --memory-limit=1G
 
       # Run Laravel Pint
       - name: Run Laravel Pint
-        run: vendor/bin/pint --test --working-dir=InitialProject/src
+        run: php InitialProject/src/vendor/bin/pint --test
 
       # Run PHPUnit tests
       - name: Run PHPUnit tests
-        run: vendor/bin/phpunit --working-dir=InitialProject/src
+        run: php InitialProject/src/vendor/bin/phpunit
