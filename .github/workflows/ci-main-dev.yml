@@ -48,10 +48,6 @@ jobs:
           touch /tmp/database.sqlite
           php InitialProject/src/artisan migrate --force
 
-      # Debug: List test files
-      # - name: List test files
-      #   run: ls -al InitialProject/src/tests/Feature
-
-      # Run PHPUnit tests
+      # Run Laravel tests
       - name: Run Laravel tests
-        run: php InitialProject/src/artisan test --verbose --no-interaction
+        run: php InitialProject/src/artisan test --verbose --no-interaction --no-tty
