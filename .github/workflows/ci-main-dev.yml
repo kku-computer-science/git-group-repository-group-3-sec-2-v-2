@@ -68,6 +68,6 @@ jobs:
       # - name: Run Laravel Pint
       #   run: php InitialProject/src/vendor/bin/pint --test
 
-      # Run PHPUnit tests
-      - name: Run PHPUnit tests
-        run: php InitialProject/src/vendor/bin/phpunit
+      # Run Laravel-specific tests
+      - name: Run Laravel tests
+        run: php InitialProject/src/artisan test --verbose
