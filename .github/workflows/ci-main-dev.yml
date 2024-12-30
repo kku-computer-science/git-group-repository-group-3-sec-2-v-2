@@ -31,21 +31,21 @@ jobs:
       - name: Install Composer
         run: composer install --prefer-dist --no-progress --no-suggest --working-dir=InitialProject/src
 
-      # Setup application environment
-      - name: Setup .env
-        run: cp InitialProject/src/.env.example InitialProject/src/.env
+      # Create and configure .env
+      - name: Configure .env
+        run: |
+          cp InitialProject/src/.env.example InitialProject/src/.env
+          sed -i 's/^DB_CONNECTION=.*/DB_CONNECTION=sqlite/' InitialProject/src/.env
+          sed -i 's/^DB_DATABASE=.*/DB_DATABASE=\/tmp\/database.sqlite/' InitialProject/src/.env
 
       # Generate application key
       - name: Generate application key
         working-directory: InitialProject/src
         run: php artisan key:generate
 
-      # Run database migrations
+      # Setup SQLite database
       - name: Setup SQLite database for testing
         working-directory: InitialProject/src
-        env:
-          DB_CONNECTION: sqlite
-          DB_DATABASE: /tmp/database.sqlite
         run: |
           touch /tmp/database.sqlite
           php artisan migrate --force
