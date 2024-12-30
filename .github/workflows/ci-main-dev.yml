@@ -52,6 +52,6 @@ jobs:
       # - name: Seed database
       #   run: php InitialProject/src/artisan db:seed
 
-      # Run PHPUnit tests
-      - name: Run PHPUnit tests
-        run: php InitialProject/src/vendor/bin/phpunit --verbose
+      # Run Laravel tests
+      - name: Run Laravel tests
+        run: php InitialProject/src/artisan test --verbose --no-interaction
