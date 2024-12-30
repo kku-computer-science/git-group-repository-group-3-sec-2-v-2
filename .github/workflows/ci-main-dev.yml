@@ -3,12 +3,12 @@ name: Laravel CI
 on:
   push:
     branches:
-      - main-dev
       - main
+      - main-dev
   pull_request:
     branches:
-      - main-dev
       - main
+      - main-dev
 
 jobs:
   laravel-tests:
@@ -29,27 +29,27 @@ jobs:
 
       # Install Composer dependencies
       - name: Install Composer
-        run: cd InitialProject/src && composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress --no-suggest --working-dir=InitialProject/src
 
       # Install PHPStan
       - name: Install PHPStan
-        run: composer require --dev phpstan/phpstan
+        run: composer require --dev phpstan/phpstan --working-dir=InitialProject/src
 
       # Install Laravel Pint
       - name: Install Laravel Pint
-        run: composer require --dev laravel/pint
+        run: composer require --dev laravel/pint --working-dir=InitialProject/src
 
       # Install PHPUnit
       - name: Install PHPUnit
-        run: composer require --dev phpunit/phpunit
+        run: composer require --dev phpunit/phpunit --working-dir=InitialProject/src
 
       # Setup application environment
       - name: Setup .env
-        run: cd InitialProject/src && cp .env.example .env
+        run: cp InitialProject/src/.env.example InitialProject/src/.env
 
       # Generate application key
       - name: Generate application key
-        run: cd InitialProject/src && php artisan key:generate
+        run: php InitialProject/src/artisan key:generate
 
       # Run database migrations
       - name: Run database migrations
@@ -57,18 +57,17 @@ jobs:
           DB_CONNECTION: sqlite
           DB_DATABASE: /tmp/database.sqlite
         run: |
-          cd InitialProject/src
           touch /tmp/database.sqlite
-          php artisan migrate --force
+          php InitialProject/src/artisan migrate --force
 
       # Run PHPStan
       - name: Run PHPStan
-        run: cd InitialProject/src && vendor/bin/phpstan analyse --level=max --memory-limit=1G
+        run: vendor/bin/phpstan analyse --level=max --memory-limit=1G --working-dir=InitialProject/src
 
       # Run Laravel Pint
       - name: Run Laravel Pint
-        run: cd InitialProject/src && vendor/bin/pint --test
+        run: vendor/bin/pint --test --working-dir=InitialProject/src
 
       # Run PHPUnit tests
       - name: Run PHPUnit tests
-        run: cd InitialProject/src && vendor/bin/phpunit
+        run: vendor/bin/phpunit --working-dir=InitialProject/src
