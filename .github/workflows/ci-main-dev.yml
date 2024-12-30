@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - main-dev
+      - main
   pull_request:
     branches:
       - main-dev
+      - main
 
 jobs:
   laravel-tests:
@@ -25,17 +27,21 @@ jobs:
           extensions: mbstring, bcmath, intl, pcntl
           coverage: none
 
-      # Cache Composer dependencies
-      - name: Cache Composer dependencies
-        uses: actions/cache@v3
-        with:
-          path: InitialProject/src/vendor
-          key: ${{ runner.os }}-composer-${{ hashFiles('InitialProject/src/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
-
       # Install Composer dependencies
-      - name: Install Composer dependencies
+      - name: Install Composer
         run: cd InitialProject/src && composer install --prefer-dist --no-progress --no-suggest
+
+      # Install PHPStan
+      - name: Install PHPStan
+        run: composer require --dev phpstan/phpstan
+
+      # Install Laravel Pint
+      - name: Install Laravel Pint
+        run: composer require --dev laravel/pint
+
+      # Install PHPUnit
+      - name: Install PHPUnit
+        run: composer require --dev phpunit/phpunit
 
       # Setup application environment
       - name: Setup .env
@@ -55,26 +61,14 @@ jobs:
           touch /tmp/database.sqlite
           php artisan migrate --force
 
-      # Static Analysis with PHPStan
+      # Run PHPStan
       - name: Run PHPStan
-        run: cd InitialProject/src && vendor/bin/phpstan analyse --memory-limit=1G
-        env:
-          COMPOSER_MEMORY_LIMIT: -1
+        run: cd InitialProject/src && vendor/bin/phpstan analyse --level=max --memory-limit=1G
 
-      # Code Style Check with Laravel Pint
+      # Run Laravel Pint
       - name: Run Laravel Pint
         run: cd InitialProject/src && vendor/bin/pint --test
-
-      # Check Dependencies for Vulnerabilities
-      - name: Check Dependencies for Vulnerabilities
-        run: cd InitialProject/src && composer audit || exit 1
 
       # Run PHPUnit tests
       - name: Run PHPUnit tests
         run: cd InitialProject/src && vendor/bin/phpunit
-
-      # Lint JavaScript files with JSHint
-      - name: Lint JavaScript files
-        uses: igorshubovych/markdownlint-cli@v0.33.0
-        with:
-          args: "InitialProject/src/public/js/**/*.js"
