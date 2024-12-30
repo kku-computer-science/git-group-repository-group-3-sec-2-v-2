@@ -37,24 +37,20 @@ jobs:
 
       # Generate application key
       - name: Generate application key
-        run: php InitialProject/src/artisan key:generate
+        working-directory: InitialProject/src
+        run: php artisan key:generate
 
       # Run database migrations
       - name: Setup SQLite database for testing
+        working-directory: InitialProject/src
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: /tmp/database.sqlite
         run: |
           touch /tmp/database.sqlite
-          php InitialProject/src/artisan migrate --force
-
-      # Debug Path
-      - name: Debug Path
-        run: |
-          echo "PWD: $(pwd)"
-          ls -al InitialProject/src/vendor/bin
+          php artisan migrate --force
 
       # Run Laravel tests
       - name: Run Laravel tests
         working-directory: InitialProject/src
-        run: php artisan test --verbose --no-interaction --no-tty
+        run: php artisan test --verbose --no-interaction
