@@ -27,7 +27,8 @@ class CourseController extends Controller
      */
     public function create()
     {
-        
+        $degrees = Degree::all();
+        return view('courses.create', compact('degrees')); // Add return statement
     }
 
     /**
@@ -67,7 +68,8 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        //
+        $course = Course::find($id);
+        return view('courses.show', compact('course')); // Add return statement
     }
 
     /**
@@ -92,7 +94,16 @@ class CourseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'course_code' => 'required',
+            'course_name' => 'required',
+            'degree_id' => 'required',
+        ]);
+
+        $course = Course::find($id);
+        $course->update($request->all());
+
+        return redirect()->route('courses.index')->with('success', 'Course updated successfully'); // Add return statement
     }
 
     /**

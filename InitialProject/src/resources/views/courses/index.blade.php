@@ -27,6 +27,7 @@
         <th>ID</th>
         <th>Code</th>
         <th>Name</th>
+        <th>Degree</th>
         <th width="280px">Action</th>
     </tr>
 
@@ -35,6 +36,7 @@
         <td>{{ $course->id }}</td>
         <td>{{ $course->course_code }}</td>
         <td>{{ $course->course_name }}</td>
+        <td>{{ $course->degree->name }}</td>
         <td>
             <form action="{{ route('courses.destroy',$course->id) }}" method="POST">
                 <a class="btn btn-info" id="show-course" data-toggle="modal" data-id="{{ $course->id }}">Show</a>
@@ -71,6 +73,14 @@
                                 <strong>Name:</strong>
                                 <input type="text" name="course_name" id="course_name" class="form-control"
                                     placeholder="course_name" onchange="validate()">
+                            </div>
+                            <div class="form-group">
+                                <strong>Degree:</strong>
+                                <select name="degree_id" id="degree_id" class="form-control" onchange="validate()">
+                                    @foreach ($degrees as $degree)
+                                        <option value="{{ $degree->id }}">{{ $degree->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -111,6 +121,7 @@ $(document).ready(function() {
             $('#course_id').val(data.id);
             $('#course_code').val(data.course_code);
             $('#course_name').val(data.course_name);
+            $('#degree_id').val(data.degree_id);
         })
     });
 
@@ -145,7 +156,7 @@ $(document).ready(function() {
 error = false
 
 function validate() {
-    if (document.courseForm.course_code.value != '' && document.courseForm.course_name.value !='')
+    if (document.courseForm.course_code.value != '' && document.courseForm.course_name.value != '' && document.courseForm.degree_id.value != '')
         document.courseForm.btnsave.disabled = false
     else
         document.courseForm.btnsave.disabled = true

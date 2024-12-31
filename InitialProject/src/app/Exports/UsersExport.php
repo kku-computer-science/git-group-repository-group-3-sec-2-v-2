@@ -2,59 +2,35 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithStartRow;
+use Maatwebsite\Excel\Concerns\FromArray;
 
-class UsersExport implements FromCollection, WithHeadings, WithStartRow
+class UsersExport implements FromArray
 {
-    protected $data;
+    protected $tags;
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function __construct($data)
+    public function __construct($tags)
     {
-        $this->data = $data;
+        $this->tags = $tags;
     }
 
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function collection()
+    public function array(): array
     {
-        return collect($this->data);
-    }
-
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function headings(): array
-    {
-        
-        return [
-            'Authors',
-            'Title',
-            'Year',
-            'Source title',
-            'Volume',
-            'Issue',
-            'Page start',
-            'Page end',
-            'Cited by',
-            'DOI',
-            'Document Type'
+        // เพิ่ม Headers เป็นแถวแรก
+        $headers = [
+            'Author',              // ชื่อผู้เขียน
+            'Paper Name',          // ชื่อเอกสาร
+            'Year Published',      // ปีที่ตีพิมพ์
+            'Source Title',        // ชื่อแหล่งที่มา
+            'Volume',              // ฉบับที่
+            'Issue',               // หมายเลขฉบับ
+            'Page Start',          // หน้าเริ่มต้น
+            'Page End',            // หน้าสิ้นสุด
+            'Citations',           // การอ้างอิง
+            'DOI',                 // DOI
+            'Subtype',             // ประเภทย่อย
         ];
-    }
 
-    public function startRow(): int
-    {
-        return 10;
+        // รวม Headers กับข้อมูลใน `$tags`
+        return array_merge([$headers], $this->tags);
     }
 }

@@ -11,10 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class ExportPaperController extends Controller
 {
     public function exportUsers(Request $request){
-        $export = new ExportUser([
-            [1, 2, 3],
-            [4, 5, 6]
-        ]);
-        return Excel::download(new $export, 'new.csv');
+        $export = new ExportUser(); // Corrected instantiation
+        return Excel::download($export, 'new.csv');
     }
 }
