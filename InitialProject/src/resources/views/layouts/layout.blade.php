@@ -88,7 +88,7 @@
                 @if (Route::has('login'))
                 @auth
                 <span class="nav-item">
-                    <!-- Add user-specific links here -->
+                    <a class="btn-solid-sm" href="/dashboard" target="_blank">Dashboard</a>
                 </span>
                 @else
                 <span class="nav-item">
@@ -96,6 +96,7 @@
                 </span>
                 @endauth
                 @endif
+
             </div> <!-- end of navbar-collapse -->
         </div> <!-- end of container -->
     </nav>
