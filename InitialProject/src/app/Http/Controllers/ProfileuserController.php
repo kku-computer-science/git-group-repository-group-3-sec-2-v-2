@@ -37,98 +37,103 @@ class ProfileuserController extends Controller
 
     function updateInfo(Request $request)
     {
-
-
         $validator = Validator::make($request->all(), [
             'fname_en' => 'required',
             'lname_en' => 'required',
             'fname_th' => 'required',
             'lname_th' => 'required',
             'email' => 'required|email|unique:users,email,' . Auth::user()->id,
-
         ]);
-
+    
         if (!$validator->passes()) {
             return response()->json(['status' => 0, 'error' => $validator->errors()->toArray()]);
-        } else {
-            $id = Auth::user()->id;
-
-            if ($request->title_name_en == "Mr.") {
+        }
+    
+        $id = Auth::user()->id;
+        $title_name_th = null;
+    
+        // Mapping title names
+        switch ($request->title_name_en) {
+            case "Mr.":
                 $title_name_th = 'นาย';
-            }
-            if ($request->title_name_en == "Miss") {
+                break;
+            case "Miss":
                 $title_name_th = 'นางสาว';
-            }
-            if ($request->title_name_en == "Mrs.") {
+                break;
+            case "Mrs.":
                 $title_name_th = 'นาง';
-            }
-            // $pos_en='';
-            // $pos_th='';
-            // $doctoral = '';
-            $pos_eng = '';
-            $pos_thai = '';
-            if (Auth::user()->hasRole('admin') or Auth::user()->hasRole('student') ) {
-                $request->academic_ranks_en = null;
-                $request->academic_ranks_th = null;
-                $pos_eng = null;
-                $pos_thai = null;
-                $doctoral = null;
-            } else {
-                if ($request->academic_ranks_en == "Professor") {
+                break;
+        }
+    
+        $pos_en = null;
+        $pos_th = null;
+        $pos_eng = null;
+        $pos_thai = null;
+        $doctoral = null;
+    
+        // Role-based logic
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('student')) {
+            $request->academic_ranks_en = null;
+            $request->academic_ranks_th = null;
+        } else {
+            switch ($request->academic_ranks_en) {
+                case "Professor":
                     $pos_en = 'Prof.';
                     $pos_th = 'ศ.';
-                }
-                if ($request->academic_ranks_en == "Associate Professo") {
+                    break;
+                case "Associate Professor":
                     $pos_en = 'Assoc. Prof.';
                     $pos_th = 'รศ.';
-                }
-                if ($request->academic_ranks_en == "Assistant Professor") {
+                    break;
+                case "Assistant Professor":
                     $pos_en = 'Asst. Prof.';
                     $pos_th = 'ผศ.';
-                }
-                if ($request->academic_ranks_en == "Lecturer") {
+                    break;
+                case "Lecturer":
                     $pos_en = 'Lecturer';
                     $pos_th = 'อ.';
-                }
-                if ($request->has('pos')) {
-                    $pos_eng = $pos_en;
-                    $pos_thai = $pos_th;
-                    //$doctoral = null ;
-                } else {
-                    if ($pos_en == "Lecturer") {
-                        $pos_eng = $pos_en;
-                        $pos_thai = $pos_th . 'ดร.';
-                        $doctoral = 'Ph.D.';
-                    } else {
-                        $pos_eng = $pos_en . ' Dr.';
-                        $pos_thai = $pos_th . 'ดร.';
-                        $doctoral = 'Ph.D.';
-                    }
-                }
+                    break;
             }
-            $query = User::find($id)->update([
-                'fname_en' => $request->fname_en,
-                'lname_en' => $request->lname_en,
-                'fname_th' => $request->fname_th,
-                'lname_th' => $request->lname_th,
-                'email' => $request->email,
-                'academic_ranks_en' => $request->academic_ranks_en,
-                'academic_ranks_th' => $request->academic_ranks_th,
-                'position_en' => $pos_eng,
-                'position_th' => $pos_thai,
-                'title_name_en' => $request->title_name_en,
-                'title_name_th' => $title_name_th,
-                'doctoral_degree' => $doctoral,
-
-            ]);
-
-            if (!$query) {
-                return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
+    
+            if ($request->has('pos')) {
+                $pos_eng = $pos_en;
+                $pos_thai = $pos_th;
             } else {
-                return response()->json(['status' => 1, 'msg' => 'success']);
+                if ($pos_en == "Lecturer") {
+                    $pos_eng = $pos_en;
+                    $pos_thai = $pos_th . 'ดร.';
+                    $doctoral = 'Ph.D.';
+                } else {
+                    $pos_eng = $pos_en . ' Dr.';
+                    $pos_thai = $pos_th . 'ดร.';
+                    $doctoral = 'Ph.D.';
+                }
             }
         }
+    
+        // Update user information
+        $query = User::find($id)->update([
+            'fname_en' => $request->fname_en,
+            'lname_en' => $request->lname_en,
+            'fname_th' => $request->fname_th,
+            'lname_th' => $request->lname_th,
+            'email' => $request->email,
+            'academic_ranks_en' => $request->academic_ranks_en,
+            'academic_ranks_th' => $request->academic_ranks_th,
+            'position_en' => $pos_eng,
+            'position_th' => $pos_thai,
+            'title_name_en' => $request->title_name_en,
+            'title_name_th' => $title_name_th,
+            'doctoral_degree' => $doctoral,
+        ]);
+    
+        if (!$query) {
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
+        }
+    
+        return response()->json(['status' => 1, 'msg' => 'success']);
     }
+    
 
     function updatePicture(Request $request)
     {
