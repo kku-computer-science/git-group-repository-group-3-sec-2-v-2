@@ -40,6 +40,13 @@ Colors:
         /* body {
             background-color: #E5E5E5;
         } */
+        root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+        }
         
         h1 {
             color: #222222;

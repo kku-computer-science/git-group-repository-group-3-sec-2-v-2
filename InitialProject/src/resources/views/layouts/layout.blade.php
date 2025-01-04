@@ -36,12 +36,28 @@
     <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <style>
+        /* Content Wrapper */
+        .content-wrapper {
+            padding: 2rem 1rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
 </head>
 
 <body>
     <!-- Navigation -->
     <nav id="navbar" class="navbar navbar-expand-lg navbar-light">
-        <div class="container-fluid">
+        <div class="container">
             <a class="navbar-brand logo-image" href="#"><img src="{{ asset('img/logo2.png') }}" alt="alternative"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -104,14 +120,20 @@
     <!-- end of navbar -->
     <!-- end of navigation -->
 
-    @yield('content')
+    <div class="content-wrapper">
+        @yield('content')
+    </div>
     @yield('javascript')
 
+    <!-- Footer -->
     <footer class="footer">
-        <div class="d-sm-flex justify-content-center justify-content-sm-between">
-            <!-- Footer content -->
+        <div class="container">
+            <div class="text-center">
+                <p class="mb-0">&copy; {{ date('Y') }} วิทยาลัยการคอมพิวเตอร์. All rights reserved.</p>
+            </div>
         </div>
     </footer>
+
 </body>
 
 </html>
