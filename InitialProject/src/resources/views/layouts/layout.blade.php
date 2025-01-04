@@ -129,7 +129,7 @@
     <footer class="footer">
         <div class="container">
             <div class="text-center">
-                <p class="mb-0">&copy; {{ date('Y') }} วิทยาลัยการคอมพิวเตอร์. All rights reserved.</p>
+                <p class="mb-0">&copy; {{ date('Y') }} College of Computing, Khon Kaen University. All rights reserved.</p>
             </div>
         </div>
     </footer>
