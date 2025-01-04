@@ -44,6 +44,25 @@
             margin: 0 auto;
         }
 
+        @media (min-width: 1400px) {
+            .content-wrapper {
+                max-width: 1440px;
+                /* เพิ่มขนาดความกว้างสำหรับหน้าจอใหญ่ */
+                padding: 2.5rem 2rem;
+                /* เพิ่มระยะห่างในหน้าจอใหญ่ */
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .content-wrapper {
+                max-width: 1600px;
+                /* เพิ่มขนาดความกว้างอีกสำหรับจอใหญ่มาก */
+                padding: 3rem 2rem;
+                /* เพิ่ม Padding อีกสำหรับความสมดุล */
+            }
+        }
+
+
         /* Footer */
         .footer {
             background-color: white;
