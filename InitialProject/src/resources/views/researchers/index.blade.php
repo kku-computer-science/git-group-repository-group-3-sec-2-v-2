@@ -34,7 +34,7 @@
     .expertise-tags {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.25rem;
+        gap: 0.5rem;
     }
 
     .badge {
@@ -47,32 +47,8 @@
     }
 
     .readmore-toggle {
-        display: inline-block;
-        /* margin-top: 0.5rem; */
-    }
-
-    .readmore-content {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.25rem;
-    }
-
-    .expertise-tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-
-    .readmore-content {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-    }
-
-    .readmore-toggle {
-        /* margin-top: 0.5rem; */
+        cursor: pointer;
         order: 1;
-        /* ตั้งค่าให้มีลำดับสุดท้ายใน flex */
     }
 </style>
 
@@ -83,11 +59,8 @@
             <h1 class="display-4 fw-bold text-primary mb-4">Our Researchers</h1>
             <form method="GET" action="{{ route('researchers.index') }}" class="search-form">
                 <div class="input-group input-group-lg">
-                    <input type="text"
-                        class="form-control border-2 shadow-none"
-                        name="textsearch"
-                        value="{{ $search ?? '' }}"
-                        placeholder="Search researchers by name or interest..."
+                    <input type="text" class="form-control border-2 shadow-none" name="textsearch"
+                        value="{{ $search ?? '' }}" placeholder="Search researchers by name or interest..."
                         aria-label="Search researchers">
                     <button class="btn btn-primary px-4" type="submit">
                         <ion-icon name="search-outline" class="align-middle"></ion-icon>
@@ -105,9 +78,7 @@
         <div class="accordion-item border-0 rounded-4 shadow-sm mb-4 overflow-hidden">
             <h2 class="accordion-header" id="heading{{ $program->id }}">
                 <button class="accordion-button fs-5 py-4 {{ in_array($program->id, $expandedProgramIds) ? '' : 'collapsed' }}"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapse{{ $program->id }}"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $program->id }}"
                     aria-expanded="{{ in_array($program->id, $expandedProgramIds) ? 'true' : 'false' }}"
                     aria-controls="collapse{{ $program->id }}">
                     <ion-icon name="school-outline" class="me-3 fs-4"></ion-icon>
@@ -158,7 +129,7 @@
                                                         <h6 class="fw-bold mb-2">Research Interests</h6>
                                                         <div class="expertise-tags d-flex flex-wrap align-items-start gap-1">
                                                             @php
-                                                            $maxToShow = 3; // จำนวนสูงสุดที่จะโชว์
+                                                            $maxToShow = 3;
                                                             $expertiseCount = $user->expertise->count();
                                                             @endphp
 
@@ -177,7 +148,6 @@
                                                                 @endforeach
                                                             </div>
                                                             <span class="badge bg-light text-primary readmore-toggle"
-                                                                style="cursor: pointer;"
                                                                 onclick="toggleReadmore(this)">
                                                                 +{{ $expertiseCount - $maxToShow }} Readmore
                                                             </span>
@@ -202,26 +172,22 @@
         @endforeach
     </div>
 </div>
+
 <script>
     function toggleReadmore(element) {
-        const readmoreContent = element.previousElementSibling; // อ้างถึง readmore-content
-        if (readmoreContent.classList.contains('d-none')) {
-            // แสดงเนื้อหาเพิ่มเติม
-            readmoreContent.classList.remove('d-none');
-            element.textContent = "Show less";
-        } else {
-            // ซ่อนเนื้อหาเพิ่มเติม
-            readmoreContent.classList.add('d-none');
-            const count = readmoreContent.querySelectorAll('.badge').length;
-            element.textContent = `+${count} Readmore`;
+        const readmoreContent = element.previousElementSibling;
+        if (readmoreContent) {
+            if (readmoreContent.classList.contains('d-none')) {
+                readmoreContent.classList.remove('d-none');
+                element.textContent = "Show less";
+            } else {
+                readmoreContent.classList.add('d-none');
+                const count = readmoreContent.querySelectorAll('.badge').length;
+                element.textContent = `+${count} Readmore`;
+            }
+            element.parentNode.appendChild(element);
         }
-
-        // ย้าย Readmore ไปหลังสุด
-        const parent = element.parentNode;
-        parent.appendChild(element);
     }
 </script>
-
-
 
 @stop
