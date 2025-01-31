@@ -93,6 +93,7 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/papers/{year}', [HomeController::class, 'getPapersByYear']);
 Route::get('/researchers', [ResearcherController::class, 'index'])->name('researchers.index');
 // Route::get('/researchers/{id}', [ResearcherController::class, 'request'])->name('researchers.request');
 Route::get('/researchers/{id}/search', [ResearcherController::class, 'search'])->name('searchresearchers');
