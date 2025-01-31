@@ -130,52 +130,145 @@
 
 
 
-    <div class="container mixpaper pb-10 mt-3">
-        <h3>{{ trans('message.publications') }}</h3>
-        @foreach($papers as $n => $pe)
-        <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{$n}}" aria-expanded="true" aria-controls="collapseOne">
-                        @if (!$loop->last)
+<!-- Modified accordion section in home.blade.php -->
+<div class="container mixpaper pb-10 mt-3">
+    <h3>{{ trans('message.publications') }}</h3>
+    @foreach($papers as $n => $pe)
+    <div class="accordion" id="accordionExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading{{$n}}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#collapse{{$n}}" 
+                        data-year="{{$n}}"
+                        aria-expanded="false" 
+                        aria-controls="collapse{{$n}}">
+                    @if (!$loop->last)
                         {{$n}}
-                        @else
+                    @else
                         Before {{$n}}
-                        @endif
-
-                    </button>
-                </h2>
-                <div id="collapse{{$n}}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        @foreach($pe as $n => $p)
-                        <div class="row mt-2 mb-3 border-bottom">
-                            <div id="number" class="col-sm-1">
-                                <h6>[{{$n+1}}]</h6>
-                            </div>
-                            <div id="paper2" class="col-sm-11">
-                                <p class="hidden">
-                                    <b>{{$p['paper_name']}}</b> (
-                                    <link>{{$p['author']}}</link>), {{$p['paper_sourcetitle']}}, {{$p['paper_volume']}},
-                                    {{$p['paper_yearpub']}}.
-                                    <a href="{{$p['paper_url']}} " target="_blank">[url]</a> <a href="https://doi.org/{{$p['paper_doi']}}" target="_blank">[doi]</a>
-                                    <!-- <a href="{{ route('bibtex',['id'=>$p['id']])}}">
-                                        [อ้างอิง]
-                                    </a> -->
-                                    <button style="padding: 0;"class="btn btn-link open_modal" value="{{$p['id']}}">[อ้างอิง]</button>
-                                </p>
+                    @endif
+                </button>
+            </h2>
+            <div id="collapse{{$n}}" class="accordion-collapse collapse" 
+                 aria-labelledby="heading{{$n}}" 
+                 data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <div class="papers-container" id="papers-{{$n}}">
+                        <div class="text-center">
+                            <div class="spinner-border" role="status">
+                                <span class="visually-hidden">Loading...</span>
                             </div>
                         </div>
-                        @endforeach
                     </div>
                 </div>
-
             </div>
-
         </div>
-        @endforeach
     </div>
+    @endforeach
+</div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+
+<!-- ส่วน HTML ยังคงเหมือนเดิม แต่ปรับปรุง script -->
+<!-- ส่วน HTML ยังคงเหมือนเดิม แต่ปรับปรุง script -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const accordionButtons = document.querySelectorAll('.accordion-button');
+    
+    accordionButtons.forEach(button => {
+        let isLoading = false;
+        
+        button.addEventListener('click', async function() {
+            const year = this.getAttribute('data-year');
+            const contentDiv = document.getElementById(`papers-${year}`);
+            const collapseElement = document.getElementById(`collapse${year}`);
+            const isExpanded = button.classList.contains('collapsed');
+            
+            // ถ้ากำลังโหลดอยู่ ไม่ต้องทำอะไร
+            if (isLoading) return;
+            
+            // ถ้ายังไม่เคยโหลดข้อมูล
+            if (!contentDiv.getAttribute('data-loaded')) {
+                isLoading = true;
+                
+                try {
+                    // เริ่มโหลดข้อมูล
+                    const response = await fetch(`/papers/${year}`);
+                    const data = await response.json();
+                    
+                    // สร้าง HTML
+                    let html = '';
+                    data.forEach((paper, index) => {
+                        html += `
+                            <div class="row mt-2 mb-3 border-bottom">
+                                <div class="col-sm-1">
+                                    <h6>[${index + 1}]</h6>
+                                </div>
+                                <div class="col-sm-11">
+                                    <p class="hidden">
+                                        <b>${paper.paper_name}</b> (
+                                        <link>${paper.author}</link>), ${paper.paper_sourcetitle}, ${paper.paper_volume},
+                                        ${paper.paper_yearpub}.
+                                        <a href="${paper.paper_url}" target="_blank">[url]</a>
+                                        <a href="https://doi.org/${paper.paper_doi}" target="_blank">[doi]</a>
+                                        <button style="padding: 0;" class="btn btn-link open_modal" value="${paper.id}">[อ้างอิง]</button>
+                                    </p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    // อัพเดท DOM และเก็บข้อมูลไว้
+                    contentDiv.innerHTML = html;
+                    contentDiv.setAttribute('data-loaded', 'true');
+                    
+                    // อัพเดทปุ่ม modal
+                    initializeModalHandlers();
+                    
+                } catch (error) {
+                    contentDiv.innerHTML = '<div class="alert alert-danger">Error loading papers</div>';
+                    console.error('Error:', error);
+                } finally {
+                    isLoading = false;
+                }
+            }
+        });
+    });
+    
+    // ใช้ Event Listener ของ Bootstrap Collapse
+    document.querySelectorAll('.accordion-collapse').forEach(collapse => {
+        collapse.addEventListener('show.bs.collapse', function() {
+            const button = document.querySelector(`[data-bs-target="#${this.id}"]`);
+            button.classList.remove('collapsed');
+            button.setAttribute('aria-expanded', 'true');
+        });
+        
+        collapse.addEventListener('hide.bs.collapse', function() {
+            const button = document.querySelector(`[data-bs-target="#${this.id}"]`);
+            button.classList.add('collapsed');
+            button.setAttribute('aria-expanded', 'false');
+        });
+    });
+    
+    function initializeModalHandlers() {
+        document.querySelectorAll('.open_modal').forEach(button => {
+            button.addEventListener('click', function() {
+                const tourId = this.value;
+                fetch(`/bib/${tourId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        document.querySelectorAll('.bibtex-biblio').forEach(el => el.remove());
+                        document.getElementById('name').innerHTML += data;
+                        new bootstrap.Modal(document.getElementById('myModal')).show();
+                    })
+                    .catch(error => {
+                        console.error('Error loading bibtex:', error);
+                    });
+            });
+        });
+    }
+});
+</script>
 
 <script>
     $(document).ready(function() {
