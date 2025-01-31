@@ -86,6 +86,8 @@ Route::get('pdf', [PDFController::class, 'generateInvoicePDF'])->name('pdf');
 Route::get('docx', [PDFController::class, 'generateInvoiceDOCX'])->name('docx');
 Route::get('excel', [PDFController::class, 'generateInvoiceExcel'])->name('excel');
 
+Route::get('/bib/{id}', [BibtexController::class, 'getbib']);
+
 Route::get('detail/{id}', [ProfileController::class, 'request'])->name('detail');
 Route::get('index', [LocalizationController::class, 'index']);
 Route::get('lang/{lang}', ['as' => 'langswitch', 'uses' => 'App\Http\Controllers\LocalizationController@switchLang']);
