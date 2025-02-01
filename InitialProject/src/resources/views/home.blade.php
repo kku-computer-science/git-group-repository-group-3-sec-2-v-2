@@ -28,6 +28,16 @@
         display: table;
         color: #4ad1e5;
     }
+
+    .count-title {
+        color: #666;
+        /* สีตัวอักษร */
+        font-size: 40px;
+        font-weight: normal;
+        margin-top: 10px;
+        margin-bottom: 0;
+        text-align: center;
+    }
 </style>
 
 @section('content')
@@ -115,23 +125,23 @@
         <div class="accordion" id="accordion{{$n}}">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="heading{{$n}}">
-                    <button class="accordion-button collapsed" type="button" 
-                            data-bs-toggle="collapse" 
-                            data-bs-target="#collapse{{$n}}" 
-                            data-year="{{$n}}"
-                            aria-expanded="false" 
-                            aria-controls="collapse{{$n}}">
+                    <button class="accordion-button collapsed" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapse{{$n}}"
+                        data-year="{{$n}}"
+                        aria-expanded="false"
+                        aria-controls="collapse{{$n}}">
                         @if (!$loop->last)
-                            {{$n}}
+                        {{$n}}
                         @else
-                            Before {{$n}}
+                        Before {{$n}}
                         @endif
                     </button>
                 </h2>
-                <div id="collapse{{$n}}" 
-                     class="accordion-collapse collapse" 
-                     aria-labelledby="heading{{$n}}" 
-                     data-bs-parent="#accordion{{$n}}">
+                <div id="collapse{{$n}}"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="heading{{$n}}"
+                    data-bs-parent="#accordion{{$n}}">
                     <div class="accordion-body">
                         <div class="papers-container" id="papers-{{$n}}">
                             <div class="text-center">
@@ -150,35 +160,48 @@
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<!-- เพิ่ม jQuery และ countTo plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-countto/1.2.0/jquery.countTo.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Modal handlers
-    const myModal = document.getElementById('myModal');
-    const modalInstance = new bootstrap.Modal(myModal);
+    document.addEventListener('DOMContentLoaded', function() {
+        // Modal handlers
+        const myModal = document.getElementById('myModal');
+        const modalInstance = new bootstrap.Modal(myModal);
 
-    myModal.addEventListener('hidden.bs.modal', function() {
-        document.getElementById('name').innerHTML = '';
-    });
+        myModal.addEventListener('hidden.bs.modal', function() {
+            document.getElementById('name').innerHTML = '';
+        });
 
-    // Accordion handlers
-    const accordionButtons = document.querySelectorAll('.accordion-button');
+        // Accordion handlers
+
+const accordionButtons = document.querySelectorAll('.accordion-button');
+
+accordionButtons.forEach(button => {
+    let isLoading = false;
     
-    accordionButtons.forEach(button => {
-        let isLoading = false;
+    button.addEventListener('click', async function() {
+        const year = this.getAttribute('data-year');
+        const contentDiv = document.getElementById(`papers-${year}`);
         
-        button.addEventListener('click', async function() {
-            const year = this.getAttribute('data-year');
-            const contentDiv = document.getElementById(`papers-${year}`);
-            
-            if (isLoading) return;
-            
-            if (!contentDiv.getAttribute('data-loaded')) {
-                isLoading = true;
-                try {
-                    const response = await fetch(`/papers/${year}`);
-                    const data = await response.json();
-                    
-                    let html = '';
+        if (isLoading) return;
+        
+        if (!contentDiv.getAttribute('data-loaded')) {
+            isLoading = true;
+            try {
+                const response = await fetch(`/papers_2/${year}`);
+                const data = await response.json();
+                
+                let html = '';
+                
+                // ตรวจสอบว่ามีข้อมูลหรือไม่
+                if (!data || data.length === 0) {
+                    html = `
+                        <div class="alert alert-info text-center">
+                            <i class="fa fa-info-circle me-2"></i>
+                            ไม่พบข้อมูลในปี ${year}
+                        </div>`;
+                } else {
                     data.forEach((paper, index) => {
                         html += `
                             <div class="row mt-2 mb-3 border-bottom">
@@ -187,172 +210,210 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                                 <div class="col-sm-11">
                                     <p class="hidden">
-                                        <b>${paper.paper_name}</b> (
-                                        <link>${paper.author}</link>), ${paper.paper_sourcetitle}, ${paper.paper_volume},
-                                        ${paper.paper_yearpub}.
-                                        <a href="${paper.paper_url}" target="_blank">[url]</a>
-                                        <a href="https://doi.org/${paper.paper_doi}" target="_blank">[doi]</a>
+                                        ${paper.paper_name ? `<b>${paper.paper_name}</b>` : '<b>ไม่มีชื่อบทความ</b>'}
+                                        ${paper.author ? `(<link>${paper.author}</link>)` : ''}
+                                        ${paper.paper_sourcetitle ? paper.paper_sourcetitle : ''}
+                                        ${paper.paper_volume ? ', ' + paper.paper_volume : ''}
+                                        ${paper.paper_yearpub ? ', ' + paper.paper_yearpub : ''}.
+                                        ${paper.paper_url ? `<a href="${paper.paper_url}" target="_blank">[url]</a>` : ''}
+                                        ${paper.paper_doi ? `<a href="https://doi.org/${paper.paper_doi}" target="_blank">[doi]</a>` : ''}
                                         <button style="padding: 0;" class="btn btn-link open_modal" value="${paper.id}">[อ้างอิง]</button>
                                     </p>
                                 </div>
                             </div>
                         `;
                     });
-                    
-                    contentDiv.innerHTML = html;
-                    contentDiv.setAttribute('data-loaded', 'true');
+                }
+                
+                contentDiv.innerHTML = html;
+                contentDiv.setAttribute('data-loaded', 'true');
+                
+                // ถ้ามีข้อมูล จึงเริ่มต้น modal handlers
+                if (data && data.length > 0) {
                     initializeModalHandlers();
-                    
-                } catch (error) {
-                    contentDiv.innerHTML = '<div class="alert alert-danger">Error loading papers</div>';
-                    console.error('Error:', error);
-                } finally {
-                    isLoading = false;
                 }
+                
+            } catch (error) {
+                contentDiv.innerHTML = `
+                    <div class="alert alert-danger text-center">
+                        <i class="fa fa-exclamation-circle me-2"></i>
+                        เกิดข้อผิดพลาดในการโหลดข้อมูล
+                    </div>`;
+                console.error('Error:', error);
+            } finally {
+                isLoading = false;
             }
-        });
-    });
-
-    function initializeModalHandlers() {
-        document.querySelectorAll('.open_modal').forEach(button => {
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                const tourId = this.value;
-                const nameDiv = document.getElementById('name');
-                
-                nameDiv.innerHTML = '';
-                
-                fetch(`/bib/${tourId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        nameDiv.innerHTML = data;
-                        modalInstance.show();
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        nameDiv.innerHTML = '<div class="alert alert-danger">Error loading citation</div>';
-                    });
-            });
-        });
-    }
-
-    // Chart initialization
-    var year = <?php echo $year; ?>;
-    var paper_tci = <?php echo $paper_tci; ?>;
-    var paper_scopus = <?php echo $paper_scopus; ?>;
-    var paper_wos = <?php echo $paper_wos; ?>;
-    
-    var areaChartData = {
-        labels: year,
-        datasets: [{
-            label: 'SCOPUS',
-            backgroundColor: '#3994D6',
-            borderColor: 'rgba(210, 214, 222, 1)',
-            pointRadius: false,
-            pointColor: '#3994D6',
-            pointStrokeColor: '#c1c7d1',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: '#3994D6',
-            data: paper_scopus
-        },
-        {
-            label: 'TCI',
-            backgroundColor: '#83E4B5',
-            borderColor: 'rgba(255, 255, 255, 0.5)',
-            pointRadius: false,
-            pointColor: '#83E4B5',
-            pointStrokeColor: '#3b8bba',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: '#83E4B5',
-            data: paper_tci
-        },
-        {
-            label: 'WOS',
-            backgroundColor: '#FCC29A',
-            borderColor: 'rgba(0, 0, 255, 1)',
-            pointRadius: false,
-            pointColor: '#FCC29A',
-            pointStrokeColor: '#c1c7d1',
-            pointHighlightFill: '#fff',
-            pointHighlightStroke: '#FCC29A',
-            data: paper_wos
-        }]
-    };
-
-    var barChartCanvas = document.getElementById('barChart1').getContext('2d');
-    var barChartData = JSON.parse(JSON.stringify(areaChartData));
-    var temp0 = areaChartData.datasets[0];
-    var temp1 = areaChartData.datasets[1];
-    barChartData.datasets[0] = temp1;
-    barChartData.datasets[1] = temp0;
-
-    var barChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        datasetFill: false,
-        scales: {
-            yAxes: [{
-                scaleLabel: {
-                    display: true,
-                    labelString: 'Number'
-                },
-                ticks: {
-                    reverse: false,
-                    stepSize: 10
-                }
-            }],
-            xAxes: [{
-                scaleLabel: {
-                    display: true,
-                    labelString: 'Year'
-                }
-            }]
-        },
-        title: {
-            display: true,
-            text: 'Report the total number of articles ( 5 years : cumulative)',
-            fontSize: 20
         }
-    };
-
-    new Chart(barChartCanvas, {
-        type: 'bar',
-        data: barChartData,
-        options: barChartOptions
-    });
-
-    // Counter initialization
-    var paper_tci_all = <?php echo $paper_tci_numall; ?>;
-    var paper_scopus_all = <?php echo $paper_scopus_numall; ?>;
-    var paper_wos_all = <?php echo $paper_wos_numall; ?>;
-    var sum = paper_wos_all + paper_tci_all + paper_scopus_all;
-
-    function initializeCounter(elementId, value) {
-        document.getElementById(elementId).innerHTML = `
-            <i class="count-icon fa fa-book fa-2x"></i>
-            <h2 class="timer count-title count-number" data-to="${value}" data-speed="1500"></h2>
-            <p class="count-text ">${elementId.toUpperCase()}</p>`;
-    }
-
-    initializeCounter('all', sum);
-    initializeCounter('scopus', paper_scopus_all);
-    initializeCounter('wos', paper_wos_all);
-    initializeCounter('tci', paper_tci_all);
-
-    // Counter animation
-    jQuery(function($) {
-        $('.count-number').data('countToOptions', {
-            formatter: function(value, options) {
-                return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-            }
-        });
-
-        $('.timer').each(function() {
-            var $this = $(this);
-            var options = $.extend({}, $this.data('countToOptions') || {});
-            $this.countTo(options);
-        });
     });
 });
+
+        function initializeModalHandlers() {
+            document.querySelectorAll('.open_modal').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tourId = this.value;
+                    const nameDiv = document.getElementById('name');
+
+                    nameDiv.innerHTML = '';
+
+                    fetch(`/bib/${tourId}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            nameDiv.innerHTML = data;
+                            modalInstance.show();
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            nameDiv.innerHTML = '<div class="alert alert-danger">Error loading citation</div>';
+                        });
+                });
+            });
+        }
+
+        // Chart initialization
+        var year = <?php echo $year; ?>;
+        var paper_tci = <?php echo $paper_tci; ?>;
+        var paper_scopus = <?php echo $paper_scopus; ?>;
+        var paper_wos = <?php echo $paper_wos; ?>;
+
+        var areaChartData = {
+            labels: year,
+            datasets: [{
+                    label: 'SCOPUS',
+                    backgroundColor: '#3994D6',
+                    borderColor: 'rgba(210, 214, 222, 1)',
+                    pointRadius: false,
+                    pointColor: '#3994D6',
+                    pointStrokeColor: '#c1c7d1',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: '#3994D6',
+                    data: paper_scopus
+                },
+                {
+                    label: 'TCI',
+                    backgroundColor: '#83E4B5',
+                    borderColor: 'rgba(255, 255, 255, 0.5)',
+                    pointRadius: false,
+                    pointColor: '#83E4B5',
+                    pointStrokeColor: '#3b8bba',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: '#83E4B5',
+                    data: paper_tci
+                },
+                {
+                    label: 'WOS',
+                    backgroundColor: '#FCC29A',
+                    borderColor: 'rgba(0, 0, 255, 1)',
+                    pointRadius: false,
+                    pointColor: '#FCC29A',
+                    pointStrokeColor: '#c1c7d1',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: '#FCC29A',
+                    data: paper_wos
+                }
+            ]
+        };
+
+        var barChartCanvas = document.getElementById('barChart1').getContext('2d');
+        var barChartData = JSON.parse(JSON.stringify(areaChartData));
+        var temp0 = areaChartData.datasets[0];
+        var temp1 = areaChartData.datasets[1];
+        barChartData.datasets[0] = temp1;
+        barChartData.datasets[1] = temp0;
+
+        var barChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            datasetFill: false,
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Number'
+                    },
+                    ticks: {
+                        reverse: false,
+                        stepSize: 10
+                    }
+                }],
+                xAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Year'
+                    }
+                }]
+            },
+            title: {
+                display: true,
+                text: 'Report the total number of articles ( 5 years : cumulative)',
+                fontSize: 20
+            }
+        };
+
+        new Chart(barChartCanvas, {
+            type: 'bar',
+            data: barChartData,
+            options: barChartOptions
+        });
+
+        // Counter initialization
+        var paper_tci_all = <?php echo $paper_tci_numall; ?>;
+        var paper_scopus_all = <?php echo $paper_scopus_numall; ?>;
+        var paper_wos_all = <?php echo $paper_wos_numall; ?>;
+        var sum = paper_wos_all + paper_tci_all + paper_scopus_all;
+
+        function initializeCounter(elementId, value) {
+            const element = document.getElementById(elementId);
+
+            // ตรวจสอบว่ามีข้อมูลหรือไม่
+            if (value === null || value === undefined || value === 0 || isNaN(value)) {
+                element.innerHTML = `
+            <i class="fa fa-book fa-2x"></i>
+            <h2 class="count-title">ไม่มีข้อมูล</h2>
+            <p class="count-text">${elementId.toUpperCase()}</p>`;
+            } else {
+                element.innerHTML = `
+            <i class="fa fa-book fa-2x"></i>
+            <h2 class="timer count-title count-number" id="count-${elementId}" data-to="${value}" data-speed="1500">0</h2>
+            <p class="count-text">${elementId.toUpperCase()}</p>`;
+
+                // Start counter animation only if we have data
+                $(`#count-${elementId}`).countTo({
+                    formatter: function(value, options) {
+                        return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+                    }
+                });
+            }
+        }
+
+        // Counter initialization
+        var paper_tci_all = <?php echo $paper_tci_numall ?? 0; ?>;
+        var paper_scopus_all = <?php echo $paper_scopus_numall ?? 0; ?>;
+        var paper_wos_all = <?php echo $paper_wos_numall ?? 0; ?>;
+        var sum = paper_wos_all + paper_tci_all + paper_scopus_all;
+
+        // Initialize counters after a slight delay
+        setTimeout(function() {
+            initializeCounter('all', sum > 0 ? sum : null);
+            initializeCounter('scopus', paper_scopus_all);
+            initializeCounter('wos', paper_wos_all);
+            initializeCounter('tci', paper_tci_all);
+        }, 500);
+
+        // Counter animation
+        jQuery(function($) {
+            $('.count-number').data('countToOptions', {
+                formatter: function(value, options) {
+                    return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+                }
+            });
+
+            $('.timer').each(function() {
+                var $this = $(this);
+                var options = $.extend({}, $this.data('countToOptions') || {});
+                $this.countTo(options);
+            });
+        });
+    });
 </script>
 @endsection
