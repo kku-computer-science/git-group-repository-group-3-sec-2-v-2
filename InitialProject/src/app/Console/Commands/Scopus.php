@@ -2,149 +2,213 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Author;
 use App\Models\Paper;
+use App\Models\Source_data;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class Scopus extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'scopus:cron';
+    protected $description = 'Update papers from Scopus API';
+    private const SCOPUS_API_KEY = 'c9505cb6a621474141aeb03dcde91963';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Fetch and update papers from Scopus API and supplement with CrossRef API';
-
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
-        Log::info("Cron job started");
+        try {
+            Log::info("Scopus update started");
+            
+            $users = User::whereNotNull('academic_ranks_en')->get();
+            if ($users->isEmpty()) {
+                Log::error("No users with academic ranks found");
+                return;
+            }
 
-        // ดึงข้อมูลผู้ใช้เฉพาะคนที่มี academic_ranks_en
-        $users = User::whereNotNull('academic_ranks_en')->get();
+            foreach ($users as $user) {
+                $this->processUser($user);
+            }
 
-        if ($users->isEmpty()) {
-            Log::error("No users with academic ranks found in the database");
-            return;
+            Log::info("Scopus update completed");
+
+        } catch (\Exception $e) {
+            Log::error("Scopus update error: " . $e->getMessage());
         }
+    }
 
-        foreach ($users as $user) {
+    private function processUser($user)
+    {
+        try {
             $fname = substr($user->fname_en, 0, 1);
             $lname = $user->lname_en;
+            $id = $user->id;
 
             Log::info("Processing user: $lname, $fname");
 
-            // เรียก Scopus API เพื่อค้นหาผู้แต่ง
-            $url = Http::get('https://api.elsevier.com/content/search/scopus', [
-                'query' => "AUTHOR-NAME(" . "$lname" . "," . "$fname" . ")",
-                'apikey' => '6ab3c2a01c29f0e36b00c8fa1d013f83',
-            ]);
+            $url = Http::get('https://api.elsevier.com/content/search/scopus?', [
+                'query' => "AUTHOR-NAME($lname,$fname)",
+                'apikey' => self::SCOPUS_API_KEY,
+            ])->json();
 
-            if ($url->failed()) {
-                Log::error("API request failed for AUTHOR-NAME($lname, $fname)");
-                continue;
+            if (!isset($url["search-results"]["entry"])) {
+                Log::info("No papers found for user: $id");
+                return;
             }
 
-            $response = $url->json();
+            $content = $url["search-results"]["entry"];
+            $links = $url["search-results"]["link"];
 
-            if (!isset($response["search-results"]["entry"])) {
-                Log::error("Invalid API response structure for $lname, $fname");
-                continue;
-            }
-
-            $content = $response["search-results"]["entry"];
-            $links = $response["search-results"]["link"];
-
-            // ดึงข้อมูลหน้าถัดไปจนกว่าจะหมด
             do {
-                $nextLink = collect($links)->firstWhere('@ref', 'next')['@href'] ?? null;
-                if ($nextLink) {
-                    $nextResponse = Http::get($nextLink)->json();
-                    $content = array_merge($content, $nextResponse["search-results"]["entry"] ?? []);
-                    $links = $nextResponse["search-results"]["link"] ?? [];
+                $ref = 'prev';
+                foreach ($links as $link) {
+                    if ($link['@ref'] == 'next') {
+                        $link2 = $link['@href'];
+                        $link2 = Http::get("$link2")->json();
+                        $links = $link2["search-results"]["link"];
+                        $nextcontent = $link2["search-results"]["entry"];
+                        foreach ($nextcontent as $item) {
+                            array_push($content, $item);
+                        }
+                    }
                 }
-            } while ($nextLink);
+            } while ($ref != 'prev');
 
-            // ประมวลผลบทความแต่ละรายการ
             foreach ($content as $item) {
-                // ตรวจสอบว่ามี DOI หรือไม่
-                if (!isset($item['prism:doi'])) {
-                    Log::warning("No DOI found for paper: {$item['dc:title']}");
+                if (array_key_exists('error', $item)) {
                     continue;
                 }
 
-                $doi = $item['prism:doi'];
-
-                // ตรวจสอบว่าบทความมีอยู่ในฐานข้อมูลหรือไม่
-                $paper = Paper::where('paper_doi', $doi)->first();
-
-                if (!$paper) {
-                    $paper = new Paper();
-                }
-
-                $paper->paper_name = $item['dc:title'] ?? $paper->paper_name;
-                $paper->paper_doi = $doi;
-                $paper->paper_type = $item['prism:aggregationType'] ?? $paper->paper_type;
-                $paper->paper_subtype = $item['subtypeDescription'] ?? $paper->paper_subtype;
-                $paper->paper_sourcetitle = $item['prism:publicationName'] ?? $paper->paper_sourcetitle;
-                $paper->paper_url = $item['link'][2]['@href'] ?? $paper->paper_url;
-                $paper->paper_yearpub = isset($item['prism:coverDate']) ? Carbon::parse($item['prism:coverDate'])->year : $paper->paper_yearpub;
-                $paper->paper_volume = $item['prism:volume'] ?? $paper->paper_volume;
-                $paper->paper_issue = $item['prism:issueIdentifier'] ?? $paper->paper_issue;
-                $paper->paper_citation = $item['citedby-count'] ?? $paper->paper_citation;
-                $paper->paper_page = $item['prism:pageRange'] ?? $paper->paper_page;
-
-                // ดึงข้อมูล Abstract และ Keywords จาก Scopus
-                $abstractUrl = "https://api.elsevier.com/content/abstract/doi/$doi";
-                $abstractResponse = Http::withHeaders([
-                    'Accept' => 'application/json',
-                    'X-ELS-APIKey' => '6ab3c2a01c29f0e36b00c8fa1d013f83',
-                ])->get($abstractUrl);
-
-                if ($abstractResponse->ok()) {
-                    $abstractData = $abstractResponse->json();
-                    $paper->abstract = $abstractData['abstracts-retrieval-response']['coredata']['dc:description'] ?? $paper->abstract;
-
-                    if (isset($abstractData['abstracts-retrieval-response']['authkeywords']['author-keyword'])) {
-                        $keywords = collect($abstractData['abstracts-retrieval-response']['authkeywords']['author-keyword'])
-                            ->pluck('$')
-                            ->implode(', ');
-                        $paper->keyword = $keywords;
-                    }
-                }
-
-                // หาก Scopus ไม่มีข้อมูลที่จำเป็น ดึงจาก CrossRef API
-                if (!$paper->abstract || !$paper->keyword) {
-                    $crossrefResponse = Http::get("https://api.crossref.org/works/$doi");
-
-                    if ($crossrefResponse->ok()) {
-                        $crossrefData = $crossrefResponse->json()['message'];
-                        $paper->abstract = $paper->abstract ?? strip_tags($crossrefData['abstract'] ?? null);
-                    }
-                }
-
-                // ฟิลด์ที่ไม่มีข้อมูลใน API
-                $paper->publication = $item['dc:publisher'] ?? $paper->publication;
-                $paper->paper_funder = null; // ยังไม่มีข้อมูลผู้ให้ทุนใน API
-                $paper->reference_number = null; // หากต้องการเพิ่ม Reference Number
-
-                $paper->save();
-                Log::info("Paper saved or updated: {$paper->paper_name}");
+                $this->processPaper($item, $user);
             }
-        }
 
-        Log::info("Cron job completed successfully.");
+        } catch (\Exception $e) {
+            Log::error("Error processing user {$user->id}: " . $e->getMessage());
+        }
+    }
+
+    private function processPaper($item, $user)
+    {
+        try {
+            // ตรวจสอบว่ามี paper อยู่แล้วหรือไม่
+            $existingPaper = Paper::where('paper_name', '=', $item['dc:title'])->first();
+
+            if ($existingPaper) {
+                $paperid = $existingPaper->id;
+                $hasTask = $user->paper()->where('paper_id', $paperid)->exists();
+                
+                if ($hasTask != $paperid) {
+                    $useaut = Author::where([
+                        ['author_fname', '=', $user->fname_en],
+                        ['author_lname', '=', $user->lname_en]
+                    ])->first();
+
+                    if ($useaut != null) {
+                        $existingPaper->author()->detach($useaut);
+                        $existingPaper->teacher()->attach($user->id);
+                    } else {
+                        $existingPaper->teacher()->attach($user->id);
+                    }
+                }
+                return;
+            }
+
+            // สร้าง paper ใหม่
+            $scoid = explode(":", $item['dc:identifier'])[1];
+            $all = Http::get("https://api.elsevier.com/content/abstract/scopus_id/{$scoid}?filed=authors&apiKey=" . self::SCOPUS_API_KEY . "&httpAccept=application%2Fjson");
+            
+            $paper = new Paper;
+            $paper->paper_name = $item['dc:title'];
+            $paper->paper_type = $item['prism:aggregationType'];
+            $paper->paper_subtype = $item['subtypeDescription'];
+            $paper->paper_sourcetitle = $item['prism:publicationName'];
+            $paper->paper_url = $item['link'][2]['@href'];
+            $paper->paper_yearpub = Carbon::parse($item['prism:coverDate'])->format('Y');
+            $paper->paper_volume = array_key_exists('prism:volume', $item) ? $item['prism:volume'] : null;
+            $paper->paper_issue = array_key_exists('prism:issueIdentifier', $item) ? $item['prism:issueIdentifier'] : null;
+            $paper->paper_citation = $item['citedby-count'];
+            $paper->paper_page = $item['prism:pageRange'];
+            $paper->paper_doi = array_key_exists('prism:doi', $item) ? $item['prism:doi'] : null;
+
+            if (array_key_exists('item', $all['abstracts-retrieval-response'])) {
+                $abstractData = $all['abstracts-retrieval-response']['item'];
+                
+                if (array_key_exists('xocs:meta', $abstractData)) {
+                    if (array_key_exists('xocs:funding-text', $abstractData['xocs:meta']['xocs:funding-list'])) {
+                        $paper->paper_funder = json_encode($abstractData['xocs:meta']['xocs:funding-list']['xocs:funding-text']);
+                    }
+                }
+
+                $paper->abstract = $abstractData['bibrecord']['head']['abstracts'];
+
+                if (array_key_exists('author-keywords', $abstractData['bibrecord']['head']['citation-info'])) {
+                    $paper->keyword = json_encode($abstractData['bibrecord']['head']['citation-info']['author-keywords']['author-keyword']);
+                }
+            }
+
+            $paper->save();
+
+            // เชื่อมกับ source data
+            $source = Source_data::findOrFail(1);
+            $paper->source()->sync($source);
+
+            // จัดการข้อมูลผู้แต่ง
+            if (isset($all['abstracts-retrieval-response']['authors']['author'])) {
+                $all_au = $all['abstracts-retrieval-response']['authors']['author'];
+                $x = 1;
+                $length = count($all_au);
+
+                foreach ($all_au as $i) {
+                    $givenName = isset($i['ce:given-name']) ? $i['ce:given-name'] : $i['preferred-name']['ce:given-name'];
+                    
+                    $userAuthor = User::where([
+                        ['fname_en', '=', $givenName],
+                        ['lname_en', '=', $i['ce:surname']]
+                    ])->orWhere([
+                        [DB::raw("concat(left(fname_en,1),'.')"), '=', $givenName],
+                        ['lname_en', '=', $i['ce:surname']]
+                    ])->first();
+
+                    if (!$userAuthor) {
+                        $author = Author::where([
+                            ['author_fname', '=', $givenName],
+                            ['author_lname', '=', $i['ce:surname']]
+                        ])->first();
+
+                        if (!$author) {
+                            $author = new Author;
+                            $author->author_fname = $givenName;
+                            $author->author_lname = $i['ce:surname'];
+                            $author->save();
+                        }
+
+                        if ($x === 1) {
+                            $paper->author()->attach($author->id, ['author_type' => 1]);
+                        } else if ($x === $length) {
+                            $paper->author()->attach($author->id, ['author_type' => 3]);
+                        } else {
+                            $paper->author()->attach($author->id, ['author_type' => 2]);
+                        }
+                    } else {
+                        if ($x === 1) {
+                            $paper->teacher()->attach($userAuthor->id, ['author_type' => 1]);
+                        } else if ($x === $length) {
+                            $paper->teacher()->attach($userAuthor->id, ['author_type' => 3]);
+                        } else {
+                            $paper->teacher()->attach($userAuthor->id, ['author_type' => 2]);
+                        }
+                    }
+                    $x++;
+                }
+            }
+
+            Log::info("Created new paper: {$paper->id}");
+
+        } catch (\Exception $e) {
+            Log::error("Error processing paper: " . $e->getMessage());
+        }
     }
 }
