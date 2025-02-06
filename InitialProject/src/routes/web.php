@@ -93,7 +93,7 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/papers/{year}', [HomeController::class, 'getPapersByYear']);
+Route::get('/papers_2/{year}', [HomeController::class, 'getPapersByYear']);
 Route::get('/researchers', [ResearcherController::class, 'index'])->name('researchers.index');
 // Route::get('/researchers/{id}', [ResearcherController::class, 'request'])->name('researchers.request');
 Route::get('/researchers/{id}/search', [ResearcherController::class, 'search'])->name('searchresearchers');
@@ -105,6 +105,8 @@ Route::get('loadindex', [PDFController::class, 'index']);
 Route::get('pdf', [PDFController::class, 'generateInvoicePDF'])->name('pdf');
 Route::get('docx', [PDFController::class, 'generateInvoiceDOCX'])->name('docx');
 Route::get('excel', [PDFController::class, 'generateInvoiceExcel'])->name('excel');
+
+Route::get('/bib/{id}', [BibtexController::class, 'getbib']);
 
 Route::get('detail/{id}', [ProfileController::class, 'request'])->name('detail');
 Route::get('index', [LocalizationController::class, 'index']);
