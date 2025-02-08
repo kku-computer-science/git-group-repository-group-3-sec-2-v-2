@@ -23,21 +23,21 @@ deployment:
     - /bin/rm -f $PUBLICPATH/package-lock.json
 
     # ย้ายไฟล์ทั้งหมดจาก src ไปยัง public_html 
-    - /bin/cp -R $SRCPATH/* $PUBLICPATH/
-    
+    - /bin/mv $SRCPATH/* $PUBLICPATH/
+
     # ย้ายไฟล์ซ่อน
-    - /bin/cp $SRCPATH/.env* $PUBLICPATH/
-    - /bin/cp $SRCPATH/.htaccess $PUBLICPATH/
-    
+    - /bin/mv $SRCPATH/.env* $PUBLICPATH/
+    - /bin/mv $SRCPATH/.htaccess $PUBLICPATH/
+
     # ติดตั้ง dependencies
     - cd $PUBLICPATH
     - /opt/cpanel/composer/bin/composer install --no-dev
     - /opt/cpanel/composer/bin/composer dump-autoload -o
-    
+
     # ตั้งค่าสิทธิ์
     - /bin/chmod 755 $PUBLICPATH/storage -R
     - /bin/chmod 755 $PUBLICPATH/bootstrap/cache -R
-    
+
     # อัพเดท Laravel
     - /bin/php $PUBLICPATH/artisan key:generate
     - /bin/php $PUBLICPATH/artisan storage:link
