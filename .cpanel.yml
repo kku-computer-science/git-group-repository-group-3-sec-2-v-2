@@ -1,0 +1,46 @@
+deployment:
+  tasks:
+    # กำหนด paths
+    - export PUBLICPATH=/home2/sesec2group3/public_html
+    - export SRCPATH=/home2/sesec2group3/public_html/repositories/git-group-repository-group-3-sec-2-v-2/InitialProject/src
+
+    # ลบไฟล์และโฟลเดอร์เก่าใน public_html (ยกเว้น repositories)
+    - /bin/rm -rf $PUBLICPATH/app
+    - /bin/rm -rf $PUBLICPATH/bootstrap
+    - /bin/rm -rf $PUBLICPATH/config
+    - /bin/rm -rf $PUBLICPATH/database
+    - /bin/rm -rf $PUBLICPATH/lang
+    - /bin/rm -rf $PUBLICPATH/public
+    - /bin/rm -rf $PUBLICPATH/resources
+    - /bin/rm -rf $PUBLICPATH/routes
+    - /bin/rm -rf $PUBLICPATH/storage
+    - /bin/rm -rf $PUBLICPATH/tests
+    - /bin/rm -rf $PUBLICPATH/vendor
+    - /bin/rm -f $PUBLICPATH/artisan
+    - /bin/rm -f $PUBLICPATH/composer.json
+    - /bin/rm -f $PUBLICPATH/composer.lock
+    - /bin/rm -f $PUBLICPATH/package.json
+    - /bin/rm -f $PUBLICPATH/package-lock.json
+
+    # ย้ายไฟล์ทั้งหมดจาก src ไปยัง public_html 
+    - /bin/cp -R $SRCPATH/* $PUBLICPATH/
+    
+    # ย้ายไฟล์ซ่อน
+    - /bin/cp $SRCPATH/.env* $PUBLICPATH/
+    - /bin/cp $SRCPATH/.htaccess $PUBLICPATH/
+    
+    # ติดตั้ง dependencies
+    - cd $PUBLICPATH
+    - /opt/cpanel/composer/bin/composer install --no-dev
+    - /opt/cpanel/composer/bin/composer dump-autoload -o
+    
+    # ตั้งค่าสิทธิ์
+    - /bin/chmod 755 $PUBLICPATH/storage -R
+    - /bin/chmod 755 $PUBLICPATH/bootstrap/cache -R
+    
+    # อัพเดท Laravel
+    - /bin/php $PUBLICPATH/artisan key:generate
+    - /bin/php $PUBLICPATH/artisan storage:link
+    - /bin/php $PUBLICPATH/artisan config:clear
+    - /bin/php $PUBLICPATH/artisan cache:clear
+    - /bin/php $PUBLICPATH/artisan view:clear
