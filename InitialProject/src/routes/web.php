@@ -38,6 +38,24 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TcicallController;
+
+
+//Kunyakon
+use App\GGScholar\ScholarScraper;
+
+Route::get('/search', function (\Illuminate\Http\Request $request) {
+    $query = $request->query('q');
+    if (!$query) {
+        return response()->json(['error' => 'No query provided'], 400);
+    }
+
+    $scraper = new ScholarScraper();
+    $results = $scraper->search($query);
+
+    return response()->json($results);
+});
+//Kunyakon
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
