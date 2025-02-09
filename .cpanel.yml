@@ -23,11 +23,11 @@ deployment:
     - /bin/rm -f $PUBLICPATH/package-lock.json
 
     # ย้ายไฟล์ทั้งหมดจาก src ไปยัง public_html 
-    - /bin/mv $SRCPATH/* $PUBLICPATH/
+    - /bin/cp $SRCPATH/* $PUBLICPATH/
 
     # ย้ายไฟล์ซ่อน
-    - /bin/mv $SRCPATH/.env* $PUBLICPATH/
-    - /bin/mv $SRCPATH/.htaccess $PUBLICPATH/
+    - /bin/cp $SRCPATH/.env* $PUBLICPATH/
+    - /bin/cp $SRCPATH/.htaccess $PUBLICPATH/
 
     # ติดตั้ง dependencies
     - cd $PUBLICPATH
