@@ -9,6 +9,7 @@ use App\Models\Fund;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ResearchGroupController extends Controller
 {
@@ -28,7 +29,11 @@ class ResearchGroupController extends Controller
     public function index()
     {
         //$researchGroups = ResearchGroup::latest()->paginate(5);
-        $researchGroups = ResearchGroup::with('User')->get();
+        // $researchGroups = ResearchGroup::with('User')->get();
+
+        $researchGroups = ResearchGroup::whereHas('user', function($query) {
+            $query->where('user_id', Auth::id());
+        })->get();
         return view('research_groups.index', compact('researchGroups'));
     }
 
