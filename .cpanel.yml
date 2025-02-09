@@ -3,7 +3,12 @@ deployment:
     # กำหนด paths
     - export PUBLICPATH=/home2/sesec2group3/public_html
     - export SRCPATH=/home2/sesec2group3/public_html/repositories/git-group-repository-group-3-sec-2-v-2/InitialProject/src
-
+    
+    # แสดง debug information
+    - echo "Source path: $SRCPATH"
+    - echo "Destination path: $PUBLICPATH"
+    - ls -la $SRCPATH
+    
     # ลบไฟล์และโฟลเดอร์เก่าใน public_html (ยกเว้น repositories)
     - /bin/rm -rf $PUBLICPATH/app
     - /bin/rm -rf $PUBLICPATH/bootstrap
@@ -21,23 +26,19 @@ deployment:
     - /bin/rm -f $PUBLICPATH/composer.lock
     - /bin/rm -f $PUBLICPATH/package.json
     - /bin/rm -f $PUBLICPATH/package-lock.json
-
-    # ย้ายไฟล์ทั้งหมดจาก src ไปยัง public_html 
-    - /bin/mv $SRCPATH/* $PUBLICPATH/
-
-    # ย้ายไฟล์ซ่อน
-    - /bin/mv $SRCPATH/.env* $PUBLICPATH/
-    - /bin/mv $SRCPATH/.htaccess $PUBLICPATH/
-
+    
+    # ย้ายไฟล์ทั้งหมดจาก src ไปยัง public_html รวมถึง hidden files
+    - /bin/cp -r $SRCPATH/. $PUBLICPATH/ || echo "Copy failed with error: $?"
+    
     # ติดตั้ง dependencies
     - cd $PUBLICPATH
     - /opt/cpanel/composer/bin/composer install --no-dev
     - /opt/cpanel/composer/bin/composer dump-autoload -o
-
+    
     # ตั้งค่าสิทธิ์
     - /bin/chmod 755 $PUBLICPATH/storage -R
     - /bin/chmod 755 $PUBLICPATH/bootstrap/cache -R
-
+    
     # อัพเดท Laravel
     - /bin/php $PUBLICPATH/artisan key:generate
     - /bin/php $PUBLICPATH/artisan storage:link
