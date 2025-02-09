@@ -20,8 +20,7 @@ deployment:
                   "$PUBLICPATH/resources" \
                   "$PUBLICPATH/routes" \
                   "$PUBLICPATH/storage" \
-                  "$PUBLICPATH/tests" \
-                  "$PUBLICPATH/vendor"
+                  "$PUBLICPATH/tests"
       /bin/rm -f "$PUBLICPATH/artisan" \
                   "$PUBLICPATH/composer.json" \
                   "$PUBLICPATH/composer.lock" \
@@ -31,10 +30,10 @@ deployment:
       # ย้ายไฟล์ทั้งหมดจาก src ไปยัง public_html รวมถึง hidden files
       /bin/cp -r "$SRCPATH/." "$PUBLICPATH/" || echo "Copy failed with error: $?"
 
-      # ติดตั้ง dependencies
-      cd "$PUBLICPATH"
-      /opt/cpanel/composer/bin/composer install --no-dev
-      /opt/cpanel/composer/bin/composer dump-autoload -o
+      # # ติดตั้ง dependencies
+      # cd "$PUBLICPATH"
+      # /opt/cpanel/composer/bin/composer install --no-dev
+      # /opt/cpanel/composer/bin/composer dump-autoload -o
 
       # ตั้งค่าสิทธิ์
       /bin/chmod -R 755 "$PUBLICPATH/storage"
