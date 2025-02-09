@@ -15,7 +15,6 @@ deployment:
     - /bin/rm -rf $PUBLICPATH/routes
     - /bin/rm -rf $PUBLICPATH/storage
     - /bin/rm -rf $PUBLICPATH/tests
-    - /bin/rm -rf $PUBLICPATH/vendor
     - /bin/rm -f $PUBLICPATH/artisan
     - /bin/rm -f $PUBLICPATH/composer.json
     - /bin/rm -f $PUBLICPATH/composer.lock
