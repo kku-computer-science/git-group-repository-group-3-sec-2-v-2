@@ -1,46 +1,47 @@
 deployment:
   tasks:
-    # กำหนด paths
-    - export PUBLICPATH=/home2/sesec2group3/public_html
-    - export SRCPATH=/home2/sesec2group3/public_html/repositories/git-group-repository-group-3-sec-2-v-2/InitialProject/src
+    - |
+      # กำหนด paths
+      export PUBLICPATH="/home2/sesec2group3/public_html"
+      export SRCPATH="/home2/sesec2group3/public_html/repositories/git-group-repository-group-3-sec-2-v-2/InitialProject/src"
 
-    # ลบไฟล์และโฟลเดอร์เก่าใน public_html (ยกเว้น repositories)
-    - /bin/rm -rf $PUBLICPATH/app
-    - /bin/rm -rf $PUBLICPATH/bootstrap
-    - /bin/rm -rf $PUBLICPATH/config
-    - /bin/rm -rf $PUBLICPATH/database
-    - /bin/rm -rf $PUBLICPATH/lang
-    - /bin/rm -rf $PUBLICPATH/public
-    - /bin/rm -rf $PUBLICPATH/resources
-    - /bin/rm -rf $PUBLICPATH/routes
-    - /bin/rm -rf $PUBLICPATH/storage
-    - /bin/rm -rf $PUBLICPATH/tests
-    - /bin/rm -rf $PUBLICPATH/vendor
-    - /bin/rm -f $PUBLICPATH/artisan
-    - /bin/rm -f $PUBLICPATH/composer.json
-    - /bin/rm -f $PUBLICPATH/composer.lock
-    - /bin/rm -f $PUBLICPATH/package.json
-    - /bin/rm -f $PUBLICPATH/package-lock.json
+      # แสดง debug information
+      echo "Source path: $SRCPATH"
+      echo "Destination path: $PUBLICPATH"
+      ls -la "$SRCPATH"
 
-    # ย้ายไฟล์ทั้งหมดจาก src ไปยัง public_html 
-    - /bin/mv $SRCPATH/* $PUBLICPATH/
+      # ลบไฟล์และโฟลเดอร์เก่าใน public_html (ยกเว้น repositories)
+      /bin/rm -rf "$PUBLICPATH/app" \
+                  "$PUBLICPATH/bootstrap" \
+                  "$PUBLICPATH/config" \
+                  "$PUBLICPATH/database" \
+                  "$PUBLICPATH/lang" \
+                  "$PUBLICPATH/public" \
+                  "$PUBLICPATH/resources" \
+                  "$PUBLICPATH/routes" \
+                  "$PUBLICPATH/storage" \
+                  "$PUBLICPATH/tests"
+      /bin/rm -f "$PUBLICPATH/artisan" \
+                  "$PUBLICPATH/composer.json" \
+                  "$PUBLICPATH/composer.lock" \
+                  "$PUBLICPATH/package.json" \
+                  "$PUBLICPATH/package-lock.json"
 
-    # ย้ายไฟล์ซ่อน
-    - /bin/mv $SRCPATH/.env* $PUBLICPATH/
-    - /bin/mv $SRCPATH/.htaccess $PUBLICPATH/
+      # ย้ายไฟล์ทั้งหมดจาก src ไปยัง public_html รวมถึง hidden files
+      /bin/cp -r "$SRCPATH/." "$PUBLICPATH/" || echo "Copy failed with error: $?"
 
-    # ติดตั้ง dependencies
-    - cd $PUBLICPATH
-    - /opt/cpanel/composer/bin/composer install --no-dev
-    - /opt/cpanel/composer/bin/composer dump-autoload -o
+      # # ติดตั้ง dependencies
+      # cd "$PUBLICPATH"
+      # /opt/cpanel/composer/bin/composer install --no-dev
+      # /opt/cpanel/composer/bin/composer dump-autoload -o
 
-    # ตั้งค่าสิทธิ์
-    - /bin/chmod 755 $PUBLICPATH/storage -R
-    - /bin/chmod 755 $PUBLICPATH/bootstrap/cache -R
+      # ตั้งค่าสิทธิ์
+      /bin/chmod -R 755 "$PUBLICPATH/storage"
+      /bin/chmod -R 755 "$PUBLICPATH/bootstrap/cache"
 
-    # อัพเดท Laravel
-    - /bin/php $PUBLICPATH/artisan key:generate
-    - /bin/php $PUBLICPATH/artisan storage:link
-    - /bin/php $PUBLICPATH/artisan config:clear
-    - /bin/php $PUBLICPATH/artisan cache:clear
-    - /bin/php $PUBLICPATH/artisan view:clear
+      # อัพเดท Laravel
+      /bin/php "$PUBLICPATH/artisan" key:generate
+      /bin/php "$PUBLICPATH/artisan" storage:link
+      /bin/php "$PUBLICPATH/artisan" config:clear
+      /bin/php "$PUBLICPATH/artisan" cache:clear
+      /bin/php "$PUBLICPATH/artisan" view:clear
