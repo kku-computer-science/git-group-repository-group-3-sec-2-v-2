@@ -1,68 +1,112 @@
 @extends('layouts.layout')
+
 <style>
-    .name {
+    /* Blue stripe style */
+    .blue-stripe {
+        background-color: #003e80; /* Blue background */
+        padding: 30px 15px; /* Increase padding (top and bottom) to make it higher */
+        border-radius: 5px; /* Optional: rounded corners */
+        margin-bottom: 30px; /* Space between the stripe and other content */
+    }
 
-        font-size: 20px;
+    .blue-stripe h1 {
+        color: white; /* White text color for the heading */
+        font-size: 2rem; /* Adjust font size */
+        font-weight: bold;
+    }
 
+    .blue-stripe .form-control {
+        background-color: #fff; /* Ensure input field has a white background */
+        border: 2px solid #003e80; /* Dark blue border for input field */
+        border-radius: 5px;
+    }
+
+    /* White box with shadow for Research Rationale */
+    .research-rationale-box {
+        background-color: white; /* White background */
+        border-radius: 10px; /* Rounded corners */
+        padding: 20px; /* Padding inside the box */
+        box-shadow: inset 0px 4px 6px rgba(0, 0, 0, 0.1); /* Inner shadow effect */
+        margin-bottom: 30px; /* Space between other sections */
+    }
+
+    /* Title within the box */
+    .research-rationale-box h2 {
+        font-size: 1.5rem; /* Adjust font size for the title */
+        font-weight: bold;
+        color: #000000; /* Blue text for the title */
+    }
+
+    /* Content within the box */
+    .research-rationale-box h3 {
+        font-size: 1rem; /* Adjust font size for description */
+        color: #333; /* Dark text color for description */
     }
 </style>
+
 @section('content')
 <div class="container card-4 mt-5">
-    <div class="card">
-        @foreach ($resgd as $rg)
-        <div class="row g-0">
-            <div class="col-md-4">
-                <div class="card-body">
-                    <img src="{{asset('img/'.$rg->group_image)}}" alt="...">
-                    <h1 class="card-text-1"> Laboratory Supervisor </h1>
-                    <h2 class="card-text-2">
-                        @foreach ($rg->user as $r)
-                        @if($r->hasRole('teacher'))
-                        @if(app()->getLocale() == 'en' and $r->academic_ranks_en == 'Lecturer' and $r->doctoral_degree == 'Ph.D.')
-                             {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}, Ph.D.
-                            <br>
-                            @elseif(app()->getLocale() == 'en' and $r->academic_ranks_en == 'Lecturer')
-                            {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}
-                            <br>
-                            @elseif(app()->getLocale() == 'en' and $r->doctoral_degree == 'Ph.D.')
-                            {{ str_replace('Dr.', ' ', $r->{'position_'.app()->getLocale()}) }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}, Ph.D.
-                            <br>
-                            @else                            
-                            {{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}
-                            <br>
-                            @endif
-                        
-                        @endif
-                        @endforeach
-                    </h2>
-                    <h1 class="card-text-1"> Student </h1>
-                    <h2 class="card-text-2">
-                        @foreach ($rg->user as $user)
-                        @if($user->hasRole('student'))
-                        {{$user->{'position_'.app()->getLocale()} }} {{$user->{'fname_'.app()->getLocale()} }} {{$user->{'lname_'.app()->getLocale()} }}
-                        <br>
-                        @endif
-                        @endforeach
-                    </h2>
-                </div>
-            </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h5 class="card-title"> {{ $rg->{'group_name_'.app()->getLocale()} }}</>
-                    </h5>
-                    <h3 class="card-text">{{$rg->{'group_detail_'.app()->getLocale()} }}
-                    </h3>
-                </div>
-                
-            </div>
-            @endforeach
-            <!-- <div id="loadMore">
-                <a href="#"> Load More </a>
-            </div> -->
+    @foreach ($resgd as $rg)
+        <!-- Blue Stripe with Group Name -->
+        <div class="blue-stripe">
+            <h1 class="blue-stripe text-center">{{ $rg->{'group_name_'.app()->getLocale()} }}</h1>
         </div>
 
-    </div>
+        <!-- Research Rationale Box with White Background and Shadow -->
+        <div class="research-rationale-box">
+            <h2 class="card-text-10">Research Rationale</h2>
+            <h3 class="card-text">{{ $rg->{'group_desc_'.app()->getLocale()} }}</h3>
+        </div>
+
+        <div class="research-rationale-box">
+            <h2 class="card-text-10">Researcher Details</h2>
+            <h3 class="card-text">{{ $rg->{'group_detail_'.app()->getLocale()} }}</h3>
+        </div>
+
+        <div class="research-rationale-box">
+            <h2 class="card-text-10 text-center">Member Of Research Group</h2>
+            <div class="row">
+                @foreach ($rg->user as $r)
+                    @if($r->hasRole('teacher'))
+                        <div class="col-md-3"> <!-- This makes it a 4-column layout on medium screens and larger -->
+                            <div class="text-center">
+                                <img src="{{ asset('img/'.$rg->group_image) }}" alt="Group Image" class="center-image img-fluid">
+                                <div class="person-info">
+                                    @if(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer' && $r->doctoral_degree == 'Ph.D.')
+                                        <p>{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}, Ph.D.</p>
+                                    @elseif(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer')
+                                        <p>{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                                    @elseif(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
+                                        <p>{{ str_replace('Dr.', ' ', $r->{'position_'.app()->getLocale()}) }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}, Ph.D.</p>
+                                    @else
+                                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+
+        <div class="research-rationale-box">
+            <h2 class="card-text-10 text-center">Student</h2>
+            <div class="row">
+                @foreach ($rg->user as $user)
+                    @if($user->hasRole('student'))
+                        <div class="col-md-3"> <!-- 4 columns on medium and larger screens -->
+                            <div class="text-center">
+                                <p>{{ $user->{'position_'.app()->getLocale()} }} {{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}</p>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+
+    @endforeach
 </div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script>
     $(document).ready(function() {
