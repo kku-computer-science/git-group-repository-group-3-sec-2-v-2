@@ -41,19 +41,16 @@ use App\Http\Controllers\TcicallController;
 
 
 //Kunyakon
-use App\GGScholar\ScholarScraper;
 
-Route::get('/search', function (\Illuminate\Http\Request $request) {
-    $query = $request->query('q');
-    if (!$query) {
-        return response()->json(['error' => 'No query provided'], 400);
-    }
 
-    $scraper = new ScholarScraper();
-    $results = $scraper->search($query);
+use App\Http\Controllers\GoogleScholarProfileController;
 
-    return response()->json($results);
-});
+Route::get('/scholar/profile/{userId}', [GoogleScholarProfileController::class, 'getProfile']);
+
+
+
+
+
 //Kunyakon
 
 /*

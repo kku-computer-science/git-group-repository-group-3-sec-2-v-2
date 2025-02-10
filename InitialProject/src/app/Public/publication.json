@@ -1,0 +1,3014 @@
+{
+    "name": "Pusadee Seresangtakul",
+    "affiliation": "Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Thai finger-spelling sign language recognition using global and local features with SVM",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:9yKSN-GCB0IC",
+            "authors": "T Pariwat, P Seresangtakul",
+            "year": "2017"
+        },
+        {
+            "title": "A generative model of fundamental frequency contours for polysyllabic words of Thai tones",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:u-x6o8ySG0sC",
+            "authors": "P Seresangtakul, T Takara",
+            "year": "2003"
+        },
+        {
+            "title": "Analysis of pitch contour of Thai tone using Fujisaki's model",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:IjCSPb-OGe4C",
+            "authors": "P Seresangtakul, T Takara",
+            "year": "2002"
+        },
+        {
+            "title": "Automatic Thai subjective examination using cosine similarity",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:qjMakFHDy7sC",
+            "authors": "P Saipech, P Seresangtakul",
+            "year": "2018"
+        },
+        {
+            "title": "Multi-stroke thai finger-spelling sign language recognition system with deep learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:IWHjjKOFINEC",
+            "authors": "T Pariwat, P Seresangtakul",
+            "year": "2021"
+        },
+        {
+            "title": "Sentiment analysis for Thai language in hotel domain using machine learning algorithms",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:hFOr9nPyWt4C",
+            "authors": "N Khamphakdee, P Seresangtakul",
+            "year": "2021"
+        },
+        {
+            "title": "A comparison of classical discriminant analysis and artificial neural networks in predicting student graduation outcomes",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:ULOm3_A8WrAC",
+            "authors": "T Wongkhamdi, P Seresangtakul",
+            "year": "2010"
+        },
+        {
+            "title": "An efficient deep learning for Thai sentiment analysis",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:RHpTSmoSYBkC",
+            "authors": "N Khamphakdee, P Seresangtakul",
+            "year": "2023"
+        },
+        {
+            "title": "Python code smell detection using machine learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:e5wmG9Sq2KIC",
+            "authors": "N Vatanapakorn, C Soomlek, P Seresangtakul",
+            "year": "2022"
+        },
+        {
+            "title": "A hybrid approach to lao word segmentation using longest syllable level matching with named entities recognition",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:roLk4NBRz8UC",
+            "authors": "A Srithirath, P Seresangtakul",
+            "year": "2013"
+        },
+        {
+            "title": "Analysis and synthesis of pitch contour of Thai tone using Fujisaki's model",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:WF5omc3nYNoC",
+            "authors": "P Seresangtakul, T Takara",
+            "year": "2003"
+        },
+        {
+            "title": "Information integration of heterogeneous medical database systems using metadata",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:2osOgNQ5qMEC",
+            "authors": "K Sangkla, P Seresangtakul",
+            "year": "2017"
+        },
+        {
+            "title": "Isarn digit speech recognition using HMM",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:YsMSGLbcyi4C",
+            "authors": "S Sangjamraschaikun, P Seresangtakul",
+            "year": "2017"
+        },
+        {
+            "title": "A Framework for Constructing Thai Sentiment Corpus using the Cosine Similarity Technique",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:-f6ydRqryjwC",
+            "authors": "N Khamphakdee, P Seresangtakul",
+            "year": "2021"
+        },
+        {
+            "title": "ESAP plus: a web-based server for EST-SSR marker development",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:zYLM7Y9cAGgC",
+            "authors": "P Ponyared, J Ponsawat, S Tongsima, P Seresangtakul, C Akkasaeng, ...",
+            "year": "2016"
+        },
+        {
+            "title": "Isarn Dharma word segmentation using a statistical approach with named entity recognition",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:QIV2ME_5wuYC",
+            "authors": "S Somsap, P Seresangtakul",
+            "year": "2020"
+        },
+        {
+            "title": "Thai-Isarn dialect parallel corpus construction for machine translation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:KlAtU1dfN6UC",
+            "authors": "P Seresangtakul, P Unlee",
+            "year": "2019"
+        },
+        {
+            "title": "Thai to Isarn dialect machine translation using rule-based and example-based",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:4TOpqqG69KYC",
+            "authors": "P Unlee, P Seresangtakul",
+            "year": "2016"
+        },
+        {
+            "title": "Tonal Contour Generation for Isarn Speech Synthesis Using Deep Learning and Sampling-Based F0 Representation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:dhFuZR0502QC",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2020"
+        },
+        {
+            "title": "Lao-Thai machine translation using statistical model",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E01V5gUAAAAJ&citation_for_view=E01V5gUAAAAJ:Se3iqnhoufwC",
+            "authors": "K Singvongsa, P Seresangtakul",
+            "year": "2016"
+        }
+    ]
+},
+{
+    "name": "Chitsutha Soomlek, Ph.D.",
+    "affiliation": "Assistant Professor at the Department of Computer Science, Khon Kaen University, Thailand",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Machine Learning for SQL injection prevention on server-side scripting",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:WF5omc3nYNoC",
+            "authors": "K Kamtuo, C Soomlek",
+            "year": "2016"
+        },
+        {
+            "title": "Joint Opposite Selection (JOS): A premiere joint of selective leading opposition and dynamic opposite enhanced Harris’ hawks optimization for solving single-objective problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:0EnyYjriUFMC",
+            "authors": "FY Arini, S Chiewchanwattana, C Soomlek, K Sunat",
+            "year": "2022"
+        },
+        {
+            "title": "Tackling regional public health issues using mobile health technology: event report of an mHealth hackathon in Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:Y0pCki6q_DkC",
+            "authors": "A Pathanasethpong, C Soomlek, K Morley, M Morley, P Polpinit, A Dagan, ...",
+            "year": "2017"
+        },
+        {
+            "title": "Operational wellness model: A wellness model designed for an agent-based wellness visualization system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:u5HHmVD_uO8C",
+            "authors": "C Soomlek, L Benedicenti",
+            "year": "2010"
+        },
+        {
+            "title": "Golden jackal optimization with joint opposite selection: An enhanced nature-inspired optimization algorithm for solving optimization problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:KlAtU1dfN6UC",
+            "authors": "FY Arini, K Sunat, C Soomlek",
+            "year": "2022"
+        },
+        {
+            "title": "Python code smell detection using machine learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:ULOm3_A8WrAC",
+            "authors": "N Vatanapakorn, C Soomlek, P Seresangtakul",
+            "year": "2022"
+        },
+        {
+            "title": "MAP: An optimized energy-efficient cluster header selection technique for wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:ufrVoPGSRksC",
+            "authors": "K Udompongsuk, C So-In, C Phaudphut, K Rujirakul, C Soomlek, ...",
+            "year": "2014"
+        },
+        {
+            "title": "Using backpropagation neural networks for flood forecasting in PhraNakhon Si Ayutthaya, Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "C Soomlek, N Kaewchainam, T Simano, C So-In",
+            "year": "2015"
+        },
+        {
+            "title": "Automatic human-like detection of code smells",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:hqOjcs7Dif8C",
+            "authors": "C Soomlek, JN van Rijn, MM Bonsangue",
+            "year": "2021"
+        },
+        {
+            "title": "Automated detection of code smells caused by null checking conditions in Java programs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:zYLM7Y9cAGgC",
+            "authors": "K Sirikul, C Soomlek",
+            "year": "2016"
+        },
+        {
+            "title": "An agent-based modeling system for wellness",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:u-x6o8ySG0sC",
+            "authors": "L Benedicenti, C Soomlek",
+            "year": "2010"
+        },
+        {
+            "title": "Creating a framework for testing wellness visualization systems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:d1gkVwhDpl0C",
+            "authors": "C Soomlek, L Benedicenti",
+            "year": "2011"
+        },
+        {
+            "title": "Enhanced Machine Learning-Based Code Smell Detection Through Hyper-Parameter Optimization",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:_kc_bZDykSQC",
+            "authors": "P Sukkasem, C Soomlek",
+            "year": "2023"
+        },
+        {
+            "title": "Repeatable experimental framework for wellness indicator testing/evaluation: Environmental setup",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:qjMakFHDy7sC",
+            "authors": "C Soomlek, L Benedicenti",
+            "year": "2012"
+        },
+        {
+            "title": "Multi-Class Text Classification on Khmer News Using Ensemble Method in Machine Learning Algorithms",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:YOwf2qJgpHMC",
+            "authors": "R Phann, C Soomlek, P Seresangtakul",
+            "year": "2023"
+        },
+        {
+            "title": "Performance analysis of video transmission over IEEE802. 11n wireless networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:W7OEmFMy1HYC",
+            "authors": "N Sangkla, K Sangkhapat, T Rattanachai, TG Nguyen, K Rujirakul, ...",
+            "year": "2017"
+        },
+        {
+            "title": "Thai Question-Answering System Using Pattern-Matching Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:kNdYIx-mwKoC",
+            "authors": "P Wongpraomas, C Soomlek, W Sirisangtragul, P Seresangtakul",
+            "year": "2022"
+        },
+        {
+            "title": "Agent-based wellness indicator",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:UeHWp8X0CEIC",
+            "authors": "C Soomlek, L Benedicenti",
+            "year": "2013"
+        },
+        {
+            "title": "Applying Randori-Style Kata and Agile Practices to an Undergraduate-Level Programming Class",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:YsMSGLbcyi4C",
+            "authors": "C Soomlek",
+            "year": "2015"
+        },
+        {
+            "title": "An agent-based wellness visualization system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ghQ1lTAAAAAJ&citation_for_view=ghQ1lTAAAAAJ:2osOgNQ5qMEC",
+            "authors": "C Soomlek",
+            "year": "2013"
+        }
+    ]
+},{
+    "name": "Sirapat Chiewchanwattana, Ph.D.",
+    "affiliation": "Associate Professor in Computer Science, College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Robust extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:u5HHmVD_uO8C",
+            "authors": "P Horata, S Chiewchanwattana, K Sunat",
+            "year": "2013"
+        },
+        {
+            "title": "An improved grey wolf optimizer for training q-Gaussian Radial Basis Functional-link nets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:MXK_kJrjxJIC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2014"
+        },
+        {
+            "title": "Efficient algorithms based on the k-means and Chaotic League Championship Algorithm for numeric, categorical, and mixed-type data clustering",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:ZeXyd9-uunAC",
+            "authors": "T Wangchamhan, S Chiewchanwattana, K Sunat",
+            "year": "2017"
+        },
+        {
+            "title": "An advanced onlooker-ranking-based adaptive differential evolution to extract the parameters of solar cell models",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:hFOr9nPyWt4C",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana, S Kaiwinit",
+            "year": "2019"
+        },
+        {
+            "title": "Multilevel thresholding for satellite image segmentation with moth-flame based optimization",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:9ZlFYXVOiuMC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2016"
+        },
+        {
+            "title": "Joint Opposite Selection (JOS): A premiere joint of selective leading opposition and dynamic opposite enhanced Harris’ hawks optimization for solving single-objective problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:k_IJM867U9cC",
+            "authors": "FY Arini, S Chiewchanwattana, C Soomlek, K Sunat",
+            "year": "2022"
+        },
+        {
+            "title": "Enhancing modified cuckoo search by using Mantegna Lévy flights and chaotic sequences",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:roLk4NBRz8UC",
+            "authors": "P Nasa-ngium, K Sunat, S Chiewchanwattana",
+            "year": "2013"
+        },
+        {
+            "title": "Imputing incomplete time-series data based on varied-window similarity measure of data sequences",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:u-x6o8ySG0sC",
+            "authors": "S Chiewchanwattana, C Lursinsap, CHH Chu",
+            "year": "2007"
+        },
+        {
+            "title": "A novel feature selection in vehicle detection through the selection of dominant patterns of histograms of oriented gradients (DPHOG)",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:R3hNpaxXUhUC",
+            "authors": "N Laopracha, K Sunat, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "Rr-cr-IJADE: An efficient differential evolution algorithm for multilevel image thresholding",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:IWHjjKOFINEC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2017"
+        },
+        {
+            "title": "The Differentiated Creative search (DCS): Leveraging Differentiated knowledge-acquisition and Creative realism to address complex optimization problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:YFjsv_pBGBYC",
+            "authors": "P Duankhan, K Sunat, S Chiewchanwattana, P Nasa-ngium",
+            "year": "2024"
+        },
+        {
+            "title": "A global multilevel thresholding using differential evolution approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:Y0pCki6q_DkC",
+            "authors": "K Charansiriphaisan, S Chiewchanwattana, K Sunat",
+            "year": "2014"
+        },
+        {
+            "title": "Parallelized metaheuristic-ensemble of heterogeneous feedforward neural networks for regression problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:e5wmG9Sq2KIC",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot, P Horata, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "Time-series data prediction based on reconstruction of missing samples and selective ensembling of FIR neural networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:_kc_bZDykSQC",
+            "authors": "S Chiewchanwattana, C Lursinsap, CHH Chu",
+            "year": "2002"
+        },
+        {
+            "title": "An asymmetric chaotic competitive swarm optimization algorithm for feature selection in high-dimensional data",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:r0BpntZqJG4C",
+            "authors": "S Pichai, K Sunat, S Chiewchanwattana",
+            "year": "2020"
+        },
+        {
+            "title": "A comparative study of improved artificial bee colony algorithms applied to multilevel image thresholding",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:zYLM7Y9cAGgC",
+            "authors": "K Charansiriphaisan, S Chiewchanwattana, K Sunat",
+            "year": "2013"
+        },
+        {
+            "title": "A comparative study of pseudo-inverse computing for the extreme learning machine classifier",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:W7OEmFMy1HYC",
+            "authors": "P Horata, S Chiewchanwattana, K Sunat",
+            "year": "2011"
+        },
+        {
+            "title": "An ontology framework for recommendation about a crime scene investigation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:ULOm3_A8WrAC",
+            "authors": "B Onnoom, S Chiewchanwattana, K Sunat, N Wichiennit",
+            "year": "2014"
+        },
+        {
+            "title": "Improved differential evolution via cuckoo search operator",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:2osOgNQ5qMEC",
+            "authors": "P Musigawan, S Chiewchanwattana, K Sunat",
+            "year": "2012"
+        },
+        {
+            "title": "Harmonic extreme learning machine for data clustering",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:QIV2ME_5wuYC",
+            "authors": "S Boriratrit, S Chiewchanwattana, K Sunat, P Musikawan, P Horata",
+            "year": "2016"
+        }
+    ]
+},{
+    "name": "Sarun Apichontrakul",
+    "affiliation": "College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Rotation Invariant Binary Gradient Contour for Geographic Object-based Image Analysis",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=yqNNqdAAAAAJ&citation_for_view=yqNNqdAAAAAJ:u-x6o8ySG0sC",
+            "authors": "S Apichontrakul, R Suwanweerakamtorn",
+            "year": "2022"
+        },
+        {
+            "title": "Workshop: Introduction to PostGIS for Spatial Analysis and Management",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=yqNNqdAAAAAJ&citation_for_view=yqNNqdAAAAAJ:u5HHmVD_uO8C",
+            "authors": "S Apichontrakul",
+            "year": "2021"
+        },
+        {
+            "title": "Urban Land Cover Extraction of Thaichote Satellite Imagery Using Geographic Object-Based Image Analysis",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=yqNNqdAAAAAJ&citation_for_view=yqNNqdAAAAAJ:d1gkVwhDpl0C",
+            "authors": "S Apichontrakul, R Suwanweerakamtorn",
+            "year": "2018"
+        },
+        {
+            "title": "Assessing Off-the-Shelf UAV Capability for Monitoring Plant Growth",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=yqNNqdAAAAAJ&citation_for_view=yqNNqdAAAAAJ:9yKSN-GCB0IC",
+            "authors": "S Apichontrakul, R Suwanweerakamtorn",
+            "year": "2018"
+        },
+        {
+            "title": "An Application of Artificial Neural Network and Geographic Information System for Temperature Trend Prediction in Northeastern Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=yqNNqdAAAAAJ&citation_for_view=yqNNqdAAAAAJ:2osOgNQ5qMEC",
+            "authors": "S Apichontrakul, R Suwanweerakamtorn",
+            "year": "2014"
+        }
+    ]
+},{
+    "name": "Chanon Na Dechsupa",
+    "affiliation": "Chulalongkorn University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Transformation of the BPMN Design Model into a Colored Petri Net Using the Partitioning Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:d1gkVwhDpl0C",
+            "authors": "C Dechsupa, W Vatanawood, A Thongtak",
+            "year": "2018"
+        },
+        {
+            "title": "Hierarchical Verification for the BPMN Design Model Using State Space Analysis",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:9yKSN-GCB0IC",
+            "authors": "C Dechsupa, W Vatanawood, A Thongtak",
+            "year": "2019"
+        },
+        {
+            "title": "Formal verification of web service orchestration using colored petri net",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:u-x6o8ySG0sC",
+            "authors": "C Dechsupa, W Vatanawood, A Thongtak",
+            "year": "2016"
+        },
+        {
+            "title": "Stepwise verification for the BPMN with timed and stochastic process using a colored generalized stochastic Petri net",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:eQOLeE2rZwMC",
+            "authors": "C Dechsupa, W Vatanawood, A Thongtak",
+            "year": "2022"
+        },
+        {
+            "title": "An Automated Framework for BPMN Model Verification Achieving Branch Coverage",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:W7OEmFMy1HYC",
+            "authors": "C Dechsupa, W Vatanawood, A Thongtak",
+            "year": "2021"
+        },
+        {
+            "title": "Formal Verification of the Accounting Information Interfaces Using Colored Petri Net",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:IjCSPb-OGe4C",
+            "authors": "W Poolsawasdi, C Dechsupa",
+            "year": "2019"
+        },
+        {
+            "title": "Compositional Formal Verification for Business Process Models with Heterogeneous Notations Using Colored Petri Net",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:qjMakFHDy7sC",
+            "authors": "C Dechsupa, A Vatanawood, Wiwat and Thongtak",
+            "year": "2019"
+        },
+        {
+            "title": "An Applying Colored Petri Net for Computerized Accounting System and Ledger Accounts Instruction",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:YsMSGLbcyi4C",
+            "authors": "D Chanon, V Wiwat, P Worawit, T Arthit",
+            "year": "2021"
+        },
+        {
+            "title": "Scalable Timed-Automata Models for Traffic Light Control Systems: Challenges and Solutions in Formal Verification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:LkGwnXOMwfcC",
+            "authors": "A Kamput, C Dechsupa, W Vatanawood, S Pomsiri",
+            "year": "2024"
+        },
+        {
+            "title": "MorphoNet: A Novel Bivalve Images Classification Framework with Convolutional Neural Network",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:_FxGoFyzp5QC",
+            "authors": "C Dechsupa, P Prasankok, W Vattanawood, A Thongtak",
+            "year": "2023"
+        },
+        {
+            "title": "Formal modelling and verification of the traffic light control system design with time-automata",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:WF5omc3nYNoC",
+            "authors": "A Kamput, C Dechsupa",
+            "year": "2023"
+        },
+        {
+            "title": "Ensuring IoT Controller Reliability with Colored Generalized Stochastic Petri Net",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:roLk4NBRz8UC",
+            "authors": "K Samngamnoi, S Pomsiri, A Kamput, C Dechsupa",
+            "year": "2024"
+        },
+        {
+            "title": "An Applying Colored Petri Net for Computerized Accounting System and Ledger Accounts Instruction. Computers 2021, 10, 169",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:Se3iqnhoufwC",
+            "authors": "C Dechsupa, W Vatanawood, W Poolsawasdi, A Thongtak",
+            "year": "2021"
+        },
+        {
+            "title": "Configuration management for integrated teaming environment",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:u5HHmVD_uO8C",
+            "authors": "C Dechsupa, Y Limpiyakorn",
+            "year": "2011"
+        },
+        {
+            "title": "Transforming of the Sequence Diagram into Time-Automata Network",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:ufrVoPGSRksC",
+            "authors": "S Duangmalai, C Dechsupa",
+            "year": ""
+        },
+        {
+            "title": "Control, Electrical and Electronic Engineering",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:zYLM7Y9cAGgC",
+            "authors": "T Leeudomwong, S Phowichit, W Ussawawongaraya, W Poolsawasdi, ...",
+            "year": ""
+        },
+        {
+            "title": "การ ทวน สอบ เชิง รูป นัย ของ การ ออกแบบ บี พี เอ็ ม เอ็น โดย ใช้ โมเดล เช็ค กิ ง",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=-ZwgaUsAAAAJ&citation_for_view=-ZwgaUsAAAAJ:UeHWp8X0CEIC",
+            "authors": "ชา นนท์ เดช สุภา",
+            "year": ""
+        }
+    ]
+},{
+    "name": "Satit Kravenkit",
+    "affiliation": "ไม่รู้จักเครือข่าย",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Blockchain-based traceability system for product recall",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=wBQeptEAAAAJ&citation_for_view=wBQeptEAAAAJ:qjMakFHDy7sC",
+            "authors": "S Kravenkit, C So-In",
+            "year": "2022"
+        },
+        {
+            "title": "Transmission Network Expansion Planning with High-Penetration Solar Energy Using Particle Swarm Optimization in Lao PDR toward 2030",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=wBQeptEAAAAJ&citation_for_view=wBQeptEAAAAJ:IjCSPb-OGe4C",
+            "authors": "T Keokhoungning, S Premrudeepreechacharn, W Wongsinlatam, ...",
+            "year": "2022"
+        },
+        {
+            "title": "Temperature dependence of magnetic properties on switching energy in magnetic tunnel junction devices with tilted magnetization",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=wBQeptEAAAAJ&citation_for_view=wBQeptEAAAAJ:UeHWp8X0CEIC",
+            "authors": "B Teso, S Kravenkit, K Sorn-In, A Kaewrawang, A Kruesubthaworn, ...",
+            "year": "2019"
+        },
+        {
+            "title": "RESTful economic-ADS model for cost-effective chain-wide traceability system-based cloud computing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=wBQeptEAAAAJ&citation_for_view=wBQeptEAAAAJ:9yKSN-GCB0IC",
+            "authors": "K Satit, A Somjit",
+            "year": "2017"
+        },
+        {
+            "title": "The improvement of logistic management using lean and RFID technology",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=wBQeptEAAAAJ&citation_for_view=wBQeptEAAAAJ:u5HHmVD_uO8C",
+            "authors": "S Kravenkit, S Arch-int",
+            "year": "2013"
+        },
+        {
+            "title": "„The kanban-RFID model based on cloud Computing “",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=wBQeptEAAAAJ&citation_for_view=wBQeptEAAAAJ:d1gkVwhDpl0C",
+            "authors": "S Kravenkit",
+            "year": "2018"
+        },
+        {
+            "title": "The development of web-based application for notification of network status and assigned task",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=wBQeptEAAAAJ&citation_for_view=wBQeptEAAAAJ:2osOgNQ5qMEC",
+            "authors": "S Kravenkit",
+            "year": "2018"
+        },
+        {
+            "title": "The cost-effective traceability system in the federated clouds",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=wBQeptEAAAAJ&citation_for_view=wBQeptEAAAAJ:u-x6o8ySG0sC",
+            "authors": "S Kravenkit, S Arch-int, N Arch-int",
+            "year": "2016"
+        }
+    ]
+},{
+    "name": "Sartra Wongthanavasu",
+    "affiliation": "Computer Science, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Speech emotion recognition using support vector machines",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:UeHWp8X0CEIC",
+            "authors": "T Seehapoch, S Wongthanavasu",
+            "year": "2013"
+        },
+        {
+            "title": "A CA-based edge operator and its performance evaluation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:u5HHmVD_uO8C",
+            "authors": "S Wongthanavasu, R Sadananda",
+            "year": "2003"
+        },
+        {
+            "title": "An efficient brain tumor segmentation based on cellular automata and improved tumor-cut algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:L8Ckcad2t8MC",
+            "authors": "C Sompong, S Wongthanavasu",
+            "year": "2017"
+        },
+        {
+            "title": "A novel feature selection method for high-dimensional mixed decision tables",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:maZDTaKrznsC",
+            "authors": "NN Thuy, S Wongthanavasu",
+            "year": "2021"
+        },
+        {
+            "title": "Brain tumor segmentation using cellular automata-based fuzzy c-means",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:IWHjjKOFINEC",
+            "authors": "C Sompong, S Wongthanavasu",
+            "year": "2016"
+        },
+        {
+            "title": "A novel temporal recommender system based on multiple transitions in user preference drift and topic review evolution",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:JV2RwH3_ST0C",
+            "authors": "C Wangwatcharakul, S Wongthanavasu",
+            "year": "2021"
+        },
+        {
+            "title": "Cellular automata for medical image processing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:qjMakFHDy7sC",
+            "authors": "S Wongthanavasu",
+            "year": "2011"
+        },
+        {
+            "title": "Cellular automata-based algorithm and its application in medical image processing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:u-x6o8ySG0sC",
+            "authors": "S Wongthanavasu, V Tangvoraphonkchai",
+            "year": "2007"
+        },
+        {
+            "title": "On reduction of attributes in inconsistent decision tables based on information entropies and stripped quotient sets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:4JMBOYKVnBMC",
+            "authors": "NN Thuy, S Wongthanavasu",
+            "year": "2019"
+        },
+        {
+            "title": "A new approach for reduction of attributes based on stripped quotient sets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:j3f4tGmQtD8C",
+            "authors": "NN Thuy, S Wongthanavasu",
+            "year": "2020"
+        },
+        {
+            "title": "Information extraction for deep web using repetitive subject pattern",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:YsMSGLbcyi4C",
+            "authors": "W Thamviset, S Wongthanavasu",
+            "year": "2014"
+        },
+        {
+            "title": "Single image haze removal using deep cellular automata learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:isC4tDSrTZIC",
+            "authors": "S Tangsakul, S Wongthanavasu",
+            "year": "2020"
+        },
+        {
+            "title": "Dynamic collaborative filtering based on user preference drift and topic evolution",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:TFP_iSt0sucC",
+            "authors": "C Wangwatcharakul, S Wongthanavasu",
+            "year": "2020"
+        },
+        {
+            "title": "Hybrid filter–wrapper attribute selection with alpha-level fuzzy rough sets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:blknAaTinKkC",
+            "authors": "NN Thuy, S Wongthanavasu",
+            "year": "2022"
+        },
+        {
+            "title": "A cellular automata-based learning method for classification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:YOwf2qJgpHMC",
+            "authors": "S Wongthanavasu, J Ponkaew",
+            "year": "2016"
+        },
+        {
+            "title": "MRI brain tumor segmentation using GLCM cellular automata-based texture feature",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:UebtZRa9Y70C",
+            "authors": "C Sompong, S Wongthanavasu",
+            "year": "2014"
+        },
+        {
+            "title": "A 3D CA-based edge operator for 3D images",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:d1gkVwhDpl0C",
+            "authors": "S Wongthanavasu, C Lursinsap",
+            "year": "2004"
+        },
+        {
+            "title": "A hybrid recommender system for improving rating prediction of movie recommendation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:hMod-77fHWUC",
+            "authors": "N Kannikaklang, S Wongthanavasu, W Thamviset",
+            "year": "2022"
+        },
+        {
+            "title": "Pixel-level edge detection using a cellular automata-based model",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:9yKSN-GCB0IC",
+            "authors": "S Wongthanavasu, R Sadananda",
+            "year": "2000"
+        },
+        {
+            "title": "An efficient stripped cover-based accelerator for reduction of attributes in incomplete decision tables",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=brgiVtgAAAAJ&citation_for_view=brgiVtgAAAAJ:r0BpntZqJG4C",
+            "authors": "NN Thuy, S Wongthanavasu",
+            "year": "2020"
+        }
+    ]
+},{
+    "name": "Chakchai So-In",
+    "affiliation": "Professor of Computer Science, Khon Kaen University (IEEE/ACM SMs)",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Scheduling in IEEE 802.16 e mobile WiMAX networks: key issues and a survey",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:u5HHmVD_uO8C",
+            "authors": "C So-In, R Jain, AK Tamimi",
+            "year": "2009"
+        },
+        {
+            "title": "Capacity evaluation for IEEE 802.16 e mobile WiMAX",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:u-x6o8ySG0sC",
+            "authors": "C So-In, R Jain, AK Tamimi",
+            "year": "2010"
+        },
+        {
+            "title": "Search: A collaborative and intelligent nids architecture for sdn-based cloud iot networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:sSrBHYA8nusC",
+            "authors": "TG Nguyen, TV Phan, BT Nguyen, C So-In, ZA Baig, S Sanguanpong",
+            "year": "2019"
+        },
+        {
+            "title": "Averaged dependence estimators for DoS attack detection in IoT networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:geHnlv5EZngC",
+            "authors": "ZA Baig, S Sanguanpong, SN Firdous, TG Nguyen, C So-In",
+            "year": "2020"
+        },
+        {
+            "title": "A hybrid model using fuzzy logic and an extreme learning machine with vector particle swarm optimization for wireless sensor network localization",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:dfsIfKJdRG4C",
+            "authors": "S Phoemphon, C So-In, DT Niyato",
+            "year": "2018"
+        },
+        {
+            "title": "MILSA: A new evolutionary architecture for scalability, mobility, and multihoming in the future internet",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:2osOgNQ5qMEC",
+            "authors": "J Pan, R Jain, S Paul, C So-In",
+            "year": "2010"
+        },
+        {
+            "title": "System-level modeling of IEEE 802.16 E mobile WiMAX networks: key issues",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:9yKSN-GCB0IC",
+            "authors": "R Jain, C So-In",
+            "year": "2008"
+        },
+        {
+            "title": "eOCSA: An algorithm for burst mapping with strict QoS requirements in IEEE 802.16 e mobile WiMAX networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:d1gkVwhDpl0C",
+            "authors": "C So-In, R Jain, AK Al Tamimi",
+            "year": "2009"
+        },
+        {
+            "title": "A survey of network traffic monitoring and analysis tools",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:zYLM7Y9cAGgC",
+            "authors": "C So-In",
+            "year": "2009"
+        },
+        {
+            "title": "Efficient SDN-Based Traffic Monitoring in IoT Networks with Double Deep Q-Network",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:J-pR_7NvFogC",
+            "authors": "TG Nguyen, TV Phan, DT Hoang, TN Nguyen, C So-In",
+            "year": "2020"
+        },
+        {
+            "title": "A hybrid localization model using node segmentation and improved particle swarm optimization with obstacle-awareness for wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:VOx2b1Wkg3QC",
+            "authors": "S Phoemphon, C So-In, N Leelathakul",
+            "year": "2020"
+        },
+        {
+            "title": "Modeling and resource allocation for mobile video over WiMAX broadband wireless networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:qjMakFHDy7sC",
+            "authors": "AK Al Tamimi, C So-In, R Jain",
+            "year": "2010"
+        },
+        {
+            "title": "Federated deep reinforcement learning for traffic monitoring in SDN-based IoT networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:_B80troHkn4C",
+            "authors": "TG Nguyen, TV Phan, DT Hoang, TN Nguyen, C So-In",
+            "year": "2021"
+        },
+        {
+            "title": "Secrecy performance analysis of energy harvesting wireless sensor networks with a friendly jammer",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:fPk4N6BV_jEC",
+            "authors": "TG Nguyen, C So-In, DB Ha",
+            "year": "2017"
+        },
+        {
+            "title": "A hybrid mobile environmental and population density management system for smart poultry farms",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:3fE2CSJIrl8C",
+            "authors": "C So-In, S Poolsanguan, K Rujirakul",
+            "year": "2014"
+        },
+        {
+            "title": "Secrecy outage performance analysis for energy harvesting sensor networks with a jammer using relay selection strategy",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:pyW8ca7W8N0C",
+            "authors": "TG Nguyen, C So-In, ZA Baig, S Sanguanpong",
+            "year": "2018"
+        },
+        {
+            "title": "Fuzzy weighted centroid localization with virtual node approximation in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:a0OBvERweLwC",
+            "authors": "S Phoemphon, C So-In, N Leelathakul",
+            "year": "2018"
+        },
+        {
+            "title": "An evaluation of data mining classification models for network intrusion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:WF5omc3nYNoC",
+            "authors": "C So-In, N Mongkonchai, P Aimtongkham, K Wijitsopon, K Rujirakul",
+            "year": "2014"
+        },
+        {
+            "title": "Soft computing-based localizations in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:0EnyYjriUFMC",
+            "authors": "C So-In, S Permpol, K Rujirakul",
+            "year": "2016"
+        },
+        {
+            "title": "An enhanced deep learning neural network for the detection and identification of android malware",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:ZfRJV9d4-WMC",
+            "authors": "P Musikawan, Y Kongsorot, I You, C So-In",
+            "year": "2022"
+        }
+    ]
+},{
+    "name": "Punyaphol Horata, Ph.D.",
+    "affiliation": "Computer Science, Khon Kaen University, Thailand",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Robust extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:u5HHmVD_uO8C",
+            "authors": "P Horata, S Chiewchanwattana, K Sunat",
+            "year": "2013"
+        },
+        {
+            "title": "Handwritten character recognition using histograms of oriented gradient features in deep learning of artificial neural network",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:HDshCWvjkbEC",
+            "authors": "S Iamsa-at, P Horata",
+            "year": "2013"
+        },
+        {
+            "title": "Kernel extreme learning machine based on fuzzy set theory for multi-label classification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:k_IJM867U9cC",
+            "authors": "Y Kongsorot, P Horata, P Musikawan, K Sunat",
+            "year": "2019"
+        },
+        {
+            "title": "License plate recognition application using extreme learning machines",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:R3hNpaxXUhUC",
+            "authors": "S Subhadhira, U Juithonglang, P Sakulkoo, P Horata",
+            "year": "2014"
+        },
+        {
+            "title": "Multi-label classification with extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:TQgYirikUcIC",
+            "authors": "Y Kongsorot, P Horata",
+            "year": "2014"
+        },
+        {
+            "title": "Parallelized metaheuristic-ensemble of heterogeneous feedforward neural networks for regression problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:M3NEmzRMIkIC",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot, P Horata, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "A comparative study of pseudo-inverse computing for the extreme learning machine classifier",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:u-x6o8ySG0sC",
+            "authors": "P Horata, S Chiewchanwattana, K Sunat",
+            "year": "2011"
+        },
+        {
+            "title": "An incremental kernel extreme learning machine for multi-label learning with emerging new labels",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:blknAaTinKkC",
+            "authors": "Y Kongsorot, P Horata, P Musikawan",
+            "year": "2020"
+        },
+        {
+            "title": "Extended hierarchical extreme learning machine with multilayer perceptron",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:bEWYMUwI8FkC",
+            "authors": "K Phurattanaprapin, P Horata",
+            "year": "2016"
+        },
+        {
+            "title": "Harmonic extreme learning machine for data clustering",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:r0BpntZqJG4C",
+            "authors": "S Boriratrit, S Chiewchanwattana, K Sunat, P Musikawan, P Horata",
+            "year": "2016"
+        },
+        {
+            "title": "Enhancement of online sequential extreme learning machine based on the householder block exact inverse QRD recursive least squares",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:e5wmG9Sq2KIC",
+            "authors": "P Horata, S Chiewchanwattana, K Sunat",
+            "year": "2015"
+        },
+        {
+            "title": "Evolutionary circular-ELM for the reduced-reference assessment of perceived image quality",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:RHpTSmoSYBkC",
+            "authors": "S Atsawaraungsuk, P Horata",
+            "year": "2015"
+        },
+        {
+            "title": "Evolutionary circular extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:mB3voiENLucC",
+            "authors": "S Atsawaraungsuk, P Horata, K Sunat, S Chiewchanwattana, ...",
+            "year": "2013"
+        },
+        {
+            "title": "Improvement flower pollination extreme learning machine based on meta-learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:iH-uZ7U-co4C",
+            "authors": "S Boriratrit, S Chiewchanwattana, K Sunat, P Musikawan, P Horata",
+            "year": "2016"
+        },
+        {
+            "title": "Improving butterfly family classification using past separating features extraction in extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:4JMBOYKVnBMC",
+            "authors": "S Iamsa-ata, P Horataa, K Sunata, N Thipayanga",
+            "year": "2014"
+        },
+        {
+            "title": "Improved convex incremental extreme learning machine based on ridgelet and PSO algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:j3f4tGmQtD8C",
+            "authors": "P Musikawan, K Sunat, S Chiewchanwattana, P Horata, Y Kongsorot",
+            "year": "2016"
+        },
+        {
+            "title": "Applying regularization least squares canonical correlation analysis in extreme learning machine for multi-label classification problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:_Qo2XoVZTnwC",
+            "authors": "Y Kongsorot, P Horata, K Sunat",
+            "year": "2015"
+        },
+        {
+            "title": "Ensemble extreme learning machine for multi-instance learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:isC4tDSrTZIC",
+            "authors": "S Sastrawaha, P Horata",
+            "year": "2017"
+        },
+        {
+            "title": "Incident Task Sequence for Service Priority using Cosine Similarity",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:NMxIlDl6LWMC",
+            "authors": "T Boonprapapan, P Horata, P Seresangtakul",
+            "year": "2022"
+        },
+        {
+            "title": "A fast convolutional denoising autoencoder based extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=00JXDiUAAAAJ&citation_for_view=00JXDiUAAAAJ:maZDTaKrznsC",
+            "authors": "J Sawaengchob, P Horata, P Musikawan, Y Kongsorot",
+            "year": "2017"
+        }
+    ]
+},{
+    "name": "Assoc.Prof.Urachart Kokaew",
+    "affiliation": "Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Parallel KNN and neighborhood classification implementations on GPU for network intrusion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:qjMakFHDy7sC",
+            "authors": "P Kuttranont, K Boonprakob, C Phaudphut, S Permpol, ...",
+            "year": "2017"
+        },
+        {
+            "title": "A new deep learning model for the classification of poisonous and edible mushrooms based on improved AlexNet convolutional neural network",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:eQOLeE2rZwMC",
+            "authors": "W Ketwongsa, S Boonlue, U Kokaew",
+            "year": "2022"
+        },
+        {
+            "title": "Mobile animal tracking systems using light sensor for efficient power and cost saving motion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:u-x6o8ySG0sC",
+            "authors": "C So-In, C Phaudphut, S Tesana, N Weeramongkonlert, K Wijitsopon, ...",
+            "year": "2012"
+        },
+        {
+            "title": "Design computer-assisted learning in an online Augmented Reality environment based on Shneiderman's eight Golden Rules",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:9yKSN-GCB0IC",
+            "authors": "N Aottiwerch, U Kokaew",
+            "year": "2017"
+        },
+        {
+            "title": "The analysis of matching learners in pair programming using K-means",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:IjCSPb-OGe4C",
+            "authors": "N Aottiwerch, U Kokaew",
+            "year": "2018"
+        },
+        {
+            "title": "E-Learning Model to Identify the Learning Styles of Hearing-Impaired Students",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:ufrVoPGSRksC",
+            "authors": "T Luangrungruang, U Kokaew",
+            "year": "2022"
+        },
+        {
+            "title": "Applying universal design for learning in augmented reality education guidance for hearing impaired student",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:Y0pCki6q_DkC",
+            "authors": "T Luangrungruang, U Kokaew",
+            "year": "2018"
+        },
+        {
+            "title": "Adapting Fleming-type learning style classifications to deaf student behavior",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:WF5omc3nYNoC",
+            "authors": "T Luangrungruang, U Kokaew",
+            "year": "2022"
+        },
+        {
+            "title": "Optimization of culture conditions for xylanase production from cellulase-free xylanase-producing thermophilic fungus, Thermomyces dupontii KKU− CLD− E2− 3",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:W7OEmFMy1HYC",
+            "authors": "W Seemakram, S Boonrung, U Kokaew, T Aimi, S Boonlue",
+            "year": "2020"
+        },
+        {
+            "title": "Design and Development of an Integrated Online System Support for C/C++ Programming",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:u5HHmVD_uO8C",
+            "authors": "U Kokaew",
+            "year": "2015"
+        },
+        {
+            "title": "Brain Cancer Cell Detection Optimization Schemes Using Image Processing and Soft Computing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:2osOgNQ5qMEC",
+            "authors": "C Thammasakorn, C So-In, W Punjaruk, U Kokaew, B Waikham, ...",
+            "year": "2016"
+        },
+        {
+            "title": "E-Learning Model to Identify the Learning Styles of Hearing-Impaired Students. Sustainability 2022, 14, 13280",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:_FxGoFyzp5QC",
+            "authors": "T Luangrungruang, U Kokaew",
+            "year": "2022"
+        },
+        {
+            "title": "FILTERED BOOK FEATURES WITH ARTIFICIAL NEURAL NETWORK: A CASE STUDY OF THE BAN NONG SAENG SAMAKKEE BOOK OF THE AMSS++ SYSTEM OFFICE OF KHON KAEN PRIMARY EDUCATION AREA 5",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "S Khampong, U Kokaew",
+            "year": "2018"
+        },
+        {
+            "title": "Development of Learning Achievement System for Visual Programming Language",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:UeHWp8X0CEIC",
+            "authors": "U Kokaew,TJoochim,K Kubola, C Suphen",
+            "year": "2018"
+        },
+        {
+            "title": "Implementation of Code Studio to Thai Students for Promoting STEM education",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:YsMSGLbcyi4C",
+            "authors": "U Kokaew, N Aottiwerch",
+            "year": ""
+        },
+        {
+            "title": "Augmented Reality Enhanced Learning in Phylum/Division Basidiomycota",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:d1gkVwhDpl0C",
+            "authors": "U Kokaew, M Wattana, W Thamviset, S Faungfoo, N Aottiwech",
+            "year": ""
+        }
+    ]
+},{
+    "name": "Assoc.Prof. Wararat Songpan, Ph.D",
+    "affiliation": "College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "The analysis and prediction of customer review rating using opinion mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:UeHWp8X0CEIC",
+            "authors": "W Songpan",
+            "year": "2017"
+        },
+        {
+            "title": "Improved ensemble learning for classification techniques based on majority voting",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:qjMakFHDy7sC",
+            "authors": "A Rojarath, W Songpan, C Pong-inwong",
+            "year": "2016"
+        },
+        {
+            "title": "Sentiment analysis in teaching evaluations using sentiment phrase pattern matching (SPPM) based on association mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:IjCSPb-OGe4C",
+            "authors": "C Pong-Inwong, W Songpan",
+            "year": "2019"
+        },
+        {
+            "title": "Teaching senti-lexicon for automated sentiment polarity definition in teaching evaluation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:Y0pCki6q_DkC",
+            "authors": "C Pong-Inwong, WS Rungworawut",
+            "year": "2014"
+        },
+        {
+            "title": "Using ontology search in the design of class diagram from business process model",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:kNdYIx-mwKoC",
+            "authors": "W Rungworawut, T Senivongse",
+            "year": "2006"
+        },
+        {
+            "title": "Cost-sensitive probability for weighted voting in an ensemble model for multi-class classification problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:l7t_Zn2s7bgC",
+            "authors": "A Rojarath, W Songpan",
+            "year": "2021"
+        },
+        {
+            "title": "A guideline to mapping business processes to UML class diagrams",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:8k81kl-MbHgC",
+            "authors": "W Rungworawut, T Senivongse",
+            "year": "2005"
+        },
+        {
+            "title": "Improved skin lesion image classification using clustering with local-GLCM normalization",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:YsMSGLbcyi4C",
+            "authors": "W Songpan",
+            "year": "2018"
+        },
+        {
+            "title": "Teaching evaluation using data mining on moodle LMS forum",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:GnPB-g6toBAC",
+            "authors": "C Pong-inwong, W Rungworawut",
+            "year": "2012"
+        },
+        {
+            "title": "From business world to software world: deriving class diagrams from business process models",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:geHnlv5EZngC",
+            "authors": "W Rungworawut, T Senivongse",
+            "year": "2005"
+        },
+        {
+            "title": "Emotion analysis and classification of movie reviews using data mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:WbkHhVStYXYC",
+            "authors": "K Moolthaisong, W Songpan",
+            "year": "2020"
+        },
+        {
+            "title": "Probability-Weighted Voting Ensemble Learning for Classification Model",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:8AbLer7MMksC",
+            "authors": "A Rojarath, W Songpan",
+            "year": "2020"
+        },
+        {
+            "title": "Advancing Facial Expression Recognition in Online Learning Education Using a Homogeneous Ensemble Convolutional Neural Network Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:AXPGKjj_ei8C",
+            "authors": "R Lawpanom, W Songpan, J Kaewyotha",
+            "year": "2024"
+        },
+        {
+            "title": "Mutation‐Based Harmony Search Algorithm for Hybrid Testing of Web Service Composition",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:2osOgNQ5qMEC",
+            "authors": "E Maythaisong, W Songpan",
+            "year": "2018"
+        },
+        {
+            "title": "Achieving managerial goals in business process components design using genetic algorithms",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:_Qo2XoVZTnwC",
+            "authors": "W Rungworawut, T Senivongse, K Cox",
+            "year": "2007"
+        },
+        {
+            "title": "Feature selection and reduction based on SMOTE and information gain for sentiment mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:eQOLeE2rZwMC",
+            "authors": "P Pongthanoo, W Songpan",
+            "year": "2020"
+        },
+        {
+            "title": "A study on the optimization algorithm for solving the supermarket shopping path problem",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:u5HHmVD_uO8C",
+            "authors": "J Kaewyotha, W Songpan",
+            "year": "2018"
+        },
+        {
+            "title": "Classification model for skin lesion image",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:d1gkVwhDpl0C",
+            "authors": "N Danpakdee, W Songpan",
+            "year": "2017"
+        },
+        {
+            "title": "Solving bird image overlapping for automatic population counts of birds using image processing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "N Tidmerng, W Songpan, M Wattana",
+            "year": "2016"
+        },
+        {
+            "title": "Multi-objective design of profit volumes and closeness ratings using mbhs optimizing based on the prefixspan mining approach (Psma) for product layout in supermarkets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:08ZZubdj9fEC",
+            "authors": "J Kaewyotha, W Songpan",
+            "year": "2021"
+        }
+    ]
+},{
+    "name": "Khamron Sunat, Ph.D.",
+    "affiliation": "Assistant Professor in Computer Science, College of Computing, Khon Kaen University, Thailand",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Robust extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:u5HHmVD_uO8C",
+            "authors": "P Horata, S Chiewchanwattana, K Sunat",
+            "year": "2013"
+        },
+        {
+            "title": "An improved grey wolf optimizer for training q-Gaussian Radial Basis Functional-link nets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:qUcmZB5y_30C",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2014"
+        },
+        {
+            "title": "Efficient algorithms based on the k-means and Chaotic League Championship Algorithm for numeric, categorical, and mixed-type data clustering",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:k_IJM867U9cC",
+            "authors": "T Wangchamhan, S Chiewchanwattana, K Sunat",
+            "year": "2017"
+        },
+        {
+            "title": "A new artificial intelligence approach using extreme learning machine as the potentially effective model to predict and analyze the diagnosis of anemia",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:cFHS6HbyZ2cC",
+            "authors": "DCE Saputra, K Sunat, T Ratnaningsih",
+            "year": "2023"
+        },
+        {
+            "title": "An advanced onlooker-ranking-based adaptive differential evolution to extract the parameters of solar cell models",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:BqipwSGYUEgC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana, S Kaiwinit",
+            "year": "2019"
+        },
+        {
+            "title": "Multilevel thresholding for satellite image segmentation with moth-flame based optimization",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:4JMBOYKVnBMC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2016"
+        },
+        {
+            "title": "Joint Opposite Selection (JOS): A premiere joint of selective leading opposition and dynamic opposite enhanced Harris’ hawks optimization for solving single-objective problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:ZHo1McVdvXMC",
+            "authors": "FY Arini, S Chiewchanwattana, C Soomlek, K Sunat",
+            "year": "2022"
+        },
+        {
+            "title": "Kernel extreme learning machine based on fuzzy set theory for multi-label classification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:hMod-77fHWUC",
+            "authors": "Y Kongsorot, P Horata, P Musikawan, K Sunat",
+            "year": "2019"
+        },
+        {
+            "title": "A discrimination analysis for unsupervised feature selection via optic diffraction principle",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:YsMSGLbcyi4C",
+            "authors": "P Padungweang, C Lursinsap, K Sunat",
+            "year": "2012"
+        },
+        {
+            "title": "Comparative study of computational time that HOG-based features used for vehicle detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:JV2RwH3_ST0C",
+            "authors": "N Laopracha, K Sunat",
+            "year": "2018"
+        },
+        {
+            "title": "Omfo: A new opposition-based moth-flame optimization algorithm for solving unconstrained optimization problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:blknAaTinKkC",
+            "authors": "W Apinantanakon, K Sunat",
+            "year": "2018"
+        },
+        {
+            "title": "Enhancing modified cuckoo search by using Mantegna Lévy flights and chaotic sequences",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:5nxA0vEk-isC",
+            "authors": "P Nasa-ngium, K Sunat, S Chiewchanwattana",
+            "year": "2013"
+        },
+        {
+            "title": "A novel feature selection in vehicle detection through the selection of dominant patterns of histograms of oriented gradients (DPHOG)",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:RGFaLdJalmkC",
+            "authors": "N Laopracha, K Sunat, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "Rr-cr-IJADE: An efficient differential evolution algorithm for multilevel image thresholding",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:maZDTaKrznsC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2017"
+        },
+        {
+            "title": "PFP-PCA: parallel fixed point PCA face recognition",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "K Rujirakul, C So-In, B Arnonkijpanich, K Sunat, S Poolsanguan",
+            "year": "2013"
+        },
+        {
+            "title": "The Differentiated Creative search (DCS): Leveraging Differentiated knowledge-acquisition and Creative realism to address complex optimization problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:abG-DnoFyZgC",
+            "authors": "P Duankhan, K Sunat, S Chiewchanwattana, P Nasa-ngium",
+            "year": "2024"
+        },
+        {
+            "title": "A global multilevel thresholding using differential evolution approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:3fE2CSJIrl8C",
+            "authors": "K Charansiriphaisan, S Chiewchanwattana, K Sunat",
+            "year": "2014"
+        },
+        {
+            "title": "Parallelized metaheuristic-ensemble of heterogeneous feedforward neural networks for regression problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:NaGl4SEjCO4C",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot, P Horata, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "A combination of shape and texture classifiers for a face verification system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:u-x6o8ySG0sC",
+            "authors": "S Srisuk, M Petrou, R Fooprateep, K Sunat, W Kurutach, P Chopaka",
+            "year": "2004"
+        },
+        {
+            "title": "A new shape matching measure for nonlinear distorted object recognition",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:d1gkVwhDpl0C",
+            "authors": "S Srisuk, M Tamsri, R Fooprateepsiri, P Sookavatana, K Sunat",
+            "year": "2003"
+        }
+    ]
+},{
+    "name": "Pipat Reungsang",
+    "affiliation": "Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Calibration and validation of SWAT for the Upper Maquoketa River Watershed.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:Se3iqnhoufwC",
+            "authors": "P Reungsang, RS Kanwar, M Jha, PW Gassman, K Ahmad, A Saleh",
+            "year": "2007"
+        },
+        {
+            "title": "Reducing cache pollution of prefetching in a small data cache",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:W7OEmFMy1HYC",
+            "authors": "P Reungsang, SK Park, SW Jeong, HL Roh, G Lee",
+            "year": "2001"
+        },
+        {
+            "title": "Geographic information system of Opisthorchis viverrini in northeast Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:d1gkVwhDpl0C",
+            "authors": "S Wattanayingcharoenchai, C Nithikathkul, T Wongsaroj, L Royal, ...",
+            "year": "2011"
+        },
+        {
+            "title": "Calibration and validation of SWAT for the Upper Maquoketa River Watershed",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "P Reungsang, R Kanwar, R Kanwar, M Jha, P Gassman, K Ahmad, ...",
+            "year": "2005"
+        },
+        {
+            "title": "Application of SWAT model in simulating stream flow for the Chi River Subbasin II in Northeast Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:u5HHmVD_uO8C",
+            "authors": "P Reungsang, RS Kanwar, K Srisuk",
+            "year": "2010"
+        },
+        {
+            "title": "Health informatics model for helminthiasis in Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:zYLM7Y9cAGgC",
+            "authors": "C Nithikathkul, A Trevanich, T Wongsaroj, C Wongsawad, P Reungsang",
+            "year": "2017"
+        },
+        {
+            "title": "Geographic Information of Helminthiasis in Thailand.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:9yKSN-GCB0IC",
+            "authors": "T Wongsaroj, C Nithikathkul, P Reungsang, L Royal, W Nakai, D Krailas, ...",
+            "year": "2012"
+        },
+        {
+            "title": "Application of SWAT model in predicting water quantity and quality for United States and Thailand watersheds",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:UeHWp8X0CEIC",
+            "authors": "P Reungsang",
+            "year": "2007"
+        },
+        {
+            "title": "Geographic Information of Fish-Borne Parasitic Metacercaria in Chi River, Mahasarakham, Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:eQOLeE2rZwMC",
+            "authors": "C Nithikathkul, P Reungsang, A Trivanich, P Homchumpa, S Tongsiri, ...",
+            "year": "2014"
+        },
+        {
+            "title": "Analysis of fine-scale phylogeny of Burkholderia pseudomallei in relation to regional geography and drug susceptibility in Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:hqOjcs7Dif8C",
+            "authors": "Y Hinwan, P Chareonsudjai, P Reungsang, R Kraiklang, P Chetchotisakd, ...",
+            "year": "2024"
+        },
+        {
+            "title": "A spatial analysis of liver fluke diseases distribution using GIS in Khon Kaen province, Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:YsMSGLbcyi4C",
+            "authors": "A Sonsa, P Reungsang",
+            "year": "2012"
+        },
+        {
+            "title": "Integrated modeling of surface water hydrology using ArcView GIS",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:WF5omc3nYNoC",
+            "authors": "P Reungsang",
+            "year": "1998"
+        },
+        {
+            "title": "Spatial modeling for liver fluke distribution in Khon Kaen province",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:2osOgNQ5qMEC",
+            "authors": "A Sonsa, P Reungsang, C NithikathkuP",
+            "year": ""
+        },
+        {
+            "title": "MALDI-TOF MS analysis of Burkholderia pseudomallei and closely related species isolated from soils and water in Khon Kaen, Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:LkGwnXOMwfcC",
+            "authors": "N Nithimongkolchai, Y Hinwan, B Kaewseekhao, P Chareonsudjai, ...",
+            "year": "2023"
+        },
+        {
+            "title": "การ เปรียบเทียบ ดัชนี น้ำ แบบ NDWI, MNDWI1 และ MNDWI2 จาก ข้อมูล ภาพถ่าย ดาวเทียม Sentinel-2 สำหรับ สกัด พื้นที่ แหล่ง น้ำ ผิว ดิน บริเวณ ตัวเมือง จังหวัด ขอนแก่น",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:UebtZRa9Y70C",
+            "authors": "C Sawetwong, P Reungsang",
+            "year": "2022"
+        },
+        {
+            "title": "ความ ชุก ของ โรค ติด เชื้อ หนอนพยาธิ ใน พื้นที่ ตำบล ซำ สูง จังหวัด ขอนแก่น ประเทศไทย Prevalence of parasitic infection in Sum Sung sub-district, Khon Kaen Province, Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:ufrVoPGSRksC",
+            "authors": "L Taepongsorat",
+            "year": "2016"
+        },
+        {
+            "title": "Calibration and Validation of SWAT for the Upper Maquoketa River Watershed",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:u-x6o8ySG0sC",
+            "authors": "RS Kanwar, P Reungsang, MK Jha, PW Gassman, K Ahmad, A Saleh",
+            "year": "2005"
+        },
+        {
+            "title": "Power and performance tradeoffs for data cache prefetching in low-power embedded systems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:Y0pCki6q_DkC",
+            "authors": "P Reungsang",
+            "year": "2001"
+        },
+        {
+            "title": "Assessment of machine learning on sugarcane classification using Landsat-8 and Sentinel-2 satellite imagery",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:_FxGoFyzp5QC",
+            "authors": "T Butkhot, P Reungsang",
+            "year": ""
+        },
+        {
+            "title": "Site selection for hazardous waste landfill and routing analysis for hazardous waste transport using geographic information systems at Khon Kaen Province, Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=E1k8_KEAAAAJ&citation_for_view=E1k8_KEAAAAJ:IjCSPb-OGe4C",
+            "authors": "J Rachsombut, P Reungsang",
+            "year": ""
+        }
+    ]
+},{
+    "name": "Boonsup Waikham",
+    "affiliation": "Assistant Professor of Computer Science, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Parallel KNN and neighborhood classification implementations on GPU for network intrusion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:In6cVmBjs0IC",
+            "authors": "P Kuttranont, K Boonprakob, C Phaudphut, S Permpol, ...",
+            "year": "2017"
+        },
+        {
+            "title": "Mobile animal tracking systems using light sensor for efficient power and cost saving motion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:iyewoVqAXLQC",
+            "authors": "C So-In, C Phaudphut, S Tesana, N Weeramongkonlert, K Wijitsopon, ...",
+            "year": "2012"
+        },
+        {
+            "title": "MAP: An optimized energy-efficient cluster header selection technique for wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:sfnaS5RM6jYC",
+            "authors": "K Udompongsuk, C So-In, C Phaudphut, K Rujirakul, C Soomlek, ...",
+            "year": "2014"
+        },
+        {
+            "title": "H-FCD: hybrid fuzzy centroid and DV-Hop localization algorithm in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:Azgs6IHzeyYC",
+            "authors": "W Katekaew, C So-In, K Rujirakul, B Waikham",
+            "year": "2014"
+        },
+        {
+            "title": "Android OS mobile monitoring systems using an efficient transmission technique over Tmote sky WSNs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:ji7lAbPyDbYC",
+            "authors": "C So-In, N Weeramongkonlert, C Phaudphut, B Waikham, C Khunboa, ...",
+            "year": "2012"
+        },
+        {
+            "title": "Brain Cancer Cell Detection Optimization Schemes Using Image Processing and Soft Computing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:QoJ_w57xiyAC",
+            "authors": "C Thammasakorn, C So-In, W Punjaruk, U Kokaew, B Waikham, ...",
+            "year": "2016"
+        },
+        {
+            "title": "A novel architecture for mobile ECG recognition systems using hybrid wavelet transform feature extraction schemes",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:4e5Qn2KL_jwC",
+            "authors": "C So-In, C Phaudphut, K Rujirakul, N Phokaped, S Poolsanguan, ...",
+            "year": "2013"
+        },
+        {
+            "title": "DNA forensic system for police forensic science center cooperation: Architectural design and implementation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:tz746QTLzJkC",
+            "authors": "A Rattanamuang, S Chiewchanwattana, K Sunat, B Waikham",
+            "year": "2016"
+        }
+    ]
+},{
+    "name": "Sumonta Kasemvilas, Ph.D.",
+    "affiliation": "Assistant Professor of Information Technology, College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Design alternatives for a MediaWiki to support collaborative writing.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:u5HHmVD_uO8C",
+            "authors": "S Kasemvilas, L Olfman",
+            "year": "2009"
+        },
+        {
+            "title": "Fostering quality and flow of online learning conversations by artifact-centered discourse systems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:9yKSN-GCB0IC",
+            "authors": "E Eryilmaz, T Ryan, J Van der Pol, S Kasemvilas, J Mary",
+            "year": "2013"
+        },
+        {
+            "title": "The effect of anchoring online discussion on collaboration and cognitive load",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:u-x6o8ySG0sC",
+            "authors": "E Eryilmaz, N Alrushiedat, S Kasemvilas, J Mary, J Pol",
+            "year": "2009"
+        },
+        {
+            "title": "Generating a sense of community in a graduate educational setting through persuasive technology",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:2osOgNQ5qMEC",
+            "authors": "D Firpo, S Kasemvilas, P Ractham, X Zhang",
+            "year": "2009"
+        },
+        {
+            "title": "Design alternatives for a MediaWiki to support collaborative writing in higher education classes",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:d1gkVwhDpl0C",
+            "authors": "S Kasemvilas, L Olfman",
+            "year": "2009"
+        },
+        {
+            "title": "Establishing trust management in an open source collaborative information repository: An emergency response information system case study",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:qjMakFHDy7sC",
+            "authors": "E Eryilmaz, M Cochran, S Kasemvilas",
+            "year": "2009"
+        },
+        {
+            "title": "The role of anchoring discussion in mediating effective online interaction for collaborative knowledge construction",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:zYLM7Y9cAGgC",
+            "authors": "E Eryilmaz, J van der Pol, S Kasemvilas, J Mary, L Olfman",
+            "year": "2010"
+        },
+        {
+            "title": "Implementation of an online intellectual community in a graduate educational setting",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:UeHWp8X0CEIC",
+            "authors": "D Firpo, S Kasemvilas, P Ractham, X Zhang",
+            "year": "2009"
+        },
+        {
+            "title": "Designing an HR chatbot to support human resource management",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:Zph67rFs4hoC",
+            "authors": "Y Jitgosol, S Kasemvilas, P Boonchai",
+            "year": "2019"
+        },
+        {
+            "title": "MFFV2 and MNQSV2: Improved factorization Algorithms",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:Y0pCki6q_DkC",
+            "authors": "K Somsuk, S Kasemvilas",
+            "year": "2013"
+        },
+        {
+            "title": "Mffv3: An improved integer factorization algorithm to increase computation speed",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:eQOLeE2rZwMC",
+            "authors": "K Somsuk, S Kasemvilas",
+            "year": "2014"
+        },
+        {
+            "title": "A comparison of data mining techniques for suicide attempt characteristics mapping and prediction",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:MXK_kJrjxJIC",
+            "authors": "K Boonkwang, S Kasemvilas, S Kaewhao, O Youdkang",
+            "year": "2018"
+        },
+        {
+            "title": "Predicting Persuasive Message for Changing Student's Attitude Using Data Mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:0EnyYjriUFMC",
+            "authors": "Y Promdee, S Kasemvilas, N Phangsuk, R Yodthasarn",
+            "year": "2017"
+        },
+        {
+            "title": "MVFactor: A method to decrease processing time for factorization algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:W7OEmFMy1HYC",
+            "authors": "K Somsuk, S Kasemvilas",
+            "year": "2013"
+        },
+        {
+            "title": "A New Term Frequency with Gaussian Technique for Text Classification and Sentiment Analysis.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:_kc_bZDykSQC",
+            "authors": "V Vichianchai, S Kasemvilas",
+            "year": "2021"
+        },
+        {
+            "title": "Mobile persuasive technology: a review on thai elders health service opportunity",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:hqOjcs7Dif8C",
+            "authors": "P Srisawangwong, S Kasemvilas",
+            "year": "2014"
+        },
+        {
+            "title": "Constructing a sense of community in a Graduate Educational Setting Using a Web 2.0 Environment",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:YsMSGLbcyi4C",
+            "authors": "D Firpo, S Kasemvilas, P Ractham, X Zhang",
+            "year": "2010"
+        },
+        {
+            "title": "Health Monitoring Platform for Emergency Medicine: User Perspective and Implementation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:ULOm3_A8WrAC",
+            "authors": "C Chokphukhiao, R Patramanon, K Maitree, S Kasemvilas",
+            "year": "2020"
+        },
+        {
+            "title": "Possible prime modified fermat factorization: New improved integer factorization to decrease computation time for breaking rsa",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:Se3iqnhoufwC",
+            "authors": "K Somsuk, S Kasemvilas",
+            "year": "2014"
+        },
+        {
+            "title": "Fostering participation in an online intellectual community in a graduate educational setting: a case study",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=jchtQ6gAAAAJ&citation_for_view=jchtQ6gAAAAJ:IjCSPb-OGe4C",
+            "authors": "DRTDF Firpo, S Kasemvilas, P Ractham, X Zhang",
+            "year": "2009"
+        }
+    ]
+},{
+    "name": "Saiyan Saiyod",
+    "affiliation": "Assistant Professor of Computer Science, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Sensor data collection and irrigation control on vegetable crop using smart phone and wireless sensor networks for smart farm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:WF5omc3nYNoC",
+            "authors": "N Kaewmard, S Saiyod",
+            "year": "2014"
+        },
+        {
+            "title": "Improving intrusion detection system based on snort rules for network probe attack detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:MXK_kJrjxJIC",
+            "authors": "N Khamphakdee, N Benjamas, S Saiyod",
+            "year": "2014"
+        },
+        {
+            "title": "Improving Intrusion Detection System Based on Snort Rules for Network Probe Attacks Detection with Association Rules Technique of Data Mining.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:qxL8FJ1GzNcC",
+            "authors": "N Khamphakdee, N Benjamas, S Saiyod",
+            "year": "2015"
+        },
+        {
+            "title": "Mobile animal tracking systems using light sensor for efficient power and cost saving motion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:YsMSGLbcyi4C",
+            "authors": "C So-In, C Phaudphut, S Tesana, N Weeramongkonlert, K Wijitsopon, ...",
+            "year": "2012"
+        },
+        {
+            "title": "Creating snort-IDS rules for detection behavior using multi-sensors in private cloud",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:mVmsd5A6BfQC",
+            "authors": "K Sengaphay, S Saiyod, N Benjamas",
+            "year": "2016"
+        },
+        {
+            "title": "A hybrid technique for overlapped chromosome segmentation of G-band mataspread images automatic",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:9ZlFYXVOiuMC",
+            "authors": "S Saiyod, P Wayalun",
+            "year": "2014"
+        },
+        {
+            "title": "Performance evaluation of big data technology on designing big network traffic data analysis system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:Tyk-4Ss8FVUC",
+            "authors": "N Khamphakdee, N Benjamas, S Saiyod",
+            "year": "2016"
+        },
+        {
+            "title": "Improving intrusion detection on snort rules for botnets detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:_kc_bZDykSQC",
+            "authors": "Y Chanthakoummane, S Saiyod, N Benjamas, N Khamphakdee",
+            "year": "2016"
+        },
+        {
+            "title": "Distance measurement using 3D stereoscopic technique for robot eyes",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:_FxGoFyzp5QC",
+            "authors": "S Boonkwang, S Saiyod",
+            "year": "2015"
+        },
+        {
+            "title": "Network traffic data to ARFF converter for association rules technique of data mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:LkGwnXOMwfcC",
+            "authors": "N Khamphakdee, N Benjamas, S Saiyod",
+            "year": "2014"
+        },
+        {
+            "title": "Thai speech synthesis with emotional tone: Based on Formant synthesis for Home Robot",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:4DMP91E08xMC",
+            "authors": "C Khorinphan, S Phansamdaeng, S Saiyod",
+            "year": "2014"
+        },
+        {
+            "title": "A new technique for edge detection of chromosome g-band images for segmentation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:3fE2CSJIrl8C",
+            "authors": "S Saiyod, P Wayalun",
+            "year": "2014"
+        },
+        {
+            "title": "Angle of arrival estimation by using stereo ultrasonic technique for local positioning system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:0EnyYjriUFMC",
+            "authors": "W Nonsakhoo, P Sirisawat, S Saiyod, N Benjamas",
+            "year": "2017"
+        },
+        {
+            "title": "Landscape analysis system using 3D stereoscopic for drone",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:9yKSN-GCB0IC",
+            "authors": "N Thanomsieng, N Boonruam, P Sirisawat, W Nonsakhoo, S Saiyod",
+            "year": "2017"
+        },
+        {
+            "title": "A novel lightweight hybrid intrusion detection method using a combination of data mining techniques",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:u5HHmVD_uO8C",
+            "authors": "J Juanchaiyaphum, N Arch-int, S Arch-int, S Saiyod",
+            "year": "2015"
+        },
+        {
+            "title": "A novel technique of liver ultrasound image enhancement by modified Fourier transform for bile duct cancer surveillance",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:ufrVoPGSRksC",
+            "authors": "S Saiyod, P Wayalun, C Khorinphan, J Chaichawananit, S Boonkwang",
+            "year": "2016"
+        },
+        {
+            "title": "Evaluation snort-IDS rules for botnets detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:Zph67rFs4hoC",
+            "authors": "Y Chanthakoummane, S Saiyod, N Khamphakdee",
+            "year": "2015"
+        },
+        {
+            "title": "Improving intrusion detection on snort rules for botnet detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:roLk4NBRz8UC",
+            "authors": "S Saiyod, Y Chanthakoummane, N Benjamas, N Khamphakdee, ...",
+            "year": "2018"
+        },
+        {
+            "title": "Solving inverse kinematics problem of robot arm based on a-star algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:hqOjcs7Dif8C",
+            "authors": "J Chaichawananit, S Saiyod",
+            "year": "2016"
+        },
+        {
+            "title": "A hybrid technique of noise reduction with periductal fibrosis ultrasound images for periductal fibrosis detection system of cholangiocarcinoma surveillance",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:UebtZRa9Y70C",
+            "authors": "P Wayalun, S Saiyod, N Chamadol",
+            "year": "2014"
+        }
+    ]
+},{
+    "name": "Paweena Wanchai",
+    "affiliation": "Assistant Professor, College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Customer churn analysis: A case study on the telecommunication industry of Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:qjMakFHDy7sC",
+            "authors": "P Wanchai",
+            "year": "2017"
+        },
+        {
+            "title": "Graph‐Based Semantic Web Service Composition for Healthcare Data Integration",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:9yKSN-GCB0IC",
+            "authors": "N Arch-Int, S Arch-Int, S Sonsilphong, P Wanchai",
+            "year": "2017"
+        },
+        {
+            "title": "Applying business intelligence technology for equipment maintenance and repair plan of telecommunications services provider",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:IjCSPb-OGe4C",
+            "authors": "S Tanphet, P Wanchai",
+            "year": "2018"
+        },
+        {
+            "title": "An integrated approach to performance evaluation of enterprise resource planning (ERP) system implementation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:Y0pCki6q_DkC",
+            "authors": "P Wanchai",
+            "year": "2019"
+        },
+        {
+            "title": "IT adaptation patterns to enterprise-wide systems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:W7OEmFMy1HYC",
+            "authors": "P Wanchai, A Díaz Andrade, A Techatassanasoontorn",
+            "year": "2019"
+        },
+        {
+            "title": "Key factors for successful ERP implementation: Case studies from private and public organizations in Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:UeHWp8X0CEIC",
+            "authors": "P Wanchai",
+            "year": "2017"
+        },
+        {
+            "title": "Customer Churn Prediction Using Weight Average Ensemble Machine Learning Model",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "INM Adiputra, P Wanchai",
+            "year": "2023"
+        },
+        {
+            "title": "Adjusting to mandatory information systems: understanding individual adaptation to ERP systems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:d1gkVwhDpl0C",
+            "authors": "P Wanchai, AD Andrade, AA Techatassanasoontorn",
+            "year": "2012"
+        },
+        {
+            "title": "CTGAN-ENN: a tabular GAN-based hybrid sampling method for imbalanced and overlapped data in customer churn prediction",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:YsMSGLbcyi4C",
+            "authors": "INM Adiputra, P Wanchai",
+            "year": "2024"
+        },
+        {
+            "title": "Dynamic process of user adaptation to complex mandatory information systems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:zYLM7Y9cAGgC",
+            "authors": "P Wanchai",
+            "year": "2014"
+        },
+        {
+            "title": "Dynamic Process of User Adaptation to Complex Mandatory Information Systems: A Thesis Submitted to Auckland University of Technology in Fulfilment of the Requirements for the …",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:u5HHmVD_uO8C",
+            "authors": "P Wanchai",
+            "year": "2014"
+        },
+        {
+            "title": "Mobility experiences in everyday life",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:2osOgNQ5qMEC",
+            "authors": "A Techatassanasoontorn, A Diaz Andrade, P Wanchai",
+            "year": "2013"
+        },
+        {
+            "title": "Information Resources Management 2012 (Conf-IRM 2012)",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=FXajoHAAAAAJ&citation_for_view=FXajoHAAAAAJ:u-x6o8ySG0sC",
+            "authors": "R Brandtweiner, L Janczewski",
+            "year": "2012"
+        }
+    ]
+},{
+    "name": "Monlica Wattana",
+    "affiliation": "Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Improvement of complete malaria cell image segmentation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:UeHWp8X0CEIC",
+            "authors": "M Wattana, T Boonsri",
+            "year": "2017"
+        },
+        {
+            "title": "Counting and separating damaged seeds of soybean seeds using image processing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:W7OEmFMy1HYC",
+            "authors": "M Wattana, B Siriluk, S Khotwit",
+            "year": "2018"
+        },
+        {
+            "title": "Solving bird image overlapping for automatic population counts of birds using image processing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:Tyk-4Ss8FVUC",
+            "authors": "N Tidmerng, W Songpan, M Wattana",
+            "year": "2016"
+        },
+        {
+            "title": "A sentiment classification from review corpus using linked open data and sentiment lexicon",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:Y0pCki6q_DkC",
+            "authors": "W Suwanpipob, N Arch-int, M Wattana",
+            "year": "2021"
+        },
+        {
+            "title": "Quality inspection of size, shape and arrangement of sweet corn seeds by image processing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:9yKSN-GCB0IC",
+            "authors": "M Wattana, T Phonarin, U Ketnork",
+            "year": "2018"
+        },
+        {
+            "title": "Edge Detection and Symmetry Method for Cleft Lip and Palate Children Using Image Processing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:u5HHmVD_uO8C",
+            "authors": "N Choolikhit, W Songpan, M Wattana, N Arch-in",
+            "year": "2019"
+        },
+        {
+            "title": "Patrol Packet (PTP) for Routing Algorithm of Information Searching Protocol (ISP)",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:u-x6o8ySG0sC",
+            "authors": "M Wattana, P Bhattarakosol",
+            "year": "2009"
+        },
+        {
+            "title": "Specific Information Search Protocol (SISP): A Smart Search Protocol for Information and Image Search",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:zYLM7Y9cAGgC",
+            "authors": "M Wattana, P Bhattarakosol",
+            "year": "2013"
+        },
+        {
+            "title": "Framework of specific information search protocol",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:IjCSPb-OGe4C",
+            "authors": "M Wattana",
+            "year": "2011"
+        },
+        {
+            "title": "Information Searching Protocol for Color Image (ISPCI)",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:2osOgNQ5qMEC",
+            "authors": "M Wattana, P Bhattarakosol, S Han",
+            "year": "2010"
+        },
+        {
+            "title": "Patrol Packet Algorithm: A Modified Flooding Technique for High Performance Search",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:qjMakFHDy7sC",
+            "authors": "M Wattana, P Bhattarakosol",
+            "year": "2006"
+        },
+        {
+            "title": "Patrol Packet Algorithm: a smart routing algorithm for the naming system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=6aUFvc8AAAAJ&citation_for_view=6aUFvc8AAAAJ:d1gkVwhDpl0C",
+            "authors": "M Wattana, P Bhattarakosol",
+            "year": ""
+        }
+    ]
+},{
+    "name": "Isoon kanjanasurat",
+    "affiliation": "Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "CNN–RNN network integration for the diagnosis of COVID-19 using chest X-ray and CT images",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:hqOjcs7Dif8C",
+            "authors": "I Kanjanasurat, K Tenghongsakul, B Purahong, A Lasakul",
+            "year": "2023"
+        },
+        {
+            "title": "Medical drone managing system for automated external defibrillator delivery service",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:YsMSGLbcyi4C",
+            "authors": "B Purahong, T Anuwongpinit, A Juhong, I Kanjanasurat, C Pintaviooj",
+            "year": "2022"
+        },
+        {
+            "title": "Deep transfer learning for brain tumor detection based on MRI images",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:8k81kl-MbHgC",
+            "authors": "K Tenghongsakul, I Kanjanasurat, T Archevapanich, B Purahong, ...",
+            "year": "2023"
+        },
+        {
+            "title": "Engineering education roadmap of the future trend of basic metaverse based on vr with cooperation between the government and the private sector",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:LkGwnXOMwfcC",
+            "authors": "B Purahong, T Anuwongpinit, I Kanjanasurat, M Chansuthirangkool, ...",
+            "year": "2022"
+        },
+        {
+            "title": "Egg-counting system using image processing and a website for monitoring",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:Y0pCki6q_DkC",
+            "authors": "I Kanjanasurat, W Krungseanmuang, V Chaowalittawin, B Purahong",
+            "year": "2021"
+        },
+        {
+            "title": "Comparison of image enhancement techniques and CNN models for COVID-19 classification using chest x-rays images",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:_FxGoFyzp5QC",
+            "authors": "I Kanjanasurat, N Domepananakorn, T Archevapanich, B Purahong",
+            "year": "2022"
+        },
+        {
+            "title": "Personal identification using a delaunay triangle and optic disc retinal vascular pattern",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:qjMakFHDy7sC",
+            "authors": "I Kanjanasurat, B Purahong, H Aoyama, C Benjangkaprasert, ...",
+            "year": "2020"
+        },
+        {
+            "title": "Blood Vessel Extraction and Optic Disk Localization for Diabetic Retinopathy",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:u-x6o8ySG0sC",
+            "authors": "I Kanjanasurat, B Purahong, C Pintavirooj, N Satayarak, ...",
+            "year": "2020"
+        },
+        {
+            "title": "The comparison of Faster R-CNN and Atrous Faster R-CNN in different distance and light condition",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:IjCSPb-OGe4C",
+            "authors": "K Srijakkot, I Kanjanasurat, N Wiriyakrieng, C Benjangkaprasert",
+            "year": "2020"
+        },
+        {
+            "title": "Intruder Detection by Using Faster R-CNN in Power Substation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:UeHWp8X0CEIC",
+            "authors": "K Srijakkot, I Kanjanasurat, N Wiriyakrieng, M Lartwatechakul, ...",
+            "year": "2020"
+        },
+        {
+            "title": "Retinal Blood Vessel Extraction by Using Pre-processing and IterNet Model",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:Tyk-4Ss8FVUC",
+            "authors": "K Tenghongsakul, I Kanjanasurat, B Purahong, A Lasakul",
+            "year": "2020"
+        },
+        {
+            "title": "Vascular Extraction by using matched filter on retinal image",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:u5HHmVD_uO8C",
+            "authors": "I Kanjanasurat, B Purahong, C Pintavirooj, C Benjangkaprasert",
+            "year": "2020"
+        },
+        {
+            "title": "Gain equalizer by four parameters logistic bézier bernstein polynomial",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:2osOgNQ5qMEC",
+            "authors": "I Kanjanasurat, V Chutchavong, C Benjankaprasert, K Janchitrapongvej",
+            "year": "2017"
+        },
+        {
+            "title": "Bernstein polynomial and rational Bézier curve for blood pressure simulation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:zYLM7Y9cAGgC",
+            "authors": "I Kanjanasurat, V Chutchavong, V Pirajnanchai, K Janchitrapongvej",
+            "year": "2016"
+        },
+        {
+            "title": "Comparison of logistic regression and random forest algorithms for airport’s runway assignment",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:5nxA0vEk-isC",
+            "authors": "I Kanjanasurat, W Jungsuwadee, A Lasakul, C Benjangkaprasert",
+            "year": "2023"
+        },
+        {
+            "title": "Image Enhancement and 27 Pretrained Convolutional Neural Network Models for Diabetic Retinopathy Grading.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:0EnyYjriUFMC",
+            "authors": "I Kanjanasurat, T Anuwongpinit, B Purahong",
+            "year": "2023"
+        },
+        {
+            "title": "Landing Runway Assignment by Airport Traffic using Machine Learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:Se3iqnhoufwC",
+            "authors": "I Kanjanasurat1, W Jungsuwadee, B Purahong, C Benjangkaprasert",
+            "year": "2022"
+        },
+        {
+            "title": "Optic Disk and Fovea Localization by Using the Direction of Blood Vessels and Morphology Operation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:W7OEmFMy1HYC",
+            "authors": "I Kanjanasurat, N Satayarak",
+            "year": "2021"
+        },
+        {
+            "title": "Classification of Overlapping Eggs Based on Image Processing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:eQOLeE2rZwMC",
+            "authors": "B Purahong, W Krungseanmuang, V Chaowalittawin, T Pumee, ...",
+            "year": "2022"
+        },
+        {
+            "title": "Design of linear phase filter by using q-Bernstein polynomial",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=Vos5zq4AAAAJ&citation_for_view=Vos5zq4AAAAJ:9yKSN-GCB0IC",
+            "authors": "B Purahong, I Kanjanasurat, V Chutchavong, K Janchitrapongvej, ...",
+            "year": "2018"
+        }
+    ]
+},{
+    "name": "Praisan Padungweang",
+    "affiliation": "Lecturer at College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Auto-scaling microservices on IaaS under SLA with cost-effective framework",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:0EnyYjriUFMC",
+            "authors": "I Prachitmutita, W Aittinonmongkol, N Pojjanasuksakul, M Supattatham, ...",
+            "year": "2018"
+        },
+        {
+            "title": "Big data in smart-cities: Current research and challenges",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:WF5omc3nYNoC",
+            "authors": "D Pal, T Triyason, P Padungweang",
+            "year": "2018"
+        },
+        {
+            "title": "A discrimination analysis for unsupervised feature selection via optic diffraction principle",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:hqOjcs7Dif8C",
+            "authors": "P Padungweang, C Lursinsap, K Sunat",
+            "year": "2012"
+        },
+        {
+            "title": "Univariate filter technique for unsupervised feature selection using a new Laplacian score based local nearest neighbors",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:d1gkVwhDpl0C",
+            "authors": "P Padungweang, C Lursinsap, K Sunat",
+            "year": "2009"
+        },
+        {
+            "title": "Face recognition using transferred deep learning for feature extraction",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:qjMakFHDy7sC",
+            "authors": "A Phornchaicharoen, P Padungweang",
+            "year": "2019"
+        },
+        {
+            "title": "Enhancing metabolic event extraction performance with multitask learning concept",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:UebtZRa9Y70C",
+            "authors": "W Kongburan, P Padungweang, W Krathu, JH Chan",
+            "year": "2019"
+        },
+        {
+            "title": "Semi-automatic construction of thyroid cancer intervention corpus from biomedical abstracts",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:ufrVoPGSRksC",
+            "authors": "W Kongburan, P Padungweang, W Krathu, JH Chan",
+            "year": "2016"
+        },
+        {
+            "title": "Stock selection using association rules on cash flow and accrual financial indicators",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:2osOgNQ5qMEC",
+            "authors": "A Wijitcharoen, P Padungweang, S Sirisawatvatana, B Watanapa",
+            "year": "2018"
+        },
+        {
+            "title": "Dog cough sound classification using artificial neural network and the selected relevant features from discrete wavelet transform",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:IjCSPb-OGe4C",
+            "authors": "P Kakabutr, KS Chen, V Wangvisavawit, P Padungweang, ...",
+            "year": "2017"
+        },
+        {
+            "title": "Metabolite named entity recognition: A hybrid approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:Y0pCki6q_DkC",
+            "authors": "W Kongburan, P Padungweang, W Krathu, JH Chan",
+            "year": "2016"
+        },
+        {
+            "title": "Logistic Principle Component Analysis (L-PCA) for Feature Selection in Classification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:UeHWp8X0CEIC",
+            "authors": "J Rapeepongpan, P Padungweang, K Lavangnananda",
+            "year": "2018"
+        },
+        {
+            "title": "A linear discriminant analysis using weighted local structure information",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:roLk4NBRz8UC",
+            "authors": "R Ketsuwan, P Padungweang",
+            "year": "2017"
+        },
+        {
+            "title": "Automatic discovering success factor relationship entities in articles using named entity recognition",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:W7OEmFMy1HYC",
+            "authors": "S Niboonkit, W Krathu, P Padungweang",
+            "year": "2017"
+        },
+        {
+            "title": "Data mining approach for automatic discovering success factors relationship statements in full text articles",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:eQOLeE2rZwMC",
+            "authors": "W Krathu, P Padungweang, C Nukoolkit",
+            "year": "2016"
+        },
+        {
+            "title": "Enhancing Diabetic Retinopathy Classification for Small Sample Training Data Through Supervised Feature Attention: Transfer and Multitask Learning Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:MXK_kJrjxJIC",
+            "authors": "R Sanguantrakool, P Padungweang",
+            "year": "2023"
+        },
+        {
+            "title": "Cluster validity index for big Data based on density discriminant analysis",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:8k81kl-MbHgC",
+            "authors": "T Weerapong, S Sathapornvajana, P Padungweang, W Krathu",
+            "year": "2020"
+        },
+        {
+            "title": "Incremental Object Detection Using Ensemble Modeling and Deep Transfer Learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:zYLM7Y9cAGgC",
+            "authors": "P Huayhongthong, S Rerk-u-suk, S Booddee, P Padungweang, ...",
+            "year": "2020"
+        },
+        {
+            "title": "ICA-DEODA: An independent feature extraction model for stock index forecasting",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:5nxA0vEk-isC",
+            "authors": "A Wijitcharoen, B Watanapa, P Padungweang, W Anantasabkit",
+            "year": "2016"
+        },
+        {
+            "title": "A Density Discriminant Index for Cluster Validation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:LkGwnXOMwfcC",
+            "authors": "S Thanarattananakin, P Padungweang, W Krathu",
+            "year": "2019"
+        },
+        {
+            "title": "Relevant Feature Selection for Predicting the Severity of Motorcycle Accident in Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=bzF_BIkAAAAJ&citation_for_view=bzF_BIkAAAAJ:Se3iqnhoufwC",
+            "authors": "S Samerbut, P Padungweang, W Krathu",
+            "year": "2020"
+        }
+    ]
+},{
+    "name": "Pobporn Danvirutai",
+    "affiliation": "College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Highly-sensitive surface-enhanced Raman spectroscopy (SERS)-based chemical sensor using 3D graphene foam decorated with silver nanoparticles as SERS substrate",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:u5HHmVD_uO8C",
+            "authors": "C Srichan, M Ekpanyapong, M Horprathum, P Eiamchai, N Nuntawong, ...",
+            "year": "2016"
+        },
+        {
+            "title": "Non-invasively accuracy enhanced blood glucose sensor using shallow dense neural networks with NIR monitoring and medical features",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:9yKSN-GCB0IC",
+            "authors": "C Srichan, W Srichan, P Danvirutai, C Ritsongmuang, A Sharma, ...",
+            "year": "2022"
+        },
+        {
+            "title": "Ultra-sensitive and label-free neutrophil gelatinase-associated lipocalin electrochemical sensor using gold nanoparticles decorated 3D Graphene foam towards acute kidney injury …",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:d1gkVwhDpl0C",
+            "authors": "P Danvirutai, M Ekpanyapong, A Tuantranont, E Bohez, S Anutrakulchai, ...",
+            "year": "2020"
+        },
+        {
+            "title": "On the same origin of quantum physics and general relativity from Riemannian geometry and Planck scale formalism",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:zYLM7Y9cAGgC",
+            "authors": "C Srichan, P Danvirutai, AD Cheok, J Cai, Y Yan",
+            "year": "2025"
+        },
+        {
+            "title": "Revision: On the same origin of quantum physics and general relativity",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:_FxGoFyzp5QC",
+            "authors": "C Srichan, P Danvirutai, AD Cheok",
+            "year": "2024"
+        },
+        {
+            "title": "New Feynman Path Integral: Towards its Application to Black Holes and Traversable Worm Hole (ER= EPR)",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:ufrVoPGSRksC",
+            "authors": "C Srichan, P Danvirutai, M Nardelli, AD Cheok",
+            "year": "2024"
+        },
+        {
+            "title": "Empowering an Acute Kidney Injury 3D Graphene-Based Sensor Using Extreme Learning Machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:eQOLeE2rZwMC",
+            "authors": "N Sittihakote, P Danvirutai, S Anutrakulchai, A Tuantranont, C Srichan",
+            "year": "2024"
+        },
+        {
+            "title": "Ischemic Stroke Post-treatment Prediction using Machine Learning to develop Web Application for Healthcare Centers in Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:IjCSPb-OGe4C",
+            "authors": "K Worraviseat, P Danvirutai, S Anutrakulchai, N Kasemsap, C Srichan",
+            "year": "2023"
+        },
+        {
+            "title": "Nanoflowers on Microporous Graphene Electrodes as a Highly Sensitive and Low-Cost As (III) Electrochemical Sensor for Water Quality Monitoring",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:UeHWp8X0CEIC",
+            "authors": "M Kosuvun, P Danvirutai, D Hormdee, A Chaosakul, V Tanboonchuy, ...",
+            "year": "2023"
+        },
+        {
+            "title": "Acute Kidney Injury Detection using Real Human Urine NGAL Biomarker Sensor based on 3D Graphene",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:qjMakFHDy7sC",
+            "authors": "N Sittihakote, S Anutrakulchai, A Tuantranont, P Danvirutai, C Srichan",
+            "year": "2022"
+        },
+        {
+            "title": "Non-Invasive Sensors Integration for NCDs with AIoT Based Telemedicine System",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:WF5omc3nYNoC",
+            "authors": "C Srichan, P Danvirutai, N Boonsim, A Namvong, C Surawanitkun, ...",
+            "year": "2024"
+        },
+        {
+            "title": "Anomalous Current Steps in 3D Graphene Electrochemical Systems at Room Temperature",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:YsMSGLbcyi4C",
+            "authors": "C Srichan, P Danvirutai, A Tuantranont",
+            "year": "2024"
+        },
+        {
+            "title": "Quantum Hall-like effect in electrochemical systems due to extra-dimension embedded in 3D graphene at room temperature",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:2osOgNQ5qMEC",
+            "authors": "C Srichan, P Danvirutai, A Wisitsoraat, A Tuantranont",
+            "year": "2022"
+        },
+        {
+            "title": "DEVELOPMENT OF GOLD NANOPARTICLES DECORATED 3D GRAPHENE FOAM AS AN ULTRA-SENSITIVE AND LABEL-FREE NEUTROPHIL GELATINASE ASSOCIATED LIPOCALIN ELECTROCHEMICAL SENSOR FOR ACUTE …",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:W7OEmFMy1HYC",
+            "authors": "P Danvirutai",
+            "year": "2021"
+        },
+        {
+            "title": "Synthesis of Gold Nanoparticles Decorating Graphene Foam and its Application to Electrochemical and SERS-Based Sensor",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "MA Sultani, RA Khavari",
+            "year": "2015"
+        },
+        {
+            "title": "Chamfer Matching for Image Transformation Estimation in Capsule Endoscopic Videos",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:u-x6o8ySG0sC",
+            "authors": "P Danvirutai",
+            "year": "2013"
+        },
+        {
+            "title": "Deforestation & Reforestation Detection in NE-Thailand using MODIS NDVI Images Dataset",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=EdGy9eEAAAAJ&citation_for_view=EdGy9eEAAAAJ:Y0pCki6q_DkC",
+            "authors": "WS Qureshi, P Danvirutai",
+            "year": "2000"
+        }
+    ]
+},{
+    "name": "Pongsathon Janyoi",
+    "affiliation": "College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Tonal Contour Generation for Isarn Speech Synthesis Using Deep Learning and Sampling-Based F0 Representation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:u-x6o8ySG0sC",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2020"
+        },
+        {
+            "title": "An Isarn dialect HMM-based text-to-speech system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:9yKSN-GCB0IC",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2017"
+        },
+        {
+            "title": "Isarn phoneme transcription using statistical model and transcription rule",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:u5HHmVD_uO8C",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2014"
+        },
+        {
+            "title": "Isarn Dialect Word Segmentation using Bi-directional Gated Recurrent Unit with transfer learning approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:IjCSPb-OGe4C",
+            "authors": "S Aim-Nang, P Seresangtakul, P Janyoi",
+            "year": "2022"
+        },
+        {
+            "title": "F0 modeling for isarn speech synthesis using deep neural networks and syllable-level feature representation.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:d1gkVwhDpl0C",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2020"
+        },
+        {
+            "title": "Isarn Dialect Speech Synthesis using HMM with syllable-context features",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:qjMakFHDy7sC",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2018"
+        },
+        {
+            "title": "Automated Sequence Labeling for Causality Extraction in Medical Domain",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:YsMSGLbcyi4C",
+            "authors": "ED Oktaviyani, P Seresangtakul, P Janyoi, C Soomlek",
+            "year": "2024"
+        },
+        {
+            "title": "MULTI-CLASS TEXT CLASSIFICATION ON KHMER NEWS ARTICLES USING DEEP LEARNING MODELS WITH OPTIMAL HYPERPARAMETERS",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:W7OEmFMy1HYC",
+            "authors": "R Phann, C Soomlek, P Janyoi, P Seresangtakul",
+            "year": "2024"
+        },
+        {
+            "title": "Investigation of an Input Sequence on Thai Neural Sequence-to-Sequence Speech Synthesis",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:2osOgNQ5qMEC",
+            "authors": "P Janyoi, A Thangthai",
+            "year": "2021"
+        }
+    ]
+},{
+    "name": "Warunya Wunnasri",
+    "affiliation": "Khonkaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "The practical use of Kit-Build concept map on formative assessment",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:UeHWp8X0CEIC",
+            "authors": "J Pailai, W Wunnasri, K Yoshida, Y Hayashi, T Hirashima",
+            "year": "2017"
+        },
+        {
+            "title": "Validity of kit-build method for assessment of learner-build map by comparing with manual methods",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:Tyk-4Ss8FVUC",
+            "authors": "W Wunnasri, J Pailai, Y Hayashi, T Hirashima",
+            "year": "2018"
+        },
+        {
+            "title": "Reciprocal Kit-Build Concept Map: An Approach for Encouraging Pair Discussion to Share Each Other's Understanding",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:2osOgNQ5qMEC",
+            "authors": "W Wunnasri, J Pailai, Y Hayashi, T Hirashima",
+            "year": "2018"
+        },
+        {
+            "title": "HotelOpinion: An opinion mining system on hotel reviews in Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:Y0pCki6q_DkC",
+            "authors": "A Kongthon, C Haruechaiyasak, C Sangkeettrakarn, P Palingoon, ...",
+            "year": "2011"
+        },
+        {
+            "title": "Collaborative concept mapping with reciprocal kit-build: a practical use in linear algebra course",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:Se3iqnhoufwC",
+            "authors": "L Sadita, T Hirashima, Y Hayashi, W Wunnasri, J Pailai, K Junus, ...",
+            "year": "2020"
+        },
+        {
+            "title": "Reliability investigation of automatic assessment of learner-build concept map with Kit-Build method by comparing with manual methods",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:zYLM7Y9cAGgC",
+            "authors": "W Wunnasri, J Pailai, Y Hayashi, T Hirashima",
+            "year": "2017"
+        },
+        {
+            "title": "Reciprocal Kit-Building of concept map to share each other’s understanding as preparation for collaboration",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:d1gkVwhDpl0C",
+            "authors": "W Wunnasri, J Pailai, Y Hayashi, T Hirashima",
+            "year": "2018"
+        },
+        {
+            "title": "Solving unbalanced data for Thai sentiment analysis",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:WF5omc3nYNoC",
+            "authors": "W Wunnasri, T Theeramunkong, C Haruechaiyasak",
+            "year": "2013"
+        },
+        {
+            "title": "A Two-Phase Ensemble-Based Method for Predicting Learners’ Grade in MOOCs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:UebtZRa9Y70C",
+            "authors": "W Wunnasri, P Musikawan, C So-In",
+            "year": "2023"
+        },
+        {
+            "title": "Correctness-and Confidence-Based Adaptive Feedback of Kit-Build Concept Map with Confidence Tagging",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:u-x6o8ySG0sC",
+            "authors": "J Pailai, W Wunnasri, Y Hayashi, T Hirashima",
+            "year": "2018"
+        },
+        {
+            "title": "Preliminary Study on the Use of Reciprocal Kit Build for Collaborative Learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:LkGwnXOMwfcC",
+            "authors": "L SADITA, T HIRASHIMA, Y HAYASHI, W WUNNASRI, J PAILAI, ...",
+            "year": ""
+        },
+        {
+            "title": "Kit-build concept map with confidence tagging in practical uses for assessing the understanding of learners",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:IjCSPb-OGe4C",
+            "authors": "J Pailai, W Wunnasri, Y Hayashi, T Hirashima",
+            "year": "2018"
+        },
+        {
+            "title": "Ongoing formative assessment with concept map in proposition level exact matching",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:qjMakFHDy7sC",
+            "authors": "J Pailai, W Wunnasri, Y Hayashi, T Hirashima",
+            "year": "2016"
+        },
+        {
+            "title": "Comparative Investigation on the Reliability of Concept Map Assessment with Kit-Build Method and Manual Methods",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:u5HHmVD_uO8C",
+            "authors": "W Warunya, P Jaruwat, H Yusuke, H Tsukasa",
+            "year": "2017"
+        },
+        {
+            "title": "Comparison of Concept Map Evaluation between Kit-Build Method and Handmade Method",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:_FxGoFyzp5QC",
+            "authors": "W WUNNASRI, J PAILAI, Y HAYASHI, T HIRASHIMA",
+            "year": "2016"
+        },
+        {
+            "title": "A Knowledge-Driven Approach for Automatic Semantic Aspect Term Extraction using the Semantic Power of Linked Open Data",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:8k81kl-MbHgC",
+            "authors": "W Suwanpipob, N Arch-Int, W Wunnasri",
+            "year": "2024"
+        },
+        {
+            "title": "Investigating on Discussion for Sharing Understanding by Using Reciprocal Kit-Build Concept Map",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:roLk4NBRz8UC",
+            "authors": "W Wunnasri, J Pailai, Y Hayashi, T Hirashima",
+            "year": "2019"
+        },
+        {
+            "title": "VALIDITY INVESTIGATION OF RECONSTRUCTIONAL CONCEPT MAP AND ITS COLLABORATIVE USE FOR SHARING UNDERSTANDING",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:5nxA0vEk-isC",
+            "authors": "W Wunnasri",
+            "year": "2018"
+        },
+        {
+            "title": "Comparison between Scratch-and Kit-Build concept map with several evaluation methods",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:eQOLeE2rZwMC",
+            "authors": "W Warunya, P Jaruwat, H Yusuke, H Tsukasa",
+            "year": "2016"
+        },
+        {
+            "title": "Automatic Concept Map Assessment in Formative Assessment Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=_YT1Se0AAAAJ&citation_for_view=_YT1Se0AAAAJ:YsMSGLbcyi4C",
+            "authors": "P Jaruwat, W Warunya, H Yusuke, H Tsukasa",
+            "year": "2016"
+        }
+    ]
+},{
+    "name": "Jakkrit Kaewyotha",
+    "affiliation": "College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Advancing Facial Expression Recognition in Online Learning Education Using a Homogeneous Ensemble Convolutional Neural Network Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=hk7hj_gAAAAJ&citation_for_view=hk7hj_gAAAAJ:9yKSN-GCB0IC",
+            "authors": "R Lawpanom, W Songpan, J Kaewyotha",
+            "year": "2024"
+        },
+        {
+            "title": "A study on the optimization algorithm for solving the supermarket shopping path problem",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=hk7hj_gAAAAJ&citation_for_view=hk7hj_gAAAAJ:u5HHmVD_uO8C",
+            "authors": "J Kaewyotha, W Songpan",
+            "year": "2018"
+        },
+        {
+            "title": "Multi-objective design of profit volumes and closeness ratings using mbhs optimizing based on the prefixspan mining approach (Psma) for product layout in supermarkets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=hk7hj_gAAAAJ&citation_for_view=hk7hj_gAAAAJ:d1gkVwhDpl0C",
+            "authors": "J Kaewyotha, W Songpan",
+            "year": "2021"
+        },
+        {
+            "title": "Finding the critical path with loop structure for a basis path testing using genetic algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=hk7hj_gAAAAJ&citation_for_view=hk7hj_gAAAAJ:u-x6o8ySG0sC",
+            "authors": "J Kaewyotha, W Songpan",
+            "year": "2015"
+        },
+        {
+            "title": "AI-Driven Prompt Templates for User Acceptance Test Case Generation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=hk7hj_gAAAAJ&citation_for_view=hk7hj_gAAAAJ:2osOgNQ5qMEC",
+            "authors": "W Sisomboon, J Kaewyotha, P Dansakulcharoenkit, W Songpan",
+            "year": "2024"
+        }
+    ]
+},{
+    "name": "Phet Aimtongkham",
+    "affiliation": "Lecturer at the Department of Computer Science, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "An evaluation of data mining classification models for network intrusion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:u5HHmVD_uO8C",
+            "authors": "C So-In, N Mongkonchai, P Aimtongkham, K Wijitsopon, K Rujirakul",
+            "year": "2014"
+        },
+        {
+            "title": "An energy-efficient fuzzy-based scheme for unequal multihop clustering in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:WF5omc3nYNoC",
+            "authors": "S Phoemphon, C So-In, P Aimtongkham, TG Nguyen",
+            "year": "2021"
+        },
+        {
+            "title": "Parallel KNN and neighborhood classification implementations on GPU for network intrusion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:qjMakFHDy7sC",
+            "authors": "P Kuttranont, K Boonprakob, C Phaudphut, S Permpol, ...",
+            "year": "2017"
+        },
+        {
+            "title": "Congestion control and prediction schemes using Fuzzy logic system with adaptive membership function in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:zYLM7Y9cAGgC",
+            "authors": "P Aimtongkham, TG Nguyen, C So-In",
+            "year": "2018"
+        },
+        {
+            "title": "A novel IoT authorization architecture on hyperledger fabric with optimal consensus using genetic algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:Tyk-4Ss8FVUC",
+            "authors": "N Klaokliang, P Teawtim, P Aimtongkham, C So-In, A Niruntasukrat",
+            "year": "2018"
+        },
+        {
+            "title": "On security and throughput for energy harvesting untrusted relays in IoT systems using NOMA",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:Y0pCki6q_DkC",
+            "authors": "C So-In, H Tran, DD Tran, S Heng, P Aimtongkham, AN Nguyen",
+            "year": "2019"
+        },
+        {
+            "title": "Fuzzy logic-based path planning for data gathering mobile sinks in WSNs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:Se3iqnhoufwC",
+            "authors": "C Punriboon, C So-In, P Aimtongkham, N Leelathakul",
+            "year": "2021"
+        },
+        {
+            "title": "A novel web caching scheme using hybrid least frequently used and support vector machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:d1gkVwhDpl0C",
+            "authors": "P Aimtongkham, C So-In, S Sanguanpong",
+            "year": "2016"
+        },
+        {
+            "title": "Multistage fuzzy logic congestion-aware routing using dual-stage notification and the relative barring distance in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:LkGwnXOMwfcC",
+            "authors": "P Aimtongkham, P Horkaew, C So-In",
+            "year": "2021"
+        },
+        {
+            "title": "An enhanced CoAP scheme using fuzzy logic with adaptive timeout for IoT congestion control",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:roLk4NBRz8UC",
+            "authors": "P Aimtongkham, P Horkaew, C So-In",
+            "year": "2021"
+        },
+        {
+            "title": "Enhanced DDoS detection using hybrid genetic algorithm and decision tree for SDN",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:W7OEmFMy1HYC",
+            "authors": "P Preamthaisong, A Auyporntrakool, P Aimtongkham, T Sriwuttisap, ...",
+            "year": "2019"
+        },
+        {
+            "title": "An efficient distributed algorithm for target-coverage preservation in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:ufrVoPGSRksC",
+            "authors": "TG Nguyen, TV Phan, HH Nguyen, P Aimtongkham, C So-In",
+            "year": "2021"
+        },
+        {
+            "title": "Fuzzy logic rate adjustment controls using a circuit breaker for persistent congestion in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:YsMSGLbcyi4C",
+            "authors": "P Aimtongkham, S Heng, P Horkaew, TG Nguyen, C So-In",
+            "year": "2020"
+        },
+        {
+            "title": "A Bio-Inspired Capacitated Vehicle-Routing Problem Scheme Using Artificial Bee Colony with Crossover Optimizations.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:eQOLeE2rZwMC",
+            "authors": "C Punriboon, C So-In, P Aimtongkham, K Rujirakul",
+            "year": "2019"
+        },
+        {
+            "title": "Video steganography with LSB color detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:2osOgNQ5qMEC",
+            "authors": "A Suttichaiya, Y Sombatkiripaiboon, P Imtongkhua, C Poonriboon, ...",
+            "year": "2017"
+        },
+        {
+            "title": "On secrecy analysis of uav-enabled relaying noma systems with rf energy harvesting",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:8k81kl-MbHgC",
+            "authors": "AN Nguyen, DB Ha, VT Truong, C So-In, P Aimtongkham, ...",
+            "year": "2022"
+        },
+        {
+            "title": "Fuzzy adaptive-sampling block compressed sensing for wireless multimedia sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:_FxGoFyzp5QC",
+            "authors": "S Heng, P Aimtongkham, VN Vo, TG Nguyen, C So-In",
+            "year": "2020"
+        },
+        {
+            "title": "An Intrusion Detection and Identification System for Internet of Things Networks Using a Hybrid Ensemble Deep Learning Framework",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:MXK_kJrjxJIC",
+            "authors": "Y Kongsorot, P Musikawan, P Aimtongkham, I You, A Benslimane, ...",
+            "year": "2023"
+        },
+        {
+            "title": "A novel transceiver and an asynchronous mode for the hybrid multiple-access HetNet architecture",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:KlAtU1dfN6UC",
+            "authors": "J Ghosh, C Vargas-Rosales, LL Mendes, IH Ra, P Aimtongkham, C So-In",
+            "year": "2023"
+        },
+        {
+            "title": "Brain Cancer Cell Detection Optimization Schemes Using Image Processing and Soft Computing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:u-x6o8ySG0sC",
+            "authors": "C Thammasakorn, C So-In, W Punjaruk, U Kokaew, B Waikham, ...",
+            "year": "2016"
+        }
+    ]
+},{
+    "name": "Wanchaloem Nadda",
+    "affiliation": "Data science, Natural language processing",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Influenza, dengue and common cold detection using LSTM with fully connected neural network and keywords selection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:d1gkVwhDpl0C",
+            "authors": "W Nadda, W Boonchieng, E Boonchieng",
+            "year": "2022"
+        },
+        {
+            "title": "Dengue fever detection using Long short-term memory neural network",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:u-x6o8ySG0sC",
+            "authors": "W Nadda, W Boonchieng, E Boonchieng",
+            "year": "2020"
+        },
+        {
+            "title": "Weighted extreme learning machine for dengue detection with class-imbalance classification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:u5HHmVD_uO8C",
+            "authors": "W Nadda, W Boonchieng, E Boonchieng",
+            "year": "2019"
+        },
+        {
+            "title": "Enhancing Disease Symptom Analysis in Thai Text: Methods for Text Oversampling in Imbalanced Data for Disease Detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:qjMakFHDy7sC",
+            "authors": "E Boonchieng, W Nadda, W Liawrungrueang, W Boonchieng",
+            "year": "2024"
+        },
+        {
+            "title": "Overcoming Imbalanced Data Challenges in Spinal Disorder Detection: An Integrated YOLOv5 and CNNs Approach with SMOTE",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:2osOgNQ5qMEC",
+            "authors": "W Nadda, W Boonchieng, MDW Liawrungrueang",
+            "year": "2023"
+        },
+        {
+            "title": "Information Retrieval with Natural Language Processing for Disease Detection using Wikipedia Database",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:9yKSN-GCB0IC",
+            "authors": "W Nadda, W Boonchieng, E Boonchieng",
+            "year": "2019"
+        }
+    ]
+},{
+    "name": "Wasana Putklang",
+    "affiliation": "Lecturer at Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "An approach for estimating area of rubber plantation: Integrating satellite and physical data over the Northeast Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:u5HHmVD_uO8C",
+            "authors": "C Mongkolsawat, W Putklang",
+            "year": "2010"
+        },
+        {
+            "title": "Rubber tree expansion in forest reserve and paddy field across the greater Mekong sub-region, northeast Thailand based on remotely sensed imagery",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:qjMakFHDy7sC",
+            "authors": "C Mongkolsawat, W Putklang",
+            "year": "2012"
+        },
+        {
+            "title": "Assessing Thaichote satellite data in support of mapping rubber tree plantation in Northeast Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:d1gkVwhDpl0C",
+            "authors": "W Putklang, S Maneechot, C Mongkolsawat",
+            "year": "2012"
+        },
+        {
+            "title": "Forest change detection using multi-temporal remotely sensed data in Phu Luang wildlife sanctuary, northeast Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:2osOgNQ5qMEC",
+            "authors": "C Mongkolsawat, W Putklang, R Suwanweerakamtorn, ...",
+            "year": "2005"
+        },
+        {
+            "title": "An application of THEOS data to rubber plantation areas in Mukdahan province, Northeast Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:UeHWp8X0CEIC",
+            "authors": "R Suwanwerakamtorn, W Putklang, P Khamdaeng, P Wannaros",
+            "year": "2012"
+        },
+        {
+            "title": "The Impact of Expanding Rubber Tree Plantation on Soil Erosion in the Mekong-Sub Basin",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:9yKSN-GCB0IC",
+            "authors": "W Puktlang, C Mongkolsawat, R Suwanwerakamtorn",
+            "year": "2013"
+        },
+        {
+            "title": "Identifying Peatland Fire Detection and Spatiotemporal Distribution: Implications for Land Use and land Cover Changes in Riau Province, Indonesia",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:W7OEmFMy1HYC",
+            "authors": "D Sekarjati, W Putklang, N Wattanakij",
+            "year": "2024"
+        },
+        {
+            "title": "Rapid Monitoring for Flood Inundation Detection-Based Sentinel-1 SAR Image Data and Exposure Assessment in Urban Building Area: Makassar City, Indonesia",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:Y0pCki6q_DkC",
+            "authors": "D Sekarjati, M Hanif, SA Komala, EA Giofandi, FS Putri, BAR Bunga, ...",
+            "year": "2023"
+        },
+        {
+            "title": "Spatial Assessment Impact of Tsunami Hazard on the Transportation Infrastructure in Phuket South of Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:zYLM7Y9cAGgC",
+            "authors": "M Rukhajee, S., Sakolnagara, T.B.N., Srisuwan, J., Putklang, W., Hanif",
+            "year": "2023"
+        },
+        {
+            "title": "Spatial Assessment Impact of Tsunami Hazard on the Transportation Infrastructure in Phuket South of Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "S Rukhajee, TBN Sakolnagara, J Srisuwan, W Putklang, M Hanif",
+            "year": "2022"
+        },
+        {
+            "title": "Object-based image analysis applied for different stages of rubber plantations mapping using THAICHOTE satellite data",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:IjCSPb-OGe4C",
+            "authors": "W Putklang, C Mongkolsawat, R Suwanweerakamtorn",
+            "year": "2019"
+        },
+        {
+            "title": "SOME IMPLICATIONS ON AGRICULTURAL LAND USE AFFECTED BY LAND QUALITIES IN SAKON NAKHON BASIN, NORTHEAST THAILAND.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=vnTKGAcAAAAJ&citation_for_view=vnTKGAcAAAAJ:u-x6o8ySG0sC",
+            "authors": "C Mongkolsawat, W Putklang, U Chanket",
+            "year": "2011"
+        }
+    ]
+},{
+    "name": "Pakarat Musikawan",
+    "affiliation": "Department of Computer Science, College of Computing, Khon Kaen University, Khon Kaen, 40002",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "An enhanced deep learning neural network for the detection and identification of android malware",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:kNdYIx-mwKoC",
+            "authors": "P Musikawan, Y Kongsorot, I You, C So-In",
+            "year": "2022"
+        },
+        {
+            "title": "Kernel extreme learning machine based on fuzzy set theory for multi-label classification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "Y Kongsorot, P Horata, P Musikawan, K Sunat",
+            "year": "2019"
+        },
+        {
+            "title": "An enhanced obstacle-aware deployment scheme with an opposition-based competitive swarm optimizer for mobile WSNs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:Se3iqnhoufwC",
+            "authors": "P Musikawan, Y Kongsorot, P Muneesawang, C So-In",
+            "year": "2022"
+        },
+        {
+            "title": "Parallelized metaheuristic-ensemble of heterogeneous feedforward neural networks for regression problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:WF5omc3nYNoC",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot, P Horata, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "An incremental kernel extreme learning machine for multi-label learning with emerging new labels",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:_FxGoFyzp5QC",
+            "authors": "Y Kongsorot, P Horata, P Musikawan",
+            "year": "2020"
+        },
+        {
+            "title": "Improved differential evolution via cuckoo search operator",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:MXK_kJrjxJIC",
+            "authors": "P Musigawan, S Chiewchanwattana, K Sunat",
+            "year": "2012"
+        },
+        {
+            "title": "Harmonic extreme learning machine for data clustering",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:UeHWp8X0CEIC",
+            "authors": "S Boriratrit, S Chiewchanwattana, K Sunat, P Musikawan, P Horata",
+            "year": "2016"
+        },
+        {
+            "title": "An enhanced fuzzy-based clustering protocol with an improved shuffled frog leaping algorithm for WSNs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:5nxA0vEk-isC",
+            "authors": "Y Kongsorot, P Musikawan, P Muneesawang, C So-In",
+            "year": "2022"
+        },
+        {
+            "title": "A two-phase ensemble-based method for predicting learners’ grade in MOOCs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:KlAtU1dfN6UC",
+            "authors": "W Wunnasri, P Musikawan, C So-In",
+            "year": "2023"
+        },
+        {
+            "title": "Evolutionary circular extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:8k81kl-MbHgC",
+            "authors": "S Atsawaraungsuk, P Horata, K Sunat, S Chiewchanwattana, ...",
+            "year": "2013"
+        },
+        {
+            "title": "Improvement flower pollination extreme learning machine based on meta-learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:2osOgNQ5qMEC",
+            "authors": "S Boriratrit, S Chiewchanwattana, K Sunat, P Musikawan, P Horata",
+            "year": "2016"
+        },
+        {
+            "title": "An Intrusion Detection and Identification System for Internet of Things Networks Using a Hybrid Ensemble Deep Learning Framework",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:Zph67rFs4hoC",
+            "authors": "Y Kongsorot, P Musikawan, P Aimtongkham, I You, A Benslimane, ...",
+            "year": "2023"
+        },
+        {
+            "title": "Improved convex incremental extreme learning machine based on ridgelet and PSO algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:qjMakFHDy7sC",
+            "authors": "P Musikawan, K Sunat, S Chiewchanwattana, P Horata, Y Kongsorot",
+            "year": "2016"
+        },
+        {
+            "title": "Evolutionary extreme learning machine based on optimized step-size random search firefly algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:3fE2CSJIrl8C",
+            "authors": "P Musigawan, S Chiewchanwattana, K Sunat",
+            "year": "2012"
+        },
+        {
+            "title": "Wind power forecasting using a heterogeneous ensemble of decomposition-based nnrw techniques",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:LkGwnXOMwfcC",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot",
+            "year": "2020"
+        },
+        {
+            "title": "A fast convolutional denoising autoencoder based extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:YsMSGLbcyi4C",
+            "authors": "J Sawaengchob, P Horata, P Musikawan, Y Kongsorot",
+            "year": "2017"
+        },
+        {
+            "title": "Multidirectional Trust-Based Security Mechanisms for Sinkhole Attack Detection in the RPL Routing Protocol for Internet of Things",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:ULOm3_A8WrAC",
+            "authors": "S Khoeurt, C So-In, P Musikawan, P Aimtongkham",
+            "year": ""
+        },
+        {
+            "title": "Enhanced Multigrained Scanning-Based Deep Stacking Network for Intrusion Detection in IoMT Networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:_kc_bZDykSQC",
+            "authors": "P Musikawan, Y Kongsorot, P Aimtongkham, C So-In",
+            "year": "2024"
+        },
+        {
+            "title": "A Novel Congestion Control Scheme Using Fuzzy Logic Systems to Enhance the Path Selection Criteria in Routing Protocols for Low-Power and Lossy Networks on the Internet of Things",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:YOwf2qJgpHMC",
+            "authors": "P Aimtongkham, P Musikawan, Y Kongsorot, C So-In",
+            "year": "2024"
+        },
+        {
+            "title": "Tomato Maturity Classification: A Transfer Learning Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:UebtZRa9Y70C",
+            "authors": "C Sakunrasrisuay, P Musikawan, AN Nguyen, Y Kongsorot, ...",
+            "year": "2021"
+        }
+    ]
+},{
+    "name": "Yanika Kongsorot",
+    "affiliation": "College of Computing",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "An enhanced deep learning neural network for the detection and identification of android malware",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:eQOLeE2rZwMC",
+            "authors": "P Musikawan, Y Kongsorot, I You, C So-In",
+            "year": "2022"
+        },
+        {
+            "title": "Kernel extreme learning machine based on fuzzy set theory for multi-label classification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:IjCSPb-OGe4C",
+            "authors": "Y Kongsorot, P Horata, P Musikawan, K Sunat",
+            "year": "2019"
+        },
+        {
+            "title": "Multi-label classification with extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:d1gkVwhDpl0C",
+            "authors": "Y Kongsorot, P Horata",
+            "year": "2014"
+        },
+        {
+            "title": "An enhanced obstacle-aware deployment scheme with an opposition-based competitive swarm optimizer for mobile WSNs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:Y0pCki6q_DkC",
+            "authors": "P Musikawan, Y Kongsorot, P Muneesawang, C So-In",
+            "year": "2022"
+        },
+        {
+            "title": "Parallelized metaheuristic-ensemble of heterogeneous feedforward neural networks for regression problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:u5HHmVD_uO8C",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot, P Horata, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "An incremental kernel extreme learning machine for multi-label learning with emerging new labels",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:zYLM7Y9cAGgC",
+            "authors": "Y Kongsorot, P Horata, P Musikawan",
+            "year": "2020"
+        },
+        {
+            "title": "An enhanced fuzzy-based clustering protocol with an improved shuffled frog leaping algorithm for WSNs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:YsMSGLbcyi4C",
+            "authors": "Y Kongsorot, P Musikawan, P Muneesawang, C So-In",
+            "year": "2022"
+        },
+        {
+            "title": "An Intrusion Detection and Identification System for Internet of Things Networks Using a Hybrid Ensemble Deep Learning Framework",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:WF5omc3nYNoC",
+            "authors": "Y Kongsorot, P Musikawan, P Aimtongkham, I You, A Benslimane, ...",
+            "year": "2023"
+        },
+        {
+            "title": "Improved convex incremental extreme learning machine based on ridgelet and PSO algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:9yKSN-GCB0IC",
+            "authors": "P Musikawan, K Sunat, S Chiewchanwattana, P Horata, Y Kongsorot",
+            "year": "2016"
+        },
+        {
+            "title": "Applying regularization least squares canonical correlation analysis in extreme learning machine for multi-label classification problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:UeHWp8X0CEIC",
+            "authors": "Y Kongsorot, P Horata, K Sunat",
+            "year": "2015"
+        },
+        {
+            "title": "Wind power forecasting using a heterogeneous ensemble of decomposition-based nnrw techniques",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot",
+            "year": "2020"
+        },
+        {
+            "title": "A fast convolutional denoising autoencoder based extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:2osOgNQ5qMEC",
+            "authors": "J Sawaengchob, P Horata, P Musikawan, Y Kongsorot",
+            "year": "2017"
+        },
+        {
+            "title": "FLSec-RPL: a fuzzy logic-based intrusion detection scheme for securing RPL-based IoT networks against DIO neighbor suppression attacks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:_FxGoFyzp5QC",
+            "authors": "C Kim, C So-In, Y Kongsorot, P Aimtongkham",
+            "year": "2024"
+        },
+        {
+            "title": "Enhanced Multigrained Scanning-Based Deep Stacking Network for Intrusion Detection in IoMT Networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:LkGwnXOMwfcC",
+            "authors": "P Musikawan, Y Kongsorot, P Aimtongkham, C So-In",
+            "year": "2024"
+        },
+        {
+            "title": "A Novel Congestion Control Scheme Using Fuzzy Logic Systems to Enhance the Path Selection Criteria in Routing Protocols for Low-Power and Lossy Networks on the Internet of Things",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:ufrVoPGSRksC",
+            "authors": "P Aimtongkham, P Musikawan, Y Kongsorot, C So-In",
+            "year": "2024"
+        },
+        {
+            "title": "Tomato Maturity Classification: A Transfer Learning Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=zdBo3cwAAAAJ&citation_for_view=zdBo3cwAAAAJ:W7OEmFMy1HYC",
+            "authors": "C Sakunrasrisuay, P Musikawan, AN Nguyen, Y Kongsorot, ...",
+            "year": "2021"
+        }
+    ]
+},{
+    "name": "Thanaphon Tangchoopong",
+    "affiliation": "College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "An empirical study of the performance of active self-assembly",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=xF4E8-gAAAAJ&citation_for_view=xF4E8-gAAAAJ:u5HHmVD_uO8C",
+            "authors": "T Tangchoopong, AAG Requicha",
+            "year": "2009"
+        },
+        {
+            "title": "Thai Silk Patterns Classification with Deep Neural Network",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=xF4E8-gAAAAJ&citation_for_view=xF4E8-gAAAAJ:d1gkVwhDpl0C",
+            "authors": "T Ingo, N., Phatichaikiart, B., Tongleamnak, S., & Tangchoopong",
+            "year": "2023"
+        },
+        {
+            "title": "Thai Food Recognition and Nutritious Calculation on Line Chatbot With Deep Learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=xF4E8-gAAAAJ&citation_for_view=xF4E8-gAAAAJ:u-x6o8ySG0sC",
+            "authors": "T Tangchoopong, S Shakulkhu, J Phuyawong",
+            "year": "2022"
+        }
+    ]
+}
