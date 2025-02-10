@@ -21,7 +21,7 @@ class FetchScopusData extends Command
      *
      * @var string
      */
-    protected $description = 'Fetch Scopus search data, enrich with abstract details, and save to a JSON file with the desired format';
+    protected $description = 'Fetch Scopus search data, enrich with abstract details (including author ordering), and save to a JSON file with the desired format';
 
     /**
      * Create a new command instance.
@@ -76,6 +76,7 @@ class FetchScopusData extends Command
                 $paper_name   = $paper['dc:title'] ?? null;
                 $abstract     = null;
                 $paper_funder = null;
+                $authors      = []; // เตรียม array สำหรับเก็บข้อมูลผู้แต่ง
 
                 // ดึงข้อมูลรายละเอียด (Abstract API)
                 $detailResponse = Http::withHeaders([
@@ -100,6 +101,28 @@ class FetchScopusData extends Command
                     if (isset($paperDetails['xocs:meta']['xocs:funding-list']['xocs:funding-text'])) {
                         $paper_funder = $paperDetails['xocs:meta']['xocs:funding-list']['xocs:funding-text'];
                     }
+
+                    // ดึงข้อมูลผู้แต่ง (author) และเรียงตามลำดับ (@seq)
+                    if (isset($paperDetails['bibrecord']['head']['author-group']['author'])) {
+                        $rawAuthors = $paperDetails['bibrecord']['head']['author-group']['author'];
+                        // ตรวจสอบว่ามีหลายคนหรือเป็นเพียงคนเดียว
+                        if (isset($rawAuthors[0])) {
+                            foreach ($rawAuthors as $author) {
+                                $order = isset($author['@seq']) ? (int)$author['@seq'] : 0;
+                                $name  = $author['preferred-name']['ce:indexed-name'] ?? null;
+                                $authors[] = ['order' => $order, 'name' => $name];
+                            }
+                            // เรียงผู้แต่งตาม order
+                            usort($authors, function ($a, $b) {
+                                return $a['order'] <=> $b['order'];
+                            });
+                        } else {
+                            // กรณีมีเพียงคนเดียว
+                            $order = isset($rawAuthors['@seq']) ? (int)$rawAuthors['@seq'] : 0;
+                            $name  = $rawAuthors['preferred-name']['ce:indexed-name'] ?? null;
+                            $authors[] = ['order' => $order, 'name' => $name];
+                        }
+                    }
                 } else {
                     Log::warning("Failed to fetch details for Scopus ID: {$numeric_scopus_id}. Using fallback data.");
                 }
@@ -113,13 +136,13 @@ class FetchScopusData extends Command
                     'id'                => $counter++, // จำลอง id ด้วย counter
                     'paper_name'        => $paper_name,
                     'abstract'          => $abstract,
-                    'paper_type'        => $paper['prism:aggregationType'] ?? 'Journal',        // จาก "prism:aggregationType"
-                    'paper_subtype'     => $paper['subtype'] ?? 'ar',                              // จาก "subtype"
-                    'paper_sourcetitle' => $paper['subtypeDescription'] ?? 'Article',              // จาก "subtypeDescription"
+                    'paper_type'        => $paper['prism:aggregationType'] ?? 'Journal',              // จาก "prism:aggregationType"
+                    'paper_subtype'     => $paper['subtype'] ?? 'ar',                                    // จาก "subtype"
+                    'paper_sourcetitle' => $paper['subtypeDescription'] ?? 'Article',                    // จาก "subtypeDescription"
                     // เก็บ keywords เป็น JSON string (ตามตัวอย่าง)
                     'keyword'           => isset($paper['author-keywords']) ? json_encode($paper['author-keywords'], JSON_UNESCAPED_UNICODE) : '',
                     'paper_url'         => $paper_url,
-                    'publication'       => $paper['prism:publicationName'] ?? null,                // จาก "prism:publicationName"
+                    'publication'       => $paper['prism:publicationName'] ?? null,                      // จาก "prism:publicationName"
                     'paper_yearpub'     => isset($paper['prism:coverDate']) ? substr($paper['prism:coverDate'], 0, 4) : null,
                     'paper_volume'      => $paper['prism:volume'] ?? null,
                     'paper_issue'       => $paper['prism:issueIdentifier'] ?? '-',
@@ -128,6 +151,7 @@ class FetchScopusData extends Command
                     'paper_doi'         => $paper['prism:doi'] ?? null,
                     'paper_funder'      => $paper_funder,
                     'reference_number'  => null, // ตามตัวอย่าง ให้เก็บเป็น NULL
+                    'author'            => $authors, // รายชื่อผู้แต่งที่เรียงตามลำดับ
                 ];
 
                 $jsonData[] = $data;
