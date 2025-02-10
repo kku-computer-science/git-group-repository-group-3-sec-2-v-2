@@ -35,6 +35,76 @@
         display: table;
         color: #4ad1e5;
     }
+    
+    /* ปรับแต่งหัวข้อ Publications */
+
+/* ปรับแต่งปุ่ม Publications */
+.title-pub {
+    background-color: #1075BB;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 18px;
+    text-align: center;
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+/* ปรับขนาดและระยะห่างของกล่องสถิติ */
+.stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px; /* ลดช่องว่างให้สมดุล */
+    flex-wrap: nowrap;
+}
+
+/* ปรับแต่งกล่องตัวเลข */
+.count {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 95px; /* ลดขนาดให้พอดี */
+    height: 60px;
+    border-radius: 20px;
+    background-color: #E8F5FE;
+    color: #1075BB;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* ปรับขนาดตัวเลข */
+.count h2 {
+    font-size: 20px;
+    margin: 0;
+    color: #1075BB;
+}
+
+/* ปรับขนาดคำบรรยาย */
+.count p {
+    font-size: 12px;
+    margin: 0;
+    text-transform: uppercase;
+    color: #1075BB;
+    font-weight: bold;
+}
+
+/* จัดกล่องเป็นแนวนอน + เพิ่มช่องว่าง */
+.row.text-center {
+    display: flex;
+    justify-content: center;
+    gap: 0px; /* ระยะห่างระหว่างกล่อง */
+    flex-wrap: nowrap; /* ไม่ให้ขึ้นบรรทัดใหม่ */
+}
+
+/* กราฟด้านล่าง */
+.chart {
+    padding: 10px;
+    background: white;
+}
+
 </style>
 
 @section('content')
@@ -45,8 +115,8 @@
             <div class="col-md-2">
                 <img class="card-image" src="{{$res->picture}}" alt="">
             </div>
-            <div class="col-md-6">
-                <div class="card-body">
+            <div class="col-md-6" style="width:30%">
+                <div class="card-body" style="width:auto">
                     <h6 class="card-text"><b>{{$res->position_th}} {{$res->fname_th}} {{$res->lname_th}}</b></h6>
                     @if($res->doctoral_degree == 'Ph.D.')
                     <h6 class="card-text"><b>{{$res->fname_en}} {{$res->lname_en}}, {{$res->doctoral_degree}} </b>
@@ -60,7 +130,7 @@
                         <h6 class="card-text1">E-mail: {{$res->email}}</h6>
                         <h6 class="card-title">{{ trans('message.education') }}</h6>
                         @foreach( $res->education as $edu)
-                        <h6 class="card-text2 col-sm-10"> {{$edu->year}} {{$edu->qua_name}} {{$edu->uname}}</h6>
+                        <h6 class="card-text2 col-sm-10" style="line-height: 1.6;"> {{$edu->year}} {{$edu->qua_name}} <br> {{$edu->uname}}</h6>
                         @endforeach
                         <!-- <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
@@ -79,7 +149,7 @@
                 <h6 class="title-pub">{{ trans('message.publications2') }}</h6>
                 <div class="col-xs-12 text-center bt">
                     <div class="clearfix"></div>
-                    <div class="row text-center">
+                    <div class="row text-center gx-1">
                         <div class="col">
                             <div class="count" id='all'>
                             </div>
@@ -96,9 +166,7 @@
                             <div class="count" id='tci_sum'>
                             </div>
                         </div>
-
                     </div>
-                    <br>
                     <div class="chart">
                         <canvas id="barChart"></canvas>
                     </div>

@@ -428,7 +428,7 @@
                 <div class="accordion-body p-4">
                     <div class="container">
                         <div class="row">
-                            @foreach($program->users as $user)
+                            @foreach($program->users->where('is_research', 1) as $user)
                             <div class="col-md-6 mb-4"> <!-- 2 คอลัมน์ต่อแถว -->
                                 <a href="{{ route('detail', Crypt::encrypt($user->id)) }}" class="text-decoration-none">
                                     <div class="researcher-card p-3 shadow-sm rounded-3 d-flex flex-column h-100">
