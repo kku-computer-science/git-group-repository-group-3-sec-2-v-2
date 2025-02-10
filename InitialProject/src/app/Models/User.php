@@ -35,9 +35,12 @@ class User extends Authenticatable
         'picture',
         'status',
         'program_id',
-        'username'
+        'username',
+        'is_research'
         
     ];
+
+    
 
     /**
      * The attributes that should be hidden for arrays.
@@ -58,6 +61,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'is_research' => 'boolean', // Cast ให้เป็น boolean
     ];
 
 
