@@ -105,11 +105,84 @@
     background: white;
 }
 
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+
+.nav-item .nav-link {
+    display: block;
+    padding: 0.5rem 1rem;
+    color: #1075BB;;
+}
+
+.custom-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    padding: 15px;
+    background-color: #ffffff;
+}
+
+.custom-tab-btn {
+    background-color: #E8F5FE;
+    color: #1075BB;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    text-align: center;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.custom-tab-btn:hover {
+    background-color: #d0ebfd;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    color: #0c5f92;
+}
+
+.custom-tab-btn.active {
+    background-color: #1075BB;
+    color: white;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.btn-export {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1075BB;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-decoration: none;
+}
+
+.icon-export {
+    width: 32px;
+    height: 32px;
+    filter: brightness(0) invert(1);  /* เปลี่ยนเป็นสีขาว */
+}
+
+.btn-export:hover {
+    background-color: #0c5f92;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+
 </style>
 
 @section('content')
 
-<div class="container cardprofile mt-5">
+<div class="container cardprofile">
     <div class="card">
         <div class="row g-0">
             <div class="col-md-2">
@@ -197,32 +270,42 @@
     </div> -->
     <br>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Summary</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="scopus-tab" data-bs-toggle="tab" data-bs-target="#scopus" type="button" role="tab" aria-controls="scopus" aria-selected="false">SCOPUS</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="wos-tab" data-bs-toggle="tab" data-bs-target="#wos" type="button" role="tab" aria-controls="wos" aria-selected="false">Web of Science</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="tci-tab" data-bs-toggle="tab" data-bs-target="#tci" type="button" role="tab" aria-controls="tci" aria-selected="false">TCI</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="book-tab" data-bs-toggle="tab" data-bs-target="#book" type="button" role="tab" aria-controls="book" aria-selected="false">หนังสือ</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="patent-tab" data-bs-toggle="tab" data-bs-target="#patent" type="button" role="tab" aria-controls="patent" aria-selected="false">ผลงานวิชาการด้านอื่นๆ</button>
-        </li>
-    </ul>
+    <div class="nav-container">
+        <ul class="nav custom-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active custom-tab-btn" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Summary</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab-btn" id="scopus-tab" data-bs-toggle="tab" data-bs-target="#scopus" type="button" role="tab" aria-controls="scopus" aria-selected="false">SCOPUS</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab-btn" id="wos-tab" data-bs-toggle="tab" data-bs-target="#wos" type="button" role="tab" aria-controls="wos" aria-selected="false">WEB OF SCIENCE</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab-btn" id="tci-tab" data-bs-toggle="tab" data-bs-target="#tci" type="button" role="tab" aria-controls="tci" aria-selected="false">TCI</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab-btn" id="book-tab" data-bs-toggle="tab" data-bs-target="#book" type="button" role="tab" aria-controls="book" aria-selected="false">หนังสือ</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab-btn" id="patent-tab" data-bs-toggle="tab" data-bs-target="#patent" type="button" role="tab" aria-controls="patent" aria-selected="false">ผลงานวิชาการด้านอื่นๆ</button>
+            </li>
+        </ul>
+        <a class="btn-export" href="{{ route('excel', ['id' => $res->id]) }}" target="_blank" aria-label="Export to Excel">
+            <img src="https://cdn-icons-png.flaticon.com/512/3405/3405255.png" alt="Export Icon" class="icon-export" />
+        </a>
+    </div>
+
+
+
     <br>
     <div class="tab-content" id="myTabContent">
 
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="tab-content" style="padding-bottom: 20px;">
-                <a class="btn btn-success" href="{{ route('excel', ['id' => $res->id]) }}" target="_blank">Export To Excel</a>
+            
+
+
             </div>
             <table id="example1" class="table table-striped" style="width:100%">
                 <thead>
