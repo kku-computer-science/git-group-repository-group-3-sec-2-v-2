@@ -1,34 +1,62 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Console\Commands;
 
+use Illuminate\Console\Command;
 use App\Models\Author;
 use App\Models\User;
 use App\Models\Paper;
 use App\Models\Source_data;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 
-class ScopuscallController extends Controller
+class FetchScopusData extends Command
 {
     /**
-     * ดึงข้อมูลจาก Scopus API แล้วบันทึกข้อมูล Paper พร้อมแนบความสัมพันธ์กับ User (ในตาราง pivot user_papers)
+     * The name and signature of the console command.
      *
-     * @param  string  $id  รหัสเข้ารหัสของ User
-     * @return \Illuminate\Http\RedirectResponse
+     * @var string
      */
-    public function create($id)
+    protected $signature = 'scopus:fetch';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Fetch Scopus API data for all users and save papers with relationships';
+
+    /**
+     * Execute the console command.
+     *
+     * @return int
+     */
+    public function handle()
     {
-        // ถอดรหัสและดึงข้อมูลผู้ใช้
-        $userId = Crypt::decrypt($id);
-        $user = User::find($userId);
-        if (!$user) {
-            return redirect()->back()->with('error', 'User not found.');
+        $users = User::all();
+
+        if ($users->isEmpty()) {
+            $this->info('ไม่พบผู้ใช้งานในระบบ');
+            return 0;
         }
 
+        foreach ($users as $user) {
+            $this->info("กำลังประมวลผลข้อมูลสำหรับผู้ใช้: {$user->id} - {$user->fname_en} {$user->lname_en}");
+            $this->processUserScopusData($user);
+        }
+
+        $this->info('ประมวลผลข้อมูล Scopus สำหรับผู้ใช้ทุกคนเรียบร้อยแล้ว');
+        return 0;
+    }
+
+    /**
+     * ดึงและประมวลผลข้อมูล Scopus สำหรับผู้ใช้แต่ละคน
+     *
+     * @param \App\Models\User $user
+     * @return void
+     */
+    protected function processUserScopusData(User $user)
+    {
         // สร้าง search query โดยใช้ตัวอักษรตัวแรกของ fname_en กับ lname_en
         $firstLetter = substr($user->fname_en, 0, 1);
         $lname = $user->lname_en;
@@ -43,27 +71,29 @@ class ScopuscallController extends Controller
         ]);
 
         if (!$searchResponse->successful()) {
-            return redirect()->back()->with('error', 'Failed to fetch Scopus search data.');
+            $this->error("ไม่สามารถดึงข้อมูล Scopus สำหรับผู้ใช้: {$user->id}");
+            return;
         }
 
         $entries = $searchResponse->json('search-results.entry');
         if (!$entries || !is_array($entries)) {
-            return redirect()->back()->with('error', 'No papers found.');
+            $this->info("ไม่พบ paper สำหรับผู้ใช้: {$user->id}");
+            return;
         }
 
         // ประมวลผลแต่ละ entry
         foreach ($entries as $item) {
-            // หาก paper นี้มีอยู่แล้วในฐานข้อมูล (ตรวจสอบจาก paper_name ที่ได้จาก dc:title)
+            // ตรวจสอบว่ามี paper นี้อยู่แล้วในฐานข้อมูล (ตรวจจาก paper_name)
             if (Paper::where('paper_name', $item['dc:title'])->exists()) {
                 $existingPaper = Paper::where('paper_name', $item['dc:title'])->first();
-                // แนบความสัมพันธ์กับ User ผ่านความสัมพันธ์ teacher() หากยังไม่แนบ
+                // แนบความสัมพันธ์กับ User หากยังไม่แนบ
                 if (!$existingPaper->teacher()->where('user_id', $user->id)->exists()) {
                     $existingPaper->teacher()->attach($user->id);
                 }
                 continue;
             }
 
-            // ดึง Scopus ID จากผลการค้นหา (ตัวอย่าง "SCOPUS_ID:85211026637")
+            // ดึง Scopus ID จากผลการค้นหา (เช่น "SCOPUS_ID:85211026637")
             $rawScopusId = $item['dc:identifier'] ?? '';
             $scopusId = str_replace('SCOPUS_ID:', '', $rawScopusId);
             // สร้าง URL สำหรับดึงรายละเอียดเพิ่มเติม (Abstract API)
@@ -80,19 +110,32 @@ class ScopuscallController extends Controller
             $abstract = null;
             $paper_funder = null;
             $detailData = [];
+
             if ($detailResponse->successful()) {
                 $detailData = $detailResponse->json('abstracts-retrieval-response.item');
-                // ถ้ามี citation-title ในรายละเอียด ให้ใช้แทน paper_name
+
+                // หากมี citation-title ในรายละเอียด ให้ใช้แทน paper_name
                 if (isset($detailData['bibrecord']['head']['citation-title'])) {
-                    $paper_name = $detailData['bibrecord']['head']['citation-title'];
+                    $titleValue = $detailData['bibrecord']['head']['citation-title'];
+                    $paper_name = is_array($titleValue)
+                        ? json_encode($titleValue, JSON_UNESCAPED_UNICODE)
+                        : $titleValue;
                 }
-                // ดึง abstract
+
+                // ดึง abstract (ตรวจสอบหากเป็น array ให้แปลงเป็น JSON)
                 if (isset($detailData['bibrecord']['head']['abstracts'])) {
-                    $abstract = $detailData['bibrecord']['head']['abstracts'];
+                    $abstractValue = $detailData['bibrecord']['head']['abstracts'];
+                    $abstract = is_array($abstractValue)
+                        ? json_encode($abstractValue, JSON_UNESCAPED_UNICODE)
+                        : $abstractValue;
                 }
+
                 // ดึงข้อมูล paper_funder (จาก xocs:funding-text)
                 if (isset($detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'])) {
-                    $paper_funder = $detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'];
+                    $fundingValue = $detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'];
+                    $paper_funder = is_array($fundingValue)
+                        ? json_encode($fundingValue, JSON_UNESCAPED_UNICODE)
+                        : $fundingValue;
                 }
             }
 
@@ -109,7 +152,9 @@ class ScopuscallController extends Controller
             $paper->paper_type        = $item['prism:aggregationType'] ?? 'Journal';
             $paper->paper_subtype     = $item['subtype'] ?? 'ar';
             $paper->paper_sourcetitle = $item['subtypeDescription'] ?? 'Article';
-            $paper->keyword           = isset($item['author-keywords']) ? json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE) : null;
+            $paper->keyword           = isset($item['author-keywords'])
+                ? json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE)
+                : null;
             $paper->paper_url         = $paper_url;
             $paper->publication       = $item['prism:publicationName'] ?? null;
             $paper->paper_yearpub     = $paper_yearpub;
@@ -131,6 +176,7 @@ class ScopuscallController extends Controller
             // --- แนบข้อมูลผู้แต่ง ---
             $authorsData = $detailData['bibrecord']['head']['author-group']['author']
                 ?? $detailResponse->json('abstracts-retrieval-response.authors.author');
+
             if ($authorsData && !is_array($authorsData)) {
                 $authorsData = [$authorsData];
             }
@@ -138,8 +184,10 @@ class ScopuscallController extends Controller
                 $totalAuthors = count($authorsData);
                 $x = 1;
                 foreach ($authorsData as $authorItem) {
-                    $givenName = $authorItem['ce:given-name'] ?? ($authorItem['preferred-name']['ce:given-name'] ?? '');
-                    $surname = $authorItem['ce:surname'] ?? ($authorItem['preferred-name']['ce:surname'] ?? '');
+                    $givenName = $authorItem['ce:given-name']
+                        ?? ($authorItem['preferred-name']['ce:given-name'] ?? '');
+                    $surname = $authorItem['ce:surname']
+                        ?? ($authorItem['preferred-name']['ce:surname'] ?? '');
                     $trimmedName = trim($givenName . ' ' . $surname);
 
                     if ($x === 1) {
@@ -177,47 +225,11 @@ class ScopuscallController extends Controller
                     $x++;
                 }
             }
+
+            // แนบความสัมพันธ์กับผู้ใช้ที่ทำการค้นหา (ถ้ายังไม่แนบ)
+            if (!$paper->teacher()->where('user_id', $user->id)->exists()) {
+                $paper->teacher()->attach($user->id);
+            }
         }
-
-        return redirect()->back()->with('success', 'Scopus data processed and saved.');
-    }
-
-    /**
-     * ตัวอย่างการแสดงสถิติ paper ตามปี (5 ปีล่าสุด)
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $year = range(Carbon::now()->year - 5, Carbon::now()->year);
-        $paperCount = [];
-        foreach ($year as $value) {
-            $paperCount[] = Paper::where(DB::raw('YEAR(paper_yearpub)'), $value)->count();
-        }
-        return view('test')
-            ->with('year', json_encode($year, JSON_NUMERIC_CHECK))
-            ->with('paper', json_encode($paperCount, JSON_NUMERIC_CHECK));
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show($id) {}
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
     }
 }
