@@ -9,6 +9,7 @@ use App\Models\Paper;
 use App\Models\Source_data;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class FetchScopusData extends Command
 {
@@ -33,9 +34,9 @@ class FetchScopusData extends Command
      */
     public function handle()
     {
-        $users = User::all();
-
+        $users = User::whereNotNull('academic_ranks_en')->get();
         if ($users->isEmpty()) {
+            Log::error("No users with academic ranks found");
             $this->info('ไม่พบผู้ใช้งานในระบบ');
             return 0;
         }
@@ -83,9 +84,12 @@ class FetchScopusData extends Command
 
         // ประมวลผลแต่ละ entry
         foreach ($entries as $item) {
-            // ตรวจสอบว่ามี paper นี้อยู่แล้วในฐานข้อมูล (ตรวจจาก paper_name)
-            if (Paper::where('paper_name', $item['dc:title'])->exists()) {
-                $existingPaper = Paper::where('paper_name', $item['dc:title'])->first();
+            // ตรวจสอบและใช้ชื่อ paper อย่างปลอดภัย
+            $paper_name = $item['dc:title'] ?? $item['title'] ?? 'Untitled Paper';
+
+            // ตรวจสอบว่ามี paper นี้อยู่แล้วในฐานข้อมูล
+            if (Paper::where('paper_name', $paper_name)->exists()) {
+                $existingPaper = Paper::where('paper_name', $paper_name)->first();
                 // แนบความสัมพันธ์กับ User หากยังไม่แนบ
                 if (!$existingPaper->teacher()->where('user_id', $user->id)->exists()) {
                     $existingPaper->teacher()->attach($user->id);
@@ -96,6 +100,7 @@ class FetchScopusData extends Command
             // ดึง Scopus ID จากผลการค้นหา (เช่น "SCOPUS_ID:85211026637")
             $rawScopusId = $item['dc:identifier'] ?? '';
             $scopusId = str_replace('SCOPUS_ID:', '', $rawScopusId);
+            
             // สร้าง URL สำหรับดึงรายละเอียดเพิ่มเติม (Abstract API)
             $detailUrl = "https://api.elsevier.com/content/abstract/scopus_id/{$scopusId}";
 
@@ -106,7 +111,6 @@ class FetchScopusData extends Command
             ])->get($detailUrl);
 
             // กำหนดค่าพื้นฐานจากผลการค้นหา
-            $paper_name = $item['dc:title'] ?? null;
             $abstract = null;
             $paper_funder = null;
             $detailData = [];
@@ -141,6 +145,7 @@ class FetchScopusData extends Command
 
             // กำหนด paper_url: ใช้ link[0]['@href'] จากผลการค้นหาหรือใช้ detailUrl เป็น fallback
             $paper_url = $item['link'][0]['@href'] ?? $detailUrl;
+            
             // ดึงปีจาก prism:coverDate (เอา 4 ตัวแรก)
             $coverDate = $item['prism:coverDate'] ?? null;
             $paper_yearpub = $coverDate ? substr($coverDate, 0, 4) : null;
@@ -152,9 +157,7 @@ class FetchScopusData extends Command
             $paper->paper_type        = $item['prism:aggregationType'] ?? 'Journal';
             $paper->paper_subtype     = $item['subtype'] ?? 'ar';
             $paper->paper_sourcetitle = $item['subtypeDescription'] ?? 'Article';
-            $paper->keyword           = isset($item['author-keywords'])
-                ? json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE)
-                : null;
+            $paper->keyword           = $item['author-keywords'] ?? null;
             $paper->paper_url         = $paper_url;
             $paper->publication       = $item['prism:publicationName'] ?? null;
             $paper->paper_yearpub     = $paper_yearpub;
