@@ -6,6 +6,12 @@
             <h4 class="card-title">รายละเอียดกลุ่มวิจัย</h4>
             <p class="card-description">ข้อมูลรายละเอียดกลุ่มวิจัย</p>
             <div class="row mt-2">
+                <p class="card-text col-sm-3"><b>URL</b></p>
+                <p class="card-text col-sm-9">
+                    <a href="{{ $researchGroup->group_url }}" target="_blank">{{ $researchGroup->group_url }}</a>
+                </p>
+            </div>
+            <div class="row mt-2">
                 <p class="card-text col-sm-3"><b>ชื่อกลุ่มวิจัย (ภาษาไทย)</b></p>
                 <p class="card-text col-sm-9">{{ $researchGroup->group_name_th }}</p>
             </div>
@@ -36,7 +42,8 @@
                     @if ( $user->pivot->role == 1)
                     {{$user->position_th}}{{ $user->fname_th}} {{ $user->lname_th}}
                     @endif
-                    @endforeach</p>
+                    @endforeach
+                </p>
             </div>
             <div class="row mt-1">
                 <p class="card-text col-sm-3"><b>สมาชิกกลุ่มวิจัย</b></p>
@@ -45,32 +52,63 @@
                     @if ( $user->pivot->role == 2)
                     {{$user->position_th}}{{ $user->fname_th}} {{ $user->lname_th}},
                     @endif
-                    @endforeach</p>
+                    @endforeach
+                </p>
+            </div>
+            <div class="row mt-1">
+                <p class="card-text col-sm-3"><b>Post_Doctoral</b></p>
+                <p class="card-text col-sm-9">
+                    @foreach($researchGroup->user as $user)
+                    @if ( $user->pivot->role == 3)
+                    {{$user->position_th}}{{ $user->fname_th}} {{ $user->lname_th}},
+                    @endif
+                    @endforeach
+                </p>
+            </div>
+            <div class="row mt-1">
+                <p class="card-text col-sm-3"><b>Visiting</b></p>
+                <p class="card-text col-sm-9">
+                    @foreach($researchGroup->user as $user)
+                    @if ( $user->pivot->role == 4)
+                    {{$user->position_th}}{{ $user->fname_th}} {{ $user->lname_th}},
+                    @endif
+                    @endforeach
+                </p>
+            </div>
+            <div class="row mt-1">
+                <p class="card-text col-sm-3"><b>Students</b></p>
+                <p class="card-text col-sm-9">
+                    @foreach($researchGroup->user as $user)
+                    @if ( $user->pivot->role == 5)
+                    {{$user->position_th}}{{ $user->fname_th}} {{ $user->lname_th}},
+                    @endif
+                    @endforeach
+                </p>
             </div>
             <a class="btn btn-primary mt-5" href="{{ route('researchGroups.index') }}"> Back</a>
         </div>
     </div>
-    
-@stop
-@section('javascript')
-<script>
-$(document).ready(function() {
 
-    /* When click New customer button */
-    $('#new-customer').click(function() {
-        $('#btn-save').val("create-customer");
-        $('#customer').trigger("reset");
-        $('#customerCrudModal').html("Add New Customer EiEi");
-        $('#crud-modal').modal('show');
-    });
-    /* When click New customer button */
-    $('#new-customer2').click(function() {
-        $('#btn-save').val("create-customer");
-        $('#customer').trigger("reset");
-        $('#customerCrudModal').html("Add New Customer EiEi");
-        $('#crud-modal').modal('show');
-    });
-});
-</script>
+    @stop
+    @section('javascript')
+    <script>
+        $(document).ready(function() {
 
-@stop
+            /* When click New customer button */
+            $('#new-customer').click(function() {
+                $('#btn-save').val("create-customer");
+                $('#customer').trigger("reset");
+                $('#customerCrudModal').html("Add New Customer EiEi");
+                $('#crud-modal').modal('show');
+            });
+            /* When click New customer button */
+            $('#new-customer2').click(function() {
+                $('#btn-save').val("create-customer");
+                $('#customer').trigger("reset");
+                $('#customerCrudModal').html("Add New Customer EiEi");
+                $('#crud-modal').modal('show');
+            });
+        });
+    </script>
+
+    @stop

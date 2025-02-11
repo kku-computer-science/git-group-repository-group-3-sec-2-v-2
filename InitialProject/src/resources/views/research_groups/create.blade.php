@@ -110,8 +110,9 @@
                     <div class="col-sm-8">
                         <table class="table" id="visitingAddRemove">
                             <tr>
-                                <th><button type="button" name="add" id="add-btn4" class="btn btn-success btn-sm add"><i
-                                            class="mdi mdi-plus"></i></button></th>
+                                <th>
+                                    <button type="button" id="add-btn4" class="btn btn-success btn-sm add"><i class="mdi mdi-plus"></i></button>
+                                </th>
                             </tr>
                         </table>
                     </div>
@@ -182,16 +183,24 @@ $("body").on("click",".upload",function(e){
             );
             $("#selUser" + i).select2()
         });
-
         // Add Post Doctoral Fields
         $("#add-btn3").click(function() {
             ++postdocIndex;
             $("#postdocAddRemove").append(
-                '<tr><td><input type="text" name="postdoctoral[' + postdocIndex + '][name]" class="form-control" placeholder="ชื่อ Post Doctoral"></td>' +
-                '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td></tr>'
+                '<tr>' +
+                '<td><select id="selPostdoc' + postdocIndex + '" name="postdoctoral[' + postdocIndex + '][userid]" style="width: 200px;">' +
+                '<option value="">Select Post Doctoral</option>' +
+                '@foreach($users as $user)' +
+                '@if($user->doctoral_degree == "Ph.D.")' +
+                '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+                '@endif' +
+                '@endforeach' +
+                '</select></td>' +
+                '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td>' +
+                '</tr>'
             );
+            $("#selPostdoc" + postdocIndex).select2();
         });
-
         // Add Visiting Fields
         $("#add-btn4").click(function() {
             ++visitingIndex;
@@ -209,14 +218,23 @@ $("body").on("click",".upload",function(e){
                 '</tr>'
             );
         });
-
         // Add Student Fields
         $("#add-btn5").click(function() {
             ++studentIndex;
             $("#studentAddRemove").append(
-                '<tr><td><input type="text" name="students[' + studentIndex + '][name]" class="form-control" placeholder="ชื่อ Student"></td>' +
-                '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td></tr>'
+                '<tr>' +
+                '<td><select name="students[' + studentIndex + '][userid]" style="width: 200px;" id="selStudent' + studentIndex + '">' +
+                '<option value="">Select Student</option>' +
+                '@foreach($users as $user)' +
+                '@if($user->academic_ranks_th == null && $user->fname_th != "ผู้ดูแลระบบ" && $user->fname_th != "เจ้าหน้าที่")' +
+                '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+                '@endif' +
+                '@endforeach' +
+                '</select></td>' +
+                '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td>' +
+                '</tr>'
             );
+            $("#selStudent" + studentIndex).select2();
         });
 
         $(document).on('click', '.remove-tr', function() {
