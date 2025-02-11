@@ -18,25 +18,23 @@
             <form action="{{ route('researchGroups.update', $researchGroup->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
-                
+
                 <!-- ชื่อกลุ่มวิจัย (ภาษาไทย) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>ชื่อกลุ่มวิจัย (ภาษาไทย)</b></p>
                     <div class="col-sm-8">
-                        <input name="group_name_th" value="{{ $researchGroup->group_name_th }}" class="form-control"
-                            placeholder="ชื่อกลุ่มวิจัย (ภาษาไทย)">
+                        <input name="group_name_th" value="{{ $researchGroup->group_name_th }}" class="form-control" placeholder="ชื่อกลุ่มวิจัย (ภาษาไทย)">
                     </div>
                 </div>
-                
+
                 <!-- ชื่อกลุ่มวิจัย (English) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>ชื่อกลุ่มวิจัย (English)</b></p>
                     <div class="col-sm-8">
-                        <input name="group_name_en" value="{{ $researchGroup->group_name_en }}" class="form-control"
-                            placeholder="ชื่อกลุ่มวิจัย (English)">
+                        <input name="group_name_en" value="{{ $researchGroup->group_name_en }}" class="form-control" placeholder="ชื่อกลุ่มวิจัย (English)">
                     </div>
                 </div>
-                
+
                 <!-- คำอธิบายกลุ่มวิจัย (ภาษาไทย) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>คำอธิบายกลุ่มวิจัย (ภาษาไทย)</b></p>
@@ -44,7 +42,7 @@
                         <textarea name="group_desc_th" class="form-control" style="height:90px">{{ $researchGroup->group_desc_th }}</textarea>
                     </div>
                 </div>
-                
+
                 <!-- คำอธิบายกลุ่มวิจัย (English) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>คำอธิบายกลุ่มวิจัย (English)</b></p>
@@ -52,7 +50,7 @@
                         <textarea name="group_desc_en" class="form-control" style="height:90px">{{ $researchGroup->group_desc_en }}</textarea>
                     </div>
                 </div>
-                
+
                 <!-- รายละเอียดกลุ่มวิจัย (ภาษาไทย) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>รายละเอียดกลุ่มวิจัย (ภาษาไทย)</b></p>
@@ -60,7 +58,7 @@
                         <textarea name="group_detail_th" class="form-control" style="height:90px">{{ $researchGroup->group_detail_th }}</textarea>
                     </div>
                 </div>
-                
+
                 <!-- รายละเอียดกลุ่มวิจัย (English) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>รายละเอียดกลุ่มวิจัย (English)</b></p>
@@ -68,7 +66,7 @@
                         <textarea name="group_detail_en" class="form-control" style="height:90px">{{ $researchGroup->group_detail_en }}</textarea>
                     </div>
                 </div>
-                
+
                 <!-- Image -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>Image</b></p>
@@ -76,34 +74,51 @@
                         <input type="file" name="group_image" class="form-control">
                     </div>
                 </div>
-                
+
                 <!-- Link (ถ้ามี) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>Link (ถ้ามี)</b></p>
                     <div class="col-sm-8">
                         <input name="link" type="url" value="{{ old('link', $researchGroup->link) }}" class="form-control" placeholder="https://example.com">
+                        <small class="form-text text-muted">
+                            ถ้าคุณใส่ link ระบบจะนำคุณไปยังเว็บไซต์ที่คุณระบุแทนการแสดงข้อมูลในหน้านี้.
+                        </small>
                     </div>
                 </div>
-                
+
                 <!-- หัวหน้ากลุ่มวิจัย -->
+                @php
+                // ดึงข้อมูลของ head user จากความสัมพันธ์ (role = 1)
+                $headUser = $researchGroup->user->firstWhere('pivot.role', 1);
+                @endphp
+
+                @if(auth()->user()->hasAnyRole(['admin', 'staff']))
                 <div class="form-group row">
                     <p class="col-sm-3"><b>หัวหน้ากลุ่มวิจัย</b></p>
                     <div class="col-sm-8">
-                        <select id="head0" name="head">
-                            @foreach($researchGroup->user as $u)
-                                @if($u->pivot->role == 1)
-                                    @foreach($users as $user)
-                                        <option value="{{ $user->id }}" @if($u->id == $user->id) selected @endif>
-                                            {{ $user->fname_th }} {{ $user->lname_th }}
-                                        </option>
-                                    @endforeach
-                                @endif
+                        <select id="head0" name="head" class="form-control">
+                            @foreach($users as $user)
+                            <option value="{{ $user->id }}" @if($headUser && $headUser->id == $user->id) selected @endif>
+                                {{ $user->fname_th }} {{ $user->lname_th }}
+                            </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                
-                <!-- สมาชิกกลุ่มวิจัย -->
+                @else
+                <!-- หากไม่ใช่ admin หรือ staff ให้แสดงเฉพาะข้อมูลโดยไม่สามารถแก้ไขได้ -->
+                <div class="form-group row">
+                    <p class="col-sm-3"><b>หัวหน้ากลุ่มวิจัย</b></p>
+                    <div class="col-sm-8">
+                        <input type="hidden" name="head" value="{{ $headUser->id ?? auth()->id() }}">
+                        <p class="form-control-plaintext">
+                            {{ $headUser ? $headUser->fname_th . ' ' . $headUser->lname_th : '' }}
+                        </p>
+                    </div>
+                </div>
+                @endif
+
+                <!-- สมาชิกกลุ่มวิจัย (Role = 2) -->
                 <div class="form-group row">
                     <p class="col-sm-3 pt-4"><b>สมาชิกกลุ่มวิจัย</b></p>
                     <div class="col-sm-8">
@@ -118,7 +133,24 @@
                         </table>
                     </div>
                 </div>
-                
+
+                <!-- Postdoctoral Researcher (Role = 3) -->
+                <div class="form-group row">
+                    <p class="col-sm-3 pt-4"><b>Postdoctoral Researcher</b></p>
+                    <div class="col-sm-8">
+                        <table class="table" id="dynamicAddRemovePostdoc">
+                            <tr>
+                                <th>
+                                    <button type="button" name="add" id="add-btn-postdoc" class="btn btn-success btn-sm add">
+                                        <i class="mdi mdi-plus"></i>
+                                    </button>
+                                </th>
+                            </tr>
+                        </table>
+                        <small class="form-text text-muted">ค้นหาได้เฉพาะผู้ที่จบเอก (Ph.D.) เท่านั้น</small>
+                    </div>
+                </div>
+
                 <!-- ปุ่ม Submit -->
                 <button type="submit" class="btn btn-primary mt-5">Submit</button>
                 <a class="btn btn-light mt-5" href="{{ route('researchGroups.index') }}">Back</a>
@@ -132,37 +164,164 @@
 <script>
 $(document).ready(function() {
     $("#head0").select2();
-    $("#fund").select2();
 
+    // ดึงข้อมูลผู้ใช้ที่เกี่ยวข้องกับกลุ่มวิจัย (รูปแบบ JSON)
     var researchGroup = <?php echo $researchGroup['user']; ?>;
-    var i = 0;
+    var i = 0; // สำหรับสมาชิก (Role = 2)
+    var j = 0; // สำหรับ Postdoctoral (Role = 3)
 
-    // วนลูปแสดงสมาชิกกลุ่มที่มี role = 2 (สมาชิก)
-    for (i = 0; i < researchGroup.length; i++) {
-        var obj = researchGroup[i];
-
-        if (obj.pivot.role === 2) {
-            $("#dynamicAddRemove").append('<tr><td><select id="selUser' + i + '" name="moreFields[' + i +
-                '][userid]"  style="width: 200px;">@foreach($users as $user)<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>@endforeach</select></td><td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="mdi mdi-minus"></i></button></td></tr>'
+    // วนลูปแสดงสมาชิกที่มี role = 2 (สมาชิก)
+    for (var idx = 0; idx < researchGroup.length; idx++) {
+        var obj = researchGroup[idx];
+        // เปลี่ยนจาก === เป็น == หรือ parseInt(obj.pivot.role) === 2
+        if (obj.pivot.role == 2) {
+            $("#dynamicAddRemove").append(
+                '<tr>' +
+                '  <td>' +
+                '    <select id="selUser' + i + '" name="moreFields[' + i + '][userid]" class="member-select" style="width: 200px;">' +
+                '      @foreach($users as $user)' +
+                '      <option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+                '      @endforeach' +
+                '    </select>' +
+                '  </td>' +
+                '  <td>' +
+                '    <button type="button" class="btn btn-danger btn-sm remove-tr"><i class="mdi mdi-minus"></i></button>' +
+                '  </td>' +
+                '</tr>'
             );
-            document.getElementById("selUser" + i).value = obj.id;
-            $("#selUser" + i).select2();
+            // กำหนดค่าให้ select เป็นคนที่อยู่ใน pivot จริง ๆ
+            $("#selUser" + i).val(obj.id).select2();
+            i++;
         }
     }
-    
-    // ฟังก์ชันเพิ่มสมาชิกใหม่ในตาราง
+
+    // วนลูปแสดง Postdoctoral Researcher ที่มี role = 3
+    for (var k = 0; k < researchGroup.length; k++) {
+        var obj = researchGroup[k];
+        if (obj.pivot.role == 3) {
+            j++;
+            $("#dynamicAddRemovePostdoc").append(
+                '<tr>' +
+                '  <td>' +
+                '    <select id="selPostdoc' + j + '" name="postdocFields[' + j + '][userid]" class="postdoc-select" style="width: 200px;">' +
+                '      <option value="">Select User</option>' +
+                '      @foreach($users as $user)' +
+                '      @if($user->doctoral_degree == "Ph.D.")' +
+                '      <option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+                '      @endif' +
+                '      @endforeach' +
+                '    </select>' +
+                '  </td>' +
+                '  <td>' +
+                '    <button type="button" class="btn btn-danger btn-sm remove-postdoc"><i class="mdi mdi-minus"></i></button>' +
+                '  </td>' +
+                '</tr>'
+            );
+            // กำหนดค่าให้ select เป็นคนที่อยู่ใน pivot จริง ๆ
+            $("#selPostdoc" + j).val(obj.id).select2();
+        }
+    }
+
+    // เพิ่มสมาชิก (Role = 2)
     $("#add-btn2").click(function() {
-        ++i;
-        $("#dynamicAddRemove").append('<tr><td><select id="selUser' + i + '" name="moreFields[' + i +
-            '][userid]"  style="width: 200px;"><option value="">Select User</option>@foreach($users as $user)<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>@endforeach</select></td><td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="mdi mdi-minus"></i></button></td></tr>'
+        i++;
+        $("#dynamicAddRemove").append(
+            '<tr>' +
+            '  <td>' +
+            '    <select id="selUser' + i + '" name="moreFields[' + i + '][userid]" class="member-select" style="width: 200px;">' +
+            '      <option value="">Select User</option>' +
+            '      @foreach($users as $user)' +
+            '      <option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+            '      @endforeach' +
+            '    </select>' +
+            '  </td>' +
+            '  <td>' +
+            '    <button type="button" class="btn btn-danger btn-sm remove-tr"><i class="mdi mdi-minus"></i></button>' +
+            '  </td>' +
+            '</tr>'
         );
         $("#selUser" + i).select2();
+        updatePostdocOptions();
     });
-    
-    // ฟังก์ชันลบสมาชิก
+
+    // ลบสมาชิก (Role = 2)
     $(document).on('click', '.remove-tr', function() {
         $(this).parents('tr').remove();
+        updatePostdocOptions();
     });
+
+    // เพิ่ม Postdoctoral ใหม่ (Role = 3)
+    $("#add-btn-postdoc").click(function() {
+        j++;
+        $("#dynamicAddRemovePostdoc").append(
+            '<tr>' +
+            '  <td>' +
+            '    <select id="selPostdoc' + j + '" name="postdocFields[' + j + '][userid]" class="postdoc-select" style="width: 200px;">' +
+            '      <option value="">Select User</option>' +
+            '      @foreach($users as $user)' +
+            '      @if($user->doctoral_degree == "Ph.D.")' +
+            '      <option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+            '      @endif' +
+            '      @endforeach' +
+            '    </select>' +
+            '  </td>' +
+            '  <td>' +
+            '    <button type="button" class="btn btn-danger btn-sm remove-postdoc"><i class="mdi mdi-minus"></i></button>' +
+            '  </td>' +
+            '</tr>'
+        );
+        $("#selPostdoc" + j).select2();
+        updatePostdocOptions();
+    });
+
+    // ลบ Postdoctoral
+    $(document).on('click', '.remove-postdoc', function() {
+        $(this).parents('tr').remove();
+        updatePostdocOptions();
+    });
+
+    // ฟังก์ชันอัปเดตตัวเลือกใน Postdoc
+    function updatePostdocOptions() {
+        var selectedMembers = [];
+        $(".member-select").each(function() {
+            var val = $(this).val();
+            if (val) selectedMembers.push(val);
+        });
+
+        var selectedPostdocs = [];
+        $(".postdoc-select").each(function() {
+            var val = $(this).val();
+            if (val) selectedPostdocs.push(val);
+        });
+
+        $(".postdoc-select").each(function() {
+            var currentSelect = $(this);
+            currentSelect.find("option").each(function() {
+                var optionValue = $(this).val();
+                if (!optionValue) return; // ข้าม placeholder
+                if (
+                    selectedMembers.includes(optionValue) ||
+                    (selectedPostdocs.includes(optionValue) && currentSelect.val() !== optionValue)
+                ) {
+                    $(this).prop("disabled", true);
+                } else {
+                    $(this).prop("disabled", false);
+                }
+            });
+            currentSelect.select2();
+        });
+    }
+
+    // ผูก event change ให้กับ select fields เมื่อมีการเปลี่ยนแปลง
+    $(document).on('change', '.member-select', function() {
+        updatePostdocOptions();
+    });
+    $(document).on('change', '.postdoc-select', function() {
+        updatePostdocOptions();
+    });
+
+    // เรียก updatePostdocOptions ครั้งแรก
+    updatePostdocOptions();
 });
 </script>
 @stop

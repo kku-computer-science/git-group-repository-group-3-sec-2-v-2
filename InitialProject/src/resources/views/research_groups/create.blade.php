@@ -80,6 +80,7 @@
                     <p class="col-sm-3"><b>Link (ถ้ามี)</b></p>
                     <div class="col-sm-8">
                         <input name="link" type="url" value="{{ old('link') }}" class="form-control" placeholder="https://example.com">
+                        <small class="form-text text-muted"> หากคุณกรอก link ระบบจะพาคุณไปยังเว็บไซต์นั้น แทนการแสดงข้อมูลในหน้านี้. </small>
                     </div>
                 </div>
 
@@ -98,8 +99,8 @@
                     </div>
                 </div>
                 @else
-                    <!-- หากไม่ใช่ admin/staff ให้ตั้งค่า head เป็นผู้ใช้ที่ล็อกอินอยู่ -->
-                    <input type="hidden" name="head" value="{{ auth()->id() }}">
+                <!-- หากไม่ใช่ admin/staff ให้ตั้งค่า head เป็นผู้ใช้ที่ล็อกอินอยู่ -->
+                <input type="hidden" name="head" value="{{ auth()->id() }}">
                 @endif
 
                 <!-- สมาชิกกลุ่มวิจัย (Role = 2) -->
@@ -146,50 +147,50 @@
 
 @section('javascript')
 <script>
-$(document).ready(function() {
-    // กำหนด select2 เฉพาะ element ที่มี id head0 (จะมีในกรณี admin/staff เท่านั้น)
-    $("#head0").select2();
+    $(document).ready(function() {
+        // กำหนด select2 เฉพาะ element ที่มี id head0 (จะมีในกรณี admin/staff เท่านั้น)
+        $("#head0").select2();
 
-    var i = 0;
-    $("#add-btn2").click(function() {
-        ++i;
-        $("#dynamicAddRemove").append(
-            '<tr><td><select id="selUser' + i + '" name="moreFields[' + i +
-            '][userid]" style="width: 200px;">' +
-            '<option value="">Select User</option>' +
-            '@foreach($users as $user)' +
-            '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
-            '@endforeach' +
-            '</select></td>' +
-            '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td></tr>'
-        );
-        $("#selUser" + i).select2();
-    });
-    $(document).on('click', '.remove-tr', function() {
-        $(this).parents('tr').remove();
-    });
+        var i = 0;
+        $("#add-btn2").click(function() {
+            ++i;
+            $("#dynamicAddRemove").append(
+                '<tr><td><select id="selUser' + i + '" name="moreFields[' + i +
+                '][userid]" style="width: 200px;">' +
+                '<option value="">Select User</option>' +
+                '@foreach($users as $user)' +
+                '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+                '@endforeach' +
+                '</select></td>' +
+                '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td></tr>'
+            );
+            $("#selUser" + i).select2();
+        });
+        $(document).on('click', '.remove-tr', function() {
+            $(this).parents('tr').remove();
+        });
 
-    // สำหรับ Postdoctoral Researcher
-    var j = 0;
-    $("#add-btn-postdoc").click(function() {
-        j++;
-        $("#dynamicAddRemovePostdoc").append(
-            '<tr><td><select id="selPostdoc' + j + '" name="postdocFields[' + j +
-            '][userid]" style="width: 200px;">' +
-            '<option value="">Select User</option>' +
-            '@foreach($users as $user)' +
+        // สำหรับ Postdoctoral Researcher
+        var j = 0;
+        $("#add-btn-postdoc").click(function() {
+            j++;
+            $("#dynamicAddRemovePostdoc").append(
+                '<tr><td><select id="selPostdoc' + j + '" name="postdocFields[' + j +
+                '][userid]" style="width: 200px;">' +
+                '<option value="">Select User</option>' +
+                '@foreach($users as $user)' +
                 '@if($user->doctoral_degree == "Ph.D.")' +
-                    '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+                '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
                 '@endif' +
-            '@endforeach' +
-            '</select></td>' +
-            '<td><button type="button" class="btn btn-danger btn-sm remove-postdoc"><i class="fas fa-minus"></i></button></td></tr>'
-        );
-        $("#selPostdoc" + j).select2();
+                '@endforeach' +
+                '</select></td>' +
+                '<td><button type="button" class="btn btn-danger btn-sm remove-postdoc"><i class="fas fa-minus"></i></button></td></tr>'
+            );
+            $("#selPostdoc" + j).select2();
+        });
+        $(document).on('click', '.remove-postdoc', function() {
+            $(this).parents('tr').remove();
+        });
     });
-    $(document).on('click', '.remove-postdoc', function() {
-        $(this).parents('tr').remove();
-    });
-});
 </script>
 @stop

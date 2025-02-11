@@ -169,48 +169,60 @@ class ResearchGroupController extends Controller
         $request->validate([
             'group_name_th'   => 'required',
             'group_name_en'   => 'required',
-            'link'            => 'nullable|url',  // ตรวจสอบรูปแบบ URL หากมีค่า
-            // กำหนด validate field อื่น ๆ ตามที่ต้องการ
+            'link'            => 'nullable|url',  // ตรวจสอบรูปแบบ URL
+            // เพิ่มเติม validation อื่น ๆ ตามต้องการ
         ]);
-
-        // กำหนดค่าทีละ field (manual assignment)
+    
+        // อัปเดตฟิลด์หลัก ๆ
         $researchGroup->group_name_th   = $request->group_name_th;
         $researchGroup->group_name_en   = $request->group_name_en;
         $researchGroup->group_desc_th   = $request->group_desc_th;
         $researchGroup->group_desc_en   = $request->group_desc_en;
         $researchGroup->group_detail_th = $request->group_detail_th;
         $researchGroup->group_detail_en = $request->group_detail_en;
-
+    
+        // จัดการรูปภาพ (ถ้ามีอัปโหลด)
         if ($request->hasFile('group_image')) {
             $filename = time() . '.' . $request->group_image->extension();
             $request->group_image->move(public_path('img'), $filename);
             $researchGroup->group_image = $filename;
         }
-
-        // กำหนดค่า link โดยตรงจาก Request
+    
+        // กำหนดค่า link
         $researchGroup->link = $request->link;
-
-        // บันทึกข้อมูลลงฐานข้อมูล
         $researchGroup->save();
-
-        // จัดการความสัมพันธ์กับผู้ใช้ (detach แล้ว attach ใหม่)
+    
+        // ลบ pivot เดิมทั้งหมดก่อน (ถ้าไม่ต้องการเก็บข้อมูลเดิมใด ๆ ไว้)
         $researchGroup->user()->detach();
-
-        // แนบหัวหน้ากลุ่ม (role 1)
-        $researchGroup->user()->attach($request->head, ['role' => 1]);
-
-        // แนบสมาชิกกลุ่ม (role 2)
-        if ($request->moreFields) {
+    
+        // 1) หัวหน้ากลุ่ม (role=1)
+        if ($request->filled('head')) {
+            $researchGroup->user()->attach($request->head, ['role' => 1]);
+        }
+    
+        // 2) สมาชิกกลุ่ม (role=2)
+        if ($request->has('moreFields')) {
             foreach ($request->moreFields as $field) {
-                if (isset($field['userid']) && $field['userid'] != null) {
+                if (!empty($field['userid'])) {
                     $researchGroup->user()->attach($field['userid'], ['role' => 2]);
                 }
             }
         }
-
+    
+        // 3) Postdoctoral (role=3) — **เพิ่มส่วนนี้**
+        if ($request->has('postdocFields')) {
+            foreach ($request->postdocFields as $field) {
+                if (!empty($field['userid'])) {
+                    // attach user_id => role=3
+                    $researchGroup->user()->attach($field['userid'], ['role' => 3]);
+                }
+            }
+        }
+    
         return redirect()->route('researchGroups.index')
-            ->with('success', 'Research group updated successfully');
+                         ->with('success', 'Research group updated successfully');
     }
+    
 
 
     /**
