@@ -13,12 +13,13 @@ class ScholarController extends Controller
     // จำนวนครั้งสูงสุดที่ retry เมื่อ request ล้มเหลว
     private $max_retries = 3;
     // เวลาเริ่มต้นสำหรับหน่วง (วินาที)
-    private $initial_delay = 60;
+    private $initial_delay = 2;
     // Guzzle client
     private $client;
 
     public function __construct()
     {
+        // เราจะเก็บ Client ไว้ใช้ใน handleRequest
         $this->client = new Client();
     }
 
@@ -57,28 +58,42 @@ class ScholarController extends Controller
      */
     private function handleRequest($url, $params = [], $retryCount = 0)
     {
+        // เช็คว่าเกินจำนวน retry สูงสุดหรือยัง
         if ($retryCount >= $this->max_retries) {
             return null;
         }
+
         try {
-            // หน่วงเวลาแบบสุ่ม 2-5 วินาที เพื่อหลีกเลี่ยงการถูก block
+            // หน่วงเวลาแบบสุ่ม 2-5 วินาที ก่อนยิง request เพื่อเลี่ยงการถูกบล็อก
             sleep(rand(2, 5));
+
+            // สร้างตัวเลือกสำหรับส่ง request
             $options = [
+                'verify' => false,  // ถ้า certificate ถูกต้องอาจเปลี่ยนเป็น true ได้
                 'headers' => $this->getHeaders(),
                 'query'   => $params
             ];
+
+            // ส่ง GET request
             $response = $this->client->get($url, $options);
+
+            // ตรวจสอบสถานะการตอบกลับ
             if ($response->getStatusCode() == 429) {
                 // หากถูกจำกัด (Too Many Requests) ให้หน่วงเวลาก่อน retry
                 $retryDelay = $this->initial_delay * pow(2, $retryCount);
                 sleep($retryDelay);
                 return $this->handleRequest($url, $params, $retryCount + 1);
             }
+
+            // ถ้าไม่ได้ status code 200 ก็ถือว่าล้มเหลว
             if ($response->getStatusCode() != 200) {
                 return null;
             }
+
+            // คืน response กลับ
             return $response;
         } catch (\Exception $e) {
+            // ถ้าเกิด exception อื่น ๆ ให้หน่วงเวลาแล้วลองใหม่เช่นกัน
             $retryDelay = $this->initial_delay * pow(2, $retryCount);
             sleep($retryDelay);
             return $this->handleRequest($url, $params, $retryCount + 1);
@@ -95,12 +110,16 @@ class ScholarController extends Controller
             'mauthors' => $fullName,
             'hl'       => 'en'
         ];
+
+        // เรียก handleRequest เพื่อส่ง query หาโปรไฟล์
         $response = $this->handleRequest($this->base_url, $params);
         if (!$response) {
             return null;
         }
+
         $html = (string)$response->getBody();
-        // บันทึก HTML สำหรับ debug
+
+        // ตัวอย่าง: บันทึก HTML สำหรับ debug
         file_put_contents(storage_path('logs/google_scholar_debug.html'), $html);
 
         $crawler = new Crawler($html);
@@ -108,6 +127,7 @@ class ScholarController extends Controller
         if ($profiles->count() == 0) {
             return null;
         }
+
         // ใช้ profile แรกที่พบ
         $profileElement = $profiles->first()->getNode(0);
         $profileCrawler = new Crawler($profileElement);
@@ -124,20 +144,25 @@ class ScholarController extends Controller
         $affiliation = $profileCrawler->filter('div.gs_ai_aff')->count()
             ? trim($profileCrawler->filter('div.gs_ai_aff')->text())
             : 'N/A';
+
         $email = $profileCrawler->filter('div.gs_ai_eml')->count()
             ? trim($profileCrawler->filter('div.gs_ai_eml')->text())
             : 'N/A';
+
         $citedText = $profileCrawler->filter('div.gs_ai_cby')->count()
             ? trim($profileCrawler->filter('div.gs_ai_cby')->text())
             : '0';
+
         preg_match('/Cited by (\d+)/i', $citedText, $matches);
         $cited_by = isset($matches[1]) ? (int)$matches[1] : 0;
+
         $interests = [];
         if ($profileCrawler->filter('div.gs_ai_int a')->count()) {
             $profileCrawler->filter('div.gs_ai_int a')->each(function (Crawler $node) use (&$interests) {
                 $interests[] = trim($node->text());
             });
         }
+
         // ดึง user id จาก URL ของโปรไฟล์
         $parts = parse_url($profileUrl);
         $query = [];
@@ -170,6 +195,7 @@ class ScholarController extends Controller
     {
         $publications = [];
         $start = 0;
+
         while (true) {
             $url = "https://scholar.google.com/citations";
             $params = [
@@ -178,16 +204,20 @@ class ScholarController extends Controller
                 'cstart'   => $start,
                 'pagesize' => 100
             ];
+
             $response = $this->handleRequest($url, $params);
             if (!$response) {
                 break;
             }
+
             $html = (string)$response->getBody();
             $crawler = new Crawler($html);
             $papers = $crawler->filter('tr.gsc_a_tr');
+
             if ($papers->count() == 0) {
                 break;
             }
+
             foreach ($papers as $paperElement) {
                 $paperCrawler = new Crawler($paperElement);
                 $pubData = [];
@@ -197,10 +227,11 @@ class ScholarController extends Controller
                 if ($titleTag->count() == 0 || trim($titleTag->text()) == '') {
                     continue;
                 }
+
                 $pubData['title'] = trim($titleTag->text());
                 $pubData['paper_url'] = "https://scholar.google.com" . $titleTag->attr('href');
 
-                // ดึง authors (จาก div.gs_gray ส่วนแรก) แล้วแยกออกเป็นอาร์เรย์
+                // ดึง authors (จาก div.gs_gray ส่วนแรก) แล้วแยกเป็น array
                 $authorsVenue = $paperCrawler->filter('div.gs_gray')->first();
                 if ($authorsVenue->count()) {
                     $authorsText = trim($authorsVenue->text());
@@ -212,15 +243,21 @@ class ScholarController extends Controller
 
                 // ดึง venue (ส่วนที่สองของ div.gs_gray)
                 $venueNodes = $paperCrawler->filter('div.gs_gray');
-                $pubData['venue'] = $venueNodes->count() > 1 ? trim($venueNodes->eq(1)->text()) : 'N/A';
+                $pubData['venue'] = $venueNodes->count() > 1
+                    ? trim($venueNodes->eq(1)->text())
+                    : 'N/A';
 
                 // ดึงปีที่ตีพิมพ์
                 $yearNode = $paperCrawler->filter('span.gsc_a_h');
-                $pubData['year'] = ($yearNode->count() && trim($yearNode->text()) != '') ? trim($yearNode->text()) : 'N/A';
+                $pubData['year'] = ($yearNode->count() && trim($yearNode->text()) != '')
+                    ? trim($yearNode->text())
+                    : 'N/A';
 
                 // ดึงจำนวนการอ้างอิง
                 $citationsNode = $paperCrawler->filter('a.gsc_a_ac');
-                $pubData['citations'] = ($citationsNode->count() && trim($citationsNode->text()) != '') ? trim($citationsNode->text()) : '0';
+                $pubData['citations'] = ($citationsNode->count() && trim($citationsNode->text()) != '')
+                    ? trim($citationsNode->text())
+                    : '0';
 
                 // เข้าสู่หน้ารายละเอียดของ paper เพื่อดึงข้อมูลเพิ่มเติม
                 $details = $this->getPaperDetails($titleTag->attr('href'));
@@ -228,20 +265,27 @@ class ScholarController extends Controller
 
                 $publications[] = $pubData;
             }
-            // ถ้าจำนวนแถวที่ดึงน้อยกว่า 100 แสดงว่าเป็นหน้าสุดท้าย
+
+            // ถ้าจำนวนแถวที่ดึงได้น้อยกว่า 100 แสดงว่าเป็นหน้าสุดท้าย
             if ($papers->count() < 100) {
                 break;
             }
+
             $start += 100;
+            // หน่วง 2-5 วินาทีระหว่างหน้าถัดไป
             sleep(rand(2, 5));
         }
+
         return $publications;
     }
 
     /**
-     * ดึงรายละเอียดของ paper จาก paper_url โดยใช้ XPath
-     *
-     * พยายามดึงข้อมูลเช่น Authors, Publication date, Journal, Volume, Issue, Pages, Publisher, Description
+     * ดึงรายละเอียดของ paper จาก paper_url โดยใช้ DomCrawler
+     * (ปรับให้ใช้ handleRequest เพื่อให้สุ่ม UA ได้)
+     */
+    /**
+     * ดึงรายละเอียดของ paper จาก paper_url โดยใช้ DomCrawler
+     * (ปรับให้ใช้ handleRequest เพื่อให้สุ่ม UA และรวมถึงเพิ่ม Debug ตรวจจับ Captcha)
      */
     private function getPaperDetails($paperUrl)
     {
@@ -250,45 +294,50 @@ class ScholarController extends Controller
             // หาก $paperUrl เป็น relative URL ให้เติมโดเมนเข้าไป
             $paperUrl = "https://scholar.google.com" . $paperUrl;
         }
-        $client = new Client([
-            'verify' => false,
-            'headers' => [
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-                    . 'AppleWebKit/537.36 (KHTML, like Gecko) '
-                    . 'Chrome/108.0.0.0 Safari/537.36',
-            ],
-        ]);
-    
-        try {
-            // ส่ง HTTP GET request ไปยัง paper URL
-            $response = $client->get($paperUrl);
-            $html = $response->getBody()->getContents();
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => 'ไม่สามารถดึงข้อมูลจาก Google Scholar ได้: ' . $e->getMessage()
-            ], 500);
+
+        // ใช้ handleRequest() แทนสร้าง Client ตรง ๆ
+        // เพื่อให้สุ่ม User-Agent และมีระบบ retry เหมือน request อื่น ๆ
+        $response = $this->handleRequest($paperUrl);
+
+        // ถ้าเจอ null แปลว่าดึงไม่ได้ (หมดสิทธิ์ retry)
+        if (!$response) {
+            return [
+                'error' => 'ไม่สามารถดึงข้อมูลจาก Google Scholar ได้ (response null)'
+            ];
         }
-    
-        // สร้าง instance ของ DomCrawler เพื่อวิเคราะห์ HTML
+
+        // ได้ HTML แล้ว
+        $html = $response->getBody()->getContents();
+
+        // 1) บันทึก Debug HTML ลงไฟล์ เพื่อตรวจสอบว่าหน้าที่ได้เป็นอะไร
+        file_put_contents(storage_path('logs/paper_detail_debug.html'), $html);
+
+        // 2) ตรวจจับเงื่อนไขว่าเป็นหน้า Captcha/Unusual traffic หรือไม่
+        //    เบื้องต้นลองเช็ค string บางส่วน เช่น 'unusual traffic' หรือ 'captcha'
+        if (
+            stripos($html, 'unusual traffic') !== false
+            || stripos($html, 'captcha') !== false
+            || stripos($html, 'detected unusual') !== false
+        ) {
+            return [
+                'error' => 'Google Scholar อาจร้องขอ Captcha (unusual traffic).'
+            ];
+        }
+
+        // 3) ใช้ DomCrawler วิเคราะห์ต่อ
         $crawler = new Crawler($html);
-    
+
         // ดึง title ของงานวิจัย (ถ้ามี)
         $paperTitle = '';
         try {
-            // title จะอยู่ใน selector ที่เป็น .gsc_oci_title
-            $paperTitle = $crawler->filter('.gsc_oci_title')->count() 
-                ? $crawler->filter('.gsc_oci_title')->text() 
+            $paperTitle = $crawler->filter('.gsc_oci_title')->count()
+                ? $crawler->filter('.gsc_oci_title')->text()
                 : '';
         } catch (\Exception $e) {
-            // หากหาไม่เจอก็ปล่อยว่าง
             $paperTitle = '';
         }
-    
-        /**
-         * ในหน้า Google Scholar Citations details
-         * แต่ละ field จะอยู่ใน <div class="gsc_oci_field"> แล้วค่าจะอยู่ใน <div class="gsc_oci_value">
-         * เราสามารถวน loop ตามดึงค่าทั้งหมดได้
-         */
+
+        // เตรียมโครงสร้างข้อมูล
         $details = [
             'title'             => trim($paperTitle),
             'authors'           => '',
@@ -300,21 +349,25 @@ class ScholarController extends Controller
             'publisher'         => '',
             'description'       => '',
         ];
-    
+
         try {
-            // เอาทุก field-value มา match กันด้วย index ใน loop
+            // เช็คให้แน่ใจว่ามี .gsc_oci_field, .gsc_oci_value
             $fields = $crawler->filter('.gsc_oci_field');
             $values = $crawler->filter('.gsc_oci_value');
-    
-            // ถ้า field/value ไม่เท่ากันอาจหมายถึงโครงสร้างหน้าเปลี่ยน
-            // แต่ปกติแล้วถ้าเป็นหน้ารายละเอียด citation จะคู่กัน
-            $count = min($fields->count(), $values->count());
-    
+            if ($fields->count() == 0 || $values->count() == 0) {
+                // หากไม่มีอะไรเลย อาจหมายถึง DOM ไม่ตรง หรือหน้าไม่มีข้อมูล
+                return [
+                    'title'    => $details['title'],
+                    'error'    => 'ไม่มีข้อมูล field/value (อาจเป็น DOM เปลี่ยน หรือ paper ไม่มีรายละเอียด)',
+                ];
+            }
+
+            $count  = min($fields->count(), $values->count());
+
             for ($i = 0; $i < $count; $i++) {
                 $fieldLabel = trim($fields->eq($i)->text());
                 $fieldValue = trim($values->eq($i)->text());
-    
-                // เช็คว่า label ตรงกับข้อมูลที่ต้องการหรือไม่
+
                 if (stripos($fieldLabel, 'authors') !== false) {
                     $details['authors'] = $fieldValue;
                 } elseif (stripos($fieldLabel, 'publication date') !== false) {
@@ -334,14 +387,14 @@ class ScholarController extends Controller
                 }
             }
         } catch (\Exception $e) {
-            return response()->json([
+            return [
+                'title' => $details['title'],
                 'error' => 'ไม่สามารถแยกข้อมูลได้: ' . $e->getMessage()
-            ], 500);
+            ];
         }
-    
+
         return $details;
     }
-
 
     /**
      * Controller Method สำหรับรับ request และแสดงผลเป็น JSON
@@ -351,24 +404,31 @@ class ScholarController extends Controller
     {
         $firstName = $request->query('first_name');
         $lastName  = $request->query('last_name');
+
         if (empty(trim($firstName)) || empty(trim($lastName))) {
             return response()->json([
                 'error' => 'กรุณาระบุชื่อและนามสกุลผ่าน query parameters (first_name, last_name)'
             ], 400);
         }
+
         $fullName = trim($firstName . ' ' . $lastName);
         $result = $this->getResearcherProfile($fullName);
+
         if ($result === null) {
             return response()->json([
                 'error' => 'ไม่พบข้อมูลนักวิจัย หรือเกิดข้อผิดพลาดในการดึงข้อมูล'
             ], 404);
         }
+
         return response()->json($result, 200, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 
+    /**
+     * ทดสอบดึง HTML ของหน้ารายละเอียด paper แล้วบันทึกลงไฟล์
+     */
     public function testPaperHtml()
     {
-        // กำหนด URL ของ paper ที่ต้องการทดสอบ
+        // ตัวอย่าง URL ของ paper ที่ต้องการทดสอบ
         $paperUrl = "https://scholar.google.com/citations?view_op=view_citation&hl=en&user=fn94QPIAAAAJ&pagesize=100&citation_for_view=fn94QPIAAAAJ:u-x6o8ySG0sC";
 
         // ใช้ handleRequest เพื่อส่ง GET request ไปยัง paper URL

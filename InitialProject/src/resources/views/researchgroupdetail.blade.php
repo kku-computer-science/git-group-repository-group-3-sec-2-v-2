@@ -123,82 +123,114 @@
 @section('content')
 <div class="container-fluid px-4">
     @foreach ($resgd as $rg)
-        <!-- Blue Stripe with Group Name -->
-        <div class="blue-stripe">
-            <h1 class="text-center">{{ $rg->{'group_name_'.app()->getLocale()} }}</h1>
-        </div>
+    <!-- Blue Stripe with Group Name -->
+    <div class="blue-stripe">
+        <h1 class="text-center">{{ $rg->{'group_name_'.app()->getLocale()} }}</h1>
+    </div>
 
-        <!-- Research Rationale -->
-        <div class="research-rationale-box">
-            <h2>Research Rationale</h2>
-            <h3>{{ $rg->{'group_desc_'.app()->getLocale()} }}</h3>
-        </div>
+    <!-- Research Rationale -->
+    <div class="research-rationale-box">
+        <h2>Research Rationale</h2>
+        <h3>{{ $rg->{'group_desc_'.app()->getLocale()} }}</h3>
+    </div>
 
-        <!-- Researcher Details -->
-        <div class="research-rationale-box">
-            <h2>Researcher Details</h2>
-            <h3>{{ $rg->{'group_detail_'.app()->getLocale()} }}</h3>
-        </div>
+    <!-- Researcher Details -->
+    <div class="research-rationale-box">
+        <h2>Researcher Details</h2>
+        <h3>{{ $rg->{'group_detail_'.app()->getLocale()} }}</h3>
+    </div>
 
-        <!-- Research Group Members (Teachers) -->
-        <div class="research-rationale-box">
-            <h2 class="text-center">Member Of Research Group</h2>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
-                @foreach($rg->user as $r)
-                    @if($r->hasRole('teacher'))
-                        <div class="col">
-                            <div class="member-card">
-                                @if(isset($r->pivot) && $r->pivot->role == 1)
-                                    <div class="head-lab-badge">Head LAB</div>
-                                @endif
-                                <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
-                                    <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
-                                         alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
-                                         class="center-image">
-                                </a>
-                                <div class="person-info">
-                                    @if(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer' && $r->doctoral_degree == 'Ph.D.')
-                                        <p>{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}, Ph.D.</p>
-                                    @elseif(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer')
-                                        <p>{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
-                                    @elseif(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
-                                        <p>{{ str_replace('Dr.', ' ', $r->{'position_'.app()->getLocale()}) }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}, Ph.D.</p>
-                                    @else
-                                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
+    <!-- Research Group Members (Teachers) -->
+    <div class="research-rationale-box">
+        <h2 class="text-center">Member Of Research Group</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
+            @foreach($rg->user as $r)
+            @if(
+            $r->hasRole('teacher')
+            && isset($r->pivot)
+            && in_array($r->pivot->role, [1, 2])
+            )
+            <div class="col">
+                <div class="member-card">
+                    @if($r->pivot->role == 1)
+                    <div class="head-lab-badge">Head LAB</div>
                     @endif
-                @endforeach
-            </div>
-        </div>
-
-        <!-- Students -->
-        <div class="research-rationale-box">
-            <h2 class="text-center">Student</h2>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
-                @php
-                    $uniqueStudents = $rg->user->unique('id')->filter(function($user) {
-                        return $user->hasRole('student');
-                    });
-                @endphp
-                @foreach ($uniqueStudents as $user)
-                    <div class="col">
-                        <div class="member-card">
-                            <a href="{{ route('detail', Crypt::encrypt($user->id)) }}" class="profile-link">
-                                <img src="{{ $user->picture ?? asset('img/default-profile.png') }}"
-                                     alt="{{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}"
-                                     class="center-image">
-                            </a>
-                            <div class="person-info">
-                                <p>{{ $user->{'position_'.app()->getLocale()} }} {{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}</p>
-                            </div>
-                        </div>
+                    <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
+                        <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        <!-- Logic แสดงตำแหน่ง/ชื่อ ตาม locale -->
+                        @if(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer' && $r->doctoral_degree == 'Ph.D.')
+                        <p>{{ $r->{'fname_en'} }} {{ $r->{'lname_en'} }}, Ph.D.</p>
+                        @elseif(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer')
+                        <p>{{ $r->{'fname_en'} }} {{ $r->{'lname_en'} }}</p>
+                        @elseif(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
+                        <p>{{ str_replace('Dr.', ' ', $r->position_en) }} {{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
+                        @else
+                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                        @endif
                     </div>
-                @endforeach
+                </div>
             </div>
+            @endif
+            @endforeach
         </div>
+    </div>
+
+    <!-- Postdoctoral Researchers -->
+    <div class="research-rationale-box">
+        <h2 class="text-center">Postdoctoral Researchers</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
+            @foreach($rg->user as $r)
+            @if(isset($r->pivot) && $r->pivot->role == 3)
+            <div class="col">
+                <div class="member-card">
+                    <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
+                        <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        @if(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
+                        <p>{{ $r->{'fname_en'} }} {{ $r->{'lname_en'} }}, Ph.D.</p>
+                        @else
+                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
+            @endforeach
+        </div>
+    </div>
+
+    <!-- Students -->
+    <div class="research-rationale-box">
+        <h2 class="text-center">Student</h2>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
+            @php
+            $uniqueStudents = $rg->user->unique('id')->filter(function($user) {
+            return $user->hasRole('student');
+            });
+            @endphp
+            @foreach ($uniqueStudents as $user)
+            <div class="col">
+                <div class="member-card">
+                    <a href="{{ route('detail', Crypt::encrypt($user->id)) }}" class="profile-link">
+                        <img src="{{ $user->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        <p>{{ $user->{'position_'.app()->getLocale()} }} {{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}</p>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
     @endforeach
 </div>
 @stop
