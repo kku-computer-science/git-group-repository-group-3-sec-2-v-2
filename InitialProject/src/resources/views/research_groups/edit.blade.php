@@ -21,7 +21,7 @@
                 <div class="form-group row">
                     <p class="col-sm-3 "><b>URL</b></p>
                     <div class="col-sm-8">
-                        <input name="group_url" class="form-control" placeholder="URL กลุ่มวิจัย" value="{{ old('group_url') }}">
+                        <input name="group_url" class="form-control" placeholder="URL กลุ่มวิจัย" value="{{ $researchGroup->group_url }}">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -147,7 +147,6 @@
         $("#head0").select2()
         $("#fund").select2()
 
-
         var researchGroup = <?php echo $researchGroup['user']; ?>;
         var i = 0;
         var postdocIndex = 0;
@@ -158,15 +157,66 @@
             var obj = researchGroup[i];
 
             if (obj.pivot.role === 2) {
-                $("#dynamicAddRemove").append('<tr><td><select id="selUser' + i + '" name="moreFields[' + i +
-                    '][userid]"  style="width: 200px;">@foreach($users as $user)<option value="{{ $user->id }}" >{{ $user->fname_th }} {{ $user->lname_th }}</option>@endforeach</select></td><td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="mdi mdi-minus"></i></button></td></tr>'
+                $("#dynamicAddRemove").append(
+                    '<tr><td><select id="selUser' + i + '" name="moreFields[' + i + '][userid]"  style="width: 200px;">@foreach($users as $user)<option value="{{ $user->id }}" >{{ $user->fname_th }} {{ $user->lname_th }}</option>@endforeach</select></td><td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="mdi mdi-minus"></i></button></td></tr>'
                 );
                 document.getElementById("selUser" + i).value = obj.id;
-                $("#selUser" + i).select2()
+                $("#selUser" + i).select2();
 
             }
-            //document.getElementById("#dynamicAddRemove").value = "10";
+            if (obj.pivot.role === 3) {
+                $("#postdocAddRemove").append(
+                    '<tr>' +
+                    '<td><select id="selPostdoc' + postdocIndex + '" name="postdoctoral[' + postdocIndex + '][userid]" class="form-control select2" style="width: 200px;">' +
+                    '<option value="">Select Post Doctoral</option>' +
+                    '@foreach($users as $user)' +
+                    '@if($user->doctoral_degree == "Ph.D.")' +
+                    '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+                    '@endif' +
+                    '@endforeach' +
+                    '</select></td>' +
+                    '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td>' +
+                    '</tr>'
+                );
+                document.getElementById("selPostdoc" + postdocIndex).value = obj.id;
+                $("#selPostdoc" + postdocIndex).select2();
+            }
+            // if (obj.pivot.role === 4) {
+            //     $("#visitingAddRemove").append(
+            //         '<tr>' +
+            //         '<td><input type="text" name="visiting[' + visitingIndex + '][prefix]" class="form-control" placeholder="คำนำหน้า"></td>' +
+            //         '<td><input type="text" name="visiting[' + visitingIndex + '][fname]" class="form-control" placeholder="ชื่อ"></td>' +
+            //         '<td><input type="text" name="visiting[' + visitingIndex + '][lname]" class="form-control" placeholder="นามสกุล"></td>' +
+            //         '</tr>' +
+            //         '<tr>' +
+            //         '<td colspan="4">' +
+            //         '<input type="text" name="visiting[' + visitingIndex + '][affiliation]" class="form-control" placeholder="สังกัด">' +
+            //         '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="mdi mdi-minus"></i></button></td>' +
+            //         '</td>' +
+            //         '</tr>'
+            //     );
+            // }
+            if (obj.pivot.role === 5) {
+                $("#studentAddRemove").append(
+                    '<tr>' +
+                    '<td><select name="students[' + studentIndex + '][userid]" class="form-control select2" style="width: 200px;" id="selStudent' + studentIndex + '">' +
+                    '<option value="">Select Student</option>' +
+                    '@foreach($users as $user)' +
+
+                    '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+
+                    '@endforeach' +
+                    '</select></td>' +
+                    '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td>' +
+                    '</tr>'
+                );
+                document.getElementById("selStudent" + studentIndex).value = obj.id;
+                $("#selStudent" + studentIndex).select2();
+
+            }
         }
+
+        // Add Member Fields
         $("#add-btn2").click(function() {
             ++i;
             $("#dynamicAddRemove").append(
@@ -174,9 +224,7 @@
                 '<td><select id="selUser' + i + '" name="moreFields[' + i + '][userid]" style="width: 200px;">' +
                 '<option value="">Select User</option>' +
                 '@foreach($users as $user)' +
-                '@if($user->fname_th != "ผู้ดูแลระบบ" && $user->fname_th != "เจ้าหน้าที่")' +
                 '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
-                '@endif' +
                 '@endforeach' +
                 '</select></td>' +
                 '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="mdi mdi-minus"></i></button></td>' +
@@ -193,7 +241,7 @@
                 '<td><select id="selPostdoc' + postdocIndex + '" name="postdoctoral[' + postdocIndex + '][userid]" class="form-control select2" style="width: 200px;">' +
                 '<option value="">Select Post Doctoral</option>' +
                 '@foreach($users as $user)' +
-                '@if($user->doctoral_degree == "Ph.D.")' + // เฉพาะผู้ใช้ที่มี doctoral_degree = "Ph.D."
+                '@if($user->doctoral_degree == "Ph.D.")' +
                 '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
                 '@endif' +
                 '@endforeach' +
@@ -230,7 +278,7 @@
                 '<td><select name="students[' + studentIndex + '][userid]" class="form-control select2" style="width: 200px;" id="selStudent' + studentIndex + '">' +
                 '<option value="">Select Student</option>' +
                 '@foreach($users as $user)' +
-                '@if($user->academic_ranks_th == "" && $user->fname_th != "ผู้ดูแลระบบ" && $user->fname_th != "เจ้าหน้าที่")' + // เฉพาะผู้ใช้ที่ academic_ranks_th เป็นค่าว่าง
+                '@if($user->academic_ranks_th == null && $user->fname_th != "ผู้ดูแลระบบ" && $user->fname_th != "เจ้าหน้าที่")' +
                 '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
                 '@endif' +
                 '@endforeach' +
@@ -241,10 +289,7 @@
             $("#selStudent" + studentIndex).select2();
         });
 
-        // $(document).on('click', '.remove-tr', function() {
-        //     $(this).parents('tr').remove();
-        // });
-
+        // Remove row functionality
         $(document).on('click', '.remove-tr', function() {
             var row = $(this).closest('tr');
             var table = row.closest('table');

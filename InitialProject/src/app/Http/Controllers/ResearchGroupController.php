@@ -84,6 +84,27 @@ class ResearchGroupController extends Controller
                 }
             }
         }
+        if ($request->postdoctoral) {
+            foreach ($request->postdoctoral as $key => $value) {
+                if ($value['userid'] != null) {
+                    $researchGroup->user()->attach($value['userid'], ['role' => 3]);
+                }
+            }
+        }
+        // if ($request->visiting) {
+        //     foreach ($request->visiting as $key => $value) {
+        //         if ($value['userid'] != null) {
+        //             $researchGroup->user()->attach($value['userid'], ['role' => 4]);
+        //         }
+        //     }
+        // }
+        if ($request->students) {
+            foreach ($request->students as $key => $value) {
+                if ($value['userid'] != null) {
+                    $researchGroup->user()->attach($value['userid'], ['role' => 5]);
+                }
+            }
+        }
         return redirect()->route('researchGroups.index')->with('success', 'research group created successfully.');
     }
 
@@ -145,8 +166,9 @@ class ResearchGroupController extends Controller
             $request->group_image->move(public_path('img'), $input['group_image']);
         }
         $researchGroup->update($input);
-        $head = $request->head;
         $researchGroup->user()->detach();
+
+        $head = $request->head;
         $researchGroup->user()->attach(array(
             $head => array('role' => 1),
         ));
@@ -156,6 +178,27 @@ class ResearchGroupController extends Controller
 
                 if ($value['userid'] != null) {
                     $researchGroup->user()->attach($value, ['role' => 2]);
+                }
+            }
+        }
+        if ($request->postdoctoral) {
+            foreach ($request->postdoctoral as $key => $value) {
+                if ($value['userid'] != null) {
+                    $researchGroup->user()->attach($value['userid'], ['role' => 3]);
+                }
+            }
+        }
+        // if ($request->visiting) {
+        //     foreach ($request->visiting as $key => $value) {
+        //         if ($value['userid'] != null) {
+        //             $researchGroup->user()->attach($value['userid'], ['role' => 4]);
+        //         }
+        //     }
+        // }
+        if ($request->students) {
+            foreach ($request->students as $key => $value) {
+                if ($value['userid'] != null) {
+                    $researchGroup->user()->attach($value['userid'], ['role' => 5]);
                 }
             }
         }
