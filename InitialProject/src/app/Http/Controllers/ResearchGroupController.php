@@ -31,7 +31,7 @@ class ResearchGroupController extends Controller
         //$researchGroups = ResearchGroup::latest()->paginate(5);
         // $researchGroups = ResearchGroup::with('User')->get();
 
-        $researchGroups = ResearchGroup::whereHas('user', function($query) {
+        $researchGroups = ResearchGroup::whereHas('user', function ($query) {
             $query->where('user_id', Auth::id());
         })->get();
         return view('research_groups.index', compact('researchGroups'));
@@ -71,6 +71,7 @@ class ResearchGroupController extends Controller
         // $input['group_image'] = time().'.'.$request->group_image->extension();
         // $request->group_image->move(public_path('img'), $input['group_image']);
         //return $input['group_image'];
+
         $researchGroup = ResearchGroup::create($input);
         $head = $request->head;
         $fund = $request->fund;
@@ -112,6 +113,7 @@ class ResearchGroupController extends Controller
     {
         $researchGroup = ResearchGroup::find($researchGroup->id);
         $this->authorize('update', $researchGroup);
+
         $researchGroup = ResearchGroup::with(['user'])->where('id', $researchGroup->id)->first();
         $users = User::get();
         //return $users;

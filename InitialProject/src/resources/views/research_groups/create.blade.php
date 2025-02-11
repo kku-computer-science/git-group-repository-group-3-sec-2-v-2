@@ -19,6 +19,12 @@
             <form action="{{ route('researchGroups.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group row">
+                    <p class="col-sm-3 "><b>URL</b></p>
+                    <div class="col-sm-8">
+                        <input name="group_url" class="form-control" placeholder="URL กลุ่มวิจัย" value="{{ old('group_url') }}">
+                    </div>
+                </div>
+                <div class="form-group row">
                     <p class="col-sm-3 "><b>ชื่อกลุ่มวิจัย (ภาษาไทย)</b></p>
                     <div class="col-sm-8">
                         <input name="group_name_th" value="{{ old('group_name_th') }}" class="form-control"
@@ -89,9 +95,43 @@
                         </table>
                     </div>
                 </div>
+                <div class="form-group row">
+                    <p class="col-sm-3 pt-4"><b>Post_Doctoral</b></p>
+                    <div class="col-sm-8">
+                        <table class="table" id="postdocAddRemove">
+                            <tr>
+                                <th><button type="button" name="add" id="add-btn3" class="btn btn-success btn-sm add"><i
+                                            class="mdi mdi-plus"></i></button></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <p class="col-sm-3 pt-4"><b>Visiting</b></p>
+                    <div class="col-sm-8">
+                        <table class="table" id="visitingAddRemove">
+                            <tr>
+                                <th><button type="button" name="add" id="add-btn4" class="btn btn-success btn-sm add"><i
+                                            class="mdi mdi-plus"></i></button></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <p class="col-sm-3 pt-4"><b>Students</b></p>
+                    <div class="col-sm-8">
+                        <table class="table" id="studentAddRemove">
+                            <tr>
+                                <th><button type="button" name="add" id="add-btn5" class="btn btn-success btn-sm add"><i
+                                            class="mdi mdi-plus"></i></button></th>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
                 <button type="submit" class="btn btn-primary upload mt-5">Submit</button>
                 <a class="btn btn-light mt-5" href="{{ route('researchGroups.index')}}"> Back</a>
-                </form>
+            </form>
         </div>
     </div>
 </div>
@@ -126,24 +166,71 @@ $("body").on("click",".upload",function(e){
   }
 </script> -->
 <script>
-$(document).ready(function() {
-    $("#selUser0").select2()
-    $("#head0").select2()
+    $(document).ready(function() {
+        $("#selUser0").select2()
+        $("#head0").select2()
 
-    var i = 0;
+        var i = 0;
+        var postdocIndex = 0;
+        var visitingIndex = 0;
+        var studentIndex = 0;
 
-    $("#add-btn2").click(function() {
+        $("#add-btn2").click(function() {
 
-        ++i;
-        $("#dynamicAddRemove").append('<tr><td><select id="selUser' + i + '" name="moreFields[' + i +
-            '][userid]"  style="width: 200px;"><option value="">Select User</option>@foreach($users as $user)<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>@endforeach</select></td><td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td></tr>'
+            ++i;
+            $("#dynamicAddRemove").append('<tr><td><select id="selUser' + i + '" name="moreFields[' + i +
+                '][userid]"  style="width: 200px;"><option value="">Select User</option>@foreach($users as $user)<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>@endforeach</select></td><td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td></tr>'
             );
-        $("#selUser" + i).select2()
-    });
-    $(document).on('click', '.remove-tr', function() {
-        $(this).parents('tr').remove();
-    });
+            $("#selUser" + i).select2()
+        });
 
-});
+        // Add Post Doctoral Fields
+        $("#add-btn3").click(function() {
+            ++postdocIndex;
+            $("#postdocAddRemove").append(
+                '<tr><td><input type="text" name="postdoctoral[' + postdocIndex + '][name]" class="form-control" placeholder="ชื่อ Post Doctoral"></td>' +
+                '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td></tr>'
+            );
+        });
+
+        // Add Visiting Fields
+        $("#add-btn4").click(function() {
+            ++visitingIndex;
+            $("#visitingAddRemove").append(
+                '<tr>' +
+                '<td><input type="text" name="visiting[' + visitingIndex + '][prefix]" class="form-control" placeholder="คำนำหน้า"></td>' +
+                '<td><input type="text" name="visiting[' + visitingIndex + '][fname]" class="form-control" placeholder="ชื่อ"></td>' +
+                '<td><input type="text" name="visiting[' + visitingIndex + '][lname]" class="form-control" placeholder="นามสกุล"></td>' +
+                '</tr>' +
+                '<tr>' +
+                '<td colspan="4">' +
+                '<input type="text" name="visiting[' + visitingIndex + '][affiliation]" class="form-control" placeholder="สังกัด">' +
+                '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="mdi mdi-minus"></i></button></td>' +
+                '</td>' +
+                '</tr>'
+            );
+        });
+
+        // Add Student Fields
+        $("#add-btn5").click(function() {
+            ++studentIndex;
+            $("#studentAddRemove").append(
+                '<tr><td><input type="text" name="students[' + studentIndex + '][name]" class="form-control" placeholder="ชื่อ Student"></td>' +
+                '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td></tr>'
+            );
+        });
+
+        $(document).on('click', '.remove-tr', function() {
+            var row = $(this).closest('tr');
+            var table = row.closest('table');
+
+            if (table.attr('id') === 'visitingAddRemove') {
+                row.prev().remove();
+            }
+
+            row.remove();
+
+        });
+    });
 </script>
 @stop
