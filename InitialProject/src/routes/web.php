@@ -88,7 +88,7 @@ Route::get('/clear-all', function() {
  });
 
 Route::get('/scholar', [ScholarController::class, 'index']);
-Route::get('/paper-details', [PaperDetailController::class, 'fetchPaperDetails']);
+Route::get('fresearchgroup', [PaperDetailController::class, 'fetchPaperDetails']);
 Route::get('/scholar/test-paper-html', [ScholarController::class, 'testPaperHtml']);
 
 
