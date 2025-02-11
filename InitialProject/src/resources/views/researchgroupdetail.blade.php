@@ -174,6 +174,33 @@
             </div>
         </div>
 
+        <!-- Postdoctoral Researchers -->
+        <div class="research-rationale-box">
+            <h2 class="text-center">Postdoctoral Researchers</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
+                @foreach($rg->user as $r)
+                    @if(isset($r->pivot) && $r->pivot->role == 3)
+                        <div class="col">
+                            <div class="member-card">
+                                <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
+                                    <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
+                                         alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
+                                         class="center-image">
+                                </a>
+                                <div class="person-info">
+                                    @if(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
+                                        <p>{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}, Ph.D.</p>
+                                    @else
+                                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+            </div>
+        </div>
+
         <!-- Students -->
         <div class="research-rationale-box">
             <h2 class="text-center">Student</h2>

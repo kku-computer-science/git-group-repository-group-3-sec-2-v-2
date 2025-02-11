@@ -28,12 +28,23 @@ class ResearchGroupController extends Controller
 
     public function index()
     {
-        //$researchGroups = ResearchGroup::latest()->paginate(5);
-        // $researchGroups = ResearchGroup::with('User')->get();
+        $user = auth()->user();
 
-        $researchGroups = ResearchGroup::whereHas('user', function ($query) {
-            $query->where('user_id', Auth::id());
-        })->get();
+        if ($user->hasAnyRole(['admin', 'staff'])) {
+            // หากผู้ใช้เป็น admin หรือ staff ให้แสดงกลุ่มทั้งหมด
+            $researchGroups = ResearchGroup::with('user')
+                ->orderBy('group_name_en')
+                ->get();
+        } else {
+            // หากไม่ใช่ admin หรือ staff ให้แสดงเฉพาะกลุ่มที่มีผู้ใช้ปัจจุบันเข้าร่วม
+            $researchGroups = ResearchGroup::whereHas('user', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->with('user')
+            ->orderBy('group_name_en')
+            ->get();
+        }
+
         return view('research_groups.index', compact('researchGroups'));
     }
 
@@ -61,11 +72,11 @@ class ResearchGroupController extends Controller
             'group_name_th' => 'required',
             'group_name_en' => 'required',
             'head'          => 'required',
-            'link'          => 'nullable|url',  // เพิ่ม validate สำหรับ link
-            // เพิ่ม validate อื่น ๆ ตามที่ต้องการ
+            'link'          => 'nullable|url',  // validate รูปแบบ URL หากมี
+            // กำหนด validate อื่น ๆ ตามที่ต้องการ
         ]);
-
-        // สร้าง instance ใหม่ของ ResearchGroup
+    
+        // สร้าง instance ใหม่ของ ResearchGroup และกำหนดค่าต่างๆ
         $researchGroup = new ResearchGroup();
         $researchGroup->group_name_th   = $request->group_name_th;
         $researchGroup->group_name_en   = $request->group_name_en;
@@ -73,24 +84,27 @@ class ResearchGroupController extends Controller
         $researchGroup->group_desc_en   = $request->group_desc_en;
         $researchGroup->group_detail_th = $request->group_detail_th;
         $researchGroup->group_detail_en = $request->group_detail_en;
-
-        // ตรวจสอบและจัดการกับไฟล์ image
+    
+        // ตรวจสอบและจัดการกับไฟล์ image หากมี
         if ($request->hasFile('group_image')) {
             $filename = time() . '.' . $request->group_image->extension();
             $request->group_image->move(public_path('img'), $filename);
             $researchGroup->group_image = $filename;
         }
-
+    
         // กำหนดค่า link จาก request แบบ manual
         $researchGroup->link = $request->link;
-
-        // บันทึกข้อมูลลงฐานข้อมูล
+    
+        // บันทึกข้อมูลลงในฐานข้อมูล
         $researchGroup->save();
-
-        // แนบความสัมพันธ์กับหัวหน้ากลุ่ม (role 1)
-        $researchGroup->user()->attach($request->head, ['role' => 1]);
-
-        // แนบสมาชิกกลุ่ม (role 2) หากมีข้อมูลใน moreFields
+    
+        // กำหนดเจ้าของกลุ่ม (Owner) โดยพิจารณาจาก role ของผู้ใช้ที่ล็อกอิน
+        // หากผู้ใช้มี role เป็น admin หรือ staff ให้ใช้ค่าจากฟอร์ม (head)
+        // แต่ถ้าไม่ใช่ ให้ใช้ auth()->id() เป็นเจ้าของกลุ่ม
+        $owner = auth()->user()->hasAnyRole(['admin', 'staff']) ? $request->head : auth()->id();
+        $researchGroup->user()->attach($owner, ['role' => 1]);
+    
+        // แนบสมาชิกกลุ่ม (role = 2) หากมีข้อมูลใน moreFields
         if ($request->moreFields) {
             foreach ($request->moreFields as $field) {
                 if (isset($field['userid']) && $field['userid'] != null) {
@@ -98,10 +112,18 @@ class ResearchGroupController extends Controller
                 }
             }
         }
-
+    
+        // แนบ Postdoctoral Researcher (role = 3) หากมีข้อมูลใน postdocFields
+        if ($request->has('postdocFields')) {
+            foreach ($request->postdocFields as $field) {
+                if (isset($field['userid']) && $field['userid'] != null) {
+                    $researchGroup->user()->attach($field['userid'], ['role' => 3]);
+                }
+            }
+        }
+    
         return redirect()->route('researchGroups.index')->with('success', 'research group created successfully.');
     }
-
 
     /**
      * Display the specified resource.
