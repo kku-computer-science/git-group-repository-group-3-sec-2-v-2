@@ -17,7 +17,7 @@ class FetchScopusData extends Command
      *
      * @var string
      */
-    protected $signature = 'scopus:fetch';
+    protected $signature = 'scopus:fetch2';
 
     /**
      * The console command description.
