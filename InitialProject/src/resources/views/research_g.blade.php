@@ -1,4 +1,5 @@
 @extends('layouts.layout')
+
 @section('content')
 <div class="container card-3">
     <!-- Blue Stripe Around the Heading and Search Input Section -->
@@ -13,8 +14,8 @@
 
     <div id="researchGroupList" class="row row-cols-1 row-cols-md-3 g-4">
         @foreach ($resg as $rg)
-            <div class="col">
-                <div class="card mb-4 research-group-item">
+            <div class="col research-group-item">
+                <div class="card mb-4">
                     <div class="row g-0">
                         <div class="col-md-12">
                             <div class="card-body">
@@ -24,7 +25,7 @@
                                         <img src="{{ asset('img/'.$rg->group_image) }}" alt="Group Image" class="group-image">
                                         <!-- Title overlay on top of the image -->
                                         <div class="title-overlay">
-                                            <h5>{{ $rg->{'group_name_'.app()->getLocale()} }}</h5>
+                                            <h5 class="group-name">{{ $rg->{'group_name_'.app()->getLocale()} }}</h5>
                                         </div>
                                         <!-- Details container that will appear only on hover -->
                                         <div class="details-overlay">
@@ -47,13 +48,12 @@
             var searchValue = $(this).val().toLowerCase();
 
             $('.research-group-item').filter(function() {
-                var groupName = $(this).find('.card-title').text().toLowerCase();
-                $(this).toggle(groupName.indexOf(searchValue) > -1);
+                var groupName = $(this).find('.group-name').text().toLowerCase(); // Target the correct class here
+                $(this).toggle(groupName.indexOf(searchValue) > -1); // Show or hide based on the match
             });
         });
     });
 </script>
-
 @stop
 
 <style>

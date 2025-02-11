@@ -70,7 +70,7 @@
                     @if($r->hasRole('teacher'))
                         <div class="col-md-3"> <!-- This makes it a 4-column layout on medium screens and larger -->
                             <div class="text-center">
-                                <img src="{{ asset('img/'.$rg->group_image) }}" alt="Group Image" class="center-image img-fluid">
+                                <img src="{{ asset('img/'.$r->profile_image) }}" alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}" class="center-image img-fluid">
                                 <div class="person-info">
                                     @if(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer' && $r->doctoral_degree == 'Ph.D.')
                                         <p>{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}, Ph.D.</p>
@@ -96,6 +96,7 @@
                     @if($user->hasRole('student'))
                         <div class="col-md-3"> <!-- 4 columns on medium and larger screens -->
                             <div class="text-center">
+                                <img src="{{ asset('img/'.$user->profile_image) }}" alt="{{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}" class="center-image img-fluid">
                                 <p>{{ $user->{'position_'.app()->getLocale()} }} {{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}</p>
                             </div>
                         </div>
