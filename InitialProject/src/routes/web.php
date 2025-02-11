@@ -34,10 +34,12 @@ use App\Http\Controllers\PatentController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\SourceController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PaperDetailController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TcicallController;
+use App\Http\Controllers\ScholarController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,6 +86,11 @@ Route::get('/clear-all', function() {
         'optimize' => 'Class loader optimized'
     ], 200);
  });
+
+Route::get('/scholar', [ScholarController::class, 'index']);
+Route::get('fresearchgroup', [PaperDetailController::class, 'fetchPaperDetails']);
+Route::get('/scholar/test-paper-html', [ScholarController::class, 'testPaperHtml']);
+
 
 
 Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {

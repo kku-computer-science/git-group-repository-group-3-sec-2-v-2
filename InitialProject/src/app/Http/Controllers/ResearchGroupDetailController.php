@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Author;
 use App\Models\Paper;
 use App\Models\ResearchGroup;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class ResearchGroupDetailController extends Controller
@@ -12,8 +13,8 @@ class ResearchGroupDetailController extends Controller
     public function request($id)
     {
         $resgd = ResearchGroup::with(['User.paper' => function ($query) {
-            return $query->orderBy('paper_yearpub','DESC');
-        }])->where('id','=',$id)->get();
+            return $query->orderBy('paper_yearpub', 'DESC');
+        }])->where('id', '=', $id)->get();
 
         //return $resgd;
         // $std = ResearchGroup::hasRole('student')::with(['User.paper' => function ($query) {
@@ -33,5 +34,11 @@ class ResearchGroupDetailController extends Controller
         return view('researchgroupdetail', compact('resgd'));
         //return $resgd;
 
+    }
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'work_of_research_groups')
+            ->withPivot('role');
     }
 }

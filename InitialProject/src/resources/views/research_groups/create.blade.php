@@ -1,5 +1,4 @@
 @extends('dashboards.users.layouts.user-dash-layout')
-
 @section('content')
 <div class="container">
     @if ($errors->any())

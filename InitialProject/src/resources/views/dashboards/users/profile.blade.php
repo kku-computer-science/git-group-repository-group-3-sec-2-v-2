@@ -45,8 +45,41 @@
     }
 
     @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+    .upload-overlay__content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .upload-overlay__spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
     }
 </style>
 @section('title','Profile')
@@ -398,7 +431,7 @@
     </div>
 </div>
 
-<!-- Upload Overlay -->
+<!-- Upload Overlay - วางตรงนี้ -->
 <div class="upload-overlay" id="uploadOverlay">
     <div class="upload-overlay__content">
         <div class="upload-overlay__spinner"></div>
@@ -440,7 +473,7 @@
 <script>
     $(document).ready(function() {
         const overlay = $('#uploadOverlay');
-        
+
         var $optgroups = $('#subcategory > optgroup');
 
         $("#category").on("change", function() {
@@ -454,26 +487,26 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        
+
         showSwal = function(type) {
             swal({
-                title: "Are you sure update info",
-                text: "Are you sure to proceed?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#82ce34",
-                confirmButtonText: "Update My Info!",
-                cancelButtonText: "I am not sure!",
-                closeOnConfirm: false,
-                closeOnCancel: false
-            },
-            function(isConfirm) {
-                if (isConfirm) {
-                    swal("Update Info", "Your account is updated!", "success");
-                } else {
-                    swal("Cancle", "Account is not updated", "error");
-                }
-            });
+                    title: "Are you sure update info",
+                    text: "Are you sure to proceed?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#82ce34",
+                    confirmButtonText: "Update My Info!",
+                    cancelButtonText: "I am not sure!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                },
+                function(isConfirm) {
+                    if (isConfirm) {
+                        swal("Update Info", "Your account is updated!", "success");
+                    } else {
+                        swal("Cancle", "Account is not updated", "error");
+                    }
+                });
         }
 
         $('#AdminInfoForm').on('submit', function(e) {
@@ -520,7 +553,8 @@
                     if (data.status == 0) {
                         $.each(data.error, function(prefix, val) {
                             $('span.' + prefix + '_error').text(val[0]);
-                        });} else {
+                        });
+                    } else {
                         $('.admin_name').each(function() {
                             $(this).html($('#EdInfoForm').find($('input[name="name"]')).val());
                         });
@@ -543,25 +577,25 @@
             buttonsColor: ['#30bf7d', '#ee5155', -15],
             processUrl: '{{ route("adminPictureUpdate") }}',
             withCSRF: ['_token', '{{ csrf_token() }}'],
+            // เพิ่ม event นี้
+            onBeforeImgUpload: function() {
+                overlay.css('display', 'flex');
+            },
             onStartProcessing: function() {
-                // Show overlay and disable all buttons
                 overlay.css('display', 'flex');
                 $('button, input[type="submit"]').prop('disabled', true);
             },
             onSuccess: function(message, element, status) {
-                // Hide overlay and enable buttons
                 overlay.hide();
                 $('button, input[type="submit"]').prop('disabled', false);
                 swal("Update Profile Picture", "Your account is updated!", "success");
             },
             onError: function(message, element, status) {
-                // Hide overlay and enable buttons
                 overlay.hide();
                 $('button, input[type="submit"]').prop('disabled', false);
                 swal("Error", message, "error");
             }
         });
-
         $('#changePasswordAdminForm').on('submit', function(e) {
             e.preventDefault();
             $.ajax({
