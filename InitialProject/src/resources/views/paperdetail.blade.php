@@ -42,16 +42,21 @@
     }
 
     .card-image {
-    width: 200px; /* กำหนดความกว้าง */
-    height: 300px; /* กำหนดความสูง */
-    border-radius: 10px; /* เพิ่มมุมโค้ง */
-    object-fit: cover; /* ทำให้รูปเต็มกรอบโดยไม่เสียสัดส่วน */
-    display: block; /* ป้องกัน margin ด้านล่างของ <img> */
-}
+        width: 200px;
+        /* กำหนดความกว้าง */
+        height: 300px;
+        /* กำหนดความสูง */
+        border-radius: 10px;
+        /* เพิ่มมุมโค้ง */
+        object-fit: cover;
+        /* ทำให้รูปเต็มกรอบโดยไม่เสียสัดส่วน */
+        display: block;
+        /* ป้องกัน margin ด้านล่างของ <img> */
+    }
 
-h3 {
-    color: #1075BB;
-}
+    h3 {
+        color: #1075BB;
+    }
 </style>
 
 <div class="container">
@@ -78,7 +83,7 @@ h3 {
 
         <!-- Paper Information -->
         <div class="col-md-9">
-            <h3 class="font-weight-bold mb-3" >{{ $paper->paper_name }}</h3>
+            <h3 class="font-weight-bold mb-3">{{ $paper->paper_name }}</h3>
             <table class="table table-borderless text-muted">
                 <tbody>
                     <tr>

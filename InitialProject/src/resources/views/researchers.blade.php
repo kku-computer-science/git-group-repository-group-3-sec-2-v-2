@@ -33,22 +33,22 @@
 
                     <div class="row row-cols-1 row-cols-md-2 g-3">
                         @php
-                            $sortedUsers = $program->users->sortBy([
-                                function ($user) {
-                                    $positions = [
-                                        'Prof. Dr.',
-                                        'Assoc. Prof. Dr.',
-                                        'Asst. Prof. Dr.',
-                                        'Assoc. Prof.',
-                                        'Asst. Prof.',
-                                        'Lecturer'
-                                    ];
-                                    return array_search($user->position_en, $positions);
-                                },
-                                function ($user) {
-                                    return $user->doctoral_degree === 'Ph.D.' ? 0 : 1;
-                                }
-                            ]);
+                        $sortedUsers = $program->users->sortBy([
+                        function ($user) {
+                        $positions = [
+                        'Prof. Dr.',
+                        'Assoc. Prof. Dr.',
+                        'Asst. Prof. Dr.',
+                        'Assoc. Prof.',
+                        'Asst. Prof.',
+                        'Lecturer'
+                        ];
+                        return array_search($user->position_en, $positions);
+                        },
+                        function ($user) {
+                        return $user->doctoral_degree === 'Ph.D.' ? 0 : 1;
+                        }
+                        ]);
                         @endphp
 
                         @foreach($sortedUsers as $user)
@@ -87,4 +87,3 @@
     </div>
 </div>
 @stop
-                            

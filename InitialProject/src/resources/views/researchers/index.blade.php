@@ -264,16 +264,18 @@
 
     /* การ์ดของแต่ละ Researcher */
     .researcher-card {
-    display: flex;
-    align-items: stretch;  /* ทำให้การ์ดมีขนาดเท่ากัน */
-    background-color: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    gap: 20px;
-    transition: all 0.3s ease-in-out;
-    min-height: 220px;  /* กำหนดความสูงขั้นต่ำให้เท่ากัน */
-}
+        display: flex;
+        align-items: stretch;
+        /* ทำให้การ์ดมีขนาดเท่ากัน */
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        gap: 20px;
+        transition: all 0.3s ease-in-out;
+        min-height: 220px;
+        /* กำหนดความสูงขั้นต่ำให้เท่ากัน */
+    }
 
     /* Hover Effect */
     .researcher-card:hover {
