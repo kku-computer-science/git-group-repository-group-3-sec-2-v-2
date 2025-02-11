@@ -13,7 +13,7 @@ class ScholarController extends Controller
     // จำนวนครั้งสูงสุดที่ retry เมื่อ request ล้มเหลว
     private $max_retries = 3;
     // เวลาเริ่มต้นสำหรับหน่วง (วินาที)
-    private $initial_delay = 60;
+    private $initial_delay = 2;
     // Guzzle client
     private $client;
 
