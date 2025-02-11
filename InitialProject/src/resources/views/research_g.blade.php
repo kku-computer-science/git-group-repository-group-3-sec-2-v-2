@@ -1,8 +1,7 @@
 @extends('layouts.layout')
-
 @section('content')
-<div class="container card-3">
-    <!-- Blue Stripe Around the Heading and Search Input Section -->
+<div class="container">
+    <!-- Blue Stripe Section -->
     <div class="blue-stripe">
         <h1 class="text-center">Research Group</h1>
         <div class="row mb-3">
@@ -12,128 +11,180 @@
         </div>
     </div>
 
+    <!-- Research Group Cards -->
     <div id="researchGroupList" class="row row-cols-1 row-cols-md-3 g-4">
         @foreach ($resg as $rg)
             <div class="col research-group-item">
-                <div class="card mb-4">
-                    <div class="row g-0">
-                        <div class="col-md-12">
-                            <div class="card-body">
-                                <!-- Image with hover effect -->
-                                <a href="{{ route('researchgroupdetail', ['id' => $rg->id]) }}">
-                                    <div class="group-image-container">
-                                        <img src="{{ asset('img/'.$rg->group_image) }}" alt="Group Image" class="group-image">
-                                        <!-- Title overlay on top of the image -->
-                                        <div class="title-overlay">
-                                            <h5 class="group-name">{{ $rg->{'group_name_'.app()->getLocale()} }}</h5>
-                                        </div>
-                                        <!-- Details container that will appear only on hover -->
-                                        <div class="details-overlay">
-                                            <h5>{{ Str::limit($rg->{'group_desc_'.app()->getLocale()}, 150) }}</h5>
-                                        </div>
-                                    </div>
-                                </a>
+                <div class="card h-100">
+                    <a href="{{ route('researchgroupdetail', ['id' => $rg->id]) }}" class="text-decoration-none">
+                        <div class="group-image-container">
+                            <img src="{{ asset('img/'.$rg->group_image) }}" alt="Group Image" class="group-image">
+                            <div class="overlay">
+                                <h5 class="group-name">{{ $rg->{'group_name_'.app()->getLocale()} }}</h5>
+                                <div class="group-description">
+                                    {{ Str::limit($rg->{'group_desc_'.app()->getLocale()}, 150) }}
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         @endforeach
     </div>
 </div>
 
-<script>
-    $(document).ready(function() {
-        $('#searchInput').on('keyup', function() {
-            var searchValue = $(this).val().toLowerCase();
+<style>
+/* Container styles */
+.container {
+    padding: 20px;
+}
 
-            $('.research-group-item').filter(function() {
-                var groupName = $(this).find('.group-name').text().toLowerCase(); // Target the correct class here
-                $(this).toggle(groupName.indexOf(searchValue) > -1); // Show or hide based on the match
-            });
+/* Blue stripe styles */
+.blue-stripe {
+    background-color: #003e80;
+    padding: 30px 20px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.blue-stripe h1 {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.blue-stripe .form-control {
+    background-color: white;
+    border: none;
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.blue-stripe .form-control:focus {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+/* Card styles */
+.card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Image container and hover effects */
+.group-image-container {
+    position: relative;
+    width: 100%;
+    padding-top: 75%; /* 4:3 Aspect Ratio */
+    overflow: hidden;
+}
+
+.group-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.3),
+        rgba(0, 0, 0, 0.7)
+    );
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+.group-name {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease;
+}
+
+.group-description {
+    color: white;
+    font-size: 1rem;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Hover effects */
+.group-image-container:hover .group-image {
+    transform: scale(1.1);
+}
+
+.group-image-container:hover .overlay {
+    background: linear-gradient(
+        to bottom,
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.8)
+    );
+}
+
+.group-image-container:hover .group-name {
+    transform: translateY(-10px);
+}
+
+.group-image-container:hover .group-description {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .blue-stripe h1 {
+        font-size: 2rem;
+    }
+    
+    .group-name {
+        font-size: 1.2rem;
+    }
+    
+    .group-description {
+        font-size: 0.9rem;
+    }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+    $('#searchInput').on('keyup', function() {
+        var searchValue = $(this).val().toLowerCase();
+        $('.research-group-item').each(function() {
+            var groupName = $(this).find('.group-name').text().toLowerCase();
+            $(this).toggle(groupName.includes(searchValue));
         });
     });
+});
 </script>
 @stop
-
-<style>
-    /* Blue stripe style */
-    .blue-stripe {
-        background-color: #003e80; /* Blue background */
-        padding: 30px 15px; /* Increase padding (top and bottom) to make it higher */
-        border-radius: 5px; /* Optional: rounded corners */
-        margin-bottom: 30px; /* Space between the stripe and other content */
-    }
-
-    .blue-stripe h1 {
-        color: white; /* White text color for the heading */
-        font-size: 2rem; /* Adjust font size */
-        font-weight: bold;
-    }
-
-    .blue-stripe .form-control {
-        background-color: #fff; /* Ensure input field has a white background */
-        border: 2px solid #003e80; /* Dark blue border for input field */
-        border-radius: 5px;
-    }
-
-    /* Image hover effect */
-    .group-image {
-        width: 100%; /* Make the image occupy the full width */
-        height: auto; /* Keep the aspect ratio intact */
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .group-image-container {
-        position: relative;
-        width: 100%;
-        text-align: center; /* Center content */
-    }
-
-    /* Title overlay that appears on top of the image */
-    .title-overlay {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 1.5rem;
-        font-weight: bold;
-        text-align: center;
-        z-index: 2; /* Make sure it's above the image */
-        opacity: 1;
-        transition: opacity 0.3s ease;
-    }
-
-    /* Details overlay that will appear only on hover */
-    .details-overlay {
-        display: none;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        color: white;
-        padding: 15px;
-        font-size: 16px;
-        text-align: center;
-        border-radius: 5px;
-    }
-
-    /* Show the overlay when hovering over the image */
-    .group-image-container:hover .details-overlay {
-        display: block; /* Show details on hover */
-    }
-
-    /* Hide title overlay on hover */
-    .group-image-container:hover .title-overlay {
-        opacity: 0; /* Hide title when hovered */
-    }
-
-    /* Hover effect on image */
-    .group-image:hover {
-        transform: scale(1.05); /* Enlarge the image */
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow on hover */
-    }
-</style>
