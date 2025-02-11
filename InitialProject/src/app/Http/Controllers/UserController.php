@@ -11,20 +11,21 @@ use Illuminate\Support\Arr;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use File;
 
 class UserController extends Controller
 {
     /**
-     * create a new instance of the class
+     * Create a new instance of the class.
      *
      * @return void
      */
     function __construct()
     {
-         $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:user-create', ['only' => ['create','store']]);
-         $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:user-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index','store']]);
+        $this->middleware('permission:user-create', ['only' => ['create','store']]);
+        $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
+        $this->middleware('permission:user-delete', ['only' => ['destroy']]);
     }
 
     /**
@@ -35,7 +36,6 @@ class UserController extends Controller
     public function index()
     {
         $data = User::all();
-        //return $data;
         return view('users.index', compact('data'));
     }
 
@@ -46,26 +46,25 @@ class UserController extends Controller
      */
     public function create()
     {
-        
-        $roles = Role::pluck('name','name')->all();
-        //$roles = Role::all();
-        //$deps = Department::pluck('department_name_EN','department_name_EN')->all();
+        $roles = Role::pluck('name', 'name')->all();
         $departments = Department::all();
-        return view('users.create', compact('roles','departments'));
-        // $subcat = Program::with('degree')->where('department_id', 1)->get();
-        // return response()->json($subcat);
+        return view('users.create', compact('roles', 'departments'));
     }
 
-    
+    /**
+     * Get sub-categories (programs) based on the department.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response (JSON)
+     */
     public function getCategory(Request $request)
     {
         $cat = $request->cat_id;
-        // $subcat = Program::select('id','department_id','program_name_en')->where('department_id', $cat)->with(['degree' => function ($query) {
-        //     $query->select('id');
-        // }])->get();
+        // คุณอาจแก้ไขให้ใช้ $cat ในเงื่อนไข where ได้ตามต้องการ
         $subcat = Program::with('degree')->where('department_id', 1)->get();
         return response()->json($subcat);
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -74,44 +73,40 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        // Validate ฟิลด์ที่จำเป็น (is_research ไม่จำเป็นต้อง validate เพราะเป็นตัวเลือก)
         $this->validate($request, [
-            'fname_en' => 'required',
-            'lname_en' => 'required',
-            'fname_th' => 'required',
-            'lname_th' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|confirmed',
-            'roles' => 'required',
-            // 'position' => 'required',
-            'sub_cat' => 'required',
+            'fname_en'  => 'required',
+            'lname_en'  => 'required',
+            'fname_th'  => 'required',
+            'lname_th'  => 'required',
+            'email'     => 'required|email|unique:users,email',
+            'password'  => 'required|confirmed',
+            'roles'     => 'required',
+            'sub_cat'   => 'required',
         ]);
-    
-        //$input = $request->all();
-        //$input['password'] = Hash::make($input['password']);
-    
-        //$user = User::create($input);
-        $user = User::create([  
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'fname_en' => $request->fname_en,
-            'lname_en' => $request->lname_en,
-            'fname_th' => $request->fname_th,
-            'lname_th' => $request->lname_th,
-            // 'position' =>  $request->position,
+
+        // สร้างผู้ใช้งานใหม่ โดยเพิ่มฟิลด์ is_research
+        $user = User::create([
+            'email'       => $request->email,
+            'password'    => Hash::make($request->password),
+            'fname_en'    => $request->fname_en,
+            'lname_en'    => $request->lname_en,
+            'fname_th'    => $request->fname_th,
+            'lname_th'    => $request->lname_th,
+            'is_research' => $request->has('is_research') ? 1 : 0, // ถ้า checkbox ถูกเลือกจะได้ 1, มิฉะนั้น 0
         ]);
-        
+
+        // กำหนด role ให้กับผู้ใช้งาน
         $user->assignRole($request->roles);
 
-        //dd($request->deps->id);
+        // Associate ผู้ใช้งานกับโปรแกรมที่เลือก
         $pro_id = $request->sub_cat;
-        //return $pro_id;
-        //$dep = Program::where('department_name_EN','=',$request->deps)->first()->id;
         $program = Program::find($pro_id);
-
-        $user = $user->program()->associate($program)->save();
+        $user->program()->associate($program);
+        $user->save();
 
         return redirect()->route('users.index')
-            ->with('success', 'User created successfully.');
+                         ->with('success', 'User created successfully.');
     }
 
     /**
@@ -123,7 +118,6 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-
         return view('users.show', compact('user'));
     }
 
@@ -137,16 +131,16 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $departments = Department::all();
-        $id = $user->program->department_id;
-        $programs = Program::whereHas('department', function($q) use ($id){    
-            $q->where('id', '=', $id);
+        $depId = $user->program->department_id;
+        $programs = Program::whereHas('department', function($q) use ($depId){    
+            $q->where('id', '=', $depId);
         })->get();
         
         $roles = Role::pluck('name', 'name')->all();
         $deps = Department::pluck('department_name_EN','department_name_EN')->all();
         $userRole = $user->roles->pluck('name', 'name')->all();
         $userDep = $user->department()->pluck('department_name_EN','department_name_EN')->all();
-        return view('users.edit', compact('user', 'roles','deps', 'userRole','userDep','programs','departments'));
+        return view('users.edit', compact('user', 'roles', 'deps', 'userRole', 'userDep', 'programs', 'departments'));
     }
 
     /**
@@ -158,38 +152,46 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Validate ฟิลด์ที่จำเป็น
         $this->validate($request, [
-            'fname_en' => 'required',
-            'fname_th' => 'required',
-            'lname_en' => 'required',
-            'lname_th' => 'required',
-            'email' => 'required|email|unique:users,email,'.$id,
-            'password' => 'confirmed',
-            'roles' => 'required'
+            'fname_en'  => 'required',
+            'fname_th'  => 'required',
+            'lname_en'  => 'required',
+            'lname_th'  => 'required',
+            'email'     => 'required|email|unique:users,email,'.$id,
+            'password'  => 'confirmed',
+            'roles'     => 'required'
         ]);
-    
+
         $input = $request->all();
-        
-        if(!empty($input['password'])) { 
+
+        // เพิ่มการอัปเดตฟิลด์ is_research
+        $input['is_research'] = $request->has('is_research') ? 1 : 0;
+
+        if (!empty($input['password'])) { 
             $input['password'] = Hash::make($input['password']);
         } else {
-            $input = Arr::except($input, array('password'));    
+            $input = Arr::except($input, ['password']);    
         }
     
         $user = User::find($id);
         $user->update($input);
 
+        // ลบ role เก่าและกำหนด role ใหม่ให้กับผู้ใช้งาน
         DB::table('model_has_roles')
             ->where('model_id', $id)
             ->delete();
     
         $user->assignRole($request->input('roles'));
+
+        // Associate ผู้ใช้งานกับโปรแกรมที่เลือก
         $pro_id = $request->sub_cat;
         $program = Program::find($pro_id);
-        $user = $user->program()->associate($program)->save();
+        $user->program()->associate($program);
+        $user->save();
 
         return redirect()->route('users.index')
-            ->with('success', 'User updated successfully.');
+                         ->with('success', 'User updated successfully.');
     }
 
     /**
@@ -200,47 +202,55 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        
         User::find($id)->delete();
         return redirect()->route('users.index')
-            ->with('success', 'User deleted successfully.');
+                         ->with('success', 'User deleted successfully.');
     }
 
-    function profile(){
+    /**
+     * Display the user's profile.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function profile()
+    {
         return view('dashboards.users.profile');
     }
 
-    function updatePicture(Request $request){
+    /**
+     * Update the user's profile picture.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response (JSON)
+     */
+    public function updatePicture(Request $request)
+    {
         $path = 'images/imag_user/';
-        //return 'aaaaaa';
         $file = $request->file('admin_image');
-       $new_name = 'UIMG_'.date('Ymd').uniqid().'.jpg';
+        $new_name = 'UIMG_' . date('Ymd') . uniqid() . '.jpg';
         
-        //dd(public_path());
-        //Upload new image
+        // Upload รูปภาพใหม่
         $upload = $file->move(public_path($path), $new_name);
-        //$filename = time() . '.' . $file->getClientOriginalExtension();
-        //$upload = $file->move('user/images', $filename);
      
-        if( !$upload ){
-            return response()->json(['status'=>0,'msg'=>'Something went wrong, upload new picture failed.']);
-        }else{
-            //Get Old picture
+        if (!$upload) {
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong, upload new picture failed.']);
+        } else {
+            // Get old picture
             $oldPicture = User::find(Auth::user()->id)->getAttributes()['picture'];
 
-            if( $oldPicture != '' ){
-                if( \File::exists(public_path($path.$oldPicture))){
-                    \File::delete(public_path($path.$oldPicture));
+            if ($oldPicture != '') {
+                if (\File::exists(public_path($path . $oldPicture))) {
+                    \File::delete(public_path($path . $oldPicture));
                 }
             }
 
-            //Update DB
-            $update = User::find(Auth::user()->id)->update(['picture'=>$new_name]);
+            // Update DB
+            $update = User::find(Auth::user()->id)->update(['picture' => $new_name]);
 
-            if( !$upload ){
-                return response()->json(['status'=>0,'msg'=>'Something went wrong, updating picture in db failed.']);
-            }else{
-                return response()->json(['status'=>1,'msg'=>'Your profile picture has been updated successfully']);
+            if (!$update) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong, updating picture in db failed.']);
+            } else {
+                return response()->json(['status' => 1, 'msg' => 'Your profile picture has been updated successfully']);
             }
         }
     }
