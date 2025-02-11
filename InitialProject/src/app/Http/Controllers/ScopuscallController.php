@@ -12,16 +12,14 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\DB;
 
-// ต้อง import ScholarController ด้วย (ถ้าอยู่ใน namespace App\Http\Controllers\ScholarController)
-use App\Http\Controllers\ScholarController;
-
 class ScopuscallController extends Controller
 {
     /**
-     * ดึงข้อมูลจาก Scopus API แล้วบันทึกข้อมูล Paper พร้อมแนบความสัมพันธ์กับ User (ในตาราง pivot user_papers)
-     * จากนั้นไปดึงข้อมูลจาก Google Scholar เพื่อนำ Paper มาเทียบและอัปเดต/บันทึกเช่นเดียวกัน
+     * ดึงข้อมูลจาก Scopus API แล้วบันทึกข้อมูล Paper พร้อมแนบความสัมพันธ์กับ User
+     * โดยจะบันทึกเฉพาะกรณี paper ใหม่ (Insert) เท่านั้น ส่วนของ update หรือ add relation
+     * (ถ้าพบว่ามีในฐานข้อมูลอยู่แล้ว) จะไม่สนใจ
      *
-     * @param  string  $id  รหัสเข้ารหัสของ User
+     * @param  string  $id  (Encrypt) ของ User
      * @return \Illuminate\Http\RedirectResponse
      */
     public function create($id)
@@ -32,6 +30,9 @@ class ScopuscallController extends Controller
         if (!$user) {
             return redirect()->back()->with('error', 'User not found.');
         }
+
+        // สร้าง array สำหรับเก็บข้อมูลว่าอันไหน insert บ้าง
+        $insertedPapers = [];
 
         // ---------------------------------------------------------------------
         //                             PART 1: SCOPUS
@@ -68,17 +69,13 @@ class ScopuscallController extends Controller
 
             $existingPaper = Paper::where('paper_name', $scopusPaperName)->first();
             if ($existingPaper) {
-                // แนบความสัมพันธ์กับ User ผ่านความสัมพันธ์ teacher() หากยังไม่แนบ
-                if (!$existingPaper->teacher()->where('user_id', $user->id)->exists()) {
-                    $existingPaper->teacher()->attach($user->id);
-                }
-                // หากต้องการอัปเดต citation, ปี หรืออื่น ๆ จาก Scopus ก็ทำได้ที่นี่
-                // $existingPaper->paper_citation = $item['citedby-count'] ?? 0;
-                // $existingPaper->save();
+                // (ตัวอย่างนี้จะไม่สนใจ update หรือ add relation ใด ๆ)
+                // ถ้าต้องการทำ update หรือ add pivot user-papers ก็สามารถเพิ่มได้
+                // แต่โจทย์บอกว่าเอาเฉพาะ insert จึงข้าม
                 continue;
             }
 
-            // ดึง Scopus ID (ตัวอย่าง "SCOPUS_ID:85211026637")
+            // ---- ถ้าไม่เจอใน DB => ทำการ Insert ใหม่ ----
             $rawScopusId = $item['dc:identifier'] ?? '';
             $scopusId = str_replace('SCOPUS_ID:', '', $rawScopusId);
             // สร้าง URL สำหรับดึงรายละเอียดเพิ่มเติม (Abstract API)
@@ -90,24 +87,34 @@ class ScopuscallController extends Controller
                 'Accept'       => 'application/json',
             ])->get($detailUrl);
 
-            // กำหนดค่าพื้นฐานจากผลการค้นหา
+            // กำหนดค่าพื้นฐาน
             $paper_name = $scopusPaperName;
             $abstract = null;
             $paper_funder = null;
             $detailData = [];
+
             if ($detailResponse->successful()) {
                 $detailData = $detailResponse->json('abstracts-retrieval-response.item');
-                // ถ้ามี citation-title ในรายละเอียด ให้ใช้แทน paper_name
+
+                // ถ้ามี citation-title -> ใช้แทน paper_name
                 if (isset($detailData['bibrecord']['head']['citation-title'])) {
                     $paper_name = $detailData['bibrecord']['head']['citation-title'];
                 }
-                // ดึง abstract
+
+                // ดึง abstract (เช็คก่อนว่าเป็น array หรือ string)
                 if (isset($detailData['bibrecord']['head']['abstracts'])) {
-                    $abstract = $detailData['bibrecord']['head']['abstracts'];
+                    $abs = $detailData['bibrecord']['head']['abstracts'];
+                    $abstract = is_array($abs)
+                        ? json_encode($abs, JSON_UNESCAPED_UNICODE)
+                        : $abs;
                 }
+
                 // ดึงข้อมูล paper_funder (จาก xocs:funding-text)
                 if (isset($detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'])) {
-                    $paper_funder = $detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'];
+                    $funderRaw = $detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'];
+                    $paper_funder = is_array($funderRaw)
+                        ? json_encode($funderRaw, JSON_UNESCAPED_UNICODE)
+                        : $funderRaw;
                 }
             }
 
@@ -123,8 +130,20 @@ class ScopuscallController extends Controller
             $paper->abstract          = $abstract;
             $paper->paper_type        = $item['prism:aggregationType'] ?? 'Journal';
             $paper->paper_subtype     = $item['subtype'] ?? 'ar';
-            $paper->paper_sourcetitle = $item['subtypeDescription'] ?? 'Article';
-            $paper->keyword           = isset($item['author-keywords']) ? json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE) : null;
+
+            $subtypeDesc = $item['subtypeDescription'] ?? 'Article';
+            if (is_array($subtypeDesc)) {
+                $subtypeDesc = json_encode($subtypeDesc, JSON_UNESCAPED_UNICODE);
+            }
+            $paper->paper_sourcetitle = $subtypeDesc;
+
+            // author-keywords (array -> json_encode)
+            if (!empty($item['author-keywords'])) {
+                $paper->keyword = json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE);
+            } else {
+                $paper->keyword = null;
+            }
+
             $paper->paper_url         = $paper_url;
             $paper->publication       = $item['prism:publicationName'] ?? null;
             $paper->paper_yearpub     = $paper_yearpub;
@@ -137,25 +156,28 @@ class ScopuscallController extends Controller
             $paper->reference_number  = null;
             $paper->save();
 
-            // แนบข้อมูล Source (ในที่นี้ใช้ Source_data id=1)
+            // แนบข้อมูล Source_data (สมมติว่า id=1 เป็น Scopus)
             $source = Source_data::find(1);
             if ($source) {
                 $paper->source()->sync([$source->id]);
             }
 
-            // --- แนบข้อมูลผู้แต่ง ---
+            // --- แนบข้อมูลผู้แต่ง (authors) ---
             $authorsData = $detailData['bibrecord']['head']['author-group']['author']
                 ?? $detailResponse->json('abstracts-retrieval-response.authors.author');
+
             if ($authorsData && !is_array($authorsData)) {
                 $authorsData = [$authorsData];
             }
+
             if ($authorsData && is_array($authorsData)) {
                 $totalAuthors = count($authorsData);
                 $x = 1;
                 foreach ($authorsData as $authorItem) {
-                    $givenName = $authorItem['ce:given-name'] ?? ($authorItem['preferred-name']['ce:given-name'] ?? '');
-                    $surname = $authorItem['ce:surname'] ?? ($authorItem['preferred-name']['ce:surname'] ?? '');
-                    $trimmedName = trim($givenName . ' ' . $surname);
+                    $givenName = $authorItem['ce:given-name']
+                        ?? ($authorItem['preferred-name']['ce:given-name'] ?? '');
+                    $surname   = $authorItem['ce:surname']
+                        ?? ($authorItem['preferred-name']['ce:surname'] ?? '');
 
                     if ($x === 1) {
                         $author_type = 1; // first
@@ -173,7 +195,7 @@ class ScopuscallController extends Controller
                     if ($existingUser) {
                         $paper->teacher()->attach($existingUser->id, ['author_type' => $author_type]);
                     } else {
-                        // หากไม่พบในตาราง users ให้ตรวจสอบในตาราง authors
+                        // หากไม่พบใน users ให้ตรวจสอบในตาราง authors
                         $existingAuthor = Author::where('author_fname', $givenName)
                             ->where('author_lname', $surname)
                             ->first();
@@ -182,7 +204,6 @@ class ScopuscallController extends Controller
                             $newAuthor->author_fname = $givenName;
                             $newAuthor->author_lname = $surname;
                             $newAuthor->save();
-                            // แนบผ่านความสัมพันธ์ author()
                             $paper->author()->attach($newAuthor->id, ['author_type' => $author_type]);
                         } else {
                             $paper->author()->attach($existingAuthor->id, ['author_type' => $author_type]);
@@ -192,154 +213,28 @@ class ScopuscallController extends Controller
                 }
             }
 
-            // สุดท้าย: แนบความสัมพันธ์ paper กับ User ที่สั่งดึง
+            // แนบความสัมพันธ์กับ User ที่เรียก
             $paper->teacher()->attach($user->id);
+
+            // เก็บชื่อ paper ลงในอาเรย์ "insertedPapers"
+            $insertedPapers[] = $paper->paper_name;
         }
 
-        // ---------------------------------------------------------------------
-        //                          PART 2: GOOGLE SCHOLAR
-        // ---------------------------------------------------------------------
-        // เรียกใช้งาน ScholarController เพื่อดึงข้อมูลจาก Google Scholar
-        $scholar = new ScholarController();
-        // สมมติว่าใน ScholarController นั้นมีเมธอด getResearcherProfile($fullName)
-        $fullName = trim($user->fname_en . ' ' . $user->lname_en);
-        $scholarData = $scholar->getResearcherProfile($fullName);
-
-        // ถ้า null แปลว่าไม่เจอหรือดึงไม่ได้
-        if ($scholarData === null) {
-            // อาจจะแค่แจ้งเตือน หรือจะไม่ทำอะไรก็ได้
-            // return redirect()->back()->with('warning', 'ไม่พบข้อมูลจาก Google Scholar.');
-        } else {
-            // วน loop ที่ $scholarData['publications'] เพื่อตรวจสอบว่า paper มีหรือไม่
-            if (isset($scholarData['publications']) && is_array($scholarData['publications'])) {
-                foreach ($scholarData['publications'] as $publication) {
-                    $title       = $publication['title'] ?? null;
-                    if (!$title) {
-                        continue; // ไม่มีชื่อก็ข้าม
-                    }
-                    $paperUrl    = $publication['paper_url'] ?? null;
-                    $venue       = $publication['venue'] ?? null;      // อาจเป็น conference/journal
-                    $year        = $publication['year'] ?? null;
-                    $citations   = (int)($publication['citations'] ?? 0);
-                    $authors     = $publication['authors'] ?? [];      // array ชื่อผู้แต่ง
-                    $details     = $publication['details'] ?? [];      // รายละเอียดเพิ่มเติม (journal, volume, pages, publisher ฯลฯ)
-
-                    // เช็คว่ามี paper อยู่ใน DB แล้วหรือไม่
-                    $existingPaper = Paper::where('paper_name', $title)->first();
-                    if ($existingPaper) {
-                        // ถ้ามีอยู่แล้ว อัปเดต pivot user_papers ถ้ายังไม่ได้ผูก
-                        if (!$existingPaper->teacher()->where('user_id', $user->id)->exists()) {
-                            $existingPaper->teacher()->attach($user->id);
-                        }
-                        // อัปเดตจำนวน citation หรือปี ตรงนี้ขึ้นกับว่าอยากอัปเดตหรือไม่
-                        // เช่น เราอาจให้อิงค่า citation จาก Scopus หรือ Scholar ก็ได้
-                        $existingPaper->paper_citation = max($existingPaper->paper_citation, $citations);
-                        if ($year !== 'N/A' && (int)$year > 0) {
-                            $existingPaper->paper_yearpub = $year; // กรณีอยากอัปเดตปี
-                        }
-                        $existingPaper->save();
-
-                    } else {
-                        // ถ้าไม่มีใน DB ให้สร้างใหม่ (เหมือนตอน Scopus)
-                        $paper = new Paper;
-                        $paper->paper_name    = $title;
-                        $paper->abstract      = null; // Scholar ไม่ค่อยให้ abstract
-                        $paper->paper_type    = 'Scholar'; // หรือ 'Journal' ก็ได้ (ไม่มีใน Scholar)
-                        $paper->paper_subtype = 'ar';      // สมมติ
-                        // อาจเก็บ venue ที่ Scholar ให้ไว้ใน paper_sourcetitle
-                        $paper->paper_sourcetitle = $venue ?? 'N/A';
-                        // Google Scholar ไม่มี keywords ตรง ๆ จึงเซ็ตเป็น null
-                        $paper->keyword       = null;
-                        $paper->paper_url     = $paperUrl;
-                        $paper->publication   = $venue;
-                        $paper->paper_yearpub = ($year !== 'N/A') ? $year : null;
-                        $paper->paper_volume  = $details['volume'] ?? null;
-                        $paper->paper_issue   = $details['issue'] ?? '-';
-                        $paper->paper_citation = $citations;
-                        $paper->paper_page    = $details['pages'] ?? '-';
-                        // Scholar ไม่มี DOI หรือ funder
-                        $paper->paper_doi     = null;
-                        $paper->paper_funder  = null;
-                        $paper->reference_number = null;
-                        $paper->save();
-
-                        // สมมติว่าเอา Source_data id=2 ไว้เป็น Google Scholar
-                        $sourceScholar = Source_data::find(2);
-                        if ($sourceScholar) {
-                            $paper->source()->sync([$sourceScholar->id]);
-                        }
-
-                        // แนบ authors (แบบง่าย ๆ)
-                        // สังเกตใน $authors จะเป็น array ที่รวมทุกชื่อ เช่น ["F Example", "S Someone", ...]
-                        // ซึ่งเราต้อง split ชื่อ-นามสกุลเอง หรือจะแมปเทียบใน users, authors ก็ได้
-                        $totalAuthors = count($authors);
-                        $x = 1;
-                        foreach ($authors as $authName) {
-                            // สมมติชื่อเต็มเป็น "Firstname Lastname"
-                            $split = explode(' ', $authName);
-                            $givenName = trim($split[0] ?? '');
-                            $surname   = '';
-                            if (count($split) > 1) {
-                                // ดึงส่วนที่เหลือทั้งหมดเป็นนามสกุล
-                                $surname = trim(implode(' ', array_slice($split, 1)));
-                            }
-
-                            if ($x === 1) {
-                                $author_type = 1;
-                            } elseif ($x === $totalAuthors) {
-                                $author_type = 3;
-                            } else {
-                                $author_type = 2;
-                            }
-
-                            if ($givenName || $surname) {
-                                // ลองหาใน users
-                                $existingUser = User::where('fname_en', $givenName)
-                                    ->where('lname_en', $surname)
-                                    ->first();
-                                if ($existingUser) {
-                                    $paper->teacher()->attach($existingUser->id, ['author_type' => $author_type]);
-                                } else {
-                                    // หาใน authors
-                                    $existingAuthor = Author::where('author_fname', $givenName)
-                                        ->where('author_lname', $surname)
-                                        ->first();
-                                    if (!$existingAuthor) {
-                                        $newAuthor = new Author;
-                                        $newAuthor->author_fname = $givenName;
-                                        $newAuthor->author_lname = $surname;
-                                        $newAuthor->save();
-                                        $paper->author()->attach($newAuthor->id, ['author_type' => $author_type]);
-                                    } else {
-                                        $paper->author()->attach($existingAuthor->id, ['author_type' => $author_type]);
-                                    }
-                                }
-                            }
-
-                            $x++;
-                        }
-
-                        // แนบความสัมพันธ์ paper กับ User
-                        $paper->teacher()->attach($user->id);
-                    }
-                }
-            }
-        }
-
-        return redirect()->back()->with('success', 'Scopus & Scholar data processed and saved.');
+        // ส่งข้อมูล insertedPapers กลับไปเป็น session เพื่อแจ้งเตือนใน view
+        return redirect()->back()->with([
+            'insertedPapers' => $insertedPapers,
+        ]);
     }
 
     /**
      * ตัวอย่างการแสดงสถิติ paper ตามปี (5 ปีล่าสุด)
-     *
-     * @return \Illuminate\Http\Response
      */
     public function index()
     {
         $year = range(Carbon::now()->year - 5, Carbon::now()->year);
         $paperCount = [];
         foreach ($year as $value) {
-            $paperCount[] = Paper::where(DB::raw('YEAR(paper_yearpub)'), $value)->count();
+            $paperCount[] = Paper::whereYear('paper_yearpub', $value)->count();
         }
         return view('test')
             ->with('year', json_encode($year, JSON_NUMERIC_CHECK))

@@ -80,7 +80,7 @@
                     <p class="col-sm-3"><b>Link (ถ้ามี)</b></p>
                     <div class="col-sm-8">
                         <input name="link" type="url" value="{{ old('link') }}" class="form-control" placeholder="https://example.com">
-                        <small class="form-text text-muted"> หากคุณกรอก link ระบบจะพาคุณไปยังเว็บไซต์นั้น แทนการแสดงข้อมูลในหน้านี้. </small>
+                        <small class="form-text text-muted">หากคุณกรอก link ระบบจะพาคุณไปยังเว็บไซต์นั้น แทนการแสดงข้อมูลในหน้านี้</small>
                     </div>
                 </div>
 
@@ -103,7 +103,7 @@
                 <input type="hidden" name="head" value="{{ auth()->id() }}">
                 @endif
 
-                <!-- สมาชิกกลุ่มวิจัย (Role = 2) -->
+                <!-- สมาชิกกลุ่มวิจัย (Member) -->
                 <div class="form-group row">
                     <p class="col-sm-3 pt-4"><b>สมาชิกกลุ่มวิจัย</b></p>
                     <div class="col-sm-8">
@@ -148,48 +148,129 @@
 @section('javascript')
 <script>
     $(document).ready(function() {
-        // กำหนด select2 เฉพาะ element ที่มี id head0 (จะมีในกรณี admin/staff เท่านั้น)
+        // Select2 สำหรับหัวหน้ากลุ่ม (กรณีเป็น admin/staff)
         $("#head0").select2();
 
+        // ------------------------------------------------------------------
+        // สร้างตาราง "Member"
         var i = 0;
         $("#add-btn2").click(function() {
             ++i;
             $("#dynamicAddRemove").append(
-                '<tr><td><select id="selUser' + i + '" name="moreFields[' + i +
-                '][userid]" style="width: 200px;">' +
-                '<option value="">Select User</option>' +
-                '@foreach($users as $user)' +
-                '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
-                '@endforeach' +
-                '</select></td>' +
-                '<td><button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button></td></tr>'
+                '<tr>' +
+                    '<td>' +
+                        '<select id="selUser' + i + '" name="moreFields[' + i + '][userid]" style="width: 200px;">' +
+                            '<option value="">Select User</option>' +
+                            '@foreach($users as $user)' +
+                                '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+                            '@endforeach' +
+                        '</select>' +
+                    '</td>' +
+                    '<td>' +
+                        '<button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button>' +
+                    '</td>' +
+                '</tr>'
             );
+            // ทำ select2
             $("#selUser" + i).select2();
         });
+
+        // ลบแถว (Member)
         $(document).on('click', '.remove-tr', function() {
             $(this).parents('tr').remove();
+            updateUsedArrays();
+            syncOptions();
         });
 
-        // สำหรับ Postdoctoral Researcher
+        // ------------------------------------------------------------------
+        // สร้างตาราง "Postdoc"
         var j = 0;
         $("#add-btn-postdoc").click(function() {
             j++;
             $("#dynamicAddRemovePostdoc").append(
-                '<tr><td><select id="selPostdoc' + j + '" name="postdocFields[' + j +
-                '][userid]" style="width: 200px;">' +
-                '<option value="">Select User</option>' +
-                '@foreach($users as $user)' +
-                '@if($user->doctoral_degree == "Ph.D.")' +
-                '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
-                '@endif' +
-                '@endforeach' +
-                '</select></td>' +
-                '<td><button type="button" class="btn btn-danger btn-sm remove-postdoc"><i class="fas fa-minus"></i></button></td></tr>'
+                '<tr>' +
+                    '<td>' +
+                        '<select id="selPostdoc' + j + '" name="postdocFields[' + j + '][userid]" style="width: 200px;">' +
+                            '<option value="">Select User</option>' +
+                            '@foreach($users as $user)' +
+                                '@if($user->doctoral_degree == "Ph.D.")' +
+                                    '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
+                                '@endif' +
+                            '@endforeach' +
+                        '</select>' +
+                    '</td>' +
+                    '<td>' +
+                        '<button type="button" class="btn btn-danger btn-sm remove-postdoc"><i class="fas fa-minus"></i></button>' +
+                    '</td>' +
+                '</tr>'
             );
             $("#selPostdoc" + j).select2();
         });
+
+        // ลบแถว (Postdoc)
         $(document).on('click', '.remove-postdoc', function() {
             $(this).parents('tr').remove();
+            updateUsedArrays();
+            syncOptions();
+        });
+
+        // ------------------------------------------------------------------
+        // จัดการเรื่อง "ห้ามซ้ำระหว่าง Member กับ Postdoc" ด้วยการ 'ลบ' <option> ออกจากอีกฝั่ง
+        let usedMembers = [];
+        let usedPostdocs = [];
+
+        function updateUsedArrays() {
+            usedMembers = [];
+            usedPostdocs = [];
+
+            // รวบรวม user_id ในตาราง Member
+            $('table#dynamicAddRemove select').each(function() {
+                let val = $(this).val();
+                if (val) {
+                    usedMembers.push(val);
+                }
+            });
+
+            // รวบรวม user_id ในตาราง Postdoc
+            $('table#dynamicAddRemovePostdoc select').each(function() {
+                let val = $(this).val();
+                if (val) {
+                    usedPostdocs.push(val);
+                }
+            });
+        }
+
+        function syncOptions() {
+            // --------------------------------------------------
+            // 1) ในตาราง Postdoc: ลบ <option> ออกทั้งหมดที่ "ถูกเลือก" ใน Member
+            $('table#dynamicAddRemovePostdoc select').each(function() {
+                let currentVal = $(this).val(); // user ที่ select นี้เลือกอยู่
+                $(this).find('option').each(function(){
+                    let optVal = $(this).val();
+                    // หาก optVal อยู่ใน usedMembers และไม่ใช่คนที่ select นี้เลือกอยู่ -> ลบออก
+                    if (optVal && usedMembers.includes(optVal) && optVal !== currentVal) {
+                        $(this).remove();
+                    }
+                });
+            });
+
+            // --------------------------------------------------
+            // 2) ในตาราง Member: ลบ <option> ออกทั้งหมดที่ "ถูกเลือก" ใน Postdoc
+            $('table#dynamicAddRemove select').each(function() {
+                let currentVal = $(this).val();
+                $(this).find('option').each(function(){
+                    let optVal = $(this).val();
+                    if (optVal && usedPostdocs.includes(optVal) && optVal !== currentVal) {
+                        $(this).remove();
+                    }
+                });
+            });
+        }
+
+        // เรียกฟังก์ชันทุกครั้งเมื่อมีการเปลี่ยนแปลงใน select
+        $(document).on('change', 'table#dynamicAddRemove select, table#dynamicAddRemovePostdoc select', function() {
+            updateUsedArrays();
+            syncOptions();
         });
     });
 </script>

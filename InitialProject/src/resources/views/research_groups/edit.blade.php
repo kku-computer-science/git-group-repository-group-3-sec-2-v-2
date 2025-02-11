@@ -163,6 +163,7 @@
 @section('javascript')
 <script>
 $(document).ready(function() {
+    // ทำ select2 ให้กับ #head0 (ถ้ามี)
     $("#head0").select2();
 
     // ดึงข้อมูลผู้ใช้ที่เกี่ยวข้องกับกลุ่มวิจัย (รูปแบบ JSON)
@@ -170,10 +171,9 @@ $(document).ready(function() {
     var i = 0; // สำหรับสมาชิก (Role = 2)
     var j = 0; // สำหรับ Postdoctoral (Role = 3)
 
-    // วนลูปแสดงสมาชิกที่มี role = 2 (สมาชิก)
+    // วนลูปแสดงสมาชิกที่มี role = 2 (Member)
     for (var idx = 0; idx < researchGroup.length; idx++) {
         var obj = researchGroup[idx];
-        // เปลี่ยนจาก === เป็น == หรือ parseInt(obj.pivot.role) === 2
         if (obj.pivot.role == 2) {
             $("#dynamicAddRemove").append(
                 '<tr>' +
@@ -189,7 +189,6 @@ $(document).ready(function() {
                 '  </td>' +
                 '</tr>'
             );
-            // กำหนดค่าให้ select เป็นคนที่อยู่ใน pivot จริง ๆ
             $("#selUser" + i).val(obj.id).select2();
             i++;
         }
@@ -197,8 +196,8 @@ $(document).ready(function() {
 
     // วนลูปแสดง Postdoctoral Researcher ที่มี role = 3
     for (var k = 0; k < researchGroup.length; k++) {
-        var obj = researchGroup[k];
-        if (obj.pivot.role == 3) {
+        var obj2 = researchGroup[k];
+        if (obj2.pivot.role == 3) {
             j++;
             $("#dynamicAddRemovePostdoc").append(
                 '<tr>' +
@@ -217,11 +216,11 @@ $(document).ready(function() {
                 '  </td>' +
                 '</tr>'
             );
-            // กำหนดค่าให้ select เป็นคนที่อยู่ใน pivot จริง ๆ
-            $("#selPostdoc" + j).val(obj.id).select2();
+            $("#selPostdoc" + j).val(obj2.id).select2();
         }
     }
 
+    // ------------------------------------------------------------------
     // เพิ่มสมาชิก (Role = 2)
     $("#add-btn2").click(function() {
         i++;
@@ -241,16 +240,19 @@ $(document).ready(function() {
             '</tr>'
         );
         $("#selUser" + i).select2();
-        updatePostdocOptions();
+
+        // อัปเดตการลบ option Postdoc ใหม่ (เพราะอาจมีการเลือก User ใหม่)
+        removeOptionsInPostdoc();
     });
 
     // ลบสมาชิก (Role = 2)
     $(document).on('click', '.remove-tr', function() {
         $(this).parents('tr').remove();
-        updatePostdocOptions();
+        removeOptionsInPostdoc();
     });
 
-    // เพิ่ม Postdoctoral ใหม่ (Role = 3)
+    // ------------------------------------------------------------------
+    // เพิ่ม Postdoctoral (Role = 3)
     $("#add-btn-postdoc").click(function() {
         j++;
         $("#dynamicAddRemovePostdoc").append(
@@ -271,57 +273,58 @@ $(document).ready(function() {
             '</tr>'
         );
         $("#selPostdoc" + j).select2();
-        updatePostdocOptions();
+        removeOptionsInPostdoc();
     });
 
     // ลบ Postdoctoral
     $(document).on('click', '.remove-postdoc', function() {
         $(this).parents('tr').remove();
-        updatePostdocOptions();
+        removeOptionsInPostdoc();
     });
 
-    // ฟังก์ชันอัปเดตตัวเลือกใน Postdoc
-    function updatePostdocOptions() {
+    // ------------------------------------------------------------------
+    // เมื่อมีการ change ใน select ของ Member/Postdoc ก็ให้ลบ option ใหม่
+    $(document).on('change', '.member-select', function() {
+        removeOptionsInPostdoc();
+    });
+    $(document).on('change', '.postdoc-select', function() {
+        removeOptionsInPostdoc();
+    });
+
+    // ------------------------------------------------------------------
+    // ฟังก์ชันสำหรับ "ลบ" option ใน Postdoc ถ้าอยู่ใน Member
+    function removeOptionsInPostdoc() {
+        // 1) รวบรวม user_id ที่ถูกเลือกใน Member
         var selectedMembers = [];
         $(".member-select").each(function() {
             var val = $(this).val();
-            if (val) selectedMembers.push(val);
+            if (val) {
+                selectedMembers.push(val);
+            }
         });
 
-        var selectedPostdocs = [];
+        // 2) ในทุกๆ Postdoc <select> ให้ลบ <option> ที่ match กับ selectedMembers
         $(".postdoc-select").each(function() {
-            var val = $(this).val();
-            if (val) selectedPostdocs.push(val);
-        });
+            var $thisSelect = $(this);
+            var currentVal = $thisSelect.val(); // user ที่ select นี้เลือกอยู่
 
-        $(".postdoc-select").each(function() {
-            var currentSelect = $(this);
-            currentSelect.find("option").each(function() {
-                var optionValue = $(this).val();
-                if (!optionValue) return; // ข้าม placeholder
-                if (
-                    selectedMembers.includes(optionValue) ||
-                    (selectedPostdocs.includes(optionValue) && currentSelect.val() !== optionValue)
-                ) {
-                    $(this).prop("disabled", true);
-                } else {
-                    $(this).prop("disabled", false);
+            // วนลูปทุก <option>
+            $thisSelect.find("option").each(function() {
+                var optVal = $(this).val();
+
+                // ถ้าเป็น option ที่ตรงกับ selectedMembers และไม่ใช่ตัวที่ select นี้กำลังถืออยู่ -> ลบ
+                if (optVal && selectedMembers.includes(optVal) && optVal !== currentVal) {
+                    $(this).remove();
                 }
             });
-            currentSelect.select2();
+
+            // refresh select2
+            $thisSelect.select2();
         });
     }
 
-    // ผูก event change ให้กับ select fields เมื่อมีการเปลี่ยนแปลง
-    $(document).on('change', '.member-select', function() {
-        updatePostdocOptions();
-    });
-    $(document).on('change', '.postdoc-select', function() {
-        updatePostdocOptions();
-    });
-
-    // เรียก updatePostdocOptions ครั้งแรก
-    updatePostdocOptions();
+    // เรียกครั้งแรก
+    removeOptionsInPostdoc();
 });
 </script>
 @stop
