@@ -5,12 +5,16 @@ deployment:
       export PUBLICPATH="/home2/sesec2group3/public_html"
       export SRCPATH="/home2/sesec2group3/public_html/repositories/git-group-repository-group-3-sec-2-v-2/InitialProject/src"
 
+      # เริ่มต้น log
+      echo "=== Deployment started at $(date) ===" > "$PUBLICPATH/deployment.log"
+      
       # แสดง debug information
-      echo "Source path: $SRCPATH"
-      echo "Destination path: $PUBLICPATH"
-      ls -la "$SRCPATH"
+      echo "Source path: $SRCPATH" >> "$PUBLICPATH/deployment.log"
+      echo "Destination path: $PUBLICPATH" >> "$PUBLICPATH/deployment.log"
+      ls -la "$SRCPATH" >> "$PUBLICPATH/deployment.log"
 
       # ลบไฟล์และโฟลเดอร์เก่าใน public_html (ยกเว้น repositories)
+      echo "Removing old files..." >> "$PUBLICPATH/deployment.log"
       /bin/rm -rf "$PUBLICPATH/app" \
                   "$PUBLICPATH/bootstrap" \
                   "$PUBLICPATH/config" \
@@ -28,20 +32,25 @@ deployment:
                   "$PUBLICPATH/package-lock.json"
 
       # ย้ายไฟล์ทั้งหมดจาก src ไปยัง public_html รวมถึง hidden files
-      /bin/cp -r "$SRCPATH/." "$PUBLICPATH/" || echo "Copy failed with error: $?"
+      echo "Starting file copy..." >> "$PUBLICPATH/deployment.log"
+      /bin/cp -rv "$SRCPATH/." "$PUBLICPATH/" >> "$PUBLICPATH/deployment.log" 2>&1 || echo "Copy failed with error: $?" >> "$PUBLICPATH/deployment.log"
 
-      # # ติดตั้ง dependencies
-      # cd "$PUBLICPATH"
-      # /opt/cpanel/composer/bin/composer install --no-dev
-      # /opt/cpanel/composer/bin/composer dump-autoload -o
+      # เช็คผลลัพธ์หลัง copy
+      echo "Destination directory after copy:" >> "$PUBLICPATH/deployment.log"
+      ls -la "$PUBLICPATH" >> "$PUBLICPATH/deployment.log"
 
       # ตั้งค่าสิทธิ์
+      echo "Setting permissions..." >> "$PUBLICPATH/deployment.log"
       /bin/chmod -R 755 "$PUBLICPATH/storage"
       /bin/chmod -R 755 "$PUBLICPATH/bootstrap/cache"
 
       # อัพเดท Laravel
-      /bin/php "$PUBLICPATH/artisan" key:generate
-      /bin/php "$PUBLICPATH/artisan" storage:link
-      /bin/php "$PUBLICPATH/artisan" config:clear
-      /bin/php "$PUBLICPATH/artisan" cache:clear
-      /bin/php "$PUBLICPATH/artisan" view:clear
+      echo "Updating Laravel..." >> "$PUBLICPATH/deployment.log"
+      /bin/php "$PUBLICPATH/artisan" key:generate >> "$PUBLICPATH/deployment.log" 2>&1
+      /bin/php "$PUBLICPATH/artisan" storage:link >> "$PUBLICPATH/deployment.log" 2>&1
+      /bin/php "$PUBLICPATH/artisan" config:clear >> "$PUBLICPATH/deployment.log" 2>&1
+      /bin/php "$PUBLICPATH/artisan" cache:clear >> "$PUBLICPATH/deployment.log" 2>&1
+      /bin/php "$PUBLICPATH/artisan" view:clear >> "$PUBLICPATH/deployment.log" 2>&1
+
+      # จบการ deploy
+      echo "=== Deployment completed at $(date) ===" >> "$PUBLICPATH/deployment.log"
