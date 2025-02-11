@@ -93,6 +93,9 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/papers/{id}', [PaperController::class, 'show'])->name('paper.detail');
+Route::get('/paper/{id}/detail', [PaperController::class, 'show'])
+    ->name('paper.detail');
 Route::get('/papers/{year}', [HomeController::class, 'getPapersByYear']);
 Route::get('/researchers', [ResearcherController::class, 'index'])->name('researchers.index');
 // Route::get('/researchers/{id}', [ResearcherController::class, 'request'])->name('researchers.request');
@@ -148,6 +151,7 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::resource('researchProjects', ResearchProjectController::class);
     Route::resource('researchGroups', ResearchGroupController::class);
     Route::resource('papers', PaperController::class);
+    Route::get('/papers/{id}/citations', [PaperController::class, 'citations'])->name('papers.citations');
     Route::resource('books', BookController::class);
     Route::resource('patents', PatentController::class);
     Route::get('exportfile', [App\Http\Controllers\ExportController::class, 'index'])->name('exportfile');

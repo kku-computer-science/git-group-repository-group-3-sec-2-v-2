@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class ResearcherController extends Controller
 {
+
     // แสดงรายชื่อนักวิจัยทั้งหมดในโปรแกรม
     public function index(Request $request)
     {

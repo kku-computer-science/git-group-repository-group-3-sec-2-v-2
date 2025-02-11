@@ -6,6 +6,8 @@ use App\Exports\ExportPaper;
 use App\Exports\ExportUser;
 use App\Exports\UsersExport;
 use App\Models\Author;
+use App\Models\AuthorOfPaper;
+use App\Models\UserPaper;
 use App\Models\Paper;
 use App\Models\Source_data;
 use App\Models\User;
@@ -15,6 +17,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
+use Illuminate\Support\Facades\DB;
+
 class PaperController extends Controller
 {
     /**
@@ -32,11 +36,11 @@ class PaperController extends Controller
         $papers = $user->paper()->get();
         return response()->json($papers);*/
         if (auth()->user()->hasRole('admin') or auth()->user()->hasRole('staff')) {
-            $papers = Paper::with('teacher', 'author')->orderBy('paper_yearpub', 'desc')-> get();
+            $papers = Paper::with('teacher', 'author')->orderBy('paper_yearpub', 'desc')->get();
         } else {
             $papers = Paper::with('teacher', 'author')->whereHas('teacher', function ($query) use ($id) {
                 $query->where('users.id', '=', $id);
-            })->orderBy('paper_yearpub', 'desc')-> get();
+            })->orderBy('paper_yearpub', 'desc')->get();
         }
 
         // $papers = Paper::with('teacher','author')->whereHas('teacher', function($query) use($id) {
@@ -118,7 +122,7 @@ class PaperController extends Controller
 
         //$paper->author()->detach();
         $x = 1;
-        
+
         if (isset($input['fname'][0]) and (!empty($input['fname'][0]))) {
             $length = count($request->input('fname'));
             foreach ($request->input('fname') as $key => $value) {
@@ -164,13 +168,77 @@ class PaperController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Paper $paper)
+
+    // public function show(Paper $paper)
+    // {
+    //     $k = collect($paper['keyword']);
+    //     $val = $k->implode('$', ', ');
+    //     $paper['keyword'] = $val;
+    //     return view('papers.show', compact('paper'));
+    // }
+
+    public function show($id, Request $request)
     {
-        $k = collect($paper['keyword']);
-        $val = $k->implode('$', ', ');
-        $paper['keyword'] = $val;
-        return view('papers.show', compact('paper'));
+        $userId = $request->query('user_id'); // รับ user_id จาก query string
+        $userimg = DB::table('users')
+            ->where('id', $userId)
+            ->select('picture', 'fname_en', 'lname_en')
+            ->first();
+
+        $paper = Paper::findOrFail($id);
+
+        // $userimg = User::where('id',$id)->first();
+
+        // dd($userId);
+
+        // ดึงรายชื่อผู้เขียนจาก author_of_papers
+        $authors = DB::table('author_of_papers')
+            ->join('authors', 'author_of_papers.author_id', '=', 'authors.id')
+            ->where('author_of_papers.paper_id', $id)
+            ->select(
+                'authors.id as author_id',
+                'authors.author_fname',
+                'authors.author_lname',
+                DB::raw("NULL as picture"), // กรณีไม่มีฟิลด์ picture ใน authors
+                DB::raw("'author' as type")
+            )
+
+            ->union(
+
+                DB::table('user_papers')
+                    ->join('users', 'user_papers.user_id', '=', 'users.id')
+                    ->where('user_papers.paper_id', $id)
+                    ->select(
+                        'users.id as author_id',
+                        'users.fname_en as author_fname',
+                        'users.lname_en as author_lname',
+                        'users.picture',
+                        DB::raw("'user' as type")
+                    )
+            )
+            ->get();
+
+
+        return view('paperdetail', compact('userimg', 'paper', 'authors'));
     }
+
+
+    // public function show($id)
+    // {
+    //     // ค้นหาข้อมูล Paper ตาม Paper ID ที่ส่งมา
+    //     $paper = Paper::with('authors')->findOrFail($id); // ดึงข้อมูล Paper พร้อมกับข้อมูล Authors
+
+    //     // ค้นหาผู้ใช้ (นักวิจัย) ที่เกี่ยวข้องกับ Paper นี้
+    //     $res = $paper->authors; // $paper->authors จะดึงข้อมูลผู้เขียนที่เกี่ยวข้องกับ Paper นี้
+
+    //     // ดึงข้อมูล teachers ทั้งหมดที่มี role เป็น 'teacher'
+    //     $teachers = User::role('teacher')->get();
+
+
+    //     // ส่งข้อมูลไปยัง view 'paperdetail'
+    //     return view('paperdetail', compact('res', 'teachers', 'paper'));
+    // }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -197,7 +265,6 @@ class PaperController extends Controller
             $paperSource = $paper->source->pluck('source_name', 'source_name')->all();
             $users = User::role(['teacher', 'student'])->get();
             return view('papers.edit', compact('paper', 'users', 'paperSource', 'sources'));
-
         } catch (DecryptException   $e) {
             return abort(404, "page not found");
         }
@@ -233,7 +300,7 @@ class PaperController extends Controller
             array_push($myNewArray, $a);
         }
         $input['keyword'] = $myNewArray;
-//return $input;
+        //return $input;
         $paper->update($input);
 
         $paper->author()->detach();
@@ -314,10 +381,7 @@ class PaperController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        
-    }
+    public function destroy($id) {}
 
     public function export(Request $request)
     {
