@@ -1,71 +1,56 @@
 deployment:
- tasks:
-   # เริ่มต้น log
-   - echo "=== Deployment started at $(date) ===" > $PUBLICPATH/deployment.log
-   
-   # กำหนด paths
-   - export PUBLICPATH=/home2/sesec2group3/public_html
-   - export SRCPATH=/home2/sesec2group3/public_html/repositories/git-group-repository-group-3-sec-2-v-2/InitialProject/src
-   
-   # Log paths
-   - echo "Source: $SRCPATH" >> $PUBLICPATH/deployment.log
-   - echo "Destination: $PUBLICPATH" >> $PUBLICPATH/deployment.log
-   
-   # Log source contents
-   - echo "Source directory contents:" >> $PUBLICPATH/deployment.log
-   - ls -la $SRCPATH >> $PUBLICPATH/deployment.log
+  tasks:
+    - |
+      # กำหนด paths
+      export PUBLICPATH="/home2/sesec2group3/public_html"
+      export SRCPATH="/home2/sesec2group3/public_html/repositories/git-group-repository-group-3-sec-2-v-2/InitialProject/src"
 
-   # ตั้งค่า permissions ก่อน
-   - echo "Setting initial permissions..." >> $PUBLICPATH/deployment.log
-   - /bin/chmod 755 $SRCPATH -R
-   - /bin/chmod 755 $PUBLICPATH
-   
-   # ลบไฟล์และโฟลเดอร์เก่า
-   - echo "Removing old files..." >> $PUBLICPATH/deployment.log
-   - /bin/rm -rf $PUBLICPATH/app
-   - /bin/rm -rf $PUBLICPATH/bootstrap
-   - /bin/rm -rf $PUBLICPATH/config
-   - /bin/rm -rf $PUBLICPATH/database
-   - /bin/rm -rf $PUBLICPATH/lang
-   - /bin/rm -rf $PUBLICPATH/public
-   - /bin/rm -rf $PUBLICPATH/resources
-   - /bin/rm -rf $PUBLICPATH/routes
-   - /bin/rm -rf $PUBLICPATH/storage
-   - /bin/rm -rf $PUBLICPATH/tests
-   - /bin/rm -rf $PUBLICPATH/vendor
-   - /bin/rm -f $PUBLICPATH/artisan
-   - /bin/rm -f $PUBLICPATH/composer.json
-   - /bin/rm -f $PUBLICPATH/composer.lock
-   - /bin/rm -f $PUBLICPATH/package.json
-   - /bin/rm -f $PUBLICPATH/package-lock.json
-   
-   # ทำการ copy พร้อม log
-   - echo "Starting file copy..." >> $PUBLICPATH/deployment.log
-   - /bin/cp -rv $SRCPATH/. $PUBLICPATH/ >> $PUBLICPATH/deployment.log 2>&1
-   
-   # เช็คผลลัพธ์
-   - echo "Destination directory after copy:" >> $PUBLICPATH/deployment.log
-   - ls -la $PUBLICPATH >> $PUBLICPATH/deployment.log
-   
-   # ติดตั้ง dependencies
-   - echo "Installing dependencies..." >> $PUBLICPATH/deployment.log
-   - cd $PUBLICPATH
-   - /opt/cpanel/composer/bin/composer install --no-dev >> $PUBLICPATH/deployment.log 2>&1
-   - /opt/cpanel/composer/bin/composer dump-autoload -o >> $PUBLICPATH/deployment.log 2>&1
-   
-   # ตั้งค่าสิทธิ์หลัง copy
-   - echo "Setting final permissions..." >> $PUBLICPATH/deployment.log
-   - /bin/chmod 755 $PUBLICPATH -R
-   - /bin/chmod 755 $PUBLICPATH/storage -R  
-   - /bin/chmod 755 $PUBLICPATH/bootstrap/cache -R
-   
-   # อัพเดท Laravel
-   - echo "Updating Laravel..." >> $PUBLICPATH/deployment.log
-   - /bin/php $PUBLICPATH/artisan key:generate >> $PUBLICPATH/deployment.log 2>&1
-   - /bin/php $PUBLICPATH/artisan storage:link >> $PUBLICPATH/deployment.log 2>&1
-   - /bin/php $PUBLICPATH/artisan config:clear >> $PUBLICPATH/deployment.log 2>&1
-   - /bin/php $PUBLICPATH/artisan cache:clear >> $PUBLICPATH/deployment.log 2>&1
-   - /bin/php $PUBLICPATH/artisan view:clear >> $PUBLICPATH/deployment.log 2>&1
+      # เริ่มต้น log
+      echo "=== Deployment started at $(date) ===" > "$PUBLICPATH/deployment.log"
+      
+      # แสดง debug information
+      echo "Source path: $SRCPATH" >> "$PUBLICPATH/deployment.log"
+      echo "Destination path: $PUBLICPATH" >> "$PUBLICPATH/deployment.log"
+      ls -la "$SRCPATH" >> "$PUBLICPATH/deployment.log"
 
-   # จบการ deploy
-   - echo "=== Deployment completed at $(date) ===" >> $PUBLICPATH/deployment.log
+      # ลบไฟล์และโฟลเดอร์เก่าใน public_html (ยกเว้น repositories)
+      echo "Removing old files..." >> "$PUBLICPATH/deployment.log"
+      /bin/rm -rf "$PUBLICPATH/app" \
+                  "$PUBLICPATH/bootstrap" \
+                  "$PUBLICPATH/config" \
+                  "$PUBLICPATH/database" \
+                  "$PUBLICPATH/lang" \
+                  "$PUBLICPATH/public" \
+                  "$PUBLICPATH/resources" \
+                  "$PUBLICPATH/routes" \
+                  "$PUBLICPATH/storage" \
+                  "$PUBLICPATH/tests"
+      /bin/rm -f "$PUBLICPATH/artisan" \
+                  "$PUBLICPATH/composer.json" \
+                  "$PUBLICPATH/composer.lock" \
+                  "$PUBLICPATH/package.json" \
+                  "$PUBLICPATH/package-lock.json"
+
+      # ย้ายไฟล์ทั้งหมดจาก src ไปยัง public_html รวมถึง hidden files
+      echo "Starting file copy..." >> "$PUBLICPATH/deployment.log"
+      /bin/cp -rv "$SRCPATH/." "$PUBLICPATH/" >> "$PUBLICPATH/deployment.log" 2>&1 || echo "Copy failed with error: $?" >> "$PUBLICPATH/deployment.log"
+
+      # เช็คผลลัพธ์หลัง copy
+      echo "Destination directory after copy:" >> "$PUBLICPATH/deployment.log"
+      ls -la "$PUBLICPATH" >> "$PUBLICPATH/deployment.log"
+
+      # ตั้งค่าสิทธิ์
+      echo "Setting permissions..." >> "$PUBLICPATH/deployment.log"
+      /bin/chmod -R 755 "$PUBLICPATH/storage"
+      /bin/chmod -R 755 "$PUBLICPATH/bootstrap/cache"
+
+      # อัพเดท Laravel
+      echo "Updating Laravel..." >> "$PUBLICPATH/deployment.log"
+      /bin/php "$PUBLICPATH/artisan" key:generate >> "$PUBLICPATH/deployment.log" 2>&1
+      /bin/php "$PUBLICPATH/artisan" storage:link >> "$PUBLICPATH/deployment.log" 2>&1
+      /bin/php "$PUBLICPATH/artisan" config:clear >> "$PUBLICPATH/deployment.log" 2>&1
+      /bin/php "$PUBLICPATH/artisan" cache:clear >> "$PUBLICPATH/deployment.log" 2>&1
+      /bin/php "$PUBLICPATH/artisan" view:clear >> "$PUBLICPATH/deployment.log" 2>&1
+
+      # จบการ deploy
+      echo "=== Deployment completed at $(date) ===" >> "$PUBLICPATH/deployment.log"
