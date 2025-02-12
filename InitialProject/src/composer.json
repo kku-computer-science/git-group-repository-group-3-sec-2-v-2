@@ -9,9 +9,13 @@
         "barryvdh/laravel-dompdf": "^1.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+<<<<<<< HEAD
+        "guzzlehttp/guzzle": "^7.4",
+=======
 
         "guzzlehttp/guzzle": "^7.4",
 
+>>>>>>> 3e8676be2a528149030f85945633f170b13f7994
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
@@ -20,9 +24,11 @@
         "phattarachai/thaidate": "^12.1",
         "phpoffice/phpword": "^0.18.3",
         "renanbr/bibtex-parser": "^2.1",
-        "serpapi/google-search-results-php": "^1.2",
         "spatie/laravel-permission": "^5.4",
+<<<<<<< HEAD
+=======
 
+>>>>>>> 3e8676be2a528149030f85945633f170b13f7994
         "symfony/dom-crawler": "^6.0",
         "symfony/process": "^5.4",
         "yajra/laravel-datatables-oracle": "^9.19"
