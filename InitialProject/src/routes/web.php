@@ -39,7 +39,9 @@ use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TcicallController;
+
 use App\Http\Controllers\ScholarController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -86,6 +88,11 @@ Route::get('/clear-all', function() {
         'optimize' => 'Class loader optimized'
     ], 200);
  });
+
+ Route::get('/run-scopus', function () {
+    Artisan::call('scopus:fetch');
+    return 'Scopus fetch command executed';
+});
 
 Route::get('/scholar', [ScholarController::class, 'index']);
 Route::get('fresearchgroup', [PaperDetailController::class, 'fetchPaperDetails']);
