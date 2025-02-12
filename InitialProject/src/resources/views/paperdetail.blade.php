@@ -68,8 +68,11 @@
     <div class="row align-items-start" style="margin-top: 40px;">
         <!-- Image and Author Info -->
         <div class="col-md-3 text-center d-flex flex-column align-items-center">
-            <img class="card-image" src="{{ asset('images/imag_user/' . $userimg->picture) }}" alt="">
-
+        @if($userimg && $userimg->picture)
+    <img class="card-image" src="{{ asset('images/imag_user/' . $userimg->picture) }}" alt="">
+@else 
+    <img class="card-image" src="{{ asset('images/imag_user/no-image.jpg') }}" alt="">
+@endif
             @if($authors->isNotEmpty())
             <h5 class="mt-3 font-weight-bold text-dark">
                 <!-- <a href="javascript:history.back()"><u>{{ $authors->first()->author_fname }} {{ $authors->first()->author_lname }}, Ph.D.</u></a> -->
