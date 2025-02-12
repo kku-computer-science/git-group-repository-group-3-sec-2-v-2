@@ -641,50 +641,195 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-
-        var table1 = $('#example1').DataTable({
-            responsive: true,
-        });
-
-        var table2 = $('#example2').DataTable({
-            responsive: true,
-        });
-        var table3 = $('#example3').DataTable({
-            responsive: true,
-        });
-        var table4 = $('#example4').DataTable({
-            responsive: true,
-        });
-        var table5 = $('#example5').DataTable({
-            responsive: true,
-        });
-        var table6 = $('#example6').DataTable({
-            responsive: true,
-        });
-
-
-        $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(event) {
-            var tabID = $(event.target).attr('data-bs-target');
-            if (tabID === '#scopus') {
-                table2.columns.adjust().draw()
+$(document).ready(function() {
+    // DataTables Initialization
+    const tableConfig = {
+        responsive: true,
+        order: [[0, 'desc']], // Sort by year in descending order
+        language: {
+            search: "Search:",
+            lengthMenu: "Show _MENU_ entries per page",
+            info: "Showing _START_ to _END_ of _TOTAL_ entries",
+            paginate: {
+                first: "First",
+                last: "Last",
+                next: "Next",
+                previous: "Previous"
             }
-            if (tabID === '#wos') {
-                table3.columns.adjust().draw()
-            }
-            if (tabID === '#tci') {
-                table4.columns.adjust().draw()
-            }
-            if (tabID === '#book') {
-                table5.columns.adjust().draw()
-            }
-            if (tabID === '#patent') {
-                table6.columns.adjust().draw()
-            }
+        }
+    };
 
-        });
-
+    const table1 = $('#example1').DataTable(tableConfig);
+    const table2 = $('#example2').DataTable(tableConfig);
+    const table3 = $('#example3').DataTable(tableConfig);
+    const table4 = $('#example4').DataTable(tableConfig);
+    const table5 = $('#example5').DataTable({
+        ...tableConfig,
+        order: [[1, 'desc']] // For book table, year is in second column
     });
+    const table6 = $('#example6').DataTable(tableConfig);
+
+    // Tab switching handler
+    $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(event) {
+        const tabID = $(event.target).attr('data-bs-target');
+        const tableMap = {
+            '#scopus': table2,
+            '#wos': table3,
+            '#tci': table4,
+            '#book': table5,
+            '#patent': table6
+        };
+        
+        if (tableMap[tabID]) {
+            tableMap[tabID].columns.adjust().draw();
+        }
+    });
+
+    // Counter functionality
+    let sumtci = paper_tci_s.reduce((a, b) => a + b, 0);
+    let sumsco = paper_scopus_s.reduce((a, b) => a + b, 0);
+    let sumwos = paper_wos_s.reduce((a, b) => a + b, 0);
+    let sumbook = paper_book_s.reduce((a, b) => a + b, 0);
+    let sumpatent = paper_patent_s.reduce((a, b) => a + b, 0);
+    let sum = sumsco + sumtci + sumwos + sumbook + sumpatent;
+
+    // Update DOM with counts
+    $("#all").html(`
+        <h2 class="timer count-title count-number" data-to="${sum}" data-speed="1500"></h2>
+        <p class="count-text">SUMMARY</p>
+    `);
+
+    $("#scopus_sum").html(`
+        <h2 class="timer count-title count-number" data-to="${sumsco}" data-speed="1500"></h2>
+        <p class="count-text">SCOPUS</p>
+    `);
+
+    $("#wos_sum").html(`
+        <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
+        <p class="count-text">WOS</p>
+    `);
+
+    $("#tci_sum").html(`
+        <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
+        <p class="count-text">TCI</p>
+    `);
+
+    // Counter animation functionality
+    $.fn.countTo = function(options) {
+        options = options || {};
+
+        return $(this).each(function() {
+            // Set options for current element
+            const settings = $.extend({}, $.fn.countTo.defaults, {
+                from: $(this).data('from'),
+                to: $(this).data('to'),
+                speed: $(this).data('speed'),
+                refreshInterval: $(this).data('refresh-interval'),
+                decimals: $(this).data('decimals')
+            }, options);
+
+            // Calculate values
+            const loops = Math.ceil(settings.speed / settings.refreshInterval);
+            const increment = (settings.to - settings.from) / loops;
+
+            // References & variables that will change with each update
+            let self = this,
+                $self = $(this),
+                loopCount = 0,
+                value = settings.from,
+                data = $self.data('countTo') || {};
+
+            $self.data('countTo', data);
+
+            // Clear existing interval if found
+            if (data.interval) {
+                clearInterval(data.interval);
+            }
+
+            data.interval = setInterval(updateTimer, settings.refreshInterval);
+            render(value);
+
+            function updateTimer() {
+                value += increment;
+                loopCount++;
+                render(value);
+
+                if (typeof(settings.onUpdate) == 'function') {
+                    settings.onUpdate.call(self, value);
+                }
+
+                if (loopCount >= loops) {
+                    $self.removeData('countTo');
+                    clearInterval(data.interval);
+                    value = settings.to;
+
+                    if (typeof(settings.onComplete) == 'function') {
+                        settings.onComplete.call(self, value);
+                    }
+                }
+            }
+
+            function render(value) {
+                const formattedValue = settings.formatter.call(self, value, settings);
+                $self.html(formattedValue);
+            }
+        });
+    };
+
+    $.fn.countTo.defaults = {
+        from: 0,
+        to: 0,
+        speed: 1000,
+        refreshInterval: 100,
+        decimals: 0,
+        formatter: function(value, settings) {
+            return value.toFixed(settings.decimals);
+        },
+        onUpdate: null,
+        onComplete: null
+    };
+
+    // Custom formatting
+    $('.count-number').data('countToOptions', {
+        formatter: function(value, options) {
+            return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
+        }
+    });
+
+    // Start all timers
+    $('.timer').each(function() {
+        const $this = $(this);
+        const options = $.extend({}, options || {}, $this.data('countToOptions') || {});
+        $this.countTo(options);
+    });
+
+    // Bar Chart initialization
+    var barChartCanvas = $('#barChart').get(0).getContext('2d');
+    var barChartData = $.extend(true, {}, areaChartData);
+    var temp0 = areaChartData.datasets[0];
+    var temp1 = areaChartData.datasets[1];
+    barChartData.datasets[0] = temp1;
+    barChartData.datasets[1] = temp0;
+
+    var barChartOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        datasetFill: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    stepSize: 1
+                }
+            }]
+        }
+    };
+
+    new Chart(barChartCanvas, {
+        type: 'bar',
+        data: barChartData,
+        options: barChartOptions
+    });
+});
 </script>
 
 <script>
