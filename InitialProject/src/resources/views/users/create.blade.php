@@ -19,54 +19,60 @@
                     <h4 class="card-title mb-5">เพิ่มผู้ใช้งาน</h4>
                     <p class="card-description">กรอกข้อมูลแก้ไขรายละเอียดผู้ใช้งาน</p>
                     {!! Form::open(array('route' => 'users.store','method'=>'POST')) !!}
+                    
+                    <!-- ฟอร์มสำหรับชื่อ-นามสกุล ภาษาไทย -->
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <p><b>ชื่อ (ภาษาไทย)</b></p>
-                            {!! Form::text('fname_th', null, array('placeholder' => 'ชื่อภาษาไทย','class' =>
-                            'form-control')) !!}
+                            {!! Form::text('fname_th', null, ['placeholder' => 'ชื่อภาษาไทย','class' => 'form-control']) !!}
                         </div>
                         <div class="col-sm-6">
                             <p><b>นามสกุล (ภาษาไทย)</b></p>
-                            {!! Form::text('lname_th', null, array('placeholder' => 'นามสกุลภาษาไทย','class' =>
-                            'form-control')) !!}
+                            {!! Form::text('lname_th', null, ['placeholder' => 'นามสกุลภาษาไทย','class' => 'form-control']) !!}
                         </div>
                     </div>
+                    
+                    <!-- ฟอร์มสำหรับชื่อ-นามสกุล ภาษาอังกฤษ -->
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <p><b>ชื่อ (English)</b></p>
-                            {!! Form::text('fname_en', null, array('placeholder' => 'ชื่อภาษาอังกฤษ','class' =>
-                            'form-control')) !!}
+                            {!! Form::text('fname_en', null, ['placeholder' => 'ชื่อภาษาอังกฤษ','class' => 'form-control']) !!}
                         </div>
                         <div class="col-sm-6">
                             <p><b>นามสกุล (English)</b></p>
-                            {!! Form::text('lname_en', null, array('placeholder' => 'นามสกุลภาษาอังกฤษ','class' =>
-                            'form-control')) !!}
+                            {!! Form::text('lname_en', null, ['placeholder' => 'นามสกุลภาษาอังกฤษ','class' => 'form-control']) !!}
                         </div>
                     </div>
+                    
+                    <!-- ฟอร์มสำหรับ Email -->
                     <div class="form-group row">
-
                         <div class="col-sm-8">
                             <p><b>Email</b></p>
-                            {!! Form::text('email', null, array('placeholder' => 'Email','class' => 'form-control'))!!}
+                            {!! Form::text('email', null, ['placeholder' => 'Email','class' => 'form-control']) !!}
                         </div>
                     </div>
+                    
+                    <!-- ฟอร์มสำหรับ Password และ Confirm Password -->
                     <div class="form-group row">
                         <div class="col-sm-6">
                             <p><b>Password:</b></p>
-                            {!! Form::password('password', array('placeholder' => 'Password','class' => 'form-control'))!!}
+                            {!! Form::password('password', ['placeholder' => 'Password','class' => 'form-control']) !!}
                         </div>
                         <div class="col-sm-6">
-                            <p><b>Confirm Password:</p></b>
-                            {!! Form::password('password_confirmation', array('placeholder' => 'Confirm Password','class' =>'form-control')) !!}
+                            <p><b>Confirm Password:</b></p>
+                            {!! Form::password('password_confirmation', ['placeholder' => 'Confirm Password','class' =>'form-control']) !!}
                         </div>
                     </div>
+                    
+                    <!-- ฟอร์มสำหรับเลือก Role -->
                     <div class="form-group col-sm-8">
-                    <p><b>Role:</b></p>
+                        <p><b>Role:</b></p>
                         <div class="col-sm-8">
-                            
-                            {!! Form::select('roles[]', $roles,[],  array('class' => 'selectpicker','multiple')) !!}
+                            {!! Form::select('roles[]', $roles, [], ['class' => 'selectpicker','multiple']) !!}
                         </div>
                     </div>
+                    
+                    <!-- ฟอร์มสำหรับเลือก Department และ Program -->
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-4">
@@ -84,20 +90,30 @@
                                     <option value="">Select Subcategory</option>
                                 </select>
                             </div>
-
                         </div>
                     </div>
-
+                    
+                    <!-- เพิ่ม Checkbox สำหรับ is_research -->
+                    <div class="form-group row">
+                        <div class="col-sm-12">
+                            <div class="form-check">
+                                {!! Form::checkbox('is_research', 1, false, ['class' => 'form-check-input', 'id' => 'is_research']) !!}
+                                <label class="form-check-label" for="is_research">เป็นนักวิจัยหรือไม่?</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- ปุ่ม Submit และ Cancel -->
                     <button type="submit" class="btn btn-primary">Submit</button>
-                    <a class="btn btn-secondary" href="{{ route('users.index') }}">Cencel</a>
+                    <a class="btn btn-secondary" href="{{ route('users.index') }}">Cancel</a>
                     {!! Form::close() !!}
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
+<!-- Script สำหรับ Ajax ดึงข้อมูล Subcategory -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
@@ -108,11 +124,9 @@
         $.get('/ajax-get-subcat?cat_id=' + cat_id, function(data) {
             $('#subcat').empty();
             $.each(data, function(index, areaObj) {
-                //console.log(areaObj)
                 $('#subcat').append('<option value="' + areaObj.id + '">' + areaObj.degree.title_en +' in '+ areaObj.program_name_en + '</option>');
             });
         });
     });
 </script>
-
 @endsection

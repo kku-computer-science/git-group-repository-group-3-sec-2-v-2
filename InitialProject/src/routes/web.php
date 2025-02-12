@@ -34,24 +34,13 @@ use App\Http\Controllers\PatentController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\SourceController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PaperDetailController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TcicallController;
 
-
-//Kunyakon
-
-
-use App\Http\Controllers\GoogleScholarProfileController;
-
-Route::get('/scholar/profile/{userId}', [GoogleScholarProfileController::class, 'getProfile']);
-
-
-
-
-
-//Kunyakon
+use App\Http\Controllers\ScholarController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,6 +89,16 @@ Route::get('/clear-all', function() {
     ], 200);
  });
 
+ Route::get('/run-scopus', function () {
+    Artisan::call('scopus:fetch');
+    return 'Scopus fetch command executed';
+});
+
+Route::get('/scholar', [ScholarController::class, 'index']);
+Route::get('fresearchgroup', [PaperDetailController::class, 'fetchPaperDetails']);
+Route::get('/scholar/test-paper-html', [ScholarController::class, 'testPaperHtml']);
+
+
 
 Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
     Auth::routes();
@@ -108,6 +107,8 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/paper/{id}/detail', [PaperController::class, 'show'])
+    ->name('paper.detail');
 Route::get('/papers_2/{year}', [HomeController::class, 'getPapersByYear']);
 Route::get('/researchers', [ResearcherController::class, 'index'])->name('researchers.index');
 // Route::get('/researchers/{id}', [ResearcherController::class, 'request'])->name('researchers.request');
