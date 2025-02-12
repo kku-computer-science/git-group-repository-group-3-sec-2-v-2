@@ -23,12 +23,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($researchGroups->filter(function($group) {
-                        return $group->user->contains('id', Auth::id());
-                    }) as $i => $researchGroup)
+                    @foreach ($researchGroups as $i => $researchGroup)
                     <tr>
-                        <td>{{ $i+1 }}</td>
-                        <td>{{ Str::limit($researchGroup->group_name_th,50) }}</td>
+                        <td>{{ $i + 1 }}</td>
+                        <td>{{ Str::limit($researchGroup->group_name_th, 50) }}</td>
                         <td>
                             @foreach($researchGroup->user as $user)
                                 @if ($user->pivot->role == 1)
@@ -39,26 +37,25 @@
                         <td>
                             @foreach($researchGroup->user as $user)
                                 @if ($user->pivot->role == 2)
-                                    {{ $user->fname_th }}
-                                    @if (!$loop->last),@endif
+                                    {{ $user->fname_th }}@if (!$loop->last), @endif
                                 @endif
                             @endforeach
                         </td>
                         <td>
-                            <form action="{{ route('researchGroups.destroy',$researchGroup->id) }}" method="POST">
+                            <form action="{{ route('researchGroups.destroy', $researchGroup->id) }}" method="POST">
                                 <a class="btn btn-outline-primary btn-sm" type="button" data-toggle="tooltip"
                                     data-placement="top" title="view"
-                                    href="{{ route('researchGroups.show',$researchGroup->id) }}">
+                                    href="{{ route('researchGroups.show', $researchGroup->id) }}">
                                     <i class="mdi mdi-eye"></i>
                                 </a>
-                                @if(Auth::user()->can('update',$researchGroup))
+                                @if(Auth::user()->can('update', $researchGroup))
                                 <a class="btn btn-outline-success btn-sm" type="button" data-toggle="tooltip"
                                     data-placement="top" title="Edit"
-                                    href="{{ route('researchGroups.edit',$researchGroup->id) }}">
+                                    href="{{ route('researchGroups.edit', $researchGroup->id) }}">
                                     <i class="mdi mdi-pencil"></i>
                                 </a>
                                 @endif
-                                @if(Auth::user()->can('delete',$researchGroup))
+                                @if(Auth::user()->can('delete', $researchGroup))
                                 @csrf
                                 @method('DELETE')
                                 <button class="btn btn-outline-danger btn-sm show_confirm" type="submit" data-toggle="tooltip"
@@ -76,6 +73,7 @@
     </div>
 </div>
 
+<!-- DataTables CSS & JS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.3/css/fixedHeader.bootstrap4.min.css">
 
@@ -86,17 +84,16 @@
 
 <script>
 $(document).ready(function() {
-    var table1 = $('#example1').DataTable({
+    $('#example1').DataTable({
         responsive: true,
     });
 });
 
 $('.show_confirm').click(function(event) {
     var form = $(this).closest("form");
-    var name = $(this).data("name");
     event.preventDefault();
     swal({
-        title: `Are you sure?`,
+        title: "Are you sure?",
         text: "If you delete this, it will be gone forever.",
         icon: "warning",
         buttons: true,

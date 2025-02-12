@@ -11,4 +11,5 @@ class ResearchgroupsController extends Controller
         $resg = ResearchGroup::with('User')->orderBy('group_name_en')->get();
         return view('research_g',compact('resg'));
     }
+
 }
