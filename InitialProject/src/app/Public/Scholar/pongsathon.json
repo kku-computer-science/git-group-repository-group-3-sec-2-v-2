@@ -1,0 +1,62 @@
+{
+    "name": "Pongsathon Janyoi",
+    "affiliation": "College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Tonal Contour Generation for Isarn Speech Synthesis Using Deep Learning and Sampling-Based F0 Representation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:u-x6o8ySG0sC",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2020"
+        },
+        {
+            "title": "An Isarn dialect HMM-based text-to-speech system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:9yKSN-GCB0IC",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2017"
+        },
+        {
+            "title": "Isarn phoneme transcription using statistical model and transcription rule",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:u5HHmVD_uO8C",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2014"
+        },
+        {
+            "title": "Isarn Dialect Word Segmentation using Bi-directional Gated Recurrent Unit with transfer learning approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:IjCSPb-OGe4C",
+            "authors": "S Aim-Nang, P Seresangtakul, P Janyoi",
+            "year": "2022"
+        },
+        {
+            "title": "F0 modeling for isarn speech synthesis using deep neural networks and syllable-level feature representation.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:d1gkVwhDpl0C",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2020"
+        },
+        {
+            "title": "Isarn Dialect Speech Synthesis using HMM with syllable-context features",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:qjMakFHDy7sC",
+            "authors": "P Janyoi, P Seresangtakul",
+            "year": "2018"
+        },
+        {
+            "title": "Automated Sequence Labeling for Causality Extraction in Medical Domain",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:YsMSGLbcyi4C",
+            "authors": "ED Oktaviyani, P Seresangtakul, P Janyoi, C Soomlek",
+            "year": "2024"
+        },
+        {
+            "title": "MULTI-CLASS TEXT CLASSIFICATION ON KHMER NEWS ARTICLES USING DEEP LEARNING MODELS WITH OPTIMAL HYPERPARAMETERS",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:W7OEmFMy1HYC",
+            "authors": "R Phann, C Soomlek, P Janyoi, P Seresangtakul",
+            "year": "2024"
+        },
+        {
+            "title": "Investigation of an Input Sequence on Thai Neural Sequence-to-Sequence Speech Synthesis",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=fn94QPIAAAAJ&citation_for_view=fn94QPIAAAAJ:2osOgNQ5qMEC",
+            "authors": "P Janyoi, A Thangthai",
+            "year": "2021"
+        }
+    ]
+}
