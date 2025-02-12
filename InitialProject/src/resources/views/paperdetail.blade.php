@@ -98,8 +98,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="text-right">วันที่เผยแพร่</th>
-                        <td>{{ date('Y/m/d', strtotime($paper->created_at)) }}</td>
+                        <th class="text-right">ปีที่เผยแพร่</th>
+                        <td>{{ date('Y', strtotime($paper->created_at)) }}</td>
                     </tr>
                     <tr>
                         <th class="text-right">วารสารวิชาการ</th>
