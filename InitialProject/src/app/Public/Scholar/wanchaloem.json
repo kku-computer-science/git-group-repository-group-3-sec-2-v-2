@@ -1,0 +1,44 @@
+{
+    "name": "Wanchaloem Nadda",
+    "affiliation": "Data science, Natural language processing",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Influenza, dengue and common cold detection using LSTM with fully connected neural network and keywords selection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:d1gkVwhDpl0C",
+            "authors": "W Nadda, W Boonchieng, E Boonchieng",
+            "year": "2022"
+        },
+        {
+            "title": "Dengue fever detection using Long short-term memory neural network",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:u-x6o8ySG0sC",
+            "authors": "W Nadda, W Boonchieng, E Boonchieng",
+            "year": "2020"
+        },
+        {
+            "title": "Weighted extreme learning machine for dengue detection with class-imbalance classification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:u5HHmVD_uO8C",
+            "authors": "W Nadda, W Boonchieng, E Boonchieng",
+            "year": "2019"
+        },
+        {
+            "title": "Enhancing Disease Symptom Analysis in Thai Text: Methods for Text Oversampling in Imbalanced Data for Disease Detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:qjMakFHDy7sC",
+            "authors": "E Boonchieng, W Nadda, W Liawrungrueang, W Boonchieng",
+            "year": "2024"
+        },
+        {
+            "title": "Overcoming Imbalanced Data Challenges in Spinal Disorder Detection: An Integrated YOLOv5 and CNNs Approach with SMOTE",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:2osOgNQ5qMEC",
+            "authors": "W Nadda, W Boonchieng, MDW Liawrungrueang",
+            "year": "2023"
+        },
+        {
+            "title": "Information Retrieval with Natural Language Processing for Disease Detection using Wikipedia Database",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ZmxX5qoAAAAJ&citation_for_view=ZmxX5qoAAAAJ:9yKSN-GCB0IC",
+            "authors": "W Nadda, W Boonchieng, E Boonchieng",
+            "year": "2019"
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "name": "Sarun Apichontrakul",
+    "affiliation": "College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Rotation Invariant Binary Gradient Contour for Geographic Object-based Image Analysis",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=yqNNqdAAAAAJ&citation_for_view=yqNNqdAAAAAJ:u-x6o8ySG0sC",
+            "authors": "S Apichontrakul, R Suwanweerakamtorn",
+            "year": "2022"
+        },
+        {
+            "title": "Workshop: Introduction to PostGIS for Spatial Analysis and Management",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=yqNNqdAAAAAJ&citation_for_view=yqNNqdAAAAAJ:u5HHmVD_uO8C",
+            "authors": "S Apichontrakul",
+            "year": "2021"
+        },
+        {
+            "title": "Urban Land Cover Extraction of Thaichote Satellite Imagery Using Geographic Object-Based Image Analysis",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=yqNNqdAAAAAJ&citation_for_view=yqNNqdAAAAAJ:d1gkVwhDpl0C",
+            "authors": "S Apichontrakul, R Suwanweerakamtorn",
+            "year": "2018"
+        },
+        {
+            "title": "Assessing Off-the-Shelf UAV Capability for Monitoring Plant Growth",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=yqNNqdAAAAAJ&citation_for_view=yqNNqdAAAAAJ:9yKSN-GCB0IC",
+            "authors": "S Apichontrakul, R Suwanweerakamtorn",
+            "year": "2018"
+        },
+        {
+            "title": "An Application of Artificial Neural Network and Geographic Information System for Temperature Trend Prediction in Northeastern Thailand",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=yqNNqdAAAAAJ&citation_for_view=yqNNqdAAAAAJ:2osOgNQ5qMEC",
+            "authors": "S Apichontrakul, R Suwanweerakamtorn",
+            "year": "2014"
+        }
+    ]
+}
