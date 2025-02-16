@@ -15,34 +15,34 @@ use Illuminate\Support\Facades\DB;
 class ScopuscallController extends Controller
 {
     /**
-     * ดึงข้อมูลจาก Scopus API แล้วบันทึกข้อมูล Paper พร้อมแนบความสัมพันธ์กับ User
-     * โดยจะบันทึกเฉพาะกรณี paper ใหม่ (Insert) เท่านั้น ส่วน update หรือ add relation
-     * (ถ้าพบว่ามีในฐานข้อมูลอยู่แล้ว) จะไม่สนใจ
+     * Fetch data from the Scopus API and store new Paper records.
+     * This method inserts new papers only. (If a paper already exists,
+     * no update or additional relation is performed.)
      *
-     * @param  string  $id  (Encrypt) ของ User
+     * @param  string  $id  (Encrypted) User ID.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function create($id)
     {
-        // 1) ถอดรหัสและดึงข้อมูลผู้ใช้
+        // Decrypt the user ID and retrieve the user from the database.
         $userId = Crypt::decrypt($id);
         $user = User::find($userId);
         if (!$user) {
             return redirect()->back()->with('error', 'User not found.');
         }
 
-        // สร้าง array สำหรับเก็บข้อมูลว่า paper ไหนมีการ insert
+        // Create an array to store the names of newly inserted papers.
         $insertedPapers = [];
 
         // ---------------------------------------------------------------------
-        //                             PART 1: SCOPUS
+        //                           Scopus API Section
         // ---------------------------------------------------------------------
-        // สร้าง search query โดยใช้ตัวอักษรตัวแรกของ fname_en กับ lname_en
+        // Build the search query using the first letter of the user's first name and their last name.
         $firstLetter = substr($user->fname_en, 0, 1);
         $lname = $user->lname_en;
         $searchQuery = "AUTHOR-NAME({$lname},{$firstLetter})";
 
-        // เรียก Scopus Search API
+        // Call the Scopus Search API.
         $searchResponse = Http::withHeaders([
             'X-ELS-APIKey' => 'c9505cb6a621474141aeb03dcde91963',
             'Accept'       => 'application/json',
@@ -56,36 +56,36 @@ class ScopuscallController extends Controller
 
         $entries = $searchResponse->json('search-results.entry');
         if (!$entries || !is_array($entries)) {
-            return redirect()->back()->with('error', 'No papers found in Scopus.');
+            return redirect()->back()->with('error', 'No papers found on Scopus.');
         }
 
-        // ประมวลผลแต่ละ entry จาก Scopus
+        // Process each entry from Scopus.
         foreach ($entries as $item) {
-            // หาก paper นี้มีอยู่แล้วในฐานข้อมูล (ตรวจสอบจาก paper_name)
+            // Check if the paper has a title.
             $scopusPaperName = $item['dc:title'] ?? null;
             if (!$scopusPaperName) {
-                continue; // ถ้าไม่มี title ข้าม
+                continue; // Skip if title is not present.
             }
 
+            // Check if the paper already exists in the database.
             $existingPaper = Paper::where('paper_name', $scopusPaperName)->first();
             if ($existingPaper) {
-                // โจทย์: สนใจเฉพาะ insert ใหม่ ไม่สน update หรือ add relation
+                // Skip if the paper already exists (we only insert new papers).
                 continue;
             }
 
-            // ---- ถ้าไม่เจอใน DB => ทำการ Insert ใหม่ ----
+            // If the paper is not found in the DB, proceed to insert a new record.
             $rawScopusId = $item['dc:identifier'] ?? '';
             $scopusId = str_replace('SCOPUS_ID:', '', $rawScopusId);
-            // สร้าง URL สำหรับดึงรายละเอียดเพิ่มเติม (Abstract API)
             $detailUrl = "https://api.elsevier.com/content/abstract/scopus_id/{$scopusId}";
 
-            // ดึงข้อมูลรายละเอียดจาก Abstract API
+            // Fetch additional details from the Abstract API.
             $detailResponse = Http::withHeaders([
                 'X-ELS-APIKey' => 'c9505cb6a621474141aeb03dcde91963',
                 'Accept'       => 'application/json',
             ])->get($detailUrl);
 
-            // กำหนดค่าพื้นฐาน
+            // Set default values.
             $paper_name   = $scopusPaperName;
             $abstract     = null;
             $paper_funder = null;
@@ -94,12 +94,12 @@ class ScopuscallController extends Controller
             if ($detailResponse->successful()) {
                 $detailData = $detailResponse->json('abstracts-retrieval-response.item');
 
-                // ถ้ามี citation-title -> ใช้แทน paper_name
+                // Use citation-title as the paper name if available.
                 if (isset($detailData['bibrecord']['head']['citation-title'])) {
                     $paper_name = $detailData['bibrecord']['head']['citation-title'];
                 }
 
-                // ดึง abstract (เช็คก่อนว่าเป็น array หรือ string)
+                // Retrieve the abstract details.
                 if (isset($detailData['bibrecord']['head']['abstracts'])) {
                     $abs = $detailData['bibrecord']['head']['abstracts'];
                     $abstract = is_array($abs)
@@ -107,7 +107,7 @@ class ScopuscallController extends Controller
                         : $abs;
                 }
 
-                // ดึงข้อมูล paper_funder (จาก xocs:funding-text)
+                // Retrieve funding details from xocs:funding-text.
                 if (isset($detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'])) {
                     $funderRaw = $detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'];
                     $paper_funder = is_array($funderRaw)
@@ -116,8 +116,8 @@ class ScopuscallController extends Controller
                 }
             }
 
-            // กำหนด paper_url: ใช้ link[0]['@href'] หรือ fallback เป็น $detailUrl
-            $paper_url = $detailUrl; // fallback เริ่มต้น
+            // Determine the paper URL using available links; fallback to $detailUrl.
+            $paper_url = $detailUrl;
             if (!empty($item['link']) && is_array($item['link'])) {
                 foreach ($item['link'] as $linkObj) {
                     if (isset($linkObj['@ref']) && $linkObj['@ref'] === 'scopus') {
@@ -126,36 +126,31 @@ class ScopuscallController extends Controller
                     }
                 }
             }
-            // ดึงปีจาก prism:coverDate (เอา 4 ตัวแรก)
+
+            // Extract the publication year from prism:coverDate (first 4 characters).
             $coverDate = $item['prism:coverDate'] ?? null;
             $paper_yearpub = $coverDate ? substr($coverDate, 0, 4) : null;
             $subtype = $item['subtype'] ?? 'ar';
 
-            // ถ้าเป็น 'ar' เปลี่ยนเป็น 'Article'
+            // Convert subtype 'ar' to 'Article'.
             if ($subtype === 'ar') {
                 $subtype = 'Article';
             }
 
-            // สร้าง instance ใหม่ของ Paper และบันทึก
+            // Create a new Paper instance and save it.
             $paper = new Paper;
             $paper->paper_name        = $paper_name;
             $paper->abstract          = $abstract;
             $paper->paper_type        = $item['prism:aggregationType'] ?? 'Journal';
             $paper->paper_subtype     = $subtype;
-
             $subtypeDesc = $item['subtypeDescription'] ?? 'Article';
             if (is_array($subtypeDesc)) {
                 $subtypeDesc = json_encode($subtypeDesc, JSON_UNESCAPED_UNICODE);
             }
             $paper->paper_sourcetitle = $subtypeDesc;
-
-            // author-keywords (array -> json_encode)
-            if (!empty($item['author-keywords'])) {
-                $paper->keyword = json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE);
-            } else {
-                $paper->keyword = null;
-            }
-
+            $paper->keyword           = !empty($item['author-keywords'])
+                                        ? json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE)
+                                        : null;
             $paper->paper_url         = $paper_url;
             $paper->publication       = $item['prism:publicationName'] ?? null;
             $paper->paper_yearpub     = $paper_yearpub;
@@ -168,129 +163,99 @@ class ScopuscallController extends Controller
             $paper->reference_number  = null;
             $paper->save();
 
-            // แนบข้อมูล Source_data (สมมติว่า id=1 เป็น Scopus)
+            // Attach Source Data (assume id=1 represents Scopus).
             $source = Source_data::find(1);
             if ($source) {
                 $paper->source()->sync([$source->id]);
             }
 
-            // --- แนบข้อมูลผู้แต่ง (authors) ---
+            // Attach Authors.
             $authorsData = $detailData['bibrecord']['head']['author-group']['author']
                 ?? $detailResponse->json('abstracts-retrieval-response.authors.author');
-
-            // บางครั้ง $authorsData อาจเป็น Object เดียว => แปลงเป็น array
             if ($authorsData && !is_array($authorsData)) {
                 $authorsData = [$authorsData];
             }
-
             if ($authorsData && is_array($authorsData)) {
                 $totalAuthors = count($authorsData);
                 $x = 1;
                 foreach ($authorsData as $authorItem) {
-                    // ดึงชื่อ-สกุล จาก API
+                    // Retrieve author's given name and surname.
                     $givenName = $authorItem['ce:given-name']
                         ?? ($authorItem['preferred-name']['ce:given-name'] ?? '');
                     $surname   = $authorItem['ce:surname']
                         ?? ($authorItem['preferred-name']['ce:surname'] ?? '');
 
-                    // กำหนดว่าเป็นผู้แต่งลำดับไหน (1=first,2=co-author,3=last)
-                    if ($x === 1) {
-                        $author_type = 1; // first
-                    } elseif ($x === $totalAuthors) {
-                        $author_type = 3; // last
-                    } else {
-                        $author_type = 2; // co-author
-                    }
+                    // Determine the author order: 1 = first, 2 = co-author, 3 = last.
+                    $author_type = ($x === 1) ? 1 : (($x === $totalAuthors) ? 3 : 2);
 
-                    // -------------------------------------
-                    //  ตรวจสอบว่าเป็น user นี้หรือไม่?
-                    // -------------------------------------
+                    // Updated condition: require all three conditions to match:
+                    // 1. Given name (case-insensitive) matches.
+                    // 2. Surname (case-insensitive) matches.
+                    // 3. The affiliation array contains at least one item with "Khon Kaen".
                     $isSameUser = false;
-
-                    // 1) กรณีชื่อ-นามสกุลตรงกัน (case-insensitive)
                     if (
                         strcasecmp($givenName, $user->fname_en) === 0 &&
-                        strcasecmp($surname, $user->lname_en) === 0
+                        strcasecmp($surname, $user->lname_en) === 0 &&
+                        strtolower(substr($givenName, 0, 1)) === strtolower(substr($user->fname_en, 0, 1))
                     ) {
-                        $isSameUser = true;
-                    } else {
-                        // 2) ชื่อไม่ตรงเป๊ะ แต่ตัวอักษรตัวแรกของชื่อเหมือนกัน และนามสกุลตรง
-                        //    และ affiliation มี "Khon Kaen" => ถือว่าเป็น user นี้
-                        $firstApi  = strtolower(substr($givenName, 0, 1));
-                        $firstUser = strtolower(substr($user->fname_en, 0, 1));
-
-                        if (
-                            $firstApi === $firstUser &&
-                            strcasecmp($surname, $user->lname_en) === 0
-                        ) {
-                            // เช็คว่า affiliation เป็น Khon Kaen University หรือไม่
-                            // (Scopus ปกติจะใส่ affiliation ไว้ใน authorItem['affiliation'] ซึ่งเป็น array)
-                            if (!empty($authorItem['affiliation']) && is_array($authorItem['affiliation'])) {
-                                foreach ($authorItem['affiliation'] as $aff) {
-                                    $affName = $aff['affiliation-name'] ?? '';
-                                    // ใช้ stripos เพื่อเช็คโดยไม่สนตัวพิมพ์
-                                    if (stripos($affName, 'Khon Kaen') !== false) {
-                                        $isSameUser = true;
-                                        break;
-                                    }
+                        if (!empty($authorItem['affiliation']) && is_array($authorItem['affiliation'])) {
+                            foreach ($authorItem['affiliation'] as $aff) {
+                                $affName = $aff['affiliation-name'] ?? '';
+                                if (stripos($affName, 'Khon Kaen') !== false) {
+                                    $isSameUser = true;
+                                    break;
                                 }
                             }
                         }
                     }
 
-                    // หากพบว่าเป็น user คนนี้ => attach ความสัมพันธ์และข้ามขั้นตอนหา user/author อื่น
+                    // Attach relation based on the check.
                     if ($isSameUser) {
                         $paper->teacher()->attach($user->id, ['author_type' => $author_type]);
                     } else {
-                        // ถ้าไม่ใช่ user นี้ => ตรวจสอบ user อื่นใน DB
+                        // Check in Users table.
                         $existingUser = User::where('fname_en', $givenName)
                             ->where('lname_en', $surname)
                             ->first();
-
                         if ($existingUser) {
-                            // ถ้าเจอ user อื่นในระบบ => ผูกความสัมพันธ์
                             $paper->teacher()->attach($existingUser->id, ['author_type' => $author_type]);
                         } else {
-                            // หากไม่พบใน users => ตรวจสอบในตาราง authors
+                            // Check in Authors table.
                             $existingAuthor = Author::where('author_fname', $givenName)
                                 ->where('author_lname', $surname)
                                 ->first();
-
                             if (!$existingAuthor) {
-                                // ยังไม่เคยมี author นี้ => เพิ่มใหม่
                                 $newAuthor = new Author;
                                 $newAuthor->author_fname = $givenName;
                                 $newAuthor->author_lname = $surname;
                                 $newAuthor->save();
                                 $paper->author()->attach($newAuthor->id, ['author_type' => $author_type]);
                             } else {
-                                // ถ้ามีแล้ว => ผูก pivot
                                 $paper->author()->attach($existingAuthor->id, ['author_type' => $author_type]);
                             }
                         }
                     }
-
                     $x++;
                 }
             }
 
-            // แนบความสัมพันธ์กับ User ที่เรียก (เพื่อบอกว่า user นี้เป็นผู้ “import” paper)
-            // – หากนโยบายต้องการผูกว่าเจ้าของ ID เป็นผู้เขียนด้วย ให้คงไว้
-            //   แต่ถ้าต้องการผูกผู้สืบค้นเฉย ๆ (ไม่การันตีว่าเป็นผู้เขียน) อาจไม่ต้อง attach
+            // Attach the user who performed the import.
             $paper->teacher()->attach($user->id);
 
-            // เก็บชื่อ paper ลงในอาเรย์ "insertedPapers"
+            // Save the name of the inserted paper.
             $insertedPapers[] = $paper->paper_name;
         }
 
-        // ส่งข้อมูล insertedPapers กลับไปเป็น session เพื่อแจ้งเตือนใน view
-        return redirect()->back()->with([
-            'insertedPapers' => $insertedPapers,
-        ]);
+        // If no new paper was inserted, return with an info flash message.
+        if (empty($insertedPapers)) {
+            return redirect()->back()->with('info', 'No changes were made.');
+        }
+
+        return redirect()->back()->with('insertedPapers', $insertedPapers);
     }
 
     /**
-     * ตัวอย่างการแสดงสถิติ paper ตามปี (5 ปีล่าสุด)
+     * Example: Display Paper statistics for the last 5 years.
      */
     public function index()
     {
@@ -306,23 +271,26 @@ class ScopuscallController extends Controller
 
     public function store(Request $request)
     {
-        //
+        // ...
     }
 
-    public function show($id) {}
+    public function show($id)
+    {
+        // ...
+    }
 
     public function edit($id)
     {
-        //
+        // ...
     }
 
     public function update(Request $request, $id)
     {
-        //
+        // ...
     }
 
     public function destroy($id)
     {
-        //
+        // ...
     }
 }
