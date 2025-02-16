@@ -188,25 +188,22 @@ class ScopuscallController extends Controller
                     // Determine the author order: 1 = first, 2 = co-author, 3 = last.
                     $author_type = ($x === 1) ? 1 : (($x === $totalAuthors) ? 3 : 2);
 
-                    // Check if the author matches the current user.
+                    // Updated condition: require all three conditions to match:
+                    // 1. Given name (case-insensitive) matches.
+                    // 2. Surname (case-insensitive) matches.
+                    // 3. The affiliation array contains at least one item with "Khon Kaen".
                     $isSameUser = false;
                     if (
                         strcasecmp($givenName, $user->fname_en) === 0 &&
-                        strcasecmp($surname, $user->lname_en) === 0
+                        strcasecmp($surname, $user->lname_en) === 0 &&
+                        strtolower(substr($givenName, 0, 1)) === strtolower(substr($user->fname_en, 0, 1))
                     ) {
-                        $isSameUser = true;
-                    } else {
-                        // If first letter matches and surname matches, and affiliation contains "Khon Kaen".
-                        $firstApi = strtolower(substr($givenName, 0, 1));
-                        $firstUser = strtolower(substr($user->fname_en, 0, 1));
-                        if ($firstApi === $firstUser && strcasecmp($surname, $user->lname_en) === 0) {
-                            if (!empty($authorItem['affiliation']) && is_array($authorItem['affiliation'])) {
-                                foreach ($authorItem['affiliation'] as $aff) {
-                                    $affName = $aff['affiliation-name'] ?? '';
-                                    if (stripos($affName, 'Khon Kaen') !== false) {
-                                        $isSameUser = true;
-                                        break;
-                                    }
+                        if (!empty($authorItem['affiliation']) && is_array($authorItem['affiliation'])) {
+                            foreach ($authorItem['affiliation'] as $aff) {
+                                $affName = $aff['affiliation-name'] ?? '';
+                                if (stripos($affName, 'Khon Kaen') !== false) {
+                                    $isSameUser = true;
+                                    break;
                                 }
                             }
                         }
