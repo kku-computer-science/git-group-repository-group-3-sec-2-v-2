@@ -1,23 +1,43 @@
 @extends('layouts.layout')
 
 <style>
-    .container {
-        padding: 20px;
+    .container-fluid {
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+        max-width: 100vw;
+        /* ป้องกันการเกินขอบจอ */
+        overflow-x: hidden;
     }
 
-    /* Header section */
+    .content-wrapper {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100vw !important;
+        /* กว้างเต็มหน้าจอ */
+        max-width: 100% !important;
+        /* ป้องกันขนาดถูกบีบ */
+    }
+
     .blue-stripe {
-        background-color: #003e80;
-        padding: 30px 20px;
+        /* ใช้สีฟ้าเข้ม */
+        background-color: #1075BB;
+        /* เพิ่ม padding ให้สูงขึ้นเพื่อดูเต็มแบนเนอร์ */
+        padding: 60px 20px;
         margin-bottom: 25px;
+        text-align: center;
+        /* จัดข้อความให้อยู่กลาง */
+        color: #fff;
+        /* ตัวหนังสือสีขาว */
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .blue-stripe h1 {
-        color: white;
-        font-size: 2.2rem;
+        color: #fff;
+        /* ขยายขนาดฟอนต์ตามต้องการ */
+        font-size: 2.4rem;
         font-weight: 600;
         margin: 0;
+        line-height: 1.2;
     }
 
     /* Content boxes */
@@ -47,7 +67,7 @@
     }
 
     /* Member cards */
-    .member-card {
+    /* .member-card {
         padding: 15px;
         margin-bottom: 20px;
         text-align: center;
@@ -58,7 +78,7 @@
         flex-direction: column;
         align-items: center;
         position: relative;
-    }
+    } */
 
     .head-lab-badge {
         position: absolute;
@@ -72,7 +92,7 @@
     }
 
     /* Image styling */
-    .center-image {
+    /* .center-image {
         width: 100%;
         max-width: 200px;
         height: auto;
@@ -80,7 +100,26 @@
         border: 1px solid #eaeaea;
         object-fit: contain;
         aspect-ratio: 3/4;
+    } */
+
+    .member-card {
+        width: 200px;
+        /* กำหนดความกว้างของการ์ดเท่ากันทุกใบ */
+        margin: 0 auto;
+        /* จัดกึ่งกลาง */
+        /* ความสูงปล่อย auto ให้ปรับตามเนื้อหา */
     }
+
+    .center-image {
+        width: 100%;
+        /* ให้รูปกว้างเต็มการ์ด */
+        height: auto;
+        /* ปล่อยความสูงตามสัดส่วน */
+        object-fit: contain;
+        /* หรือ cover ตามต้องการ */
+        border: 1px solid #eaeaea;
+    }
+
 
     /* Profile link styles */
     .profile-link {
@@ -90,6 +129,7 @@
 
     /* Person info */
     .person-info {
+        text-align: center;
         margin-top: 12px;
     }
 
@@ -118,54 +158,74 @@
             max-width: 160px;
         }
     }
+
+    .research-rationale-box h3 {
+        color: #003E80;
+    }
+
+    .research-rationale-box h4 {
+        color: #414141;
+        /* สีเทาเข้ม */
+        font-size: 1rem;
+        /* ปรับขนาดฟอนต์เล็กลง (เดิม h4 ใหญ่กว่า 1rem) */
+        line-height: 1.4;
+        /* ปรับระยะห่างบรรทัดให้เหมาะสม */
+    }
 </style>
 
 @section('content')
+@foreach ($resgd as $rg)
+<!-- Blue Stripe with Group Name -->
+<div class="blue-stripe">
+    <!-- ใส่ชื่อกลุ่มวิจัย -->
+    <h1>{{ $rg->{'group_name_'.app()->getLocale()} }}</h1>
+</div>
+
 <div class="container-fluid px-4">
-    @foreach ($resgd as $rg)
-    <!-- Blue Stripe with Group Name -->
-    <div class="blue-stripe">
-        <h1 class="text-center">{{ $rg->{'group_name_'.app()->getLocale()} }}</h1>
-    </div>
+
 
     <!-- Research Rationale -->
     <div class="research-rationale-box">
         <h2>Research Rationale</h2>
-        <h3>{{ $rg->{'group_desc_'.app()->getLocale()} }}</h3>
+        <h4>{{ $rg->{'group_desc_'.app()->getLocale()} }}</h4>
+    </div>
+
+    <!-- Main Research Areas / Topics -->
+    <div class="research-rationale-box">
+        <h2>Main Research Areas / Topics</h2>
+        <h4>{{ $rg->{'main_research_'.app()->getLocale()} }}</h4>
     </div>
 
     <!-- Researcher Details -->
     <div class="research-rationale-box">
         <h2>Researcher Details</h2>
-        <h3>{{ $rg->{'group_detail_'.app()->getLocale()} }}</h3>
+        <h4>{{ $rg->{'group_detail_'.app()->getLocale()} }}</h4>
     </div>
 
     <!-- Research Group Members (Teachers) -->
     <div class="research-rationale-box">
+        <!-- หัวข้อใหญ่แสดงครั้งเดียว -->
         <h2 class="text-center">Member Of Research Group</h2>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
+
+        <!-- (1) Member (Teacher: role = 1 or 2) -->
+        <h3 class="mt-4">Member</h3>
+        <!-- แถวแรก: Head LAB (role = 1) เพียงคนเดียวตรงกลาง -->
+        <div class="row justify-content-center g-4 mb-4">
             @foreach($rg->user as $r)
-            @if(
-            $r->hasRole('teacher')
-            && isset($r->pivot)
-            && in_array($r->pivot->role, [1, 2])
-            )
-            <div class="col">
+            @if($r->hasRole('teacher') && isset($r->pivot) && $r->pivot->role == 1)
+            <div class="col-auto">
                 <div class="member-card">
-                    @if($r->pivot->role == 1)
                     <div class="head-lab-badge">Head LAB</div>
-                    @endif
                     <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
                         <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
                             alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
                             class="center-image">
                     </a>
                     <div class="person-info">
-                        <!-- Logic แสดงตำแหน่ง/ชื่อ ตาม locale -->
                         @if(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer' && $r->doctoral_degree == 'Ph.D.')
-                        <p>{{ $r->{'fname_en'} }} {{ $r->{'lname_en'} }}, Ph.D.</p>
+                        <p>{{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
                         @elseif(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer')
-                        <p>{{ $r->{'fname_en'} }} {{ $r->{'lname_en'} }}</p>
+                        <p>{{ $r->fname_en }} {{ $r->lname_en }}</p>
                         @elseif(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
                         <p>{{ str_replace('Dr.', ' ', $r->position_en) }} {{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
                         @else
@@ -177,11 +237,37 @@
             @endif
             @endforeach
         </div>
-    </div>
 
-    <!-- Postdoctoral Researchers -->
-    <div class="research-rationale-box">
-        <h2 class="text-center">Postdoctoral Researchers</h2>
+        <!-- แถวถัดมา: สมาชิกคนอื่น (role = 2) -->
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
+            @foreach($rg->user as $r)
+            @if($r->hasRole('teacher') && isset($r->pivot) && $r->pivot->role == 2)
+            <div class="col">
+                <div class="member-card">
+                    <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
+                        <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        @if(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer' && $r->doctoral_degree == 'Ph.D.')
+                        <p>{{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
+                        @elseif(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer')
+                        <p>{{ $r->fname_en }} {{ $r->lname_en }}</p>
+                        @elseif(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
+                        <p>{{ str_replace('Dr.', ' ', $r->position_en) }} {{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
+                        @else
+                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endif
+            @endforeach
+        </div>
+
+        <!-- (2) Postdoctoral Researcher (role = 3) -->
+        <h3 class="mt-5">Postdoctoral Researcher</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
             @foreach($rg->user as $r)
             @if(isset($r->pivot) && $r->pivot->role == 3)
@@ -194,7 +280,7 @@
                     </a>
                     <div class="person-info">
                         @if(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
-                        <p>{{ $r->{'fname_en'} }} {{ $r->{'lname_en'} }}, Ph.D.</p>
+                        <p>{{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
                         @else
                         <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
                         @endif
@@ -204,33 +290,54 @@
             @endif
             @endforeach
         </div>
-    </div>
 
-    <!-- Students -->
-    <div class="research-rationale-box">
-        <h2 class="text-center">Student</h2>
+        <!-- Students (รวม Ph.D. (4), Master's (5), Undergrad (6)) -->
+        <h3 class="mt-5">Students</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
-            @php
-            $uniqueStudents = $rg->user->unique('id')->filter(function($user) {
-            return $user->hasRole('student');
-            });
-            @endphp
-            @foreach ($uniqueStudents as $user)
+            @foreach($rg->user as $r)
+            @if(isset($r->pivot) && in_array($r->pivot->role, [4, 5, 6]))
             <div class="col">
                 <div class="member-card">
-                    <a href="{{ route('detail', Crypt::encrypt($user->id)) }}" class="profile-link">
-                        <img src="{{ $user->picture ?? asset('img/default-profile.png') }}"
-                            alt="{{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}"
+                    <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
+                        <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
                             class="center-image">
                     </a>
                     <div class="person-info">
-                        <p>{{ $user->{'position_'.app()->getLocale()} }} {{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}</p>
+                        <!-- แสดงข้อมูลตาม locale -->
+                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
                     </div>
                 </div>
             </div>
+            @endif
             @endforeach
         </div>
+
+        <!-- (6) Visiting Scholars (role = 7) -->
+        <h3 class="mt-5">Visiting Scholars</h3>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
+            @foreach($rg->user as $r)
+            @if(isset($r->pivot) && $r->pivot->role == 7)
+            <div class="col">
+                <div class="member-card">
+                    <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
+                        <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                    </div>
+                </div>
+            </div>
+            @endif
+            @endforeach
+        </div>
+
     </div>
+
+
+
     @endforeach
 </div>
 @stop
