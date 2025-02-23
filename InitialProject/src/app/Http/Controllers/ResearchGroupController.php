@@ -9,6 +9,7 @@ use App\Models\Fund;
 use App\Models\Product;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ResearchGroupController extends Controller
 {
@@ -27,8 +28,23 @@ class ResearchGroupController extends Controller
 
     public function index()
     {
-        //$researchGroups = ResearchGroup::latest()->paginate(5);
-        $researchGroups = ResearchGroup::with('User')->get();
+        $user = auth()->user();
+
+        if ($user->hasAnyRole(['admin', 'staff'])) {
+            // หากผู้ใช้เป็น admin หรือ staff ให้แสดงกลุ่มทั้งหมด
+            $researchGroups = ResearchGroup::with('user')
+                ->orderBy('group_name_en')
+                ->get();
+        } else {
+            // หากไม่ใช่ admin หรือ staff ให้แสดงเฉพาะกลุ่มที่มีผู้ใช้ปัจจุบันเข้าร่วม
+            $researchGroups = ResearchGroup::whereHas('user', function ($query) use ($user) {
+                $query->where('user_id', $user->id);
+            })
+            ->with('user')
+            ->orderBy('group_name_en')
+            ->get();
+        }
+
         return view('research_groups.index', compact('researchGroups'));
     }
 
@@ -55,29 +71,57 @@ class ResearchGroupController extends Controller
         $request->validate([
             'group_name_th' => 'required',
             'group_name_en' => 'required',
-            'head' => 'required',
-            //'group_image' => 'required|mimes:png,jpg,jpeg|max:2048',
+            'head'          => 'required',
+            'link'          => 'nullable|url',  // validate รูปแบบ URL หากมี
+            // กำหนด validate อื่น ๆ ตามที่ต้องการ
         ]);
-        $input = $request->all();
-        if ($request->group_image) {
-            $input['group_image'] = time() . '.' . $request->group_image->extension();
-            $request->group_image->move(public_path('img'), $input['group_image']);
+    
+        // สร้าง instance ใหม่ของ ResearchGroup และกำหนดค่าต่างๆ
+        $researchGroup = new ResearchGroup();
+        $researchGroup->group_name_th   = $request->group_name_th;
+        $researchGroup->group_name_en   = $request->group_name_en;
+        $researchGroup->group_desc_th   = $request->group_desc_th;
+        $researchGroup->group_desc_en   = $request->group_desc_en;
+        $researchGroup->group_detail_th = $request->group_detail_th;
+        $researchGroup->group_detail_en = $request->group_detail_en;
+    
+        // ตรวจสอบและจัดการกับไฟล์ image หากมี
+        if ($request->hasFile('group_image')) {
+            $filename = time() . '.' . $request->group_image->extension();
+            $request->group_image->move(public_path('img'), $filename);
+            $researchGroup->group_image = $filename;
         }
-        // $input['group_image'] = time().'.'.$request->group_image->extension();
-        // $request->group_image->move(public_path('img'), $input['group_image']);
-        //return $input['group_image'];
-        $researchGroup = ResearchGroup::create($input);
-        $head = $request->head;
-        $fund = $request->fund;
-        $researchGroup->user()->attach($head, ['role' => 1]);
+    
+        // กำหนดค่า link จาก request แบบ manual
+        $researchGroup->link = $request->link;
+    
+        // บันทึกข้อมูลลงในฐานข้อมูล
+        $researchGroup->save();
+    
+        // กำหนดเจ้าของกลุ่ม (Owner) โดยพิจารณาจาก role ของผู้ใช้ที่ล็อกอิน
+        // หากผู้ใช้มี role เป็น admin หรือ staff ให้ใช้ค่าจากฟอร์ม (head)
+        // แต่ถ้าไม่ใช่ ให้ใช้ auth()->id() เป็นเจ้าของกลุ่ม
+        $owner = auth()->user()->hasAnyRole(['admin', 'staff']) ? $request->head : auth()->id();
+        $researchGroup->user()->attach($owner, ['role' => 1]);
+    
+        // แนบสมาชิกกลุ่ม (role = 2) หากมีข้อมูลใน moreFields
         if ($request->moreFields) {
-            foreach ($request->moreFields as $key => $value) {
-
-                if ($value['userid'] != null) {
-                    $researchGroup->user()->attach($value, ['role' => 2]);
+            foreach ($request->moreFields as $field) {
+                if (isset($field['userid']) && $field['userid'] != null) {
+                    $researchGroup->user()->attach($field['userid'], ['role' => 2]);
                 }
             }
         }
+    
+        // แนบ Postdoctoral Researcher (role = 3) หากมีข้อมูลใน postdocFields
+        if ($request->has('postdocFields')) {
+            foreach ($request->postdocFields as $field) {
+                if (isset($field['userid']) && $field['userid'] != null) {
+                    $researchGroup->user()->attach($field['userid'], ['role' => 3]);
+                }
+            }
+        }
+    
         return redirect()->route('researchGroups.index')->with('success', 'research group created successfully.');
     }
 
@@ -123,38 +167,63 @@ class ResearchGroupController extends Controller
     public function update(Request $request, ResearchGroup $researchGroup)
     {
         $request->validate([
-            'group_name_th' => 'required',
-            'group_name_en' => 'required',
-
+            'group_name_th'   => 'required',
+            'group_name_en'   => 'required',
+            'link'            => 'nullable|url',  // ตรวจสอบรูปแบบ URL
+            // เพิ่มเติม validation อื่น ๆ ตามต้องการ
         ]);
-        $input = $request->all();
-        if ($request->group_image) {
-            //dd($request->file('group_image'));
-            $input['group_image'] = time() . '.' . $request->group_image->extension();
-            //$file = $request->file('image');
-
-            //$url = Storage::putFileAs('images', $file, $name . '.' . $file->extension());
-            //dd($input['group_image']);
-            $request->group_image->move(public_path('img'), $input['group_image']);
+    
+        // อัปเดตฟิลด์หลัก ๆ
+        $researchGroup->group_name_th   = $request->group_name_th;
+        $researchGroup->group_name_en   = $request->group_name_en;
+        $researchGroup->group_desc_th   = $request->group_desc_th;
+        $researchGroup->group_desc_en   = $request->group_desc_en;
+        $researchGroup->group_detail_th = $request->group_detail_th;
+        $researchGroup->group_detail_en = $request->group_detail_en;
+    
+        // จัดการรูปภาพ (ถ้ามีอัปโหลด)
+        if ($request->hasFile('group_image')) {
+            $filename = time() . '.' . $request->group_image->extension();
+            $request->group_image->move(public_path('img'), $filename);
+            $researchGroup->group_image = $filename;
         }
-        $researchGroup->update($input);
-        $head = $request->head;
+    
+        // กำหนดค่า link
+        $researchGroup->link = $request->link;
+        $researchGroup->save();
+    
+        // ลบ pivot เดิมทั้งหมดก่อน (ถ้าไม่ต้องการเก็บข้อมูลเดิมใด ๆ ไว้)
         $researchGroup->user()->detach();
-        $researchGroup->user()->attach(array(
-            $head => array('role' => 1),
-        ));
-
-        if ($request->moreFields) {
-            foreach ($request->moreFields as $key => $value) {
-
-                if ($value['userid'] != null) {
-                    $researchGroup->user()->attach($value, ['role' => 2]);
+    
+        // 1) หัวหน้ากลุ่ม (role=1)
+        if ($request->filled('head')) {
+            $researchGroup->user()->attach($request->head, ['role' => 1]);
+        }
+    
+        // 2) สมาชิกกลุ่ม (role=2)
+        if ($request->has('moreFields')) {
+            foreach ($request->moreFields as $field) {
+                if (!empty($field['userid'])) {
+                    $researchGroup->user()->attach($field['userid'], ['role' => 2]);
                 }
             }
         }
+    
+        // 3) Postdoctoral (role=3) — **เพิ่มส่วนนี้**
+        if ($request->has('postdocFields')) {
+            foreach ($request->postdocFields as $field) {
+                if (!empty($field['userid'])) {
+                    // attach user_id => role=3
+                    $researchGroup->user()->attach($field['userid'], ['role' => 3]);
+                }
+            }
+        }
+    
         return redirect()->route('researchGroups.index')
-            ->with('success', 'researchGroups updated successfully');
+                         ->with('success', 'Research group updated successfully');
     }
+    
+
 
     /**
      * Remove the specified resource from storage.

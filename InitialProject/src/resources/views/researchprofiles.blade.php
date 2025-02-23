@@ -642,48 +642,74 @@
 
 <script>
     $(document).ready(function() {
+        // ค่าตั้งต้นของ DataTable
+        const tableConfig = {
+            responsive: true,
+            order: [
+                [0, 'desc']
+            ], // เรียงลำดับปีจากใหม่ไปเก่า
+            language: {
+                search: "ค้นหาข้อมูล:",
+                lengthMenu: "แสดง _MENU_ รายการต่อหน้า",
+                info: "แสดง _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+                paginate: {
+                    first: "หน้าแรก",
+                    last: "หน้าสุดท้าย",
+                    next: "ถัดไป",
+                    previous: "ก่อนหน้า"
+                }
+            },
+            columnDefs: [{
+                    targets: '_all',
+                    searchable: true
+                } // เปิดให้ค้นหาได้ทุกคอลัมน์
+            ]
+        };
 
-        var table1 = $('#example1').DataTable({
-            responsive: true,
+        // สร้าง DataTable ให้กับทุกตาราง
+        const table1 = $('#example1').DataTable(tableConfig);
+        const table2 = $('#example2').DataTable(tableConfig);
+        const table3 = $('#example3').DataTable(tableConfig);
+        const table4 = $('#example4').DataTable(tableConfig);
+        const table5 = $('#example5').DataTable({
+            ...tableConfig,
+            order: [
+                [1, 'desc']
+            ]
+        });
+        const table6 = $('#example6').DataTable(tableConfig);
+
+        // เพิ่ม input ค้นหากลางสำหรับทุกตาราง
+        const searchBox = $('<div class="mb-3"><input type="text" id="globalSearch" class="form-control" placeholder="🔍 ค้นหาชื่อ, ปี, หรือรายละเอียด..." style="width: 100%; padding: 8px; border: 1px solid #1075BB; border-radius: 4px;"></div>');
+        $(".nav-container").after(searchBox);
+
+        // ฟังก์ชันค้นหาทั่วไป
+        $('#globalSearch').on('keyup', function() {
+            let value = $(this).val();
+            table1.search(value).draw();
+            table2.search(value).draw();
+            table3.search(value).draw();
+            table4.search(value).draw();
+            table5.search(value).draw();
+            table6.search(value).draw();
         });
 
-        var table2 = $('#example2').DataTable({
-            responsive: true,
-        });
-        var table3 = $('#example3').DataTable({
-            responsive: true,
-        });
-        var table4 = $('#example4').DataTable({
-            responsive: true,
-        });
-        var table5 = $('#example5').DataTable({
-            responsive: true,
-        });
-        var table6 = $('#example6').DataTable({
-            responsive: true,
-        });
-
-
+        // ให้ DataTable รีเฟรชเมื่อเปลี่ยนแท็บ
         $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(event) {
-            var tabID = $(event.target).attr('data-bs-target');
-            if (tabID === '#scopus') {
-                table2.columns.adjust().draw()
-            }
-            if (tabID === '#wos') {
-                table3.columns.adjust().draw()
-            }
-            if (tabID === '#tci') {
-                table4.columns.adjust().draw()
-            }
-            if (tabID === '#book') {
-                table5.columns.adjust().draw()
-            }
-            if (tabID === '#patent') {
-                table6.columns.adjust().draw()
-            }
+            const tabID = $(event.target).attr('data-bs-target');
+            const tableMap = {
+                '#home': table1,
+                '#scopus': table2,
+                '#wos': table3,
+                '#tci': table4,
+                '#book': table5,
+                '#patent': table6
+            };
 
+            if (tableMap[tabID]) {
+                tableMap[tabID].columns.adjust().draw();
+            }
         });
-
     });
 </script>
 

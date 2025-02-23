@@ -68,8 +68,11 @@
     <div class="row align-items-start" style="margin-top: 40px;">
         <!-- Image and Author Info -->
         <div class="col-md-3 text-center d-flex flex-column align-items-center">
+            @if($userimg && $userimg->picture)
             <img class="card-image" src="{{ asset('images/imag_user/' . $userimg->picture) }}" alt="">
-
+            @else
+            <img class="card-image" src="{{ asset('images/imag_user/no-image.jpg') }}" alt="">
+            @endif
             @if($authors->isNotEmpty())
             <h5 class="mt-3 font-weight-bold text-dark">
                 <!-- <a href="javascript:history.back()"><u>{{ $authors->first()->author_fname }} {{ $authors->first()->author_lname }}, Ph.D.</u></a> -->
@@ -95,8 +98,8 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="text-right">วันที่เผยแพร่</th>
-                        <td>{{ date('Y/m/d', strtotime($paper->created_at)) }}</td>
+                        <th class="text-right">ปีที่เผยแพร่</th>
+                        <td>{{ date('Y', strtotime($paper->created_at)) }}</td>
                     </tr>
                     <tr>
                         <th class="text-right">วารสารวิชาการ</th>
@@ -118,10 +121,20 @@
                         <th class="text-right">คำอธิบาย</th>
                         <td class="text-justify text-dark">{{ $paper->abstract }}</td>
                     </tr>
+                    <tr>
+                        <th class="text-right">ลิงก์บทความ</th>
+                        <td>
+                            @if($paper->paper_url)
+                            <a href="{{ $paper->paper_url }}" target="_blank" class="text-primary">คลิกเพื่อดูบทความ <i class="fas fa-external-link-alt"></i></a>
+                            @else
+                            <span class="text-muted">ไม่มีลิงก์บทความ</span>
+                            @endif
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <p class="text-muted mt-3">
-                <strong>การอ้างอิงทั้งหมด</strong> <a href="#" class="text-primary font-weight-bold">อ้างโดย {{ $paper->paper_citation }}</a>
+                <strong>การอ้างอิงทั้งหมด</strong> อ้างโดย {{ $paper->paper_citation }}
             </p>
         </div>
     </div>

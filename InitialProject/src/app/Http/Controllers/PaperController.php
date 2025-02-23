@@ -48,7 +48,7 @@ class PaperController extends Controller
         //  })->paginate(10);
         //return $papers;
         //return response()->json($papers);
-        return view('papers.index', compact('papers'));
+    return view('papers.index', compact('papers'));
     }
 
     /**

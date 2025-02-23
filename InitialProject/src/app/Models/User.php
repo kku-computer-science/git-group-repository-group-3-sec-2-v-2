@@ -10,7 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable,HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -30,17 +30,17 @@ class User extends Authenticatable
         'position_en',
         'position_th',
         'title_name_th',
-        'title_name_en',
+        'title_name_en',     
         'role',
         'picture',
         'status',
         'program_id',
         'username',
         'is_research'
-
+        
     ];
 
-
+    
 
     /**
      * The attributes that should be hidden for arrays.
@@ -50,8 +50,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
-
-
+        
+        
     ];
 
     /**
@@ -65,42 +65,41 @@ class User extends Authenticatable
     ];
 
 
-    public function getPictureAttribute($value)
-    {
-        if ($value) {
-            return asset('images/imag_user/' . $value);
-        } else {
+    public function getPictureAttribute($value){
+        if($value){
+            return asset('images/imag_user/'.$value);
+        }else{
             return asset('images/imag_user/no-image.png');
         }
     }
     public function researchProject()
     {
-        return $this->belongsToMany(ResearchProject::class, 'work_of_research_projects')->withPivot('role');
+        return $this->belongsToMany(ResearchProject::class,'work_of_research_projects')->withPivot('role');
         // OR return $this->belongsTo('App\User');
     }
     public function researchGroup()
     {
-        return $this->belongsToMany(ResearchGroup::class, 'work_of_research_groups')->withPivot('role');
+        return $this->belongsToMany(ResearchGroup::class,'work_of_research_groups')->withPivot('role');
         // OR return $this->belongsTo('App\User');
     }
 
     public function paper()
     {
-        return $this->belongsToMany(Paper::class, 'user_papers')->withPivot('author_type');
+        return $this->belongsToMany(Paper::class,'user_papers')->withPivot('author_type');
+        
     }
 
     public function academicworks()
     {
-        return $this->belongsToMany(Academicwork::class, 'user_of_academicworks')->withPivot('author_type');
+        return $this->belongsToMany(Academicwork::class,'user_of_academicworks')->withPivot('author_type');
+        
     }
 
-    public function program()
-    {
+    public function program() {
         return $this->belongsTo(Program::class);
     }
 
-    public function department()
-    {
+    public function department() {
         return $this->belongsTo(department::class);
     }
 
@@ -117,5 +116,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Fund::class);
     }
-
 }

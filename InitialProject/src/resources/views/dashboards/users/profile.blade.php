@@ -12,6 +12,75 @@
         padding: 6px 20px;
         width: 100%;
     }
+
+    /* Upload Overlay Styles */
+    .upload-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .upload-overlay__content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .upload-overlay__spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+
+
+    .upload-overlay__content {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+    }
+
+    .upload-overlay__spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
 </style>
 @section('title','Profile')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
@@ -361,6 +430,15 @@
         </div>
     </div>
 </div>
+
+<!-- Upload Overlay - วางตรงนี้ -->
+<div class="upload-overlay" id="uploadOverlay">
+    <div class="upload-overlay__content">
+        <div class="upload-overlay__spinner"></div>
+        <p>Uploading image... Please wait</p>
+    </div>
+</div>
+
 <div class="modal fade" id="crud-modal" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -392,32 +470,24 @@
     </div>
 </div>
 
-<!-- <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script> -->
-<!-- <script src="alert/dist/sweetalert-dev.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
-
-
 <script>
     $(document).ready(function() {
+        const overlay = $('#uploadOverlay');
+
         var $optgroups = $('#subcategory > optgroup');
 
         $("#category").on("change", function() {
             var selectedVal = this.value;
-
             $('#subcategory').html($optgroups.filter('[id="' + selectedVal + '"]'));
         });
-    });
-</script>
 
-<script>
-    $(function() {
-        /* UPDATE ADMIN
-               PERSONAL INFO */
+        /* UPDATE ADMIN PERSONAL INFO */
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+
         showSwal = function(type) {
             swal({
                     title: "Are you sure update info",
@@ -439,9 +509,7 @@
                 });
         }
 
-
         $('#AdminInfoForm').on('submit', function(e) {
-
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
@@ -450,20 +518,17 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-
                 beforeSend: function() {
                     $(document).find('span.error-text').text('');
                 },
                 success: function(data) {
                     if (data.status == 0) {
                         $.each(data.error, function(prefix, val) {
-                            $('span.' + prefix +
-                                '_error').text(val[0]);
+                            $('span.' + prefix + '_error').text(val[0]);
                         });
                     } else {
                         $('.admin_name').each(function() {
-                            $(this).html($('#AdminInfoForm').find($(
-                                'input[name="name"]')).val());
+                            $(this).html($('#AdminInfoForm').find($('input[name="name"]')).val());
                         });
                         console.log(data.msg);
                         swal("Update Info", "Your account is updated!", "success");
@@ -471,39 +536,8 @@
                 }
             });
         });
-        // $('#AdminInfoForm').on('submit', function(e) {
 
-        //     e.preventDefault();
-        //     $.ajax({
-        //         url: $(this).attr('action'),
-        //         method: $(this).attr('method'),
-        //         data: new FormData(this),
-        //         processData: false,
-        //         dataType: 'json',
-        //         contentType: false,
-
-        //         beforeSend: function() {
-        //             $(document).find('span.error-text').text('');
-        //         },
-        //         success: function(data) {
-        //             if (data.status == 0) {
-        //                 $.each(data.error, function(prefix, val) {
-        //                     $('span.' + prefix +
-        //                         '_error').text(val[0]);
-        //                 });
-        //             } else {
-        //                 $('.admin_name').each(function() {
-        //                     $(this).html($('#AdminInfoForm').find($(
-        //                         'input[name="name"]')).val());
-        //                 });
-
-        //                 swal("Update Info", "Your account is updated!", "success");
-        //             }
-        //         }
-        //     });
-        // });
         $('#EdInfoForm').on('submit', function(e) {
-
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
@@ -512,20 +546,17 @@
                 processData: false,
                 dataType: 'json',
                 contentType: false,
-
                 beforeSend: function() {
                     $(document).find('span.error-text').text('');
                 },
                 success: function(data) {
                     if (data.status == 0) {
                         $.each(data.error, function(prefix, val) {
-                            $('span.' + prefix +
-                                '_error').text(val[0]);
+                            $('span.' + prefix + '_error').text(val[0]);
                         });
                     } else {
                         $('.admin_name').each(function() {
-                            $(this).html($('#EdInfoForm').find($(
-                                'input[name="name"]')).val());
+                            $(this).html($('#EdInfoForm').find($('input[name="name"]')).val());
                         });
                         console.log(data.msg)
                         swal("Update Info", "Your account is updated!", "success");
@@ -537,6 +568,7 @@
         $(document).on('click', '#change_picture_btn', function() {
             $('#admin_image').click();
         });
+
         $('#admin_image').ijaboCropTool({
             preview: '.admin_picture',
             setRatio: 2 / 3,
@@ -545,13 +577,23 @@
             buttonsColor: ['#30bf7d', '#ee5155', -15],
             processUrl: '{{ route("adminPictureUpdate") }}',
             withCSRF: ['_token', '{{ csrf_token() }}'],
+            // เพิ่ม event นี้
+            onBeforeImgUpload: function() {
+                overlay.css('display', 'flex');
+            },
+            onStartProcessing: function() {
+                overlay.css('display', 'flex');
+                $('button, input[type="submit"]').prop('disabled', true);
+            },
             onSuccess: function(message, element, status) {
-                //swal("Congrats!", message , "success");
-                //alert(message);
+                overlay.hide();
+                $('button, input[type="submit"]').prop('disabled', false);
                 swal("Update Profile Picture", "Your account is updated!", "success");
             },
             onError: function(message, element, status) {
-                alert(message);
+                overlay.hide();
+                $('button, input[type="submit"]').prop('disabled', false);
+                swal("Error", message, "error");
             }
         });
         $('#changePasswordAdminForm').on('submit', function(e) {
@@ -569,63 +611,37 @@
                 success: function(data) {
                     if (data.status == 0) {
                         $.each(data.error, function(prefix, val) {
-                            $('span.' + prefix +
-                                '_error').text(val[0]);
+                            $('span.' + prefix + '_error').text(val[0]);
                         });
                     } else {
                         $('#changePasswordAdminForm')[0].reset();
-                        //alert(data.msg);
                         swal("Update Password", "Your account is Password updated!", "success");
                     }
                 }
             });
         });
-    });
-</script>
-<script>
-    $(document).ready(function() {
 
-        /* When click New expertise button */
-        $('#new-expertise').click(function() {
-            $('#btn-save').val("create-expertise");
-            $('#expertise').trigger("reset");
-            $('#expertiseCrudModal').html("Add New Expertise");
-            $('#crud-modal').modal('show');
-
-        });
-
-        /* Edit expertise */
-        $('body').on('click', '#edit-expertise', function() {
+        // Expertise Management
+        $('#edit-expertise').click(function() {
             var expert_id = $(this).data('id');
             $.get('experts/' + expert_id + '/edit', function(data) {
                 $('#expertiseCrudModal').html("Edit Expertise");
-
                 $('#btn-update').val("Update");
                 $('#btn-save').prop('disabled', false);
                 $('#crud-modal').modal('show');
                 $('#exp_id').val(data.id);
                 $('#expert_name').val(data.expert_name);
-
-                //$('#v-pills-tabContent.a.active').removeClass("active");
-
-                //$('li.list-group-item.active').removeClass("active");
-                //$(this).addClass("active");
-
-                //swal("Update Profile Picture", "Your account is updated!", "success");
-            })
-
+            });
         });
 
-
-        /* Delete expertise */
+        // Delete Expertise
         $('body').on('click', '#delete-expertise', function() {
             var expert_id = $(this).data("id");
             var token = $("meta[name='csrf-token']").attr("content");
 
-
             swal({
                 title: "Are you sure?",
-                text: "You will not be able to recover this imaginary file!",
+                text: "You will not be able to recover this expertise!",
                 type: "warning",
                 buttons: true,
                 dangerMode: true,
@@ -634,7 +650,6 @@
                     swal("Delete Successfully", {
                         icon: "success",
                     }).then(function() {
-                        location.reload();
                         $.ajax({
                             type: "DELETE",
                             url: "experts/" + expert_id,
@@ -642,31 +657,21 @@
                                 "id": expert_id,
                                 "_token": token,
                             },
-
                             success: function() {
                                 $("#expert_id_" + expert_id).remove();
-                                //swal("Done!", "It was succesfully deleted!", "success");
-
-                                // $('#v-pills-tab.a.active').removeClass("active");
-                                // $(this).addClass("active");
+                                location.reload();
                             },
                             error: function(xhr, ajaxOptions, thrownError) {
                                 swal("Error deleting!", "Please try again", "error");
                             }
                         });
-                        
                     });
-
                 }
             });
         });
     });
-</script>
 
-
-<script>
-    error = false
-
+    // Expertise Form Validation
     function validate() {
         if (document.expForm.expert_name.value != '')
             document.expForm.btnsave.disabled = false

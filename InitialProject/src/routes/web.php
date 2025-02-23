@@ -34,10 +34,14 @@ use App\Http\Controllers\PatentController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\SourceController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PaperDetailController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\TcicallController;
+
+use App\Http\Controllers\ScholarController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -85,6 +89,16 @@ Route::get('/clear-all', function() {
     ], 200);
  });
 
+ Route::get('/run-scopus', function () {
+    Artisan::call('scopus:fetch');
+    return 'Scopus fetch command executed';
+});
+
+Route::get('/scholar', [ScholarController::class, 'index']);
+Route::get('fresearchgroup', [PaperDetailController::class, 'fetchPaperDetails']);
+Route::get('/scholar/test-paper-html', [ScholarController::class, 'testPaperHtml']);
+
+
 
 Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
     Auth::routes();
@@ -93,10 +107,9 @@ Route::middleware(['middleware' => 'PreventBackHistory'])->group(function () {
 
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::get('/papers/{id}', [PaperController::class, 'show'])->name('paper.detail');
 Route::get('/paper/{id}/detail', [PaperController::class, 'show'])
     ->name('paper.detail');
-Route::get('/papers/{year}', [HomeController::class, 'getPapersByYear']);
+Route::get('/papers_2/{year}', [HomeController::class, 'getPapersByYear']);
 Route::get('/researchers', [ResearcherController::class, 'index'])->name('researchers.index');
 // Route::get('/researchers/{id}', [ResearcherController::class, 'request'])->name('researchers.request');
 Route::get('/researchers/{id}/search', [ResearcherController::class, 'search'])->name('searchresearchers');
@@ -108,6 +121,8 @@ Route::get('loadindex', [PDFController::class, 'index']);
 Route::get('pdf', [PDFController::class, 'generateInvoicePDF'])->name('pdf');
 Route::get('docx', [PDFController::class, 'generateInvoiceDOCX'])->name('docx');
 Route::get('excel', [PDFController::class, 'generateInvoiceExcel'])->name('excel');
+
+Route::get('/bib/{id}', [BibtexController::class, 'getbib']);
 
 Route::get('detail/{id}', [ProfileController::class, 'request'])->name('detail');
 Route::get('index', [LocalizationController::class, 'index']);
@@ -151,7 +166,6 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::resource('researchProjects', ResearchProjectController::class);
     Route::resource('researchGroups', ResearchGroupController::class);
     Route::resource('papers', PaperController::class);
-    Route::get('/papers/{id}/citations', [PaperController::class, 'citations'])->name('papers.citations');
     Route::resource('books', BookController::class);
     Route::resource('patents', PatentController::class);
     Route::get('exportfile', [App\Http\Controllers\ExportController::class, 'index'])->name('exportfile');

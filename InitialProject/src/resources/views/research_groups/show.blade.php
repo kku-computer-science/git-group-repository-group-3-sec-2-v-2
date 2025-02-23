@@ -1,5 +1,4 @@
 @extends('dashboards.users.layouts.user-dash-layout')
-
 @section('content')
 <div class="container">
     <div class="card col-md-10" style="padding: 16px;">
