@@ -1,7 +1,6 @@
 @extends('layouts.layout')
 @section('content')
 
-<!-- ส่วน CSS เฉพาะของหน้านี้ (อาจย้ายไปไฟล์ .css แยกได้) -->
 <style>
     .container-fluid {
         padding-right: 0 !important;
