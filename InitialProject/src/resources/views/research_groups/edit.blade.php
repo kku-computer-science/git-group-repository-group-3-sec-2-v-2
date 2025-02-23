@@ -187,12 +187,9 @@
                     '  <td>' +
                     '    <!-- Dropdown เลือก Role -->' +
                     '<select name="moreFields[' + i + '][role]" class="form-control" style="width: 120px;">' +
-                    '    <option value="PI">หัวหน้ากลุ่มวิจัย (PI)</option>' +
-                    '    <option value="Postdoc">Postdoctoral Researcher</option>' +
-                    '    <option value="PhD">นักศึกษาปริญญาเอก (Ph.D.)</option>' +
-                    '    <option value="Master">นักศึกษาปริญญาโท</option>' +
-                    '    <option value="Undergrad">นักศึกษาปริญญาตรี</option>' +
-                    '    <option value="อื่นๆ">อื่นๆ</option>' +
+                    '  <option value="1">Member</option>' +
+                    '  <option value="3">Postdoctoral Researcher</option>' +
+                    '  <option value="4">Student</option>' +
                     '</select>' +
                     '  </td>' +
                     '  <td>' +
@@ -255,13 +252,11 @@
                 '  </td>' +
                 '  <td>' +
                 '    <!-- Dropdown เลือก Role -->' +
-                '    <select name="moreFields[' + i + '][role]" class="form-control" style="width: 120px;">' +
-                '      <option value="Postdoc">Postdoctoral Researcher</option>' +
-                '      <option value="PhD">นักศึกษาปริญญาเอก (Ph.D.)</option>' +
-                '      <option value="Master">นักศึกษาปริญญาโท</option>' +
-                '      <option value="Undergrad">นักศึกษาปริญญาตรี</option>' +
-                '      <option value="อื่นๆ">อื่นๆ</option>' +
-                '    </select>' +
+                '   <select name="moreFields[' + i + '][role]" class="form-control" style="width: 120px;">' +
+                '       <option value="1">Member</option>' +
+                '       <option value="3">Postdoctoral Researcher</option>' +
+                '       <option value="4">Student</option>' +
+                '   </select>' +
                 '  </td>' +
                 '  <td>' +
                 '    <!-- Dropdown เลือก Can Edit -->' +
