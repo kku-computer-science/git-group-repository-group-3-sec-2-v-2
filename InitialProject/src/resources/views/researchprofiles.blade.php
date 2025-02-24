@@ -641,195 +641,76 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    // DataTables Initialization
-    const tableConfig = {
-        responsive: true,
-        order: [[0, 'desc']], // Sort by year in descending order
-        language: {
-            search: "Search:",
-            lengthMenu: "Show _MENU_ entries per page",
-            info: "Showing _START_ to _END_ of _TOTAL_ entries",
-            paginate: {
-                first: "First",
-                last: "Last",
-                next: "Next",
-                previous: "Previous"
-            }
-        }
-    };
-
-    const table1 = $('#example1').DataTable(tableConfig);
-    const table2 = $('#example2').DataTable(tableConfig);
-    const table3 = $('#example3').DataTable(tableConfig);
-    const table4 = $('#example4').DataTable(tableConfig);
-    const table5 = $('#example5').DataTable({
-        ...tableConfig,
-        order: [[1, 'desc']] // For book table, year is in second column
-    });
-    const table6 = $('#example6').DataTable(tableConfig);
-
-    // Tab switching handler
-    $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(event) {
-        const tabID = $(event.target).attr('data-bs-target');
-        const tableMap = {
-            '#scopus': table2,
-            '#wos': table3,
-            '#tci': table4,
-            '#book': table5,
-            '#patent': table6
+    $(document).ready(function() {
+        // ค่าตั้งต้นของ DataTable
+        const tableConfig = {
+            responsive: true,
+            order: [
+                [0, 'desc']
+            ], // เรียงลำดับปีจากใหม่ไปเก่า
+            language: {
+                search: "ค้นหาข้อมูล:",
+                lengthMenu: "แสดง _MENU_ รายการต่อหน้า",
+                info: "แสดง _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+                paginate: {
+                    first: "หน้าแรก",
+                    last: "หน้าสุดท้าย",
+                    next: "ถัดไป",
+                    previous: "ก่อนหน้า"
+                }
+            },
+            columnDefs: [{
+                    targets: '_all',
+                    searchable: true
+                } // เปิดให้ค้นหาได้ทุกคอลัมน์
+            ]
         };
-        
-        if (tableMap[tabID]) {
-            tableMap[tabID].columns.adjust().draw();
-        }
-    });
 
-    // Counter functionality
-    let sumtci = paper_tci_s.reduce((a, b) => a + b, 0);
-    let sumsco = paper_scopus_s.reduce((a, b) => a + b, 0);
-    let sumwos = paper_wos_s.reduce((a, b) => a + b, 0);
-    let sumbook = paper_book_s.reduce((a, b) => a + b, 0);
-    let sumpatent = paper_patent_s.reduce((a, b) => a + b, 0);
-    let sum = sumsco + sumtci + sumwos + sumbook + sumpatent;
+        // สร้าง DataTable ให้กับทุกตาราง
+        const table1 = $('#example1').DataTable(tableConfig);
+        const table2 = $('#example2').DataTable(tableConfig);
+        const table3 = $('#example3').DataTable(tableConfig);
+        const table4 = $('#example4').DataTable(tableConfig);
+        const table5 = $('#example5').DataTable({
+            ...tableConfig,
+            order: [
+                [1, 'desc']
+            ]
+        });
+        const table6 = $('#example6').DataTable(tableConfig);
 
-    // Update DOM with counts
-    $("#all").html(`
-        <h2 class="timer count-title count-number" data-to="${sum}" data-speed="1500"></h2>
-        <p class="count-text">SUMMARY</p>
-    `);
+        // เพิ่ม input ค้นหากลางสำหรับทุกตาราง
+        const searchBox = $('<div class="mb-3"><input type="text" id="globalSearch" class="form-control" placeholder="🔍 ค้นหาชื่อ, ปี, หรือรายละเอียด..." style="width: 100%; padding: 8px; border: 1px solid #1075BB; border-radius: 4px;"></div>');
+        $(".nav-container").after(searchBox);
 
-    $("#scopus_sum").html(`
-        <h2 class="timer count-title count-number" data-to="${sumsco}" data-speed="1500"></h2>
-        <p class="count-text">SCOPUS</p>
-    `);
+        // ฟังก์ชันค้นหาทั่วไป
+        $('#globalSearch').on('keyup', function() {
+            let value = $(this).val();
+            table1.search(value).draw();
+            table2.search(value).draw();
+            table3.search(value).draw();
+            table4.search(value).draw();
+            table5.search(value).draw();
+            table6.search(value).draw();
+        });
 
-    $("#wos_sum").html(`
-        <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
-        <p class="count-text">WOS</p>
-    `);
+        // ให้ DataTable รีเฟรชเมื่อเปลี่ยนแท็บ
+        $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(event) {
+            const tabID = $(event.target).attr('data-bs-target');
+            const tableMap = {
+                '#home': table1,
+                '#scopus': table2,
+                '#wos': table3,
+                '#tci': table4,
+                '#book': table5,
+                '#patent': table6
+            };
 
-    $("#tci_sum").html(`
-        <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
-        <p class="count-text">TCI</p>
-    `);
-
-    // Counter animation functionality
-    $.fn.countTo = function(options) {
-        options = options || {};
-
-        return $(this).each(function() {
-            // Set options for current element
-            const settings = $.extend({}, $.fn.countTo.defaults, {
-                from: $(this).data('from'),
-                to: $(this).data('to'),
-                speed: $(this).data('speed'),
-                refreshInterval: $(this).data('refresh-interval'),
-                decimals: $(this).data('decimals')
-            }, options);
-
-            // Calculate values
-            const loops = Math.ceil(settings.speed / settings.refreshInterval);
-            const increment = (settings.to - settings.from) / loops;
-
-            // References & variables that will change with each update
-            let self = this,
-                $self = $(this),
-                loopCount = 0,
-                value = settings.from,
-                data = $self.data('countTo') || {};
-
-            $self.data('countTo', data);
-
-            // Clear existing interval if found
-            if (data.interval) {
-                clearInterval(data.interval);
-            }
-
-            data.interval = setInterval(updateTimer, settings.refreshInterval);
-            render(value);
-
-            function updateTimer() {
-                value += increment;
-                loopCount++;
-                render(value);
-
-                if (typeof(settings.onUpdate) == 'function') {
-                    settings.onUpdate.call(self, value);
-                }
-
-                if (loopCount >= loops) {
-                    $self.removeData('countTo');
-                    clearInterval(data.interval);
-                    value = settings.to;
-
-                    if (typeof(settings.onComplete) == 'function') {
-                        settings.onComplete.call(self, value);
-                    }
-                }
-            }
-
-            function render(value) {
-                const formattedValue = settings.formatter.call(self, value, settings);
-                $self.html(formattedValue);
+            if (tableMap[tabID]) {
+                tableMap[tabID].columns.adjust().draw();
             }
         });
-    };
-
-    $.fn.countTo.defaults = {
-        from: 0,
-        to: 0,
-        speed: 1000,
-        refreshInterval: 100,
-        decimals: 0,
-        formatter: function(value, settings) {
-            return value.toFixed(settings.decimals);
-        },
-        onUpdate: null,
-        onComplete: null
-    };
-
-    // Custom formatting
-    $('.count-number').data('countToOptions', {
-        formatter: function(value, options) {
-            return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-        }
     });
-
-    // Start all timers
-    $('.timer').each(function() {
-        const $this = $(this);
-        const options = $.extend({}, options || {}, $this.data('countToOptions') || {});
-        $this.countTo(options);
-    });
-
-    // Bar Chart initialization
-    var barChartCanvas = $('#barChart').get(0).getContext('2d');
-    var barChartData = $.extend(true, {}, areaChartData);
-    var temp0 = areaChartData.datasets[0];
-    var temp1 = areaChartData.datasets[1];
-    barChartData.datasets[0] = temp1;
-    barChartData.datasets[1] = temp0;
-
-    var barChartOptions = {
-        responsive: true,
-        maintainAspectRatio: false,
-        datasetFill: false,
-        scales: {
-            yAxes: [{
-                ticks: {
-                    stepSize: 1
-                }
-            }]
-        }
-    };
-
-    new Chart(barChartCanvas, {
-        type: 'bar',
-        data: barChartData,
-        options: barChartOptions
-    });
-});
 </script>
 
 <script>
