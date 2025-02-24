@@ -2,72 +2,73 @@
 @section('content')
 <div class="container">
     @if ($errors->any())
-    <div class="alert alert-danger">
-        <strong>Whoops!</strong> มีปัญหาบางอย่างกับข้อมูลที่คุณกรอก<br><br>
-        <ul>
-            @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </ul>
-    </div>
+        <div class="alert alert-danger">
+            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <ul>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     <div class="card" style="padding: 16px;">
         <div class="card-body">
             <h4 class="card-title">สร้างกลุ่มวิจัย</h4>
             <p class="card-description">กรอกข้อมูลและรายละเอียดกลุ่มวิจัย</p>
+
+            <!-- ฟอร์มหลัก -->
             <form action="{{ route('researchGroups.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <!-- ชื่อกลุ่มวิจัย (ภาษาไทย) -->
+                <!-- =====================
+                     1) ข้อมูลกลุ่มวิจัยพื้นฐาน
+                ====================== -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>ชื่อกลุ่มวิจัย (ภาษาไทย)</b></p>
                     <div class="col-sm-8">
-                        <input name="group_name_th" value="{{ old('group_name_th') }}" class="form-control" placeholder="ชื่อกลุ่มวิจัย (ภาษาไทย)">
+                        <input
+                            name="group_name_th"
+                            value="{{ old('group_name_th') }}"
+                            class="form-control"
+                            placeholder="ชื่อกลุ่มวิจัย (ภาษาไทย)">
                     </div>
                 </div>
-
-                <!-- ชื่อกลุ่มวิจัย (English) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>ชื่อกลุ่มวิจัย (English)</b></p>
                     <div class="col-sm-8">
-                        <input name="group_name_en" value="{{ old('group_name_en') }}" class="form-control" placeholder="ชื่อกลุ่มวิจัย (English)">
+                        <input
+                            name="group_name_en"
+                            value="{{ old('group_name_en') }}"
+                            class="form-control"
+                            placeholder="ชื่อกลุ่มวิจัย (English)">
                     </div>
                 </div>
 
-                <!-- คำอธิบายกลุ่มวิจัย (ภาษาไทย) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>คำอธิบายกลุ่มวิจัย (ภาษาไทย)</b></p>
                     <div class="col-sm-8">
-                        <textarea name="group_desc_th" class="form-control" style="height:90px" placeholder="คำอธิบายกลุ่มวิจัย (ภาษาไทย)">{{ old('group_desc_th') }}</textarea>
+                        <textarea
+                            name="group_desc_th"
+                            class="form-control"
+                            style="height:90px"
+                            placeholder="คำอธิบายกลุ่มวิจัย (ภาษาไทย)"
+                        >{{ old('group_desc_th') }}</textarea>
                     </div>
                 </div>
-
-                <!-- คำอธิบายกลุ่มวิจัย (English) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>คำอธิบายกลุ่มวิจัย (English)</b></p>
                     <div class="col-sm-8">
-                        <textarea name="group_desc_en" class="form-control" style="height:90px" placeholder="คำอธิบายกลุ่มวิจัย (English)">{{ old('group_desc_en') }}</textarea>
+                        <textarea
+                            name="group_desc_en"
+                            class="form-control"
+                            style="height:90px"
+                            placeholder="คำอธิบายกลุ่มวิจัย (English)"
+                        >{{ old('group_desc_en') }}</textarea>
                     </div>
                 </div>
 
-                <!-- รายละเอียดกลุ่มวิจัย (ภาษาไทย) -->
-                <div class="form-group row">
-                    <p class="col-sm-3"><b>รายละเอียดกลุ่มวิจัย (ภาษาไทย)</b></p>
-                    <div class="col-sm-8">
-                        <textarea name="group_detail_th" class="form-control" style="height:90px" placeholder="รายละเอียดกลุ่มวิจัย (ภาษาไทย)">{{ old('group_detail_th') }}</textarea>
-                    </div>
-                </div>
-
-                <!-- รายละเอียดกลุ่มวิจัย (English) -->
-                <div class="form-group row">
-                    <p class="col-sm-3"><b>รายละเอียดกลุ่มวิจัย (English)</b></p>
-                    <div class="col-sm-8">
-                        <textarea name="group_detail_en" class="form-control" style="height:90px" placeholder="รายละเอียดกลุ่มวิจัย (English)">{{ old('group_detail_en') }}</textarea>
-                    </div>
-                </div>
-
-                <!-- Image -->
+                <!-- อัปโหลดรูปภาพ -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>Image</b></p>
                     <div class="col-sm-8">
@@ -75,42 +76,66 @@
                     </div>
                 </div>
 
-                <!-- Link (ถ้ามี) -->
+                <!-- Link -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>Link (ถ้ามี)</b></p>
                     <div class="col-sm-8">
-                        <input name="link" type="url" value="{{ old('link') }}" class="form-control" placeholder="https://example.com">
-                        <small class="form-text text-muted">หากคุณกรอก link ระบบจะพาคุณไปยังเว็บไซต์นั้น แทนการแสดงข้อมูลในหน้านี้</small>
+                        <input
+                            name="link"
+                            type="url"
+                            value="{{ old('link') }}"
+                            class="form-control"
+                            placeholder="https://example.com"
+                        >
+                        <small class="form-text text-muted">
+                            ถ้าคุณใส่ link ระบบจะนำคุณไปยังเว็บไซต์ที่คุณระบุแทนการแสดงข้อมูลในหน้านี้.
+                        </small>
                     </div>
                 </div>
 
-                <!-- หัวหน้ากลุ่มวิจัย -->
-                @if(auth()->user()->hasAnyRole(['admin', 'staff']))
-                <div class="form-group row">
-                    <p class="col-sm-3"><b>หัวหน้ากลุ่มวิจัย</b></p>
-                    <div class="col-sm-8">
-                        <select id="head0" name="head">
-                            @foreach($users as $user)
-                            <option value="{{ $user->id }}">
-                                {{ $user->fname_th }} {{ $user->lname_th }}
-                            </option>
-                            @endforeach
-                        </select>
+                <!-- =====================
+                     2) หัวหน้ากลุ่มวิจัย (role=1)
+                ====================== -->
+                @if(auth()->user()->hasAnyRole(['admin','staff']))
+                    <div class="form-group row">
+                        <p class="col-sm-3"><b>หัวหน้ากลุ่มวิจัย</b></p>
+                        <div class="col-sm-8">
+                            <select id="head0" name="head" class="form-control">
+                                @foreach($users as $user)
+                                <option value="{{ $user->id }}">
+                                    {{ $user->fname_th }} {{ $user->lname_th }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
                 @else
-                <!-- หากไม่ใช่ admin/staff ให้ตั้งค่า head เป็นผู้ใช้ที่ล็อกอินอยู่ -->
-                <input type="hidden" name="head" value="{{ auth()->id() }}">
+                    <!-- ถ้าไม่ใช่ admin/staff => ซ่อนเป็น user ที่ล็อกอิน -->
+                    <input
+                        type="hidden"
+                        name="head"
+                        value="{{ auth()->id() }}"
+                    >
                 @endif
 
-                <!-- สมาชิกกลุ่มวิจัย (Member) -->
+                <!-- =====================
+                     3) สมาชิกกลุ่มวิจัย
+                     - Student => "Student" (role=2), disable, hidden can_edit=0
+                     - Teacher => เลือกได้ (2 = Researcher) หรือ (3 = Postdoc)
+                     - เฉพาะ admin เห็น can_edit dropdown, ไม่ใช่ admin => hidden=0
+                ======================-->
                 <div class="form-group row">
                     <p class="col-sm-3 pt-4"><b>สมาชิกกลุ่มวิจัย</b></p>
                     <div class="col-sm-8">
                         <table class="table" id="dynamicAddRemove">
                             <tr>
                                 <th>
-                                    <button type="button" name="add" id="add-btn2" class="btn btn-success btn-sm add">
+                                    <button
+                                        type="button"
+                                        name="add"
+                                        id="add-btn2"
+                                        class="btn btn-success btn-sm"
+                                    >
                                         <i class="mdi mdi-plus"></i>
                                     </button>
                                 </th>
@@ -119,25 +144,31 @@
                     </div>
                 </div>
 
-                <!-- Postdoctoral Researcher (Role = 3) -->
+                <!-- =====================
+                     4) นักวิจัยรับเชิญ (Visiting Scholars)
+                ======================-->
                 <div class="form-group row">
-                    <p class="col-sm-3 pt-4"><b>Postdoctoral Researcher</b></p>
+                    <p class="col-sm-3 pt-4"><b>นักวิจัยรับเชิญ</b></p>
                     <div class="col-sm-8">
-                        <table class="table" id="dynamicAddRemovePostdoc">
+                        <table class="table" id="dynamicAddRemoveVisiting">
                             <tr>
                                 <th>
-                                    <button type="button" name="add" id="add-btn-postdoc" class="btn btn-success btn-sm add">
+                                    <button
+                                        type="button"
+                                        name="add"
+                                        id="add-btn-visiting"
+                                        class="btn btn-success btn-sm"
+                                    >
                                         <i class="mdi mdi-plus"></i>
                                     </button>
                                 </th>
                             </tr>
                         </table>
-                        <small class="form-text text-muted">ค้นหาได้เฉพาะผู้ที่จบเอก (Ph.D.) เท่านั้น</small>
                     </div>
                 </div>
 
-                <!-- ปุ่ม Submit และ Back -->
-                <button type="submit" class="btn btn-primary upload mt-5">Submit</button>
+                <!-- ปุ่ม Submit / Back -->
+                <button type="submit" class="btn btn-primary mt-5">Submit</button>
                 <a class="btn btn-light mt-5" href="{{ route('researchGroups.index') }}">Back</a>
             </form>
         </div>
@@ -145,132 +176,142 @@
 </div>
 @stop
 
+
 @section('javascript')
 <script>
+    var isAdmin = "{{ auth()->user()->hasRole('admin') ? 1 : 0 }}";
+
     $(document).ready(function() {
-        // Select2 สำหรับหัวหน้ากลุ่ม (กรณีเป็น admin/staff)
+        // select2 สำหรับ head
         $("#head0").select2();
 
-        // ------------------------------------------------------------------
-        // สร้างตาราง "Member"
-        var i = 0;
-        $("#add-btn2").click(function() {
-            ++i;
-            $("#dynamicAddRemove").append(
-                '<tr>' +
-                    '<td>' +
-                        '<select id="selUser' + i + '" name="moreFields[' + i + '][userid]" style="width: 200px;">' +
-                            '<option value="">Select User</option>' +
-                            '@foreach($users as $user)' +
-                                '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
-                            '@endforeach' +
-                        '</select>' +
-                    '</td>' +
-                    '<td>' +
-                        '<button type="button" class="btn btn-danger btn-sm remove-tr"><i class="fas fa-minus"></i></button>' +
-                    '</td>' +
-                '</tr>'
-            );
-            // ทำ select2
-            $("#selUser" + i).select2();
+        var i = 0; // ตัวนับสมาชิก
+
+        // ปุ่ม + เพิ่มสมาชิก
+        $("#add-btn2").click(function(){
+            // เพราะยังไม่มี pivot ใน DB => เริ่มต้น canEditVal = "0" 
+            appendMemberRow(i, "", "", "0");
+            i++;
         });
 
-        // ลบแถว (Member)
-        $(document).on('click', '.remove-tr', function() {
-            $(this).parents('tr').remove();
-            updateUsedArrays();
-            syncOptions();
-        });
+        function appendMemberRow(index, userId, role, canEditVal){
+            var rowHtml = "<tr>";
 
-        // ------------------------------------------------------------------
-        // สร้างตาราง "Postdoc"
-        var j = 0;
-        $("#add-btn-postdoc").click(function() {
-            j++;
-            $("#dynamicAddRemovePostdoc").append(
-                '<tr>' +
-                    '<td>' +
-                        '<select id="selPostdoc' + j + '" name="postdocFields[' + j + '][userid]" style="width: 200px;">' +
-                            '<option value="">Select User</option>' +
-                            '@foreach($users as $user)' +
-                                '@if($user->doctoral_degree == "Ph.D.")' +
-                                    '<option value="{{ $user->id }}">{{ $user->fname_th }} {{ $user->lname_th }}</option>' +
-                                '@endif' +
-                            '@endforeach' +
-                        '</select>' +
-                    '</td>' +
-                    '<td>' +
-                        '<button type="button" class="btn btn-danger btn-sm remove-postdoc"><i class="fas fa-minus"></i></button>' +
-                    '</td>' +
-                '</tr>'
-            );
-            $("#selPostdoc" + j).select2();
-        });
+            // ----- เลือก User -----
+            rowHtml += "  <td>";
+            rowHtml += "    <select id=\"selUser" + index + "\" name=\"moreFields[" + index + "][userid]\" class=\"member-select\" style=\"width:200px;\">";
+            rowHtml += "      <option value=\"\">Select User</option>";
+            @foreach($users as $u)
+                @php
+                    // เช็คว่าเป็น teacher หรือไม่
+                    $dataUsertype = $u->hasRole("teacher") ? "teacher" : "student";
+                @endphp
+                rowHtml += "      <option value=\"{{ $u->id }}\" data-usertype=\"{{ $dataUsertype }}\">{{ $u->fname_th }} {{ $u->lname_th }}</option>";
+            @endforeach
+            rowHtml += "    </select>";
+            rowHtml += "  </td>";
 
-        // ลบแถว (Postdoc)
-        $(document).on('click', '.remove-postdoc', function() {
-            $(this).parents('tr').remove();
-            updateUsedArrays();
-            syncOptions();
-        });
+            // ----- Role -----
+            rowHtml += "  <td>";
+            rowHtml += "    <select name=\"moreFields[" + index + "][role]\" class=\"form-control role-select\" style=\"width:220px;\">";
+            rowHtml += "      <option value=\"2\">Researcher</option>";
+            rowHtml += "      <option value=\"3\">Postdoctoral Researcher</option>";
+            rowHtml += "    </select>";
+            rowHtml += "  </td>";
 
-        // ------------------------------------------------------------------
-        // จัดการเรื่อง "ห้ามซ้ำระหว่าง Member กับ Postdoc" ด้วยการ 'ลบ' <option> ออกจากอีกฝั่ง
-        let usedMembers = [];
-        let usedPostdocs = [];
-
-        function updateUsedArrays() {
-            usedMembers = [];
-            usedPostdocs = [];
-
-            // รวบรวม user_id ในตาราง Member
-            $('table#dynamicAddRemove select').each(function() {
-                let val = $(this).val();
-                if (val) {
-                    usedMembers.push(val);
+            // ----- can_edit -----
+            if(isAdmin == "1") {
+                rowHtml += "  <td>";
+                rowHtml += "    <select name=\"moreFields[" + index + "][can_edit]\" class=\"form-control\" style=\"width:120px;\">";
+                rowHtml += "      <option value=\"1\">Can Edit</option>";
+                rowHtml += "      <option value=\"0\" selected>Can't Edit</option>";
+                rowHtml += "    </select>";
+                rowHtml += "  </td>";
+            } else {
+                rowHtml += "  <td>";
+                // สำหรับการ create: default=0
+                rowHtml += "    <input type=\"hidden\" name=\"moreFields[" + index + "][can_edit]\" value=\"" + canEditVal + "\">";
+                var numVal = parseInt(canEditVal, 10);
+                if(numVal === 1){
+                    rowHtml += "    <small style='color:green;'>Can Edit</small>";
+                } else {
+                    rowHtml += "    <small style='color:gray;'>No Edit</small>";
                 }
-            });
+                rowHtml += "  </td>";
+            }
 
-            // รวบรวม user_id ในตาราง Postdoc
-            $('table#dynamicAddRemovePostdoc select').each(function() {
-                let val = $(this).val();
-                if (val) {
-                    usedPostdocs.push(val);
-                }
-            });
+            // ----- ปุ่มลบ -----
+            rowHtml += "  <td>";
+            rowHtml += "    <button type=\"button\" class=\"btn btn-danger btn-sm remove-tr\"><i class=\"mdi mdi-minus\"></i></button>";
+            rowHtml += "  </td>";
+
+            rowHtml += "</tr>";
+
+            $("#dynamicAddRemove").append(rowHtml);
+
+            // init select2
+            $("#selUser" + index).select2();
+
+            // ถ้ามี userId => set
+            if(userId){
+                $("#selUser" + index).val(userId).trigger("change");
+            }
+            if(role !== ""){
+                $("#dynamicAddRemove tr:last .role-select").val(role);
+            }
+            if(isAdmin == "1" && canEditVal !== ""){
+                $("#dynamicAddRemove tr:last [name=\"moreFields[" + index + "][can_edit]\"]").val(canEditVal);
+            }
+
+            checkUserType("#selUser" + index);
         }
 
-        function syncOptions() {
-            // --------------------------------------------------
-            // 1) ในตาราง Postdoc: ลบ <option> ออกทั้งหมดที่ "ถูกเลือก" ใน Member
-            $('table#dynamicAddRemovePostdoc select').each(function() {
-                let currentVal = $(this).val(); // user ที่ select นี้เลือกอยู่
-                $(this).find('option').each(function(){
-                    let optVal = $(this).val();
-                    // หาก optVal อยู่ใน usedMembers และไม่ใช่คนที่ select นี้เลือกอยู่ -> ลบออก
-                    if (optVal && usedMembers.includes(optVal) && optVal !== currentVal) {
-                        $(this).remove();
-                    }
-                });
-            });
+        // ลบแถว
+        $(document).on("click", ".remove-tr", function(){
+            $(this).closest("tr").remove();
+        });
 
-            // --------------------------------------------------
-            // 2) ในตาราง Member: ลบ <option> ออกทั้งหมดที่ "ถูกเลือก" ใน Postdoc
-            $('table#dynamicAddRemove select').each(function() {
-                let currentVal = $(this).val();
-                $(this).find('option').each(function(){
-                    let optVal = $(this).val();
-                    if (optVal && usedPostdocs.includes(optVal) && optVal !== currentVal) {
-                        $(this).remove();
-                    }
-                });
-            });
+        // Student => role=2, label=Student
+        // Teacher => เลือก 2/3
+        function checkUserType(selector){
+            var $userSelect = $(selector);
+            var userType    = $userSelect.find(":selected").data("usertype");
+            var $row        = $userSelect.closest("tr");
+            var $roleSelect = $row.find(".role-select");
+
+            if(userType === "student"){
+                $roleSelect.val("2").trigger("change");
+                $roleSelect.prop("disabled", true);
+                $roleSelect.find("option[value='2']").text("Student");
+                $roleSelect.find("option[value='3']").hide();
+            } else {
+                $roleSelect.prop("disabled", false);
+                $roleSelect.find("option[value='2']").text("Researcher");
+                $roleSelect.find("option[value='3']").show();
+            }
         }
 
-        // เรียกฟังก์ชันทุกครั้งเมื่อมีการเปลี่ยนแปลงใน select
-        $(document).on('change', 'table#dynamicAddRemove select, table#dynamicAddRemovePostdoc select', function() {
-            updateUsedArrays();
-            syncOptions();
+        $(document).on("change", ".member-select", function(){
+            checkUserType(this);
+        });
+
+        // ------------------------
+        // นักวิจัยรับเชิญ (visiting)
+        var v = 0;
+        $("#add-btn-visiting").click(function(){
+            v++;
+            var htmlVisiting = "";
+            htmlVisiting += "<tr>";
+            htmlVisiting += "  <td><input type=\"text\" name=\"visiting[" + v + "][first_name]\" class=\"form-control\" placeholder=\"ชื่อ\" /></td>";
+            htmlVisiting += "  <td><input type=\"text\" name=\"visiting[" + v + "][last_name]\" class=\"form-control\" placeholder=\"นามสกุล\" /></td>";
+            htmlVisiting += "  <td><input type=\"text\" name=\"visiting[" + v + "][affiliation]\" class=\"form-control\" placeholder=\"สังกัด\" /></td>";
+            htmlVisiting += "  <td><button type=\"button\" class=\"btn btn-danger btn-sm remove-visiting\"><i class=\"mdi mdi-minus\"></i></button></td>";
+            htmlVisiting += "</tr>";
+
+            $("#dynamicAddRemoveVisiting").append(htmlVisiting);
+        });
+        $(document).on("click", ".remove-visiting", function(){
+            $(this).closest("tr").remove();
         });
     });
 </script>
