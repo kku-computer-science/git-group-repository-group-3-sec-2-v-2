@@ -103,12 +103,15 @@
         .blue-stripe h1 {
             font-size: 1.8rem;
         }
+
         .research-rationale-box {
             padding: 20px;
         }
+
         .research-rationale-box h2 {
             font-size: 1.4rem;
         }
+
         .center-image {
             max-width: 160px;
         }
@@ -151,57 +154,57 @@
         <h3 class="mt-4">Member</h3>
         <div class="row justify-content-center g-4 mb-4">
             @foreach($rg->user as $r)
-                @if($r->hasRole('teacher') && isset($r->pivot) && $r->pivot->role == 1)
-                <div class="col-auto">
-                    <div class="member-card">
-                        <div class="head-lab-badge">Head LAB</div>
-                        <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
-                            <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
-                                 alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
-                                 class="center-image">
-                        </a>
-                        <div class="person-info">
-                            @if(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer' && $r->doctoral_degree == 'Ph.D.')
-                                <p>{{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
-                            @elseif(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer')
-                                <p>{{ $r->fname_en }} {{ $r->lname_en }}</p>
-                            @elseif(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
-                                <p>{{ str_replace('Dr.', ' ', $r->position_en) }} {{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
-                            @else
-                                <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
-                            @endif
-                        </div>
+            @if($r->hasRole('teacher') && isset($r->pivot) && $r->pivot->role == 1)
+            <div class="col-auto">
+                <div class="member-card">
+                    <div class="head-lab-badge">Head LAB</div>
+                    <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
+                        <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        @if(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer' && $r->doctoral_degree == 'Ph.D.')
+                        <p>{{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
+                        @elseif(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer')
+                        <p>{{ $r->fname_en }} {{ $r->lname_en }}</p>
+                        @elseif(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
+                        <p>{{ str_replace('Dr.', ' ', $r->position_en) }} {{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
+                        @else
+                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                        @endif
                     </div>
                 </div>
-                @endif
+            </div>
+            @endif
             @endforeach
         </div>
 
         <!-- (2) สมาชิกคนอื่น (role = 2) -->
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
             @foreach($rg->user as $r)
-                @if($r->hasRole('teacher') && isset($r->pivot) && $r->pivot->role == 2)
-                <div class="col">
-                    <div class="member-card">
-                        <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
-                            <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
-                                 alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
-                                 class="center-image">
-                        </a>
-                        <div class="person-info">
-                            @if(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer' && $r->doctoral_degree == 'Ph.D.')
-                                <p>{{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
-                            @elseif(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer')
-                                <p>{{ $r->fname_en }} {{ $r->lname_en }}</p>
-                            @elseif(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
-                                <p>{{ str_replace('Dr.', ' ', $r->position_en) }} {{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
-                            @else
-                                <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
-                            @endif
-                        </div>
+            @if($r->hasRole('teacher') && isset($r->pivot) && $r->pivot->role == 2)
+            <div class="col">
+                <div class="member-card">
+                    <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
+                        <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        @if(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer' && $r->doctoral_degree == 'Ph.D.')
+                        <p>{{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
+                        @elseif(app()->getLocale() == 'en' && $r->academic_ranks_en == 'Lecturer')
+                        <p>{{ $r->fname_en }} {{ $r->lname_en }}</p>
+                        @elseif(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
+                        <p>{{ str_replace('Dr.', ' ', $r->position_en) }} {{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
+                        @else
+                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                        @endif
                     </div>
                 </div>
-                @endif
+            </div>
+            @endif
             @endforeach
         </div>
 
@@ -209,66 +212,79 @@
         <h3 class="mt-5">Postdoctoral Researcher</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
             @foreach($rg->user as $r)
-                @if(isset($r->pivot) && $r->pivot->role == 3)
-                <div class="col">
-                    <div class="member-card">
-                        <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
-                            <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
-                                 alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
-                                 class="center-image">
-                        </a>
-                        <div class="person-info">
-                            @if(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
-                                <p>{{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
-                            @else
-                                <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
-                            @endif
-                        </div>
+            @if(isset($r->pivot) && $r->pivot->role == 3)
+            <div class="col">
+                <div class="member-card">
+                    <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
+                        <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        @if(app()->getLocale() == 'en' && $r->doctoral_degree == 'Ph.D.')
+                        <p>{{ $r->fname_en }} {{ $r->lname_en }}, Ph.D.</p>
+                        @else
+                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                        @endif
                     </div>
                 </div>
-                @endif
+            </div>
+            @endif
             @endforeach
         </div>
 
-        <!-- (4) Students (role = 4,5,6) -->
-        <h3 class="mt-5">Students</h3>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
-            @foreach($rg->user as $r)
-                @if(isset($r->pivot) && in_array($r->pivot->role, [4, 5, 6]))
+        <!-- Students -->
+        <div class="research-rationale-box">
+            <h2 class="text-center">Student</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
+                @php
+                // กรองเฉพาะ user ที่เป็น Student (hasRole('student'))
+                // unique('id') -> กัน user ซ้ำ (ถ้ามีซ้ำ pivot หลาย role)
+                $uniqueStudents = $rg->user->unique('id')->filter(function($user) {
+                return $user->hasRole('student');
+                });
+                @endphp
+
+                @foreach ($uniqueStudents as $user)
                 <div class="col">
                     <div class="member-card">
-                        <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
-                            <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
-                                 alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
-                                 class="center-image">
+                        <a href="{{ route('detail', Crypt::encrypt($user->id)) }}" class="profile-link">
+                            <img src="{{ $user->picture ?? asset('img/default-profile.png') }}"
+                                alt="{{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}"
+                                class="center-image">
                         </a>
                         <div class="person-info">
-                            <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                            <p>
+                                {{ $user->{'position_'.app()->getLocale()} }}
+                                {{ $user->{'fname_'.app()->getLocale()} }}
+                                {{ $user->{'lname_'.app()->getLocale()} }}
+                            </p>
                         </div>
                     </div>
                 </div>
-                @endif
-            @endforeach
+                @endforeach
+            </div>
         </div>
+
 
         <!-- (5) Visiting Scholars (role = 7) -->
         <h3 class="mt-5">Visiting Scholars</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4 justify-content-center">
             @foreach($rg->user as $r)
-                @if(isset($r->pivot) && $r->pivot->role == 7)
-                <div class="col">
-                    <div class="member-card">
-                        <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
-                            <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
-                                 alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
-                                 class="center-image">
-                        </a>
-                        <div class="person-info">
-                            <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
-                        </div>
+            @if(isset($r->pivot) && $r->pivot->role == 7)
+            <div class="col">
+                <div class="member-card">
+                    <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
+                        <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
                     </div>
                 </div>
-                @endif
+            </div>
+            @endif
             @endforeach
         </div>
 
