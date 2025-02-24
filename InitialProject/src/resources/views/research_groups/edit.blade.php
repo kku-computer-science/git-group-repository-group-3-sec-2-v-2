@@ -25,6 +25,8 @@
                 <!-- =====================
                      1) ข้อมูลกลุ่มวิจัยพื้นฐาน
                 ====================== -->
+
+                <!-- 1.1) ชื่อกลุ่มวิจัย -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>ชื่อกลุ่มวิจัย (ภาษาไทย)</b></p>
                     <div class="col-sm-8">
@@ -46,6 +48,29 @@
                     </div>
                 </div>
 
+                <!-- 1.2) หัวข้อการวิจัยหลัก (main_research_th/en) -->
+                <div class="form-group row">
+                    <p class="col-sm-3"><b>หัวข้อการวิจัยหลัก (ภาษาไทย)</b></p>
+                    <div class="col-sm-8">
+                        <input
+                            name="group_main_research_th"
+                            value="{{ $researchGroup->group_main_research_th }}"
+                            class="form-control"
+                            placeholder="หัวข้อการวิจัยหลัก (ภาษาไทย)">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <p class="col-sm-3"><b>หัวข้อการวิจัยหลัก (English)</b></p>
+                    <div class="col-sm-8">
+                        <input
+                            name="group_main_research_en"
+                            value="{{ $researchGroup->group_main_research_en }}"
+                            class="form-control"
+                            placeholder="Main research topic (English)">
+                    </div>
+                </div>
+
+                <!-- 1.3) คำอธิบายกลุ่มวิจัย (desc_th/en) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>คำอธิบายกลุ่มวิจัย (ภาษาไทย)</b></p>
                     <div class="col-sm-8">
@@ -56,7 +81,6 @@
                         >{{ $researchGroup->group_desc_th }}</textarea>
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <p class="col-sm-3"><b>คำอธิบายกลุ่มวิจัย (English)</b></p>
                     <div class="col-sm-8">
@@ -65,6 +89,28 @@
                             class="form-control"
                             style="height:90px"
                         >{{ $researchGroup->group_desc_en }}</textarea>
+                    </div>
+                </div>
+
+                <!-- 1.4) รายละเอียดกลุ่มวิจัย (detail_th/en) -->
+                <div class="form-group row">
+                    <p class="col-sm-3"><b>รายละเอียดกลุ่มวิจัย (ภาษาไทย)</b></p>
+                    <div class="col-sm-8">
+                        <textarea
+                            name="group_detail_th"
+                            class="form-control"
+                            style="height:90px"
+                        >{{ $researchGroup->group_detail_th }}</textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <p class="col-sm-3"><b>รายละเอียดกลุ่มวิจัย (English)</b></p>
+                    <div class="col-sm-8">
+                        <textarea
+                            name="group_detail_en"
+                            class="form-control"
+                            style="height:90px"
+                        >{{ $researchGroup->group_detail_en }}</textarea>
                     </div>
                 </div>
 
@@ -85,7 +131,7 @@
                     </div>
                 </div>
 
-                <!-- Link -->
+                <!-- Link (ถ้ามี) -->
                 <div class="form-group row">
                     <p class="col-sm-3"><b>Link (ถ้ามี)</b></p>
                     <div class="col-sm-8">
@@ -146,10 +192,7 @@
                 @endif
 
                 <!-- =====================
-                     3) สมาชิกกลุ่มวิจัย
-                     - Student => "Student" (role=2), disable, hidden can_edit=0
-                     - Teacher => เลือกได้ (2 = Researcher) หรือ (3 = Postdoc)
-                     - เฉพาะ admin เห็น can_edit dropdown, role อื่น => แสดงค่าเดิม
+                     3) สมาชิกกลุ่มวิจัย (role=2/3)
                 ======================-->
                 <div class="form-group row">
                     <p class="col-sm-3 pt-4"><b>สมาชิกกลุ่มวิจัย</b></p>
@@ -205,7 +248,6 @@
 
 @section('javascript')
 <script>
-    // แปลงค่า hasRole('admin') เป็นตัวแปร JS
     var isAdmin = "{{ auth()->user()->hasRole('admin') ? 1 : 0 }}";
 
     $(document).ready(function() {
@@ -216,32 +258,28 @@
         var researchGroupUsers = @json($researchGroup->user);
         var i = 0; // ตัวนับสมาชิก
 
-        // วนลูปสร้างแถวสมาชิกที่มีอยู่แล้ว (role=2 หรือ role=3)
-        for(var idx=0; idx < researchGroupUsers.length; idx++){
+        // วนลูปสร้างแถวสมาชิกที่มีอยู่แล้ว (role=2 หรือ 3)
+        for (var idx = 0; idx < researchGroupUsers.length; idx++) {
             var obj = researchGroupUsers[idx];
-            // ถ้า pivot.role = 2 หรือ 3 => ใส่ในตาราง
-            if(obj.pivot.role == 2 || obj.pivot.role == 3){
-                // ใช้ค่า pivot.can_edit เดิม
+            if (obj.pivot.role == 2 || obj.pivot.role == 3) {
                 appendMemberRow(
                     i,
                     obj.id,
                     String(obj.pivot.role),
-                    String(obj.pivot.can_edit)  // แปลงให้เป็น '0' หรือ '1'
+                    String(obj.pivot.can_edit)
                 );
                 i++;
             }
         }
 
-        // ปุ่ม + เพิ่มสมาชิก
-        $("#add-btn2").click(function(){
-            // **แก้สำคัญ**: new row ถ้าเป็น non-admin => ให้ can_edit=0 แทน ""
-            // เพราะถ้า "" => เสี่ยงเป็น null ใน DB
+        // ปุ่ม + เพิ่มสมาชิก (new row)
+        // ถ้าเป็น non-admin => can_edit=0
+        $("#add-btn2").click(function() {
             appendMemberRow(i, "", "", "0");
             i++;
         });
 
-        // ฟังก์ชันสร้าง row สมาชิก
-        function appendMemberRow(index, userId, roleVal, canEditVal){
+        function appendMemberRow(index, userId, roleVal, canEditVal) {
             var rowHtml = "<tr>";
 
             // ----- เลือก User -----
@@ -250,7 +288,6 @@
             rowHtml += "      <option value=\"\">Select User</option>";
             @foreach($users as $u)
                 @php
-                    // ถ้าเป็น teacher => data-usertype="teacher", ถ้าเป็น student => data-usertype="student"
                     $dataUsertype = $u->hasRole("teacher") ? "teacher" : "student";
                 @endphp
                 rowHtml += "      <option value=\"{{ $u->id }}\" data-usertype=\"{{ $dataUsertype }}\">{{ $u->fname_th }} {{ $u->lname_th }}</option>";
@@ -258,7 +295,7 @@
             rowHtml += "    </select>";
             rowHtml += "  </td>";
 
-            // ----- Role -----
+            // ----- Role (2=Researcher, 3=Postdoc) -----
             rowHtml += "  <td>";
             rowHtml += "    <select name=\"moreFields[" + index + "][role]\" class=\"form-control role-select\" style=\"width:220px;\">";
             rowHtml += "      <option value=\"2\">Researcher</option>";
@@ -267,8 +304,8 @@
             rowHtml += "  </td>";
 
             // ----- can_edit -----
-            if(isAdmin == "1") {
-                // ถ้าเป็น admin => แสดง dropdown can_edit
+            if (isAdmin == "1") {
+                // ถ้าเป็น admin => dropdown
                 rowHtml += "  <td>";
                 rowHtml += "    <select name=\"moreFields[" + index + "][can_edit]\" class=\"form-control\" style=\"width:120px;\">";
                 rowHtml += "      <option value=\"1\">Can Edit</option>";
@@ -276,45 +313,42 @@
                 rowHtml += "    </select>";
                 rowHtml += "  </td>";
             } else {
-                // ไม่ใช่ admin => แสดงค่าเดิมหรือ 0
+                // ถ้าไม่ใช่ admin => hidden + แสดงข้อความ
                 rowHtml += "  <td>";
                 rowHtml += "    <input type=\"hidden\" name=\"moreFields[" + index + "][can_edit]\" value=\"" + canEditVal + "\">";
 
                 var numVal = parseInt(canEditVal, 10);
-                if(numVal === 1){
+                if (numVal === 1) {
                     rowHtml += "    <small style='color:green;'>Can Edit</small>";
                 } else {
                     rowHtml += "    <small style='color:gray;'>No Edit</small>";
                 }
-
                 rowHtml += "  </td>";
             }
 
             // ----- ปุ่มลบ -----
             rowHtml += "  <td>";
-            rowHtml += "    <button type=\"button\" class=\"btn btn-danger btn-sm remove-tr\">";
-            rowHtml += "      <i class=\"mdi mdi-minus\"></i>";
-            rowHtml += "    </button>";
+            rowHtml += "    <button type=\"button\" class=\"btn btn-danger btn-sm remove-tr\"><i class=\"mdi mdi-minus\"></i></button>";
             rowHtml += "  </td>";
 
             rowHtml += "</tr>";
 
-            // เพิ่มลงใน table
+            // แปะลงในตาราง
             $("#dynamicAddRemove").append(rowHtml);
 
             // init select2
             $("#selUser" + index).select2();
 
-            // ถ้า userId => set user select
-            if(userId){
+            // ถ้ามี userId => set
+            if (userId) {
                 $("#selUser" + index).val(userId).trigger("change");
             }
-            // ถ้า roleVal => set role select
-            if(roleVal){
+            // ถ้ามี role => set
+            if (roleVal) {
                 $("#dynamicAddRemove tr:last .role-select").val(roleVal);
             }
             // ถ้า admin => set can_edit
-            if(isAdmin == "1" && canEditVal !== ""){
+            if (isAdmin == "1" && canEditVal !== "") {
                 $("#dynamicAddRemove tr:last [name=\"moreFields[" + index + "][can_edit]\"]").val(canEditVal);
             }
 
@@ -322,18 +356,19 @@
         }
 
         // ลบแถว
-        $(document).on("click", ".remove-tr", function(){
+        $(document).on("click", ".remove-tr", function() {
             $(this).closest("tr").remove();
         });
 
-        // เช็คว่า student/teacher
-        function checkUserType(selector){
+        // student => role=2 (label Student, disable)
+        // teacher => enable role select
+        function checkUserType(selector) {
             var $userSelect = $(selector);
             var userType    = $userSelect.find(":selected").data("usertype");
             var $row        = $userSelect.closest("tr");
             var $roleSelect = $row.find(".role-select");
 
-            if(userType === "student"){
+            if (userType === "student") {
                 $roleSelect.val("2").trigger("change");
                 $roleSelect.prop("disabled", true);
                 $roleSelect.find("option[value='2']").text("Student");
@@ -345,13 +380,13 @@
             }
         }
 
-        $(document).on("change", ".member-select", function(){
+        $(document).on("change", ".member-select", function() {
             checkUserType(this);
         });
 
         // Visiting Scholars
         var v = 0;
-        $("#add-btn-visiting").click(function(){
+        $("#add-btn-visiting").click(function() {
             v++;
             var htmlVisiting = "";
             htmlVisiting += "<tr>";
@@ -363,7 +398,8 @@
 
             $("#dynamicAddRemoveVisiting").append(htmlVisiting);
         });
-        $(document).on("click", ".remove-visiting", function(){
+
+        $(document).on("click", ".remove-visiting", function() {
             $(this).closest("tr").remove();
         });
     });

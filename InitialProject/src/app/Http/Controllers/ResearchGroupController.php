@@ -64,8 +64,12 @@ class ResearchGroupController extends Controller
         $researchGroup = new ResearchGroup();
         $researchGroup->group_name_th   = $request->group_name_th;
         $researchGroup->group_name_en   = $request->group_name_en;
+        $researchGroup->group_detail_th = $request->group_detail_th;
+        $researchGroup->group_detail_en = $request->group_detail_en;
         $researchGroup->group_desc_th   = $request->group_desc_th;
         $researchGroup->group_desc_en   = $request->group_desc_en;
+        $researchGroup->group_main_research_en = $request->group_main_research_en;
+        $researchGroup->group_main_research_th = $request->group_main_research_th;
         // etc. สำหรับฟิลด์ detail, image, ...
         if ($request->hasFile('group_image')) {
             $filename = time() . '.' . $request->file('group_image')->extension();
@@ -146,8 +150,12 @@ class ResearchGroupController extends Controller
         // อัปเดตฟิลด์
         $researchGroup->group_name_th   = $request->group_name_th;
         $researchGroup->group_name_en   = $request->group_name_en;
+        $researchGroup->group_detail_th = $request->group_detail_th;
+        $researchGroup->group_detail_en = $request->group_detail_en;
         $researchGroup->group_desc_th   = $request->group_desc_th;
         $researchGroup->group_desc_en   = $request->group_desc_en;
+        $researchGroup->group_main_research_en = $request->group_main_research_en;
+        $researchGroup->group_main_research_th = $request->group_main_research_th;
         // etc.
         if ($request->hasFile('group_image')) {
             $filename = time() . '.' . $request->file('group_image')->extension();
