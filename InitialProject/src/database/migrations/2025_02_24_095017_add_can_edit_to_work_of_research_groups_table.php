@@ -13,11 +13,13 @@ class AddCanEditToWorkOfResearchGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::table('work_of_research_groups', function (Blueprint $table) {
-            $table->boolean('can_edit')->default(false);
-        });
+        if (!Schema::hasColumn('work_of_research_groups', 'can_edit')) {
+            Schema::table('work_of_research_groups', function (Blueprint $table) {
+                $table->boolean('can_edit')->default(0);
+            });
+        }
     }
-    
+
     public function down()
     {
         Schema::table('work_of_research_groups', function (Blueprint $table) {
