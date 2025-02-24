@@ -265,21 +265,19 @@
         <!-- Visiting Scholars -->
         <h3 class="mt-5">Visiting Scholars</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
-            @foreach($rg->user as $r)
-            @if(isset($r->pivot) && $r->pivot->role == 7)
+            @foreach($rg->visitingScholars as $scholar)
             <div class="col">
                 <div class="member-card">
-                    <a href="{{ route('detail', Crypt::encrypt($r->id)) }}" class="profile-link">
-                        <img src="{{ $r->picture ?? asset('img/default-profile.png') }}"
-                            alt="{{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}"
+                    <a href="{{ route('detail', Crypt::encrypt($scholar->id)) }}" class="profile-link">
+                        <img src="{{ $scholar->picture ?? asset('img/default-profile.png') }}"
+                            alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}"
                             class="center-image">
                     </a>
                     <div class="person-info">
-                        <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
+                        <p>{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
                     </div>
                 </div>
             </div>
-            @endif
             @endforeach
         </div>
 
