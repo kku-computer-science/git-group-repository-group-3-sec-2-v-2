@@ -18,8 +18,14 @@ class CreateWorkOfResearchGroupsTable extends Migration
             $table->integer('role');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('research_group_id');
-            $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('research_group_id')->references('id')->on('research_groups')->onUpdate('cascade')->onDelete('cascade');
+            $table->boolean('can_edit')->default(false);
+            $table->foreign('user_id')->references('id')->on('users')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
+            $table->foreign('research_group_id')->references('id')->on('research_groups')
+                  ->onUpdate('cascade')
+                  ->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
