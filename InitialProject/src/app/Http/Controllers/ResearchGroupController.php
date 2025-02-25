@@ -47,7 +47,8 @@ class ResearchGroupController extends Controller
     {
         $users = User::all();
         $funds = Fund::all(); // ถ้ามีตาราง Fund
-        return view('research_groups.create', compact('users', 'funds'));
+        $authors = Author::all(); // ดึงข้อมูลนักวิจัยรับเชิญจากตาราง Author
+        return view('research_groups.create', compact('users', 'funds', 'authors'));
     }
 
     /**
@@ -71,7 +72,7 @@ class ResearchGroupController extends Controller
         $researchGroup->group_desc_en   = $request->group_desc_en;
         $researchGroup->group_main_research_en = $request->group_main_research_en;
         $researchGroup->group_main_research_th = $request->group_main_research_th;
-        // etc. สำหรับฟิลด์ detail, image, ...
+
         if ($request->hasFile('group_image')) {
             $filename = time() . '.' . $request->file('group_image')->extension();
             $request->file('group_image')->move(public_path('img'), $filename);
@@ -80,7 +81,7 @@ class ResearchGroupController extends Controller
         $researchGroup->link = $request->link;
         $researchGroup->save();
 
-        // แนบหัวหน้ากลุ่ม (role=1)
+        // Attach head (role=1)
         $owner = Auth::user()->hasAnyRole(['admin', 'staff'])
             ? $request->head
             : Auth::id();
@@ -89,11 +90,11 @@ class ResearchGroupController extends Controller
             'can_edit' => 1,
         ]);
 
-        // แนบสมาชิก role=2 / 3
+        // Attach members (role=2 or 3)
         if ($request->has('moreFields')) {
             foreach ($request->moreFields as $field) {
                 if (!empty($field['userid'])) {
-                    $role     = $field['role']     ?? 2;
+                    $role     = $field['role'] ?? 2;
                     $can_edit = $field['can_edit'] ?? 0;
                     $researchGroup->user()->attach($field['userid'], [
                         'role'     => $role,
@@ -103,9 +104,36 @@ class ResearchGroupController extends Controller
             }
         }
 
-        // นักวิจัยรับเชิญ (ถ้ามีการเก็บในตารางอื่น)
+        // Visiting Scholars
         if ($request->has('visiting')) {
-            // เก็บ visiting scholar ตามโครงสร้าง DB จริง
+            foreach ($request->visiting as $key => $visiting) {
+                // If selected from dropdown and not "manual"
+                if (isset($visiting['author_id']) && $visiting['author_id'] !== '' && $visiting['author_id'] !== 'manual') {
+                    $researchGroup->visitingScholars()->attach($visiting['author_id'], [
+                        'role'     => 4,
+                        'can_edit' => 0, // กำหนดค่า default ถ้าจำเป็น
+                    ]);
+                } else {
+                    // Manual entry: create new Author
+                    $newAuthor = new Author();
+                    $newAuthor->author_fname = $visiting['first_name'] ?? '';
+                    $newAuthor->author_lname = $visiting['last_name'] ?? '';
+                    $newAuthor->belong_to    = $visiting['affiliation'] ?? '';
+
+                    // ตรวจสอบการอัปโหลดรูปสำหรับ Visiting Scholar
+                    if ($request->hasFile("visiting.$key.picture")) {
+                        $file = $request->file("visiting.$key.picture");
+                        $filename = time() . '_' . $file->getClientOriginalName();
+                        $file->move(public_path('images/imag_user'), $filename);
+                        $newAuthor->picture = $filename;
+                    }
+                    $newAuthor->save();
+                    $researchGroup->visitingScholars()->attach($newAuthor->id, [
+                        'role'     => 4,
+                        'can_edit' => 0,
+                    ]);
+                }
+            }
         }
 
         return redirect()->route('researchGroups.index')
