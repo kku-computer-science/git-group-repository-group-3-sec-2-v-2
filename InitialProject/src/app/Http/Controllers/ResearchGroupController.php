@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ResearchGroup;
 use App\Models\User;
 use App\Models\Fund;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,7 +47,8 @@ class ResearchGroupController extends Controller
     {
         $users = User::all();
         $funds = Fund::all(); // ถ้ามีตาราง Fund
-        return view('research_groups.create', compact('users', 'funds'));
+        $authors = Author::all(); // ดึงข้อมูลนักวิจัยรับเชิญจากตาราง Author
+        return view('research_groups.create', compact('users', 'funds', 'authors'));
     }
 
     /**
@@ -60,7 +62,7 @@ class ResearchGroupController extends Controller
             'head'          => 'required',
             'link'          => 'nullable|url',
         ]);
-
+    
         $researchGroup = new ResearchGroup();
         $researchGroup->group_name_th   = $request->group_name_th;
         $researchGroup->group_name_en   = $request->group_name_en;
@@ -70,7 +72,7 @@ class ResearchGroupController extends Controller
         $researchGroup->group_desc_en   = $request->group_desc_en;
         $researchGroup->group_main_research_en = $request->group_main_research_en;
         $researchGroup->group_main_research_th = $request->group_main_research_th;
-        // etc. สำหรับฟิลด์ detail, image, ...
+    
         if ($request->hasFile('group_image')) {
             $filename = time() . '.' . $request->file('group_image')->extension();
             $request->file('group_image')->move(public_path('img'), $filename);
@@ -78,38 +80,181 @@ class ResearchGroupController extends Controller
         }
         $researchGroup->link = $request->link;
         $researchGroup->save();
-
-        // แนบหัวหน้ากลุ่ม (role=1)
-        $owner = Auth::user()->hasAnyRole(['admin', 'staff'])
-            ? $request->head
-            : Auth::id();
-        $researchGroup->user()->attach($owner, [
-            'role'     => 1,
-            'can_edit' => 1,
-        ]);
-
-        // แนบสมาชิก role=2 / 3
+    
+        // ประมวลผลข้อมูลของสมาชิก (head + additional members)
+        $membersPivot = [];
+        if (auth()->user()->hasAnyRole(['admin', 'staff'])) {
+            $headUserId = $request->head;
+        } else {
+            $headUserId = auth()->id();
+        }
+        // กำหนด head ให้มี role=1 และ can_edit=1
+        $membersPivot[$headUserId] = ['role' => 1, 'can_edit' => 1];
+    
+        // ประมวลผลสมาชิกกลุ่มวิจัยที่ส่งมาจากฟอร์ม (moreFields)
         if ($request->has('moreFields')) {
-            foreach ($request->moreFields as $field) {
-                if (!empty($field['userid'])) {
-                    $role     = $field['role']     ?? 2;
-                    $can_edit = $field['can_edit'] ?? 0;
-                    $researchGroup->user()->attach($field['userid'], [
-                        'role'     => $role,
-                        'can_edit' => $can_edit,
-                    ]);
+            foreach ($request->moreFields as $member) {
+                if (isset($member['userid']) && !empty($member['userid'])) {
+                    $membersPivot[$member['userid']] = [
+                        'role'     => 2,
+                        'can_edit' => $member['can_edit']
+                    ];
                 }
             }
         }
-
-        // นักวิจัยรับเชิญ (ถ้ามีการเก็บในตารางอื่น)
+        // sync ความสัมพันธ์ของสมาชิกใน pivot table
+        $researchGroup->user()->sync($membersPivot);
+    
+        // ประมวลผลข้อมูล Visiting Scholars
         if ($request->has('visiting')) {
-            // เก็บ visiting scholar ตามโครงสร้าง DB จริง
+            $newVisiting = [];
+            foreach ($request->visiting as $key => $visiting) {
+                if (
+                    isset($visiting['first_name']) && trim($visiting['first_name']) !== '' &&
+                    isset($visiting['last_name']) && trim($visiting['last_name']) !== ''
+                ) {
+                    if (isset($visiting['author_id']) && $visiting['author_id'] !== '' && $visiting['author_id'] !== 'manual') {
+                        $author = Author::find($visiting['author_id']);
+                    } else {
+                        $author = Author::where('author_fname', $visiting['first_name'])
+                            ->where('author_lname', $visiting['last_name'])
+                            ->first();
+                        if (!$author) {
+                            $author = new Author();
+                        }
+                    }
+    
+                    $updated = false;
+                    if ($author->author_fname !== $visiting['first_name']) {
+                        $author->author_fname = $visiting['first_name'];
+                        $updated = true;
+                    }
+                    if ($author->author_lname !== $visiting['last_name']) {
+                        $author->author_lname = $visiting['last_name'];
+                        $updated = true;
+                    }
+                    if (isset($visiting['affiliation']) && $author->belong_to !== $visiting['affiliation']) {
+                        $author->belong_to = $visiting['affiliation'];
+                        $updated = true;
+                    }
+                    if ($request->hasFile("visiting.$key.picture")) {
+                        $file = $request->file("visiting.$key.picture");
+                        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                        if ($file->isValid() && in_array(strtolower($file->extension()), $allowedExtensions)) {
+                            $destinationPath = public_path('images/imag_user');
+                            if (!file_exists($destinationPath)) {
+                                mkdir($destinationPath, 0777, true);
+                            }
+                            $filename = time() . '_' . uniqid() . '.' . $file->extension();
+                            $file->move($destinationPath, $filename);
+                            $author->picture = $filename;
+                            $updated = true;
+                        }
+                    }
+                    if ($updated) {
+                        $author->save();
+                    }
+                    $newVisiting[$author->id] = ['role' => 4, 'can_edit' => 0];
+                } else {
+                    return redirect()->back()->withErrors(['error' => 'First name and last name are required.']);
+                }
+            }
+            $researchGroup->visitingScholars()->sync($newVisiting);
         }
-
+    
         return redirect()->route('researchGroups.index')
             ->with('success', 'Research group created successfully.');
     }
+    
+
+    public function update(Request $request, ResearchGroup $researchGroup)
+    {
+        $request->validate([
+            'group_name_th' => 'required',
+            'group_name_en' => 'required',
+            'link'          => 'nullable|url',
+        ]);
+    
+        $researchGroup->group_name_th   = $request->group_name_th;
+        $researchGroup->group_name_en   = $request->group_name_en;
+        $researchGroup->group_detail_th = $request->group_detail_th;
+        $researchGroup->group_detail_en = $request->group_detail_en;
+        $researchGroup->group_desc_th   = $request->group_desc_th;
+        $researchGroup->group_desc_en   = $request->group_desc_en;
+        $researchGroup->group_main_research_en = $request->group_main_research_en;
+        $researchGroup->group_main_research_th = $request->group_main_research_th;
+    
+        if ($request->hasFile('group_image')) {
+            $filename = time() . '.' . $request->file('group_image')->extension();
+            $request->file('group_image')->move(public_path('img'), $filename);
+            $researchGroup->group_image = $filename;
+        }
+        $researchGroup->link = $request->link;
+        $researchGroup->save();
+    
+        // ประมวลผลข้อมูล member จากฟอร์ม (head + member อื่นๆ)
+        $membersPivot = [];
+    
+        // สำหรับ head (ในฟอร์มจะแยกกันส่ง head ออกมา)
+        if (auth()->user()->hasAnyRole(['admin','staff'])) {
+            $headUserId = $request->head;
+        } else {
+            $headUserId = auth()->id();
+        }
+        // กำหนดให้ head มี role=1 และ can_edit=1
+        $membersPivot[$headUserId] = ['role' => 1, 'can_edit' => 1];
+    
+        // ประมวลผลข้อมูล member ที่ถูกส่งมาจากฟอร์ม (moreFields)
+        if ($request->has('moreFields')) {
+            foreach ($request->moreFields as $member) {
+                if (isset($member['userid']) && !empty($member['userid'])) {
+                    $membersPivot[$member['userid']] = [
+                        'role' => 2,
+                        'can_edit' => $member['can_edit']
+                    ];
+                }
+            }
+        }
+        // sync ความสัมพันธ์ของ users กับ researchGroup โดยอัปเดต pivot table
+        $researchGroup->user()->sync($membersPivot);
+    
+        // ส่วนของ Visiting Scholars (แก้ไขการ sync ตามที่แนะนำไว้ก่อนหน้า)
+        if ($request->has('visiting')) {
+            $newVisiting = [];
+            foreach ($request->visiting as $key => $visiting) {
+                if (
+                    isset($visiting['first_name']) && trim($visiting['first_name']) !== '' &&
+                    isset($visiting['last_name']) && trim($visiting['last_name']) !== ''
+                ) {
+                    $author = Author::find($visiting['author_id']) ?? new Author();
+    
+                    $author->author_fname = $visiting['first_name'];
+                    $author->author_lname = $visiting['last_name'];
+                    $author->belong_to = $visiting['affiliation'] ?? '';
+    
+                    if ($request->hasFile("visiting.$key.picture")) {
+                        $file = $request->file("visiting.$key.picture");
+                        $filename = time() . '_' . uniqid() . '.' . $file->extension();
+                        $file->move(public_path('images/imag_user'), $filename);
+                        $author->picture = $filename;
+                    }
+    
+                    $author->save();
+    
+                    $newVisiting[$author->id] = ['role' => 4, 'can_edit' => 0];
+                } else {
+                    return redirect()->back()->withErrors(['error' => 'First name and last name are required.']);
+                }
+            }
+            $researchGroup->visitingScholars()->sync($newVisiting);
+        } else {
+            $researchGroup->visitingScholars()->detach();
+        }
+    
+        return redirect()->route('researchGroups.index')
+            ->with('success', 'Research group updated successfully.');
+    }
+    
 
     /**
      * Display the specified resource.
@@ -131,103 +276,17 @@ class ResearchGroupController extends Controller
         // โหลดความสัมพันธ์ user ด้วย pivot
         $researchGroup->load('user');
         $users = User::all();
+        $authors = Author::all(); // ดึงข้อมูลนักวิจัยรับเชิญจากตาราง Author
 
-        return view('research_groups.edit', compact('researchGroup', 'users'));
+        return view('research_groups.edit', compact('researchGroup', 'users', 'authors'));
     }
 
     /**
      * Update the specified resource in storage.
      * หลักการ: ถ้าไม่มีส่ง can_edit มา => ใช้ค่าเก่าจาก pivot
      */
-    public function update(Request $request, ResearchGroup $researchGroup)
-    {
-        $request->validate([
-            'group_name_th' => 'required',
-            'group_name_en' => 'required',
-            'link'          => 'nullable|url',
-        ]);
-
-        // อัปเดตฟิลด์
-        $researchGroup->group_name_th   = $request->group_name_th;
-        $researchGroup->group_name_en   = $request->group_name_en;
-        $researchGroup->group_detail_th = $request->group_detail_th;
-        $researchGroup->group_detail_en = $request->group_detail_en;
-        $researchGroup->group_desc_th   = $request->group_desc_th;
-        $researchGroup->group_desc_en   = $request->group_desc_en;
-        $researchGroup->group_main_research_en = $request->group_main_research_en;
-        $researchGroup->group_main_research_th = $request->group_main_research_th;
-        // etc.
-        if ($request->hasFile('group_image')) {
-            $filename = time() . '.' . $request->file('group_image')->extension();
-            $request->file('group_image')->move(public_path('img'), $filename);
-            $researchGroup->group_image = $filename;
-        }
-        $researchGroup->link = $request->link;
-        $researchGroup->save();
-
-        // เก็บ pivot เดิมใน array
-        $oldPivot = [];
-        foreach ($researchGroup->user as $u) {
-            $oldPivot[$u->id] = [
-                'role'     => $u->pivot->role,
-                'can_edit' => $u->pivot->can_edit,
-            ];
-        }
-
-        // ลบ pivot เดิม
-        $researchGroup->user()->detach();
-
-        // แนบหัวหน้ากลุ่ม (role=1)
-        if ($request->filled('head')) {
-            $researchGroup->user()->attach($request->head, [
-                'role'     => 1,
-                'can_edit' => 1,
-            ]);
-        }
-
-        // แนบสมาชิก
-        if ($request->has('moreFields')) {
-            foreach ($request->moreFields as $field) {
-                $userId = $field['userid'] ?? null;
-                if (!$userId) continue;
-
-                // Fallback role
-                if (isset($field['role'])) {
-                    $role = $field['role'];
-                } else {
-                    $role = $oldPivot[$userId]['role'] ?? 2;
-                }
-
-                // Fallback can_edit
-                // ถ้ามี can_edit ส่งมา แต่เป็น "" -> ถือว่าไม่มีจริง ให้ใช้ค่าปริยาย
-                if (array_key_exists('can_edit', $field)) {
-                    if ($field['can_edit'] === '') {
-                        // ถ้าเป็น string ว่าง
-                        $canEdit = $oldPivot[$userId]['can_edit'] ?? 0;
-                    } else {
-                        $canEdit = $field['can_edit'];
-                    }
-                } else {
-                    // ถ้าไม่มี can_edit key เลย => fallback ค่าเดิม
-                    $canEdit = $oldPivot[$userId]['can_edit'] ?? 0;
-                }
 
 
-                $researchGroup->user()->attach($userId, [
-                    'role'     => $role,
-                    'can_edit' => $canEdit,
-                ]);
-            }
-        }
-
-        // นักวิจัยรับเชิญ
-        if ($request->has('visiting')) {
-            // เก็บ visiting scholar
-        }
-
-        return redirect()->route('researchGroups.index')
-            ->with('success', 'Research group updated successfully');
-    }
 
     /**
      * Remove the specified resource from storage.
