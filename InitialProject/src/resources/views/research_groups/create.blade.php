@@ -163,6 +163,12 @@
         // Initialize select2 สำหรับหัวหน้ากลุ่ม (head)
         $("#head0").select2();
 
+        // เมื่อมีการเปลี่ยนแปลงใน Head ให้ update options ของทั้ง Head และ Member
+        $("#head0").on("change", function() {
+            updateMemberOptions();
+            updateHeadOptions();
+        });
+
         // ----------- สมาชิกกลุ่มวิจัย (Members) -----------
         var i = 0;
         $("#add-btn2").click(function() {
@@ -213,10 +219,14 @@
 
             $("#dynamicAddRemove").append(rowHtml);
             $("#selUser" + index).select2();
+            updateMemberOptions();
+            updateHeadOptions();
         }
 
         $(document).on("click", ".remove-tr", function() {
             $(this).closest("tr").remove();
+            updateMemberOptions();
+            updateHeadOptions();
         });
 
         $(document).on("change", ".member-select", function() {
@@ -234,10 +244,18 @@
                 $roleSelect.find("option[value='2']").text("Researcher");
                 $roleSelect.find("option[value='3']").show();
             }
+            updateMemberOptions();
+            updateHeadOptions();
         });
 
+        // ฟังก์ชันอัปเดต option ของ member ให้ disable ค่าที่ถูกเลือกใน head ด้วย
         function updateMemberOptions() {
             var selectedValues = [];
+            // รวมค่า head ที่เลือกอยู่
+            var headVal = $("#head0").val();
+            if(headVal) {
+                selectedValues.push(headVal);
+            }
             $(".member-select").each(function() {
                 var value = $(this).val();
                 if(value) {
@@ -255,6 +273,26 @@
                 });
                 $this.trigger('change.select2');
             });
+        }
+
+        // ฟังก์ชันอัปเดต option ของ Head ให้ disable ค่าที่ถูกเลือกใน member ด้วย
+        function updateHeadOptions() {
+            var selectedMemberValues = [];
+            $(".member-select").each(function() {
+                var value = $(this).val();
+                if(value) {
+                    selectedMemberValues.push(value);
+                }
+            });
+            var headSelect = $("#head0");
+            headSelect.find("option").each(function() {
+                if(selectedMemberValues.indexOf($(this).val()) !== -1 && $(this).val() !== headSelect.val()){
+                    $(this).prop("disabled", true);
+                } else {
+                    $(this).prop("disabled", false);
+                }
+            });
+            headSelect.trigger("change.select2");
         }
 
         // ----------- นักวิจัยรับเชิญ (Visiting Scholars) -----------
