@@ -22,7 +22,7 @@ TC002 Login Button
     Wait Until Element Is Visible    name=username    timeout=30s
 
 TC003 Login System
-    Input Text    name=username    ngamnij@kku.ac.th
+    Input Text    name=username    pusadee@kku.ac.th
     Input Text    name=password    123456789
     Click Button    xpath=//button[@type='submit']
     Wait Until Page Contains    Dashboard    timeout=30s
