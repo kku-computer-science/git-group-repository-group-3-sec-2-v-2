@@ -299,12 +299,14 @@
                 $("#dynamicAddRemove tr:last .role-select").val(roleVal);
             }
             updateMemberOptions();
+            updateHeadOptions();
             checkUserType("#selUser" + index);
         }
 
         $(document).on("click", ".remove-tr", function() {
             $(this).closest("tr").remove();
             updateMemberOptions();
+            updateHeadOptions();
         });
 
         function checkUserType(selector) {
@@ -326,6 +328,10 @@
 
         function updateMemberOptions() {
             var selectedValues = [];
+            var headValue = $("#head0").val();
+            if (headValue) {
+                selectedValues.push(headValue);
+            }
             $(".member-select").each(function() {
                 var value = $(this).val();
                 if (value) {
@@ -345,9 +351,33 @@
             });
         }
 
+        function updateHeadOptions() {
+            var memberSelectedValues = [];
+            $(".member-select").each(function() {
+                var val = $(this).val();
+                if(val) {
+                    memberSelectedValues.push(val);
+                }
+            });
+            $("#head0").find("option").each(function() {
+                if(memberSelectedValues.indexOf($(this).val()) !== -1 && $(this).val() !== $("#head0").val()) {
+                    $(this).prop("disabled", true);
+                } else {
+                    $(this).prop("disabled", false);
+                }
+            });
+            $("#head0").trigger("change.select2");
+        }
+
+        $("#head0").on("change", function(){
+            updateMemberOptions();
+            updateHeadOptions();
+        });
+
         $(document).on("change", ".member-select", function() {
             checkUserType(this);
             updateMemberOptions();
+            updateHeadOptions();
         });
 
         // ----------- นักวิจัยรับเชิญ (Visiting Scholars) -----------
