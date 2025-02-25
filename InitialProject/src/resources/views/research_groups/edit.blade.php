@@ -122,13 +122,20 @@
                         </div>
                     </div>
                 @else
+                    <!-- สำหรับ non-admin: แสดง select ที่ disabled พร้อม input ซ่อนเพื่อส่งค่า -->
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label"><b>หัวหน้ากลุ่มวิจัย</b></label>
                         <div class="col-sm-8">
+                            <select id="head0" class="form-control" disabled>
+                                @foreach($users as $user)
+                                    @if($user->hasRole('teacher'))
+                                        <option value="{{ $user->id }}" @if($headUser && $headUser->id == $user->id) selected @endif>
+                                            {{ $user->fname_th }} {{ $user->lname_th }}
+                                        </option>
+                                    @endif
+                                @endforeach
+                            </select>
                             <input type="hidden" name="head" value="{{ $headUser->id ?? auth()->id() }}">
-                            <p class="form-control-plaintext">
-                                {{ $headUser ? $headUser->fname_th . ' ' . $headUser->lname_th : '' }}
-                            </p>
                         </div>
                     </div>
                 @endif
@@ -299,14 +306,18 @@
                 $("#dynamicAddRemove tr:last .role-select").val(roleVal);
             }
             updateMemberOptions();
-            updateHeadOptions();
+            if ($("#head0").is("select")) {
+                updateHeadOptions();
+            }
             checkUserType("#selUser" + index);
         }
 
         $(document).on("click", ".remove-tr", function() {
             $(this).closest("tr").remove();
             updateMemberOptions();
-            updateHeadOptions();
+            if ($("#head0").is("select")) {
+                updateHeadOptions();
+            }
         });
 
         function checkUserType(selector) {
@@ -352,6 +363,7 @@
         }
 
         function updateHeadOptions() {
+            if (!$("#head0").is("select")) return;
             var memberSelectedValues = [];
             $(".member-select").each(function() {
                 var val = $(this).val();
@@ -371,13 +383,17 @@
 
         $("#head0").on("change", function(){
             updateMemberOptions();
-            updateHeadOptions();
+            if ($("#head0").is("select")) {
+                updateHeadOptions();
+            }
         });
 
         $(document).on("change", ".member-select", function() {
             checkUserType(this);
             updateMemberOptions();
-            updateHeadOptions();
+            if ($("#head0").is("select")) {
+                updateHeadOptions();
+            }
         });
 
         // ----------- นักวิจัยรับเชิญ (Visiting Scholars) -----------
