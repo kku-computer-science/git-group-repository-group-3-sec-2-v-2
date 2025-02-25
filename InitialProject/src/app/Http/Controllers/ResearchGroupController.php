@@ -175,6 +175,7 @@ class ResearchGroupController extends Controller
             'link'          => 'nullable|url',
         ]);
     
+        // อัปเดตข้อมูลพื้นฐานของกลุ่มวิจัย
         $researchGroup->group_name_th   = $request->group_name_th;
         $researchGroup->group_name_en   = $request->group_name_en;
         $researchGroup->group_detail_th = $request->group_detail_th;
@@ -192,19 +193,23 @@ class ResearchGroupController extends Controller
         $researchGroup->link = $request->link;
         $researchGroup->save();
     
-        // ประมวลผลข้อมูล member จากฟอร์ม (head + member อื่นๆ)
+        // ดึง Head Lab เดิมจากฐานข้อมูล
+        $originalHead = $researchGroup->user()->wherePivot('role', 1)->first();
+    
+        // ประมวลผลข้อมูล member จากฟอร์ม
         $membersPivot = [];
     
-        // สำหรับ head (ในฟอร์มจะแยกกันส่ง head ออกมา)
-        if (auth()->user()->hasAnyRole(['admin','staff'])) {
+        if (auth()->user()->hasAnyRole(['admin', 'staff'])) {
+            // Admin หรือ Staff สามารถเปลี่ยน Head Lab ได้
             $headUserId = $request->head;
         } else {
-            $headUserId = auth()->id();
+            // ผู้ใช้ทั่วไป ไม่สามารถเปลี่ยน Head Lab ได้ ใช้ Head Lab เดิม
+            $headUserId = $originalHead ? $originalHead->id : auth()->id();
         }
-        // กำหนดให้ head มี role=1 และ can_edit=1
+        // กำหนดให้ Head Lab มี role=1 และ can_edit=1
         $membersPivot[$headUserId] = ['role' => 1, 'can_edit' => 1];
     
-        // ประมวลผลข้อมูล member ที่ถูกส่งมาจากฟอร์ม (moreFields)
+        // ประมวลผลสมาชิกจากฟอร์ม (moreFields)
         if ($request->has('moreFields')) {
             foreach ($request->moreFields as $member) {
                 if (isset($member['userid']) && !empty($member['userid'])) {
@@ -215,10 +220,11 @@ class ResearchGroupController extends Controller
                 }
             }
         }
-        // sync ความสัมพันธ์ของ users กับ researchGroup โดยอัปเดต pivot table
+    
+        // sync ความสัมพันธ์ของ users กับ researchGroup
         $researchGroup->user()->sync($membersPivot);
     
-        // ส่วนของ Visiting Scholars (แก้ไขการ sync ตามที่แนะนำไว้ก่อนหน้า)
+        // ส่วนของ Visiting Scholars
         if ($request->has('visiting')) {
             $newVisiting = [];
             foreach ($request->visiting as $key => $visiting) {
@@ -227,7 +233,6 @@ class ResearchGroupController extends Controller
                     isset($visiting['last_name']) && trim($visiting['last_name']) !== ''
                 ) {
                     $author = Author::find($visiting['author_id']) ?? new Author();
-    
                     $author->author_fname = $visiting['first_name'];
                     $author->author_lname = $visiting['last_name'];
                     $author->belong_to = $visiting['affiliation'] ?? '';
@@ -238,9 +243,7 @@ class ResearchGroupController extends Controller
                         $file->move(public_path('images/imag_user'), $filename);
                         $author->picture = $filename;
                     }
-    
                     $author->save();
-    
                     $newVisiting[$author->id] = ['role' => 4, 'can_edit' => 0];
                 } else {
                     return redirect()->back()->withErrors(['error' => 'First name and last name are required.']);
