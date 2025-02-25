@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.1.1 (Python 3.13.1 on win32)" generated="2025-02-24T22:24:39.460168" rpa="false" schemaversion="5">
+<suite id="s1" name="testRobot" source="c:\Users\WINDOWS\Documents\GitHub\git-group-repository-group-3-sec-2-v-2\Test\testRobot.robot">
+<test id="s1-t1" name="TC005 Public Research Page" line="38">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-02-24T22:24:39.856910" level="INFO">Cannot capture screenshot because no browser is open.</msg>
+<msg time="2025-02-24T22:24:39.860448" level="FAIL">No browser is open.</msg>
+<arg>xpath=//a[contains(text(),'Published research')]</arg>
+<arg>timeout=60s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="FAIL" start="2025-02-24T22:24:39.855820" elapsed="0.010175">No browser is open.</status>
+</kw>
+<kw name="Scroll Element Into View" owner="SeleniumLibrary">
+<arg>xpath=//a[contains(text(),'Published research')]</arg>
+<doc>Scrolls the element identified by ``locator`` into view.</doc>
+<status status="NOT RUN" start="2025-02-24T22:24:39.871392" elapsed="0.000260"/>
+</kw>
+<kw name="Wait Until Element Is Enabled" owner="SeleniumLibrary">
+<arg>xpath=//a[contains(text(),'Published research')]</arg>
+<arg>timeout=10s</arg>
+<doc>Waits until the element ``locator`` is enabled.</doc>
+<status status="NOT RUN" start="2025-02-24T22:24:39.873133" elapsed="0.000228"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<arg>xpath=//a[contains(text(),'Published research')]</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="NOT RUN" start="2025-02-24T22:24:39.874926" elapsed="0.002090"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="NOT RUN" start="2025-02-24T22:24:39.878263" elapsed="0.000214"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<arg>*** Checking URL ***</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="NOT RUN" start="2025-02-24T22:24:39.881006" elapsed="0.000144"/>
+</kw>
+<kw name="Wait Until Location Contains" owner="SeleniumLibrary">
+<arg>/papers</arg>
+<arg>timeout=60s</arg>
+<doc>Waits until the current URL contains ``expected``.</doc>
+<status status="NOT RUN" start="2025-02-24T22:24:39.882898" elapsed="0.000287"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Published Research</arg>
+<arg>timeout=60s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="NOT RUN" start="2025-02-24T22:24:39.884326" elapsed="0.000134"/>
+</kw>
+<doc>ตรวจสอบว่าหน้า Published Research เปิดขึ้นสำเร็จ</doc>
+<status status="FAIL" start="2025-02-24T22:24:39.852284" elapsed="0.033225">No browser is open.</status>
+</test>
+<status status="FAIL" start="2025-02-24T22:24:39.467686" elapsed="0.421439"/>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" skip="0" id="s1" name="testRobot">testRobot</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
