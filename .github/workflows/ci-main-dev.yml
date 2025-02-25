@@ -44,11 +44,11 @@ jobs:
         run: php artisan key:generate
 
       # Setup SQLite database
-      - name: Setup SQLite database for testing
-        working-directory: InitialProject/src
-        run: |
-          touch /tmp/database.sqlite
-          php artisan migrate --force
+      # - name: Setup SQLite database for testing
+      #   working-directory: InitialProject/src
+      #   run: |
+      #     touch /tmp/database.sqlite
+      #     php artisan migrate --force
 
       # Run Laravel tests
       - name: Run Laravel tests
