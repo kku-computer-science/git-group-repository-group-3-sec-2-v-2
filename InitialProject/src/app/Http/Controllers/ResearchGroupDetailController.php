@@ -10,21 +10,36 @@ use Illuminate\Http\Request;
 
 class ResearchGroupDetailController extends Controller
 {
+
     public function request($id)
     {
-        // ดึงข้อมูลกลุ่มวิจัยพร้อมความสัมพันธ์ที่ต้องการ
-        $researchGroup = ResearchGroup::with(['User.paper' => function ($query) {
-            return $query->orderBy('paper_yearpub', 'DESC');
-        }])->findOrFail($id);
+        $researchGroup = ResearchGroup::with([
+            'user.paper' => function ($query) {
+                return $query->orderBy('paper_yearpub', 'DESC');
+            },
+            'visitingScholars'
+        ])->findOrFail($id);
 
-        // ตรวจสอบว่ามีค่า link หรือไม่ ถ้ามีให้ re‑direct ไปยัง URL นั้น
         if (!empty($researchGroup->link)) {
             return redirect()->away($researchGroup->link);
         }
+        $researchGroup->user = $researchGroup->user->map(function ($user) {
+            $user->role = $user->pivot->role;
+            $user->can_edit = $user->pivot->can_edit;
+            $user->author_id = $user->pivot->author_id;
+            return $user;
+        });
 
-        // หากไม่มี link ส่งข้อมูลออกไปยัง view โดยห่อด้วย collection เพื่อให้เข้ากับการวนลูปใน view เดิม
+        $researchGroup->visitingScholars = $researchGroup->visitingScholars->map(function ($author) {
+            $author->author_id = $author->pivot->author_id;
+            return $author;
+        });
+
+        // dd($researchGroup);
+
         return view('researchgroupdetail', ['resgd' => collect([$researchGroup])]);
     }
+
 
     // ฟังก์ชัน user() ด้านล่างนี้ดูเหมือนจะไม่ใช่ส่วนที่เกี่ยวข้องกับ Controller
     // ควรอยู่ใน Model แต่หากยังคงใช้งานก็สามารถไว้ได้
