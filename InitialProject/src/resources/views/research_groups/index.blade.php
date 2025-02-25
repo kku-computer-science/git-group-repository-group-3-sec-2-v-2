@@ -20,6 +20,7 @@
                         <th>Group name (ไทย)</th>
                         <th>Head</th>
                         <th>Member</th>
+                        <th>Visiting</th>
                         <th width="280px">Action</th>
                     </tr>
                 </thead>
@@ -40,6 +41,11 @@
                                 @if ($user->pivot->role == 2)
                                     {{ $user->fname_th }}@if (!$loop->last), @endif
                                 @endif
+                            @endforeach
+                        </td>
+                        <td>
+                            @foreach($researchGroup->visitingScholars as $visiting)
+                                {{ $visiting->author_fname }} @if(!$loop->last), @endif
                             @endforeach
                         </td>
                         <td>
