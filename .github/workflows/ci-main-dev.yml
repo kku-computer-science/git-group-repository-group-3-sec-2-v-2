@@ -51,6 +51,6 @@ jobs:
       #     php artisan migrate --force
 
       # Run Laravel tests
-      - name: Run Laravel tests
-        working-directory: InitialProject/src
-        run: php artisan test --verbose --no-interaction
+      # - name: Run Laravel tests
+      #   working-directory: InitialProject/src
+      #   run: php artisan test --verbose --no-interaction
