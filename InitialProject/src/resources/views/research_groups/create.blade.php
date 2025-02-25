@@ -3,7 +3,7 @@
 <div class="container">
     @if ($errors->any())
         <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
+            <strong>Whoops!</strong> พบปัญหาบางอย่างกับข้อมูลที่คุณกรอก<br><br>
             <ul>
                 @foreach ($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -21,11 +21,7 @@
             <form action="{{ route('researchGroups.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
-                <!-- =====================
-                     1) ข้อมูลกลุ่มวิจัยพื้นฐาน (8 ฟิลด์)
-                ====================== -->
-
-                <!-- (1) group_name_th / group_name_en -->
+                <!-- 1) ข้อมูลกลุ่มวิจัยพื้นฐาน (8 ฟิลด์) -->
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>ชื่อกลุ่มวิจัย (ภาษาไทย)</b></label>
                     <div class="col-sm-8">
@@ -39,7 +35,6 @@
                     </div>
                 </div>
 
-                <!-- (2) group_main_research_th / group_main_research_en -->
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>หัวข้อการวิจัยหลัก (ภาษาไทย)</b></label>
                     <div class="col-sm-8">
@@ -53,7 +48,6 @@
                     </div>
                 </div>
 
-                <!-- (3) group_desc_th / group_desc_en -->
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>คำอธิบายกลุ่มวิจัย (ภาษาไทย)</b></label>
                     <div class="col-sm-8">
@@ -67,7 +61,6 @@
                     </div>
                 </div>
 
-                <!-- (4) group_detail_th / group_detail_en -->
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>รายละเอียดกลุ่มวิจัย (ภาษาไทย)</b></label>
                     <div class="col-sm-8">
@@ -85,7 +78,7 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>Image</b></label>
                     <div class="col-sm-8">
-                        <input type="file" name="group_image" class="form-control">
+                        <input type="file" name="group_image" class="form-control" accept="image/*">
                     </div>
                 </div>
 
@@ -100,9 +93,7 @@
                     </div>
                 </div>
 
-                <!-- =====================
-                     2) หัวหน้ากลุ่มวิจัย (role=1)
-                ======================-->
+                <!-- 2) หัวหน้ากลุ่มวิจัย (role=1) -->
                 @if(auth()->user()->hasAnyRole(['admin','staff']))
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label"><b>หัวหน้ากลุ่มวิจัย</b></label>
@@ -120,9 +111,7 @@
                     <input type="hidden" name="head" value="{{ auth()->id() }}">
                 @endif
 
-                <!-- =====================
-                     3) สมาชิกกลุ่มวิจัย (role=2/3)
-                ======================-->
+                <!-- 3) สมาชิกกลุ่มวิจัย (role=2/3) -->
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label pt-4"><b>สมาชิกกลุ่มวิจัย</b></label>
                     <div class="col-sm-8">
@@ -138,15 +127,12 @@
                     </div>
                 </div>
 
-                <!-- =====================
-                     4) นักวิจัยรับเชิญ (Visiting Scholars)
-                     ปรับ UI: แบ่งออกเป็น 3 บรรทัด (รายชื่อ, ชื่อ-นามสกุล, สังกัด-อัปโหลดรูป)
-                ======================-->
+                <!-- 4) นักวิจัยรับเชิญ (Visiting Scholars) -->
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label pt-4"><b>นักวิจัยรับเชิญ</b></label>
                     <div class="col-sm-8">
                         <div id="visitingContainer">
-                            <!-- Visiting Scholar entry จะถูกแทรกที่นี่ -->
+                            <!-- Entry สำหรับ Visiting Scholar จะถูกแทรกในที่นี่ -->
                         </div>
                         <button type="button" id="add-btn-visiting" class="btn btn-success btn-sm mt-2">
                             <i class="mdi mdi-plus"></i> เพิ่มนักวิจัยรับเชิญ
@@ -154,7 +140,7 @@
                     </div>
                 </div>
 
-                <!-- ปุ่ม Submit -->
+                <!-- ปุ่ม Submit / Back -->
                 <div class="form-group row mt-4">
                     <div class="col-sm-8 offset-sm-3">
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -225,12 +211,6 @@
 
             $("#dynamicAddRemove").append(rowHtml);
             $("#selUser" + index).select2();
-            if(userId) {
-                $("#selUser" + index).val(userId).trigger("change");
-            }
-            if(roleVal) {
-                $("#dynamicAddRemove tr:last .role-select").val(roleVal);
-            }
         }
 
         $(document).on("click", ".remove-tr", function() {
@@ -242,7 +222,6 @@
             var userType = $userSelect.find(":selected").data("usertype");
             var $row = $userSelect.closest("tr");
             var $roleSelect = $row.find(".role-select");
-
             if(userType === "student") {
                 $roleSelect.val("2").trigger("change");
                 $roleSelect.prop("disabled", true);
@@ -254,6 +233,27 @@
                 $roleSelect.find("option[value='3']").show();
             }
         });
+
+        function updateMemberOptions() {
+            var selectedValues = [];
+            $(".member-select").each(function() {
+                var value = $(this).val();
+                if(value) {
+                    selectedValues.push(value);
+                }
+            });
+            $(".member-select").each(function() {
+                var $this = $(this);
+                $this.find("option").each(function() {
+                    if(selectedValues.indexOf($(this).val()) !== -1 && $(this).val() !== $this.val()){
+                        $(this).prop("disabled", true);
+                    } else {
+                        $(this).prop("disabled", false);
+                    }
+                });
+                $this.trigger('change.select2');
+            });
+        }
 
         // ----------- นักวิจัยรับเชิญ (Visiting Scholars) -----------
         var v = 0;
@@ -283,7 +283,7 @@
             entryHtml += "    <input type='text' name='visiting[" + v + "][last_name]' class='form-control visiting-last-name' placeholder='นามสกุล'>";
             entryHtml += "  </div>";
             entryHtml += "</div>";
-            // บรรทัดที่สาม: สังกัดและอัปโหลดรูป
+            // บรรทัดที่สาม: สังกัดและอัปโหลดรูป (รับเฉพาะไฟล์รูป)
             entryHtml += "<div class='form-row'>";
             entryHtml += "  <div class='form-group col-md-6'>";
             entryHtml += "    <label>สังกัด</label>";
@@ -291,13 +291,14 @@
             entryHtml += "  </div>";
             entryHtml += "  <div class='form-group col-md-6'>";
             entryHtml += "    <label>อัปโหลดรูป</label>";
-            entryHtml += "    <input type='file' name='visiting[" + v + "][picture]' class='form-control'>";
+            entryHtml += "    <input type='file' name='visiting[" + v + "][picture]' class='form-control' accept='image/*'>";
             entryHtml += "  </div>";
             entryHtml += "</div>";
             entryHtml += "<button type='button' class='btn btn-danger btn-sm remove-visiting'>ลบ</button>";
             entryHtml += "</div>";
 
             $("#visitingContainer").append(entryHtml);
+            updateVisitingOptions();
         });
 
         $(document).on("change", ".visiting-author-select", function() {
@@ -307,19 +308,42 @@
                 var firstName = $(this).find("option:selected").data("first_name");
                 var lastName = $(this).find("option:selected").data("last_name");
                 var affiliation = $(this).find("option:selected").data("affiliation");
-                $entry.find(".visiting-first-name").val(firstName).prop("readonly", true);
-                $entry.find(".visiting-last-name").val(lastName).prop("readonly", true);
-                $entry.find(".visiting-affiliation").val(affiliation).prop("readonly", true);
+                $entry.find(".visiting-first-name").val(firstName).prop("readonly", false);
+                $entry.find(".visiting-last-name").val(lastName).prop("readonly", false);
+                $entry.find(".visiting-affiliation").val(affiliation).prop("readonly", false);
             } else {
                 $entry.find(".visiting-first-name").val("").prop("readonly", false);
                 $entry.find(".visiting-last-name").val("").prop("readonly", false);
                 $entry.find(".visiting-affiliation").val("").prop("readonly", false);
             }
+            updateVisitingOptions();
         });
 
         $(document).on("click", ".remove-visiting", function() {
             $(this).closest(".visiting-scholar-entry").remove();
+            updateVisitingOptions();
         });
+
+        function updateVisitingOptions() {
+            var selectedValues = [];
+            $(".visiting-author-select").each(function() {
+                var value = $(this).val();
+                if(value && value !== "manual") {
+                    selectedValues.push(value);
+                }
+            });
+            $(".visiting-author-select").each(function() {
+                var $this = $(this);
+                $this.find("option").each(function() {
+                    if(selectedValues.indexOf($(this).val()) !== -1 && $(this).val() !== $this.val()){
+                        $(this).prop("disabled", true);
+                    } else {
+                        $(this).prop("disabled", false);
+                    }
+                });
+                $this.trigger('change.select2');
+            });
+        }
     });
 </script>
 @stop

@@ -82,7 +82,7 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>Image</b></label>
                     <div class="col-sm-8">
-                        <input type="file" name="group_image" class="form-control">
+                        <input type="file" name="group_image" class="form-control" accept="image/*">
                         @if($researchGroup->group_image)
                             <div class="mt-2">
                                 <img src="{{ asset('img/' . $researchGroup->group_image) }}" alt="Group Image" width="100">
@@ -191,7 +191,7 @@
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <label>อัปโหลดรูป</label>
-                                                <input type="file" name="visiting[{{ $key }}][picture]" class="form-control">
+                                                <input type="file" name="visiting[{{ $key }}][picture]" class="form-control" accept="image/*">
                                                 @if($scholar->picture)
                                                     <div class="mt-2">
                                                         <img src="{{ asset('images/imag_user/' . $scholar->picture) }}" alt="Visiting Scholar Image" width="80">
@@ -229,7 +229,7 @@
         // Initialize select2 สำหรับหัวหน้ากลุ่ม
         $("#head0").select2();
 
-        // สมาชิกกลุ่มวิจัย (role=2/3)
+        // ----------- สมาชิกกลุ่มวิจัย (Members) -----------
         var researchGroupUsers = @json($researchGroup->user);
         var i = 0;
         for (var idx = 0; idx < researchGroupUsers.length; idx++) {
@@ -247,6 +247,7 @@
 
         function appendMemberRow(index, userId, roleVal, canEditVal) {
             var rowHtml = "<tr>";
+            // เลือก User
             rowHtml += "  <td>";
             rowHtml += "    <select id=\"selUser" + index + "\" name=\"moreFields[" + index + "][userid]\" class=\"member-select form-control\" style=\"width:200px;\">";
             rowHtml += "      <option value=\"\">Select User</option>";
@@ -257,17 +258,19 @@
             @endforeach
             rowHtml += "    </select>";
             rowHtml += "  </td>";
+            // Role
             rowHtml += "  <td>";
             rowHtml += "    <select name=\"moreFields[" + index + "][role]\" class=\"form-control role-select\" style=\"width:220px;\">";
             rowHtml += "      <option value=\"2\">Researcher</option>";
             rowHtml += "      <option value=\"3\">Postdoctoral Researcher</option>";
             rowHtml += "    </select>";
             rowHtml += "  </td>";
+            // can_edit
             if ("{{ auth()->user()->hasRole('admin') }}" == "1") {
                 rowHtml += "  <td>";
                 rowHtml += "    <select name=\"moreFields[" + index + "][can_edit]\" class=\"form-control\" style=\"width:120px;\">";
                 rowHtml += "      <option value=\"1\">Can Edit</option>";
-                rowHtml += "      <option value=\"0\">Can't Edit</option>";
+                rowHtml += "      <option value=\"0\" selected>Can't Edit</option>";
                 rowHtml += "    </select>";
                 rowHtml += "  </td>";
             } else {
@@ -277,6 +280,7 @@
                 rowHtml += numVal === 1 ? "<small style='color:green;'>Can Edit</small>" : "<small style='color:gray;'>No Edit</small>";
                 rowHtml += "  </td>";
             }
+            // ปุ่มลบ
             rowHtml += "  <td>";
             rowHtml += "    <button type=\"button\" class=\"btn btn-danger btn-sm remove-tr\"><i class=\"mdi mdi-minus\"></i></button>";
             rowHtml += "  </td>";
@@ -284,37 +288,12 @@
 
             $("#dynamicAddRemove").append(rowHtml);
             $("#selUser" + index).select2();
-            if (userId) {
-                $("#selUser" + index).val(userId).trigger("change");
-            }
-            if (roleVal) {
-                $("#dynamicAddRemove tr:last .role-select").val(roleVal);
-            }
-            updateMemberOptions();
-            checkUserType("#selUser" + index);
         }
 
         $(document).on("click", ".remove-tr", function() {
             $(this).closest("tr").remove();
             updateMemberOptions();
         });
-
-        function checkUserType(selector) {
-            var $userSelect = $(selector);
-            var userType    = $userSelect.find(":selected").data("usertype");
-            var $row        = $userSelect.closest("tr");
-            var $roleSelect = $row.find(".role-select");
-            if (userType === "student") {
-                $roleSelect.val("2").trigger("change");
-                $roleSelect.prop("disabled", true);
-                $roleSelect.find("option[value='2']").text("Student");
-                $roleSelect.find("option[value='3']").hide();
-            } else {
-                $roleSelect.prop("disabled", false);
-                $roleSelect.find("option[value='2']").text("Researcher");
-                $roleSelect.find("option[value='3']").show();
-            }
-        }
 
         function updateMemberOptions() {
             var selectedValues = [];
@@ -338,11 +317,10 @@
         }
 
         $(document).on("change", ".member-select", function() {
-            checkUserType(this);
             updateMemberOptions();
         });
 
-        // ส่วน Visiting Scholars (UI ใหม่: แบ่งเป็น 3 บรรทัด)
+        // ----------- นักวิจัยรับเชิญ (Visiting Scholars) -----------
         var v = {{ $researchGroup->visitingScholars->count() }};
         $("#add-btn-visiting").click(function() {
             v++;
@@ -359,7 +337,7 @@
             @endforeach
             entryHtml += "  </select>";
             entryHtml += "</div>";
-            // บรรทัดที่สอง: ชื่อ และ นามสกุล
+            // บรรทัดที่สอง: ชื่อและนามสกุล
             entryHtml += "<div class='form-row'>";
             entryHtml += "  <div class='form-group col-md-6'>";
             entryHtml += "    <label>ชื่อ</label>";
@@ -370,7 +348,7 @@
             entryHtml += "    <input type='text' name='visiting[" + v + "][last_name]' class='form-control visiting-last-name' placeholder='นามสกุล'>";
             entryHtml += "  </div>";
             entryHtml += "</div>";
-            // บรรทัดที่สาม: สังกัด และ อัปโหลดรูป
+            // บรรทัดที่สาม: สังกัดและอัปโหลดรูป (รับเฉพาะไฟล์รูป)
             entryHtml += "<div class='form-row'>";
             entryHtml += "  <div class='form-group col-md-6'>";
             entryHtml += "    <label>สังกัด</label>";
@@ -378,20 +356,42 @@
             entryHtml += "  </div>";
             entryHtml += "  <div class='form-group col-md-6'>";
             entryHtml += "    <label>อัปโหลดรูป</label>";
-            entryHtml += "    <input type='file' name='visiting[" + v + "][picture]' class='form-control'>";
+            entryHtml += "    <input type='file' name='visiting[" + v + "][picture]' class='form-control' accept='image/*'>";
             entryHtml += "  </div>";
             entryHtml += "</div>";
             entryHtml += "<button type='button' class='btn btn-danger btn-sm remove-visiting'>ลบ</button>";
             entryHtml += "</div>";
 
             $("#visitingContainer").append(entryHtml);
+            updateVisitingOptions();
         });
 
-        // แสดงข้อมูลจาก dropdown ใน Visiting Scholar entry
+        // ป้องกันไม่ให้เลือก Visiting Scholar ซ้ำกัน
+        function updateVisitingOptions() {
+            var selectedVisiting = [];
+            $(".visiting-author-select").each(function() {
+                var val = $(this).val();
+                if(val && val !== "manual") {
+                    selectedVisiting.push(val);
+                }
+            });
+            $(".visiting-author-select").each(function() {
+                var $this = $(this);
+                $this.find("option").each(function() {
+                    if(selectedVisiting.indexOf($(this).val()) !== -1 && $(this).val() !== $this.val()){
+                        $(this).prop("disabled", true);
+                    } else {
+                        $(this).prop("disabled", false);
+                    }
+                });
+            });
+        }
+
         $(document).on("change", ".visiting-author-select", function() {
+            updateVisitingOptions();
             var selectedVal = $(this).val();
             var $entry = $(this).closest(".visiting-scholar-entry");
-            if (selectedVal && selectedVal !== "manual") {
+            if(selectedVal && selectedVal !== "manual") {
                 var firstName = $(this).find("option:selected").data("first_name");
                 var lastName = $(this).find("option:selected").data("last_name");
                 var affiliation = $(this).find("option:selected").data("affiliation");
@@ -407,6 +407,7 @@
 
         $(document).on("click", ".remove-visiting", function() {
             $(this).closest(".visiting-scholar-entry").remove();
+            updateVisitingOptions();
         });
     });
 </script>
