@@ -48,7 +48,31 @@
                 <p class="card-text col-sm-3"><b>สมาชิกกลุ่มวิจัย</b></p>
                 <p class="card-text col-sm-9">
                     @foreach($researchGroup->user as $user)
-                        @if($user->pivot->role == 2)
+                        @if($user->pivot->role == 2 && !$user->hasRole('student'))
+                            {{ $user->position_th ?? '' }} {{ $user->fname_th }} {{ $user->lname_th }}@if(!$loop->last), @endif
+                        @endif
+                    @endforeach
+                </p>
+            </div>
+
+            <!-- นักศึกษา -->
+            <div class="row mt-2">
+                <p class="card-text col-sm-3"><b>นักศึกษา</b></p>
+                <p class="card-text col-sm-9">
+                    @foreach($researchGroup->user as $user)
+                        @if($user->pivot->role == 2 && $user->hasRole('student'))
+                            {{ $user->position_th ?? '' }} {{ $user->fname_th }} {{ $user->lname_th }}@if(!$loop->last), @endif
+                        @endif
+                    @endforeach
+                </p>
+            </div>
+
+            <!-- นักวิจัยหลังปริญญาเอก -->
+            <div class="row mt-2">
+                <p class="card-text col-sm-3"><b>นักวิจัยหลังปริญญาเอก</b></p>
+                <p class="card-text col-sm-9">
+                    @foreach($researchGroup->user as $user)
+                        @if($user->pivot->role == 3)
                             {{ $user->position_th ?? '' }} {{ $user->fname_th }} {{ $user->lname_th }}@if(!$loop->last), @endif
                         @endif
                     @endforeach

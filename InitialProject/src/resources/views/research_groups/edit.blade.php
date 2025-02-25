@@ -247,7 +247,6 @@
 
         function appendMemberRow(index, userId, roleVal, canEditVal) {
             var rowHtml = "<tr>";
-            // เลือก User
             rowHtml += "  <td>";
             rowHtml += "    <select id=\"selUser" + index + "\" name=\"moreFields[" + index + "][userid]\" class=\"member-select form-control\" style=\"width:200px;\">";
             rowHtml += "      <option value=\"\">Select User</option>";
@@ -258,19 +257,17 @@
             @endforeach
             rowHtml += "    </select>";
             rowHtml += "  </td>";
-            // Role
             rowHtml += "  <td>";
             rowHtml += "    <select name=\"moreFields[" + index + "][role]\" class=\"form-control role-select\" style=\"width:220px;\">";
             rowHtml += "      <option value=\"2\">Researcher</option>";
             rowHtml += "      <option value=\"3\">Postdoctoral Researcher</option>";
             rowHtml += "    </select>";
             rowHtml += "  </td>";
-            // can_edit
             if ("{{ auth()->user()->hasRole('admin') }}" == "1") {
                 rowHtml += "  <td>";
                 rowHtml += "    <select name=\"moreFields[" + index + "][can_edit]\" class=\"form-control\" style=\"width:120px;\">";
                 rowHtml += "      <option value=\"1\">Can Edit</option>";
-                rowHtml += "      <option value=\"0\" selected>Can't Edit</option>";
+                rowHtml += "      <option value=\"0\">Can't Edit</option>";
                 rowHtml += "    </select>";
                 rowHtml += "  </td>";
             } else {
@@ -280,7 +277,6 @@
                 rowHtml += numVal === 1 ? "<small style='color:green;'>Can Edit</small>" : "<small style='color:gray;'>No Edit</small>";
                 rowHtml += "  </td>";
             }
-            // ปุ่มลบ
             rowHtml += "  <td>";
             rowHtml += "    <button type=\"button\" class=\"btn btn-danger btn-sm remove-tr\"><i class=\"mdi mdi-minus\"></i></button>";
             rowHtml += "  </td>";
@@ -288,10 +284,61 @@
 
             $("#dynamicAddRemove").append(rowHtml);
             $("#selUser" + index).select2();
+            if (userId) {
+                $("#selUser" + index).val(userId).trigger("change");
+            }
+            if (roleVal) {
+                $("#dynamicAddRemove tr:last .role-select").val(roleVal);
+            }
+            updateMemberOptions();
+            checkUserType("#selUser" + index);
         }
 
         $(document).on("click", ".remove-tr", function() {
             $(this).closest("tr").remove();
+            updateMemberOptions();
+        });
+
+        function checkUserType(selector) {
+            var $userSelect = $(selector);
+            var userType    = $userSelect.find(":selected").data("usertype");
+            var $row        = $userSelect.closest("tr");
+            var $roleSelect = $row.find(".role-select");
+            if (userType === "student") {
+                $roleSelect.val("2").trigger("change");
+                $roleSelect.prop("disabled", true);
+                $roleSelect.find("option[value='2']").text("Student");
+                $roleSelect.find("option[value='3']").hide();
+            } else {
+                $roleSelect.prop("disabled", false);
+                $roleSelect.find("option[value='2']").text("Researcher");
+                $roleSelect.find("option[value='3']").show();
+            }
+        }
+
+        function updateMemberOptions() {
+            var selectedValues = [];
+            $(".member-select").each(function() {
+                var value = $(this).val();
+                if (value) {
+                    selectedValues.push(value);
+                }
+            });
+            $(".member-select").each(function() {
+                var $this = $(this);
+                $this.find("option").each(function() {
+                    if (selectedValues.indexOf($(this).val()) !== -1 && $(this).val() !== $this.val()){
+                        $(this).prop("disabled", true);
+                    } else {
+                        $(this).prop("disabled", false);
+                    }
+                });
+                $this.trigger('change.select2');
+            });
+        }
+
+        $(document).on("change", ".member-select", function() {
+            checkUserType(this);
             updateMemberOptions();
         });
 

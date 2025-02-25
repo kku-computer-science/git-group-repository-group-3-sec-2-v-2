@@ -273,6 +273,7 @@
                     </a>
                     <div class="person-info">
                         <p>{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        <p>{{ $scholar->belong_to }}</p>
                     </div>
                 </div>
             </div>
