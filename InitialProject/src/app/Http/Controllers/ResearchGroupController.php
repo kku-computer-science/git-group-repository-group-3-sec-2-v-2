@@ -107,31 +107,102 @@ class ResearchGroupController extends Controller
         // Visiting Scholars
         if ($request->has('visiting')) {
             foreach ($request->visiting as $key => $visiting) {
-                // If selected from dropdown and not "manual"
+                // กรณีเลือกจาก dropdown ที่มีค่า author_id (และไม่ใช่ manual)
                 if (isset($visiting['author_id']) && $visiting['author_id'] !== '' && $visiting['author_id'] !== 'manual') {
-                    $researchGroup->visitingScholars()->attach($visiting['author_id'], [
-                        'role'     => 4,
-                        'can_edit' => 0, // กำหนดค่า default ถ้าจำเป็น
-                    ]);
-                } else {
-                    // Manual entry: create new Author
-                    $newAuthor = new Author();
-                    $newAuthor->author_fname = $visiting['first_name'] ?? '';
-                    $newAuthor->author_lname = $visiting['last_name'] ?? '';
-                    $newAuthor->belong_to    = $visiting['affiliation'] ?? '';
-
-                    // ตรวจสอบการอัปโหลดรูปสำหรับ Visiting Scholar
-                    if ($request->hasFile("visiting.$key.picture")) {
-                        $file = $request->file("visiting.$key.picture");
-                        $filename = time() . '_' . $file->getClientOriginalName();
-                        $file->move(public_path('images/imag_user'), $filename);
-                        $newAuthor->picture = $filename;
+                    $author = Author::find($visiting['author_id']);
+                    if ($author) {
+                        // หากข้อมูลใน form (manual fields) มีการส่งมาด้วยและไม่ตรงกับ DB ให้ update Author
+                        $updated = false;
+                        if (!empty($visiting['first_name']) && $author->author_fname !== $visiting['first_name']) {
+                            $author->author_fname = $visiting['first_name'];
+                            $updated = true;
+                        }
+                        if (!empty($visiting['last_name']) && $author->author_lname !== $visiting['last_name']) {
+                            $author->author_lname = $visiting['last_name'];
+                            $updated = true;
+                        }
+                        if (!empty($visiting['affiliation']) && $author->belong_to !== $visiting['affiliation']) {
+                            $author->belong_to = $visiting['affiliation'];
+                            $updated = true;
+                        }
+                        // ตรวจสอบไฟล์รูป
+                        if ($request->hasFile("visiting.$key.picture")) {
+                            $file = $request->file("visiting.$key.picture");
+                            if ($file->isValid()) {
+                                $destinationPath = public_path('images/imag_user');
+                                if (!file_exists($destinationPath)) {
+                                    mkdir($destinationPath, 0777, true);
+                                }
+                                $filename = time() . '_' . uniqid() . '.' . $file->extension();
+                                $file->move($destinationPath, $filename);
+                                $author->picture = $filename;
+                                $updated = true;
+                            }
+                        }
+                        if ($updated) {
+                            $author->save();
+                        }
+                        // ผูกความสัมพันธ์กับ pivot role=4
+                        $researchGroup->visitingScholars()->syncWithoutDetaching([
+                            $author->id => ['role' => 4, 'can_edit' => 0]
+                        ]);
                     }
-                    $newAuthor->save();
-                    $researchGroup->visitingScholars()->attach($newAuthor->id, [
-                        'role'     => 4,
-                        'can_edit' => 0,
-                    ]);
+                } else {
+                    // กรณี "เพิ่มด้วยตัวเอง" (manual)
+                    // ลองค้นหา Author โดยอิงจาก first_name และ last_name
+                    $existingAuthor = Author::where('author_fname', $visiting['first_name'] ?? '')
+                        ->where('author_lname', $visiting['last_name'] ?? '')
+                        ->first();
+                    if ($existingAuthor) {
+                        // หากพบแล้ว ให้ตรวจสอบและอัปเดตข้อมูลที่แตกต่าง
+                        $updated = false;
+                        if (!empty($visiting['affiliation']) && $existingAuthor->belong_to !== $visiting['affiliation']) {
+                            $existingAuthor->belong_to = $visiting['affiliation'];
+                            $updated = true;
+                        }
+                        if ($request->hasFile("visiting.$key.picture")) {
+                            $file = $request->file("visiting.$key.picture");
+                            if ($file->isValid()) {
+                                $destinationPath = public_path('images/imag_user');
+                                if (!file_exists($destinationPath)) {
+                                    mkdir($destinationPath, 0777, true);
+                                }
+                                $filename = time() . '_' . uniqid() . '.' . $file->extension();
+                                $file->move($destinationPath, $filename);
+                                $existingAuthor->picture = $filename;
+                                $updated = true;
+                            }
+                        }
+                        if ($updated) {
+                            $existingAuthor->save();
+                        }
+                        $researchGroup->visitingScholars()->syncWithoutDetaching([
+                            $existingAuthor->id => ['role' => 4, 'can_edit' => 0]
+                        ]);
+                    } else {
+                        // หากไม่พบ ให้สร้าง Author ใหม่
+                        $newAuthor = new Author();
+                        $newAuthor->author_fname = $visiting['first_name'] ?? '';
+                        $newAuthor->author_lname = $visiting['last_name'] ?? '';
+                        $newAuthor->belong_to    = $visiting['affiliation'] ?? '';
+
+                        if ($request->hasFile("visiting.$key.picture")) {
+                            $file = $request->file("visiting.$key.picture");
+                            if ($file->isValid()) {
+                                $destinationPath = public_path('images/imag_user');
+                                if (!file_exists($destinationPath)) {
+                                    mkdir($destinationPath, 0777, true);
+                                }
+                                $filename = time() . '_' . uniqid() . '.' . $file->extension();
+                                $file->move($destinationPath, $filename);
+                                $newAuthor->picture = $filename;
+                            }
+                        }
+                        $newAuthor->save();
+                        $researchGroup->visitingScholars()->syncWithoutDetaching([
+                            $newAuthor->id => ['role' => 4, 'can_edit' => 0]
+                        ]);
+                    }
                 }
             }
         }
@@ -177,7 +248,7 @@ class ResearchGroupController extends Controller
             'link'          => 'nullable|url',
         ]);
 
-        // อัปเดตฟิลด์
+        // อัปเดตฟิลด์พื้นฐาน
         $researchGroup->group_name_th   = $request->group_name_th;
         $researchGroup->group_name_en   = $request->group_name_en;
         $researchGroup->group_detail_th = $request->group_detail_th;
@@ -186,7 +257,7 @@ class ResearchGroupController extends Controller
         $researchGroup->group_desc_en   = $request->group_desc_en;
         $researchGroup->group_main_research_en = $request->group_main_research_en;
         $researchGroup->group_main_research_th = $request->group_main_research_th;
-        // etc.
+
         if ($request->hasFile('group_image')) {
             $filename = time() . '.' . $request->file('group_image')->extension();
             $request->file('group_image')->move(public_path('img'), $filename);
@@ -195,16 +266,8 @@ class ResearchGroupController extends Controller
         $researchGroup->link = $request->link;
         $researchGroup->save();
 
-        // เก็บ pivot เดิมใน array
-        $oldPivot = [];
-        foreach ($researchGroup->user as $u) {
-            $oldPivot[$u->id] = [
-                'role'     => $u->pivot->role,
-                'can_edit' => $u->pivot->can_edit,
-            ];
-        }
-
-        // ลบ pivot เดิม
+        // เก็บ pivot เดิมสำหรับหัวหน้าและสมาชิกอื่น ๆ
+        // (ส่วนนี้ยังคงใช้วิธี detach แล้ว attach ใหม่สำหรับ user pivot)
         $researchGroup->user()->detach();
 
         // แนบหัวหน้ากลุ่ม (role=1)
@@ -215,49 +278,125 @@ class ResearchGroupController extends Controller
             ]);
         }
 
-        // แนบสมาชิก
+        // แนบสมาชิกกลุ่มวิจัย (role=2/3)
         if ($request->has('moreFields')) {
             foreach ($request->moreFields as $field) {
                 $userId = $field['userid'] ?? null;
                 if (!$userId) continue;
-
-                // Fallback role
-                if (isset($field['role'])) {
-                    $role = $field['role'];
-                } else {
-                    $role = $oldPivot[$userId]['role'] ?? 2;
-                }
-
-                // Fallback can_edit
-                // ถ้ามี can_edit ส่งมา แต่เป็น "" -> ถือว่าไม่มีจริง ให้ใช้ค่าปริยาย
-                if (array_key_exists('can_edit', $field)) {
-                    if ($field['can_edit'] === '') {
-                        // ถ้าเป็น string ว่าง
-                        $canEdit = $oldPivot[$userId]['can_edit'] ?? 0;
-                    } else {
-                        $canEdit = $field['can_edit'];
-                    }
-                } else {
-                    // ถ้าไม่มี can_edit key เลย => fallback ค่าเดิม
-                    $canEdit = $oldPivot[$userId]['can_edit'] ?? 0;
-                }
-
-
+                $role     = isset($field['role']) ? $field['role'] : 2;
+                $can_edit = array_key_exists('can_edit', $field) && $field['can_edit'] !== '' ? $field['can_edit'] : 0;
                 $researchGroup->user()->attach($userId, [
                     'role'     => $role,
-                    'can_edit' => $canEdit,
+                    'can_edit' => $can_edit,
                 ]);
             }
         }
-
-        // นักวิจัยรับเชิญ
         if ($request->has('visiting')) {
-            // เก็บ visiting scholar
+            foreach ($request->visiting as $key => $visiting) {
+                // กรณีเลือกจาก dropdown ที่มีค่า author_id (และไม่ใช่ manual)
+                if (isset($visiting['author_id']) && $visiting['author_id'] !== '' && $visiting['author_id'] !== 'manual') {
+                    $author = Author::find($visiting['author_id']);
+                    if ($author) {
+                        // หากข้อมูลใน form (manual fields) มีการส่งมาด้วยและไม่ตรงกับ DB ให้ update Author
+                        $updated = false;
+                        if (!empty($visiting['first_name']) && $author->author_fname !== $visiting['first_name']) {
+                            $author->author_fname = $visiting['first_name'];
+                            $updated = true;
+                        }
+                        if (!empty($visiting['last_name']) && $author->author_lname !== $visiting['last_name']) {
+                            $author->author_lname = $visiting['last_name'];
+                            $updated = true;
+                        }
+                        if (!empty($visiting['affiliation']) && $author->belong_to !== $visiting['affiliation']) {
+                            $author->belong_to = $visiting['affiliation'];
+                            $updated = true;
+                        }
+                        // ตรวจสอบไฟล์รูป
+                        if ($request->hasFile("visiting.$key.picture")) {
+                            $file = $request->file("visiting.$key.picture");
+                            if ($file->isValid()) {
+                                $destinationPath = public_path('images/imag_user');
+                                if (!file_exists($destinationPath)) {
+                                    mkdir($destinationPath, 0777, true);
+                                }
+                                $filename = time() . '_' . uniqid() . '.' . $file->extension();
+                                $file->move($destinationPath, $filename);
+                                $author->picture = $filename;
+                                $updated = true;
+                            }
+                        }
+                        if ($updated) {
+                            $author->save();
+                        }
+                        // ผูกความสัมพันธ์กับ pivot role=4
+                        $researchGroup->visitingScholars()->syncWithoutDetaching([
+                            $author->id => ['role' => 4, 'can_edit' => 0]
+                        ]);
+                    }
+                } else {
+                    // กรณี "เพิ่มด้วยตัวเอง" (manual)
+                    // ลองค้นหา Author โดยอิงจาก first_name และ last_name
+                    $existingAuthor = Author::where('author_fname', $visiting['first_name'] ?? '')
+                        ->where('author_lname', $visiting['last_name'] ?? '')
+                        ->first();
+                    if ($existingAuthor) {
+                        // หากพบแล้ว ให้ตรวจสอบและอัปเดตข้อมูลที่แตกต่าง
+                        $updated = false;
+                        if (!empty($visiting['affiliation']) && $existingAuthor->belong_to !== $visiting['affiliation']) {
+                            $existingAuthor->belong_to = $visiting['affiliation'];
+                            $updated = true;
+                        }
+                        if ($request->hasFile("visiting.$key.picture")) {
+                            $file = $request->file("visiting.$key.picture");
+                            if ($file->isValid()) {
+                                $destinationPath = public_path('images/imag_user');
+                                if (!file_exists($destinationPath)) {
+                                    mkdir($destinationPath, 0777, true);
+                                }
+                                $filename = time() . '_' . uniqid() . '.' . $file->extension();
+                                $file->move($destinationPath, $filename);
+                                $existingAuthor->picture = $filename;
+                                $updated = true;
+                            }
+                        }
+                        if ($updated) {
+                            $existingAuthor->save();
+                        }
+                        $researchGroup->visitingScholars()->syncWithoutDetaching([
+                            $existingAuthor->id => ['role' => 4, 'can_edit' => 0]
+                        ]);
+                    } else {
+                        // หากไม่พบ ให้สร้าง Author ใหม่
+                        $newAuthor = new Author();
+                        $newAuthor->author_fname = $visiting['first_name'] ?? '';
+                        $newAuthor->author_lname = $visiting['last_name'] ?? '';
+                        $newAuthor->belong_to    = $visiting['affiliation'] ?? '';
+
+                        if ($request->hasFile("visiting.$key.picture")) {
+                            $file = $request->file("visiting.$key.picture");
+                            if ($file->isValid()) {
+                                $destinationPath = public_path('images/imag_user');
+                                if (!file_exists($destinationPath)) {
+                                    mkdir($destinationPath, 0777, true);
+                                }
+                                $filename = time() . '_' . uniqid() . '.' . $file->extension();
+                                $file->move($destinationPath, $filename);
+                                $newAuthor->picture = $filename;
+                            }
+                        }
+                        $newAuthor->save();
+                        $researchGroup->visitingScholars()->syncWithoutDetaching([
+                            $newAuthor->id => ['role' => 4, 'can_edit' => 0]
+                        ]);
+                    }
+                }
+            }
         }
 
         return redirect()->route('researchGroups.index')
             ->with('success', 'Research group updated successfully');
     }
+
 
     /**
      * Remove the specified resource from storage.

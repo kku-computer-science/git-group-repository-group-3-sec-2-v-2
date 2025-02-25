@@ -91,7 +91,7 @@
                     </div>
                 </div>
 
-                <!-- Link (ถ้ามี) -->
+                <!-- Link -->
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>Link (ถ้ามี)</b></label>
                     <div class="col-sm-8">
@@ -106,7 +106,6 @@
                 @php
                     $headUser = $researchGroup->user->firstWhere('pivot.role', 1);
                 @endphp
-
                 @if(auth()->user()->hasAnyRole(['admin','staff']))
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label"><b>หัวหน้ากลุ่มวิจัย</b></label>
@@ -153,7 +152,57 @@
                     <label class="col-sm-3 col-form-label pt-4"><b>นักวิจัยรับเชิญ</b></label>
                     <div class="col-sm-8">
                         <div id="visitingContainer">
-                            <!-- แต่ละ entry ของ Visiting Scholar จะถูกแทรกในนี้ -->
+                            @if($researchGroup->visitingScholars->isNotEmpty())
+                                @foreach($researchGroup->visitingScholars as $key => $scholar)
+                                    <div class="visiting-scholar-entry border p-3 mb-3">
+                                        <!-- บรรทัดแรก: รายชื่อ -->
+                                        <div class="form-group">
+                                            <label>รายชื่อ</label>
+                                            <select class="visiting-author-select form-control" name="visiting[{{ $key }}][author_id]">
+                                                <option value="">-- เลือกจากรายชื่อ --</option>
+                                                <option value="manual" @if(!$authors->contains('id', $scholar->id)) selected @endif>เพิ่มด้วยตัวเอง</option>
+                                                @foreach($authors as $author)
+                                                    <option value="{{ $author->id }}"
+                                                        @if($scholar->id == $author->id) selected @endif
+                                                        data-first_name="{{ $author->author_fname }}"
+                                                        data-last_name="{{ $author->author_lname }}"
+                                                        data-affiliation="{{ $author->belong_to }}">
+                                                        {{ $author->author_fname }} {{ $author->author_lname }} ({{ $author->belong_to }})
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <!-- บรรทัดที่สอง: ชื่อ และ นามสกุล -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>ชื่อ</label>
+                                                <input type="text" name="visiting[{{ $key }}][first_name]" class="form-control visiting-first-name" placeholder="ชื่อ" value="{{ $scholar->author_fname }}">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>นามสกุล</label>
+                                                <input type="text" name="visiting[{{ $key }}][last_name]" class="form-control visiting-last-name" placeholder="นามสกุล" value="{{ $scholar->author_lname }}">
+                                            </div>
+                                        </div>
+                                        <!-- บรรทัดที่สาม: สังกัด และ อัปโหลดรูป -->
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>สังกัด</label>
+                                                <input type="text" name="visiting[{{ $key }}][affiliation]" class="form-control visiting-affiliation" placeholder="สังกัด" value="{{ $scholar->belong_to }}">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>อัปโหลดรูป</label>
+                                                <input type="file" name="visiting[{{ $key }}][picture]" class="form-control">
+                                                @if($scholar->picture)
+                                                    <div class="mt-2">
+                                                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}" alt="Visiting Scholar Image" width="80">
+                                                    </div>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-danger btn-sm remove-visiting">ลบ</button>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                         <button type="button" id="add-btn-visiting" class="btn btn-success btn-sm mt-2">
                             <i class="mdi mdi-plus"></i> เพิ่มนักวิจัยรับเชิญ
@@ -252,8 +301,8 @@
 
         function checkUserType(selector) {
             var $userSelect = $(selector);
-            var userType = $userSelect.find(":selected").data("usertype");
-            var $row = $userSelect.closest("tr");
+            var userType    = $userSelect.find(":selected").data("usertype");
+            var $row        = $userSelect.closest("tr");
             var $roleSelect = $row.find(".role-select");
             if (userType === "student") {
                 $roleSelect.val("2").trigger("change");
@@ -278,7 +327,7 @@
             $(".member-select").each(function() {
                 var $this = $(this);
                 $this.find("option").each(function() {
-                    if (selectedValues.indexOf($(this).val()) !== -1 && $(this).val() !== $this.val()) {
+                    if (selectedValues.indexOf($(this).val()) !== -1 && $(this).val() !== $this.val()){
                         $(this).prop("disabled", true);
                     } else {
                         $(this).prop("disabled", false);
@@ -294,7 +343,7 @@
         });
 
         // ส่วน Visiting Scholars (UI ใหม่: แบ่งเป็น 3 บรรทัด)
-        var v = 0;
+        var v = {{ $researchGroup->visitingScholars->count() }};
         $("#add-btn-visiting").click(function() {
             v++;
             var entryHtml = "";
@@ -332,14 +381,13 @@
             entryHtml += "    <input type='file' name='visiting[" + v + "][picture]' class='form-control'>";
             entryHtml += "  </div>";
             entryHtml += "</div>";
-            // ปุ่มลบ entry
             entryHtml += "<button type='button' class='btn btn-danger btn-sm remove-visiting'>ลบ</button>";
             entryHtml += "</div>";
 
             $("#visitingContainer").append(entryHtml);
         });
 
-        // เมื่อเลือกจาก dropdown รายชื่อใน Visiting Scholar
+        // แสดงข้อมูลจาก dropdown ใน Visiting Scholar entry
         $(document).on("change", ".visiting-author-select", function() {
             var selectedVal = $(this).val();
             var $entry = $(this).closest(".visiting-scholar-entry");
