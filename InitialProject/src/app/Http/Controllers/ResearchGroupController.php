@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ResearchGroup;
 use App\Models\User;
 use App\Models\Fund;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -131,8 +132,9 @@ class ResearchGroupController extends Controller
         // โหลดความสัมพันธ์ user ด้วย pivot
         $researchGroup->load('user');
         $users = User::all();
+        $authors = Author::all(); // ดึงข้อมูลนักวิจัยรับเชิญจากตาราง Author
 
-        return view('research_groups.edit', compact('researchGroup', 'users'));
+        return view('research_groups.edit', compact('researchGroup', 'users', 'authors'));
     }
 
     /**

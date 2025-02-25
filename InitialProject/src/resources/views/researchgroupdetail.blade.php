@@ -268,10 +268,8 @@
             @foreach($rg->visitingScholars as $scholar)
             <div class="col">
                 <div class="member-card">
-                    <a href="{{ route('detail', Crypt::encrypt($scholar->id)) }}" class="profile-link">
-                        <img src="{{ $scholar->picture ?? asset('img/default-profile.png') }}"
-                            alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}"
-                            class="center-image">
+                    <a class="profile-link">
+                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}" alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}" class="center-image">
                     </a>
                     <div class="person-info">
                         <p>{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
