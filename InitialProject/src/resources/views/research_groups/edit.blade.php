@@ -112,9 +112,11 @@
                         <div class="col-sm-8">
                             <select id="head0" name="head" class="form-control">
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}" @if($headUser && $headUser->id == $user->id) selected @endif>
-                                        {{ $user->fname_th }} {{ $user->lname_th }}
-                                    </option>
+                                    @if($user->hasRole('teacher'))
+                                        <option value="{{ $user->id }}" @if($headUser && $headUser->id == $user->id) selected @endif>
+                                            {{ $user->fname_th }} {{ $user->lname_th }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -229,6 +231,12 @@
         // Initialize select2 สำหรับหัวหน้ากลุ่ม
         $("#head0").select2();
 
+        // Initialize select2 สำหรับ dropdown ของ Visiting Scholars ที่มีอยู่แล้ว
+        $(".visiting-author-select").select2({
+            placeholder: "-- เลือกจากรายชื่อ --",
+            allowClear: true,
+        });
+
         // ----------- สมาชิกกลุ่มวิจัย (Members) -----------
         var researchGroupUsers = @json($researchGroup->user);
         var i = 0;
@@ -266,15 +274,15 @@
             if ("{{ auth()->user()->hasRole('admin') }}" == "1") {
                 rowHtml += "  <td>";
                 rowHtml += "    <select name=\"moreFields[" + index + "][can_edit]\" class=\"form-control\" style=\"width:120px;\">";
-                rowHtml += "      <option value=\"1\">Can Edit</option>";
-                rowHtml += "      <option value=\"0\">Can't Edit</option>";
+                rowHtml += "      <option value=\"0\" " + (canEditVal == "0" ? "selected" : "") + ">View</option>";
+                rowHtml += "      <option value=\"1\" " + (canEditVal == "1" ? "selected" : "") + ">View and Edit</option>";
                 rowHtml += "    </select>";
                 rowHtml += "  </td>";
             } else {
                 rowHtml += "  <td>";
                 rowHtml += "    <input type=\"hidden\" name=\"moreFields[" + index + "][can_edit]\" value=\"" + canEditVal + "\">";
                 var numVal = parseInt(canEditVal, 10);
-                rowHtml += numVal === 1 ? "<small style='color:green;'>Can Edit</small>" : "<small style='color:gray;'>No Edit</small>";
+                rowHtml += numVal === 1 ? "<small style='color:green;'>View and Edit</small>" : "<small style='color:gray;'>View</small>";
                 rowHtml += "  </td>";
             }
             rowHtml += "  <td>";
@@ -342,38 +350,12 @@
             updateMemberOptions();
         });
 
-        function updateMemberOptions() {
-            var selectedValues = [];
-            $(".member-select").each(function() {
-                var value = $(this).val();
-                if (value) {
-                    selectedValues.push(value);
-                }
-            });
-            $(".member-select").each(function() {
-                var $this = $(this);
-                $this.find("option").each(function() {
-                    if (selectedValues.indexOf($(this).val()) !== -1 && $(this).val() !== $this.val()){
-                        $(this).prop("disabled", true);
-                    } else {
-                        $(this).prop("disabled", false);
-                    }
-                });
-                $this.trigger('change.select2');
-            });
-        }
-
-        $(document).on("change", ".member-select", function() {
-            updateMemberOptions();
-        });
-
         // ----------- นักวิจัยรับเชิญ (Visiting Scholars) -----------
         var v = {{ $researchGroup->visitingScholars->count() }};
         $("#add-btn-visiting").click(function() {
             v++;
             var entryHtml = "";
             entryHtml += "<div class='visiting-scholar-entry border p-3 mb-3'>";
-            // บรรทัดแรก: รายชื่อ
             entryHtml += "<div class='form-group'>";
             entryHtml += "  <label>รายชื่อ</label>";
             entryHtml += "  <select class='visiting-author-select form-control' name='visiting[" + v + "][author_id]'>";
@@ -384,7 +366,6 @@
             @endforeach
             entryHtml += "  </select>";
             entryHtml += "</div>";
-            // บรรทัดที่สอง: ชื่อและนามสกุล
             entryHtml += "<div class='form-row'>";
             entryHtml += "  <div class='form-group col-md-6'>";
             entryHtml += "    <label>ชื่อ</label>";
@@ -395,7 +376,6 @@
             entryHtml += "    <input type='text' name='visiting[" + v + "][last_name]' class='form-control visiting-last-name' placeholder='นามสกุล'>";
             entryHtml += "  </div>";
             entryHtml += "</div>";
-            // บรรทัดที่สาม: สังกัดและอัปโหลดรูป (รับเฉพาะไฟล์รูป)
             entryHtml += "<div class='form-row'>";
             entryHtml += "  <div class='form-group col-md-6'>";
             entryHtml += "    <label>สังกัด</label>";
@@ -410,15 +390,41 @@
             entryHtml += "</div>";
 
             $("#visitingContainer").append(entryHtml);
+            $("#visitingContainer").find(".visiting-author-select").last().select2({
+                placeholder: "-- เลือกจากรายชื่อ --",
+                allowClear: true,
+            });
             updateVisitingOptions();
         });
 
-        // ป้องกันไม่ให้เลือก Visiting Scholar ซ้ำกัน
+        $(document).on("change", ".visiting-author-select", function() {
+            updateVisitingOptions();
+            var selectedVal = $(this).val();
+            var $entry = $(this).closest(".visiting-scholar-entry");
+            if(selectedVal && selectedVal !== "manual"){
+                var firstName = $(this).find("option:selected").data("first_name");
+                var lastName = $(this).find("option:selected").data("last_name");
+                var affiliation = $(this).find("option:selected").data("affiliation");
+                $entry.find(".visiting-first-name").val(firstName).prop("readonly", false);
+                $entry.find(".visiting-last-name").val(lastName).prop("readonly", false);
+                $entry.find(".visiting-affiliation").val(affiliation).prop("readonly", false);
+            } else {
+                $entry.find(".visiting-first-name").val("").prop("readonly", false);
+                $entry.find(".visiting-last-name").val("").prop("readonly", false);
+                $entry.find(".visiting-affiliation").val("").prop("readonly", false);
+            }
+        });
+
+        $(document).on("click", ".remove-visiting", function() {
+            $(this).closest(".visiting-scholar-entry").remove();
+            updateVisitingOptions();
+        });
+
         function updateVisitingOptions() {
             var selectedVisiting = [];
             $(".visiting-author-select").each(function() {
                 var val = $(this).val();
-                if(val && val !== "manual") {
+                if(val && val !== "manual"){
                     selectedVisiting.push(val);
                 }
             });
@@ -433,29 +439,6 @@
                 });
             });
         }
-
-        $(document).on("change", ".visiting-author-select", function() {
-            updateVisitingOptions();
-            var selectedVal = $(this).val();
-            var $entry = $(this).closest(".visiting-scholar-entry");
-            if(selectedVal && selectedVal !== "manual") {
-                var firstName = $(this).find("option:selected").data("first_name");
-                var lastName = $(this).find("option:selected").data("last_name");
-                var affiliation = $(this).find("option:selected").data("affiliation");
-                $entry.find(".visiting-first-name").val(firstName).prop("readonly", true);
-                $entry.find(".visiting-last-name").val(lastName).prop("readonly", true);
-                $entry.find(".visiting-affiliation").val(affiliation).prop("readonly", true);
-            } else {
-                $entry.find(".visiting-first-name").val("").prop("readonly", false);
-                $entry.find(".visiting-last-name").val("").prop("readonly", false);
-                $entry.find(".visiting-affiliation").val("").prop("readonly", false);
-            }
-        });
-
-        $(document).on("click", ".remove-visiting", function() {
-            $(this).closest(".visiting-scholar-entry").remove();
-            updateVisitingOptions();
-        });
     });
 </script>
 @stop

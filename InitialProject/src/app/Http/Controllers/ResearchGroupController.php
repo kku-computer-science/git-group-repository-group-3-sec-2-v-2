@@ -62,7 +62,7 @@ class ResearchGroupController extends Controller
             'head'          => 'required',
             'link'          => 'nullable|url',
         ]);
-
+    
         $researchGroup = new ResearchGroup();
         $researchGroup->group_name_th   = $request->group_name_th;
         $researchGroup->group_name_en   = $request->group_name_en;
@@ -72,7 +72,7 @@ class ResearchGroupController extends Controller
         $researchGroup->group_desc_en   = $request->group_desc_en;
         $researchGroup->group_main_research_en = $request->group_main_research_en;
         $researchGroup->group_main_research_th = $request->group_main_research_th;
-
+    
         if ($request->hasFile('group_image')) {
             $filename = time() . '.' . $request->file('group_image')->extension();
             $request->file('group_image')->move(public_path('img'), $filename);
@@ -80,16 +80,34 @@ class ResearchGroupController extends Controller
         }
         $researchGroup->link = $request->link;
         $researchGroup->save();
-
-        $owner = Auth::user()->hasAnyRole(['admin', 'staff'])
-            ? $request->head
-            : Auth::id();
-        $researchGroup->user()->attach($owner, [
-            'role'     => 1,
-            'can_edit' => 1,
-        ]);
-
+    
+        // ประมวลผลข้อมูลของสมาชิก (head + additional members)
+        $membersPivot = [];
+        if (auth()->user()->hasAnyRole(['admin', 'staff'])) {
+            $headUserId = $request->head;
+        } else {
+            $headUserId = auth()->id();
+        }
+        // กำหนด head ให้มี role=1 และ can_edit=1
+        $membersPivot[$headUserId] = ['role' => 1, 'can_edit' => 1];
+    
+        // ประมวลผลสมาชิกกลุ่มวิจัยที่ส่งมาจากฟอร์ม (moreFields)
+        if ($request->has('moreFields')) {
+            foreach ($request->moreFields as $member) {
+                if (isset($member['userid']) && !empty($member['userid'])) {
+                    $membersPivot[$member['userid']] = [
+                        'role'     => 2,
+                        'can_edit' => $member['can_edit']
+                    ];
+                }
+            }
+        }
+        // sync ความสัมพันธ์ของสมาชิกใน pivot table
+        $researchGroup->user()->sync($membersPivot);
+    
+        // ประมวลผลข้อมูล Visiting Scholars
         if ($request->has('visiting')) {
+            $newVisiting = [];
             foreach ($request->visiting as $key => $visiting) {
                 if (
                     isset($visiting['first_name']) && trim($visiting['first_name']) !== '' &&
@@ -101,12 +119,11 @@ class ResearchGroupController extends Controller
                         $author = Author::where('author_fname', $visiting['first_name'])
                             ->where('author_lname', $visiting['last_name'])
                             ->first();
-
                         if (!$author) {
                             $author = new Author();
                         }
                     }
-
+    
                     $updated = false;
                     if ($author->author_fname !== $visiting['first_name']) {
                         $author->author_fname = $visiting['first_name'];
@@ -116,12 +133,10 @@ class ResearchGroupController extends Controller
                         $author->author_lname = $visiting['last_name'];
                         $updated = true;
                     }
-
                     if (isset($visiting['affiliation']) && $author->belong_to !== $visiting['affiliation']) {
                         $author->belong_to = $visiting['affiliation'];
                         $updated = true;
                     }
-
                     if ($request->hasFile("visiting.$key.picture")) {
                         $file = $request->file("visiting.$key.picture");
                         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -136,23 +151,21 @@ class ResearchGroupController extends Controller
                             $updated = true;
                         }
                     }
-
                     if ($updated) {
                         $author->save();
                     }
-
-                    $researchGroup->visitingScholars()->syncWithoutDetaching([
-                        $author->id => ['role' => 4, 'can_edit' => 0],
-                    ]);
+                    $newVisiting[$author->id] = ['role' => 4, 'can_edit' => 0];
                 } else {
                     return redirect()->back()->withErrors(['error' => 'First name and last name are required.']);
                 }
             }
+            $researchGroup->visitingScholars()->sync($newVisiting);
         }
-
+    
         return redirect()->route('researchGroups.index')
             ->with('success', 'Research group created successfully.');
     }
+    
 
     public function update(Request $request, ResearchGroup $researchGroup)
     {
@@ -161,7 +174,7 @@ class ResearchGroupController extends Controller
             'group_name_en' => 'required',
             'link'          => 'nullable|url',
         ]);
-
+    
         $researchGroup->group_name_th   = $request->group_name_th;
         $researchGroup->group_name_en   = $request->group_name_en;
         $researchGroup->group_detail_th = $request->group_detail_th;
@@ -170,7 +183,7 @@ class ResearchGroupController extends Controller
         $researchGroup->group_desc_en   = $request->group_desc_en;
         $researchGroup->group_main_research_en = $request->group_main_research_en;
         $researchGroup->group_main_research_th = $request->group_main_research_th;
-
+    
         if ($request->hasFile('group_image')) {
             $filename = time() . '.' . $request->file('group_image')->extension();
             $request->file('group_image')->move(public_path('img'), $filename);
@@ -178,39 +191,70 @@ class ResearchGroupController extends Controller
         }
         $researchGroup->link = $request->link;
         $researchGroup->save();
-
+    
+        // ประมวลผลข้อมูล member จากฟอร์ม (head + member อื่นๆ)
+        $membersPivot = [];
+    
+        // สำหรับ head (ในฟอร์มจะแยกกันส่ง head ออกมา)
+        if (auth()->user()->hasAnyRole(['admin','staff'])) {
+            $headUserId = $request->head;
+        } else {
+            $headUserId = auth()->id();
+        }
+        // กำหนดให้ head มี role=1 และ can_edit=1
+        $membersPivot[$headUserId] = ['role' => 1, 'can_edit' => 1];
+    
+        // ประมวลผลข้อมูล member ที่ถูกส่งมาจากฟอร์ม (moreFields)
+        if ($request->has('moreFields')) {
+            foreach ($request->moreFields as $member) {
+                if (isset($member['userid']) && !empty($member['userid'])) {
+                    $membersPivot[$member['userid']] = [
+                        'role' => 2,
+                        'can_edit' => $member['can_edit']
+                    ];
+                }
+            }
+        }
+        // sync ความสัมพันธ์ของ users กับ researchGroup โดยอัปเดต pivot table
+        $researchGroup->user()->sync($membersPivot);
+    
+        // ส่วนของ Visiting Scholars (แก้ไขการ sync ตามที่แนะนำไว้ก่อนหน้า)
         if ($request->has('visiting')) {
+            $newVisiting = [];
             foreach ($request->visiting as $key => $visiting) {
                 if (
                     isset($visiting['first_name']) && trim($visiting['first_name']) !== '' &&
                     isset($visiting['last_name']) && trim($visiting['last_name']) !== ''
                 ) {
                     $author = Author::find($visiting['author_id']) ?? new Author();
-
+    
                     $author->author_fname = $visiting['first_name'];
                     $author->author_lname = $visiting['last_name'];
                     $author->belong_to = $visiting['affiliation'] ?? '';
-
+    
                     if ($request->hasFile("visiting.$key.picture")) {
                         $file = $request->file("visiting.$key.picture");
                         $filename = time() . '_' . uniqid() . '.' . $file->extension();
                         $file->move(public_path('images/imag_user'), $filename);
                         $author->picture = $filename;
                     }
-
+    
                     $author->save();
-                    $researchGroup->visitingScholars()->syncWithoutDetaching([
-                        $author->id => ['role' => 4, 'can_edit' => 0],
-                    ]);
+    
+                    $newVisiting[$author->id] = ['role' => 4, 'can_edit' => 0];
                 } else {
                     return redirect()->back()->withErrors(['error' => 'First name and last name are required.']);
                 }
             }
+            $researchGroup->visitingScholars()->sync($newVisiting);
+        } else {
+            $researchGroup->visitingScholars()->detach();
         }
-
+    
         return redirect()->route('researchGroups.index')
             ->with('success', 'Research group updated successfully.');
     }
+    
 
     /**
      * Display the specified resource.

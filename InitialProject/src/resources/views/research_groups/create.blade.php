@@ -100,9 +100,11 @@
                         <div class="col-sm-8">
                             <select id="head0" name="head" class="form-control">
                                 @foreach($users as $user)
-                                    <option value="{{ $user->id }}">
-                                        {{ $user->fname_th }} {{ $user->lname_th }}
-                                    </option>
+                                    @if($user->hasRole('teacher'))
+                                        <option value="{{ $user->id }}">
+                                            {{ $user->fname_th }} {{ $user->lname_th }}
+                                        </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -192,15 +194,15 @@
             if(isAdmin == "1") {
                 rowHtml += "  <td>";
                 rowHtml += "    <select name=\"moreFields[" + index + "][can_edit]\" class=\"form-control\" style=\"width:120px;\">";
-                rowHtml += "      <option value=\"1\">Can Edit</option>";
-                rowHtml += "      <option value=\"0\" selected>Can't Edit</option>";
+                rowHtml += "      <option value=\"0\" " + (canEditVal == "0" ? "selected" : "") + ">View</option>";
+                rowHtml += "      <option value=\"1\" " + (canEditVal == "1" ? "selected" : "") + ">View and Edit</option>";
                 rowHtml += "    </select>";
                 rowHtml += "  </td>";
             } else {
                 rowHtml += "  <td>";
                 rowHtml += "    <input type=\"hidden\" name=\"moreFields[" + index + "][can_edit]\" value=\"" + canEditVal + "\">";
                 var numVal = parseInt(canEditVal, 10);
-                rowHtml += numVal === 1 ? "<small style='color:green;'>Can Edit</small>" : "<small style='color:gray;'>No Edit</small>";
+                rowHtml += numVal === 1 ? "<small style='color:green;'>View and Edit</small>" : "<small style='color:gray;'>View</small>";
                 rowHtml += "  </td>";
             }
             // ปุ่มลบ
@@ -283,7 +285,7 @@
             entryHtml += "    <input type='text' name='visiting[" + v + "][last_name]' class='form-control visiting-last-name' placeholder='นามสกุล'>";
             entryHtml += "  </div>";
             entryHtml += "</div>";
-            // บรรทัดที่สาม: สังกัดและอัปโหลดรูป (รับเฉพาะไฟล์รูป)
+            // บรรทัดที่สาม: สังกัดและอัปโหลดรูป
             entryHtml += "<div class='form-row'>";
             entryHtml += "  <div class='form-group col-md-6'>";
             entryHtml += "    <label>สังกัด</label>";
@@ -302,9 +304,10 @@
         });
 
         $(document).on("change", ".visiting-author-select", function() {
+            updateVisitingOptions();
             var selectedVal = $(this).val();
             var $entry = $(this).closest(".visiting-scholar-entry");
-            if(selectedVal && selectedVal !== "manual") {
+            if(selectedVal && selectedVal !== "manual"){
                 var firstName = $(this).find("option:selected").data("first_name");
                 var lastName = $(this).find("option:selected").data("last_name");
                 var affiliation = $(this).find("option:selected").data("affiliation");
@@ -328,7 +331,7 @@
             var selectedValues = [];
             $(".visiting-author-select").each(function() {
                 var value = $(this).val();
-                if(value && value !== "manual") {
+                if(value && value !== "manual"){
                     selectedValues.push(value);
                 }
             });
