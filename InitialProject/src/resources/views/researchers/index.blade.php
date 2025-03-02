@@ -347,6 +347,33 @@
         font-weight: bold;
         color: #007bff;
     }
+    
+    /* ข้อความแจ้งเตือนไม่พบผลลัพธ์ */
+    .no-results-message {
+        text-align: center;
+        padding: 40px 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        margin: 30px auto;
+        max-width: 800px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .no-results-message h3 {
+        color: #2C6FA8;
+        margin-bottom: 15px;
+    }
+    
+    .no-results-message p {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+    
+    .no-results-message .btn {
+        padding: 10px 25px;
+        font-weight: 500;
+    }
 
     /* Responsive สำหรับมือถือ */
     @media (max-width: 992px) {
@@ -387,14 +414,23 @@
         </div>
     </div>
 
-
+    @if(isset($noResults) && $noResults)
+    <!-- แสดงข้อความเมื่อไม่พบผลลัพธ์ -->
+    <div class="no-results-message">
+        <h3><ion-icon name="search-outline" class="me-2"></ion-icon> No Results Found</h3>
+        <p>Sorry, we couldn't find any researchers matching "{{ $search }}".</p>
+        <a href="{{ route('researchers.index') }}" class="btn btn-primary">
+            <ion-icon name="refresh-outline" class="me-1"></ion-icon> Clear Search
+        </a>
+    </div>
+    @else
     <!-- Category Slider Section -->
     <div class="category-container">
         <button class="arrow" onclick="scrollCategoryLeft()">&#10094;</button>
         <div class="category-wrapper" id="categoryWrapper">
-            @foreach($programs as $program)
-            <div class="category-item" onclick="scrollToCategory('category-{{ $program->id }}')" id="category-{{ $program->id }}">
-                {{ strtoupper($program->program_name_en) }}
+            @foreach($roleUsers as $roleId => $roleData)
+            <div class="category-item" onclick="scrollToCategory('category-{{ $roleId }}')" id="category-{{ $roleId }}">
+                {{ strtoupper($roleData['role_name']) }}
             </div>
             @endforeach
         </div>
@@ -402,20 +438,20 @@
     </div>
 
     <!-- Accordion Section -->
-    <div class="accordion custom-accordion" id="programAccordion">
-        @foreach($programs as $program)
-        @if($program->users->count() > 0)
+    <div class="accordion custom-accordion" id="roleAccordion">
+        @foreach($roleUsers as $roleId => $roleData)
+        @if($roleData['users']->count() > 0)
         <div class="accordion-item border-0 rounded-4 overflow-hidden">
-            <h2 class="accordion-header" id="heading{{ $program->id }}">
+            <h2 class="accordion-header" id="heading{{ $roleId }}">
                 <button class="accordion-button custom-accordion-btn d-flex justify-content-between align-items-center px-4 py-3 w-100"
-                    type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $program->id }}"
-                    aria-expanded="{{ in_array($program->id, $expandedProgramIds) ? 'true' : 'false' }}"
-                    aria-controls="collapse{{ $program->id }}"
+                    type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $roleId }}"
+                    aria-expanded="{{ in_array($roleId, $expandedRoleIds) ? 'true' : 'false' }}"
+                    aria-controls="collapse{{ $roleId }}"
                     onclick="toggleAccordionIcon(this)">
 
                     <div class="d-flex align-items-center">
-                        <span class="fw-bold text-white me-3">{{ strtoupper($program->program_name_en) }}</span>
-                        <span class="badge bg-white text-dark fw-bold">{{ $program->users->count() }}</span>
+                        <span class="fw-bold text-white me-3">{{ strtoupper($roleData['role_name']) }}</span>
+                        <span class="badge bg-white text-dark fw-bold">{{ $roleData['users']->count() }}</span>
                     </div>
 
                     <div class="accordion-arrow">
@@ -424,13 +460,13 @@
                 </button>
             </h2>
 
-            <div id="collapse{{ $program->id }}"
-                class="accordion-collapse collapse {{ in_array($program->id, $expandedProgramIds) ? 'show' : '' }}"
-                aria-labelledby="heading{{ $program->id }}">
+            <div id="collapse{{ $roleId }}"
+                class="accordion-collapse collapse {{ in_array($roleId, $expandedRoleIds) ? 'show' : '' }}"
+                aria-labelledby="heading{{ $roleId }}">
                 <div class="accordion-body p-4">
                     <div class="container">
                         <div class="row">
-                            @foreach($program->users->where('is_research', 1) as $user)
+                            @foreach($roleData['users'] as $user)
                             <div class="col-md-6 mb-4"> <!-- 2 คอลัมน์ต่อแถว -->
                                 <a href="{{ route('detail', Crypt::encrypt($user->id)) }}" class="text-decoration-none">
                                     <div class="researcher-card p-3 shadow-sm rounded-3 d-flex flex-column h-100">
@@ -444,6 +480,12 @@
                                                     {{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}
                                                 </span>
                                                 <span class="researcher-position text-muted">{{ $user->position_en }}</span>
+                                                
+                                                @if($user->program)
+                                                <span class="researcher-program text-muted d-block">
+                                                    {{ $user->program->program_name_en }}
+                                                </span>
+                                                @endif
 
                                                 <a href="mailto:{{ $user->email }}" class="researcher-email d-block text-primary">
                                                     <ion-icon name="mail-outline" class="align-middle me-1"></ion-icon>
@@ -491,6 +533,7 @@
         @endif
         @endforeach
     </div>
+    @endif
 
 </div>
 
@@ -567,13 +610,13 @@
         });
 
         // หาและเปิด Accordion ที่ตรงกับ Category ที่เลือก
-        const programId = id.split('-')[1];
-        const programElement = document.querySelector(`#collapse${programId}`);
-        const accordionHeader = document.querySelector(`#heading${programId}`);
+        const roleId = id.split('-')[1];
+        const roleElement = document.querySelector(`#collapse${roleId}`);
+        const accordionHeader = document.querySelector(`#heading${roleId}`);
 
-        if (programElement) {
+        if (roleElement) {
             // เปิด Accordion
-            programElement.classList.add('show');
+            roleElement.classList.add('show');
 
             // หน่วงเวลาให้ Accordion เปิดก่อนแล้วค่อยเลื่อน
             setTimeout(() => {
