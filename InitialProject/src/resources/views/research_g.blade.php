@@ -165,6 +165,33 @@
         opacity: 1;
         transform: translateY(0);
     }
+    
+    /* ข้อความแจ้งเตือนไม่พบผลลัพธ์ */
+    .no-results-message {
+        text-align: center;
+        padding: 40px 20px;
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        margin: 30px auto;
+        max-width: 800px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+    
+    .no-results-message h3 {
+        color: #2C6FA8;
+        margin-bottom: 15px;
+    }
+    
+    .no-results-message p {
+        color: #6c757d;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+    }
+    
+    .no-results-message .btn {
+        padding: 10px 25px;
+        font-weight: 500;
+    }
 </style>
 
 <!-- เริ่มต้นส่วน Header -->
@@ -172,11 +199,11 @@
     <div class="row header-row">
         <div class="col-lg-8 mx-auto text-center">
             <h1 class="display-4 fw-bold mb-4" style="color: white;">RESEARCH GROUP</h1>
-            <form class="search-form">
+            <form method="GET" action="{{ route('researchgroup') }}" class="search-form">
                 <div class="input-group input-group-lg position-relative">
                     <input type="text" class="form-control search-input"
-                        id="searchInput"
-                        placeholder="Search research group by name"
+                        name="textsearch" value="{{ $search ?? '' }}"
+                        placeholder="Search research group by name or description"
                         aria-label="Search research group">
                     <button type="submit" class="search-button">
                         <ion-icon name="search" size="large" class="search-icon"></ion-icon>
@@ -188,9 +215,19 @@
 </div>
 <!-- สิ้นสุดส่วน Header -->
 
+@if(isset($noResults) && $noResults)
+<!-- แสดงข้อความเมื่อไม่พบผลลัพธ์ -->
+<div class="no-results-message">
+    <h3><ion-icon name="search-outline" class="me-2"></ion-icon> No Results Found</h3>
+    <p>Sorry, we couldn't find any research groups matching "{{ $search }}".</p>
+    <a href="{{ route('researchgroup') }}" class="btn btn-primary">
+        <ion-icon name="refresh-outline" class="me-1"></ion-icon> Clear Search
+    </a>
+</div>
+@else
 <!-- ส่วนแสดง Research Group Cards -->
 <div class="container">
-    <div id="researchGroupList" class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
         @foreach ($resg as $rg)
         <div class="col research-group-item">
             <div class="card h-100">
@@ -210,21 +247,6 @@
         @endforeach
     </div>
 </div>
+@endif
 
-<!-- Script ค้นหาแบบ on-the-fly -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const searchInput = document.getElementById('searchInput');
-        if (searchInput) {
-            searchInput.addEventListener('keyup', function() {
-                let searchValue = this.value.toLowerCase();
-                let items = document.querySelectorAll('.research-group-item');
-                items.forEach(function(item) {
-                    let groupName = item.querySelector('.group-name').textContent.toLowerCase();
-                    item.style.display = groupName.includes(searchValue) ? '' : 'none';
-                });
-            });
-        }
-    });
-</script>
 @stop
