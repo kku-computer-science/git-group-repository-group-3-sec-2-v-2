@@ -10,8 +10,12 @@ class ErrorLogService
 {
     /**
      * Log system exception
+     * 
+     * @param \Throwable $exception The exception to log
+     * @param string $location Optional location information (e.g., 'Controller@method')
+     * @return void
      */
-    public static function logException(\Throwable $exception)
+    public static function logException(\Throwable $exception, $location = null)
     {
         $context = [
             'file' => $exception->getFile(),
@@ -21,7 +25,8 @@ class ErrorLogService
             'input' => self::filterSensitiveData(Request::all()),
             'user_agent' => Request::userAgent(),
             'ip' => Request::ip(),
-            'user_id' => Auth::id()
+            'user_id' => Auth::id(),
+            'location' => $location
         ];
 
         ErrorLog::create([
