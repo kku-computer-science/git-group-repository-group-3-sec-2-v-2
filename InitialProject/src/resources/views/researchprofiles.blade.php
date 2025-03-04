@@ -252,6 +252,30 @@
         color: rgb(6, 34, 54);
     }
 
+    .badge.bg-info {
+        background-color: #1075BB !important;
+        padding: 5px 10px;
+        font-weight: normal;
+        font-size: 0.85em;
+    }
+
+    .paper-link {
+        color: #1075BB;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .paper-link:hover {
+        text-decoration: underline;
+        color: #0c5f92;
+    }
+
+    .paper-meta {
+        margin-top: 5px;
+        font-size: 0.9em;
+        color: #666;
+    }
+
     /* ทำให้มุมล่างของตารางมน */
     tbody tr:last-child td:first-child {
         border-bottom-left-radius: 10px;
@@ -269,6 +293,100 @@
         border-radius: 10px;
         overflow: hidden;
         font-family: Arial, sans-serif;
+        margin-bottom: 30px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+    }
+
+    thead {
+        background-color: #1075BB;
+        color: white;
+    }
+
+    thead th {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        padding: 15px 20px !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border: none !important;
+        white-space: nowrap;
+    }
+
+    tbody tr {
+        transition: all 0.2s ease;
+    }
+
+    tbody tr:hover {
+        background-color: rgba(16, 117, 187, 0.05) !important;
+        transform: translateX(4px);
+    }
+
+    tbody td {
+        padding: 20px !important;
+        vertical-align: top;
+        line-height: 1.5;
+        border-bottom: 1px solid #E0E8EF;
+    }
+
+    .paper-link {
+        color: #1075BB;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        display: block;
+        margin-bottom: 8px;
+        line-height: 1.4;
+    }
+
+    .paper-link:hover {
+        color: #0c5f92;
+        text-decoration: none;
+    }
+
+    .paper-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 8px;
+    }
+
+    .badge.bg-info {
+        background-color: rgba(16, 117, 187, 0.1) !important;
+        color: #1075BB !important;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 500;
+        font-size: 14px;
+        letter-spacing: 0.3px;
+    }
+
+    .source-title {
+        color: #666;
+        font-size: 14px;
+        font-style: italic;
+    }
+
+    .citation-count {
+        font-weight: 600;
+        color: #1075BB;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    /* Responsive table */
+    @media (max-width: 768px) {
+        thead th {
+            padding: 12px 15px !important;
+            font-size: 14px !important;
+        }
+
+        tbody td {
+            padding: 15px !important;
+        }
+
+        .paper-link {
+            font-size: 15px;
+        }
     }
 </style>
 
@@ -426,10 +544,15 @@
                         <!-- <td style="width:90%;">{{$paper->paper_name}}</td> -->
                         <!-- ทำให้ Paper Name เป็นลิงก์ไปยัง paperDetail.blade.php -->
                         <td style="width:90%;">
-                            <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
-                                {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
-                            </a>
-
+                            <div class="paper-content">
+                                <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                    {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
+                                </a>
+                                <div class="paper-meta">
+                                    <span class="badge bg-info">{{ $paper->paper_type }}</span>
+                                    <span class="source-title">{{ $paper->paper_sourcetitle }}</span>
+                                </div>
+                            </div>
                         </td>
                         <!-- <td>
                             @foreach ($paper->author as $author)
@@ -447,7 +570,7 @@
                         <td>{{$paper->paper_type}}</td>
                         <td style="width:100%;">{{$paper->paper_page}}</td>
                         <td>{{$paper->paper_sourcetitle}}</td> -->
-                        <td>{{$paper->paper_citation}}</td>
+                        <td class="citation-count">{{$paper->paper_citation}}</td>
                         <!-- <td>{{$paper->paper_doi}}</td>
                         <td>
                             @foreach ($paper->source as $s)
@@ -479,11 +602,17 @@
                     <tr>
                         <td>{{ $paper->paper_yearpub }}</td>
                         <td style="width:90%;">
-                            <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
-                                {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
-                            </a>
+                            <div class="paper-content">
+                                <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                    {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
+                                </a>
+                                <div class="paper-meta">
+                                    <span class="badge bg-info">{{ $paper->paper_type }}</span>
+                                    <span class="source-title">{{ $paper->paper_sourcetitle }}</span>
+                                </div>
+                            </div>
                         </td>
-                        <td>{{$paper->paper_citation}}</td>
+                        <td class="citation-count">{{ $paper->paper_citation }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -506,11 +635,17 @@
                     <tr>
                         <td>{{ $paper->paper_yearpub }}</td>
                         <td style="width:90%;">
-                            <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
-                                {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
-                            </a>
+                            <div class="paper-content">
+                                <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                    {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
+                                </a>
+                                <div class="paper-meta">
+                                    <span class="badge bg-info">{{ $paper->paper_type }}</span>
+                                    <span class="source-title">{{ $paper->paper_sourcetitle }}</span>
+                                </div>
+                            </div>
                         </td>
-                        <td>{{$paper->paper_citation}}</td>
+                        <td class="citation-count">{{ $paper->paper_citation }}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -533,11 +668,17 @@
                     <tr>
                         <td>{{ $paper->paper_yearpub }}</td>
                         <td style="width:90%;">
-                            <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
-                                {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
-                            </a>
+                            <div class="paper-content">
+                                <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                    {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
+                                </a>
+                                <div class="paper-meta">
+                                    <span class="badge bg-info">{{ $paper->paper_type }}</span>
+                                    <span class="source-title">{{ $paper->paper_sourcetitle }}</span>
+                                </div>
+                            </div>
                         </td>
-                        <td>{{$paper->paper_citation}}</td>
+                        <td class="citation-count">{{ $paper->paper_citation }}</td>
                     </tr>
                     @endforeach
                 </tbody>
