@@ -34,6 +34,7 @@ class Paper extends Model
     ];
     protected $casts = [
         'keyword' => 'array',
+        'paper_funder' => 'array',
     ];
     public function teacher()
     {
