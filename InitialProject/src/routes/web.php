@@ -139,7 +139,7 @@ Route::get('/callscopus/{id}', [App\Http\Controllers\ScopuscallController::class
 Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], function () {
     //Route::post('change-profile-picture',[ProfileuserController::class,'updatePicture'])->name('adminPictureUpdate');
     
-    Route::resource('users', UserController::class);
+Route::resource('users', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('permissions', PermissionController::class);
 
@@ -202,3 +202,40 @@ Route::get('files/{file}', [FileUpload::class, 'download'])->name('download');*/
 //Route::post('programs', [DropdownController::class, 'getPrograms']);
 //Route::get('tests', [TestController::class, 'index'])->name('tests.index');
 //Route::get('users/create/{id}',[UserController::class, 'getCategory']);
+
+// Admin Dashboard Routes
+Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\AdminDashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/activities', [App\Http\Controllers\AdminDashboardController::class, 'getUserActivities'])->name('admin.activities');
+    Route::get('/errors', [App\Http\Controllers\AdminDashboardController::class, 'getErrorLogs'])->name('admin.errors');
+    Route::get('/system', [App\Http\Controllers\AdminDashboardController::class, 'getSystemInfo'])->name('admin.system');
+    
+    // Test routes for logging
+    Route::get('/test-activity', function() {
+        \App\Models\ActivityLog::log(auth()->id(), 'TEST_ACTION', 'This is a test activity log entry');
+        return redirect()->back()->with('success', 'Test activity log created successfully');
+    })->name('admin.test.activity');
+    
+    Route::get('/test-action-type', function() {
+        \App\Models\ActivityLog::log(auth()->id(), 'Create TestEntity', 'This is a test activity log with action type');
+        $log = \App\Models\ActivityLog::latest()->first();
+        return response()->json([
+            'log' => $log,
+            'action_type' => $log->action_type,
+            'action' => $log->action
+        ]);
+    })->name('admin.test.action.type');
+    
+    Route::get('/test-error', function() {
+        try {
+            throw new \Exception('This is a test error log entry');
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error($e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'exception' => $e
+            ]);
+            return redirect()->back()->with('success', 'Test error log created successfully');
+        }
+    })->name('admin.test.error');
+});
