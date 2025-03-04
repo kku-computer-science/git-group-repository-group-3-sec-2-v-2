@@ -6,6 +6,7 @@ use App\Models\Author;
 use App\Models\User;
 use App\Models\Paper;
 use App\Models\Source_data;
+use App\Models\ActivityLog;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -30,6 +31,13 @@ class ScopuscallController extends Controller
         if (!$user) {
             return redirect()->back()->with('error', 'User not found.');
         }
+
+        // Log the start of the Scopus call process
+        ActivityLog::log(
+            $userId,
+            'Scopus Import - Start',
+            'Initiated paper import from Scopus'
+        );
 
         // Create an array to store the names of newly inserted papers.
         $insertedPapers = [];
@@ -248,8 +256,21 @@ class ScopuscallController extends Controller
 
         // If no new paper was inserted, return with an info flash message.
         if (empty($insertedPapers)) {
+            // Log that no papers were found/added
+            ActivityLog::log(
+                $userId,
+                'Scopus Import - Complete',
+                'No new papers found'
+            );
             return redirect()->back()->with('info', 'No changes were made.');
         }
+
+        // Log successful paper retrieval with count
+        ActivityLog::log(
+            $userId,
+            'Scopus Import - Complete',
+            'Imported ' . count($insertedPapers) . ' papers'
+        );
 
         return redirect()->back()->with('insertedPapers', $insertedPapers);
     }
