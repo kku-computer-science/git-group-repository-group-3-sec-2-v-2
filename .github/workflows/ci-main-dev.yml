@@ -62,17 +62,36 @@ jobs:
         run: |
           if [ -f InitialProject/src/database.sql ]; then
             mysql -h127.0.0.1 -uroot -ppassword laravel_test < InitialProject/src/database.sql
+            echo "DATABASE_IMPORTED=true" >> $GITHUB_ENV
+          else
+            echo "DATABASE_IMPORTED=false" >> $GITHUB_ENV
           fi
+          
+      # Verify database structure after import
+      - name: Verify database structure
+        if: env.DATABASE_IMPORTED == 'true'
+        run: |
+          echo "Verifying database structure..."
+          mysql -h127.0.0.1 -uroot -ppassword -e "SHOW TABLES FROM laravel_test;"
+          
+      # Refresh database schema cache
+      - name: Refresh database schema cache
+        working-directory: InitialProject/src
+        run: |
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan optimize:clear
 
-      # Run database migrations
+      # Run database migrations only if database.sql was not imported
       - name: Run database migrations
+        if: env.DATABASE_IMPORTED == 'false'
         working-directory: InitialProject/src
         run: php artisan migrate --force
 
       # Run Laravel tests
       - name: Run Laravel tests
         working-directory: InitialProject/src
-        run: php artisan test --verbose --no-interaction
+        run: php artisan test --verbose --no-interaction --without-tty
 
       # Run code quality checks
       - name: Run code quality checks
