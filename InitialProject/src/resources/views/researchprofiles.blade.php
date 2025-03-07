@@ -800,6 +800,7 @@
                     previous: "ก่อนหน้า"
                 }
             },
+            searching: false, // ปิดการค้นหาในตาราง
             columnDefs: [{
                     targets: '_all',
                     searchable: true
