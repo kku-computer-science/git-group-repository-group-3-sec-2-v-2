@@ -7,6 +7,10 @@
         padding: 20px;
         background: #f8f9fe;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .welcome-section {
         background: url('/images/cs-logo.png') no-repeat center;
         background-size: contain;
@@ -14,29 +18,53 @@
         margin-bottom: 30px;
         position: relative;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .welcome-overlay {
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
         bottom: 0;
+<<<<<<< HEAD
         background: rgba(255,255,255,0.9);
+=======
+        background: rgba(255, 255, 255, 0.9);
+>>>>>>> 08330b86 (Update dashboard.blade.php)
         display: flex;
         align-items: center;
         justify-content: center;
         flex-direction: column;
     }
+<<<<<<< HEAD
     .stat-card {
         background: white;
         border-radius: 15px;
         box-shadow: 0 0 15px rgba(0,0,0,0.1);
+=======
+
+    .stat-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+>>>>>>> 08330b86 (Update dashboard.blade.php)
         padding: 20px;
         margin-bottom: 20px;
         transition: transform 0.2s;
     }
+<<<<<<< HEAD
     .stat-card:hover {
         transform: translateY(-5px);
     }
+=======
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .stat-icon {
         width: 50px;
         height: 50px;
@@ -46,49 +74,92 @@
         justify-content: center;
         margin-bottom: 15px;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .stat-icon i {
         font-size: 24px;
         color: white;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .stat-title {
         color: #8898aa;
         font-size: 0.875rem;
         text-transform: uppercase;
         margin-bottom: 5px;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .stat-value {
         color: #32325d;
         font-size: 1.5rem;
         font-weight: 600;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .stat-subtitle {
         color: #525f7f;
         font-size: 0.875rem;
     }
+<<<<<<< HEAD
     .content-card {
         background: white;
         border-radius: 15px;
         box-shadow: 0 0 15px rgba(0,0,0,0.1);
         margin-bottom: 30px;
     }
+=======
+
+    .content-card {
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px;
+    }
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .content-card .card-header {
         padding: 20px;
         border-bottom: 1px solid #e9ecef;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .content-card .card-title {
         margin: 0;
         color: #32325d;
         font-size: 1.25rem;
         font-weight: 600;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .content-card .card-subtitle {
         color: #8898aa;
         font-size: 0.875rem;
         text-transform: uppercase;
     }
+<<<<<<< HEAD
     .table {
         margin: 0;
     }
+=======
+
+    .table {
+        margin: 0;
+    }
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .table th {
         font-size: 0.875rem;
         font-weight: 600;
@@ -97,6 +168,10 @@
         border-bottom: 1px solid #e9ecef;
         background: #f6f9fc;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .table td {
         padding: 12px 20px;
         vertical-align: middle;
@@ -104,16 +179,39 @@
         color: #525f7f;
         font-size: 0.875rem;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
     .badge {
         padding: 5px 10px;
         font-size: 0.75rem;
         font-weight: 600;
         border-radius: 5px;
     }
+<<<<<<< HEAD
     .bg-primary { background: #5e72e4 !important; }
     .bg-success { background: #2dce89 !important; }
     .bg-info { background: #11cdef !important; }
     .bg-warning { background: #fb6340 !important; }
+=======
+
+    .bg-primary {
+        background: #5e72e4 !important;
+    }
+
+    .bg-success {
+        background: #2dce89 !important;
+    }
+
+    .bg-info {
+        background: #11cdef !important;
+    }
+
+    .bg-warning {
+        background: #fb6340 !important;
+    }
+>>>>>>> 08330b86 (Update dashboard.blade.php)
 </style>
 
 @section('content')
@@ -179,7 +277,11 @@
             <div class="content-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
+<<<<<<< HEAD
                         <h6 class="card-subtitle">Overview</h6>
+=======
+                        <h6 class="card-subtitle mb-2">Overview</h6>
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                         <h3 class="card-title">Recent Activities</h3>
                     </div>
                     <a href="{{ route('admin.activities') }}" class="btn btn-sm btn-primary">View All</a>
@@ -204,7 +306,11 @@
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#activityModal{{ $activity->id }}">
                                         <i class="mdi mdi-information-outline"></i>
                                     </button>
+<<<<<<< HEAD
                                     
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                                     <!-- Activity Details Modal -->
                                     <div class="modal fade" id="activityModal{{ $activity->id }}" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel{{ $activity->id }}" aria-hidden="true">
                                         <div class="modal-dialog modal-lg" role="document">
@@ -221,16 +327,27 @@
                                                             <p><strong>User:</strong> {{ $activity->user_name }}</p>
                                                             <p><strong>Action:</strong> {{ $activity->action }}</p>
                                                             <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($activity->created_at)->format('Y-m-d H:i:s') }}</p>
+<<<<<<< HEAD
                                                         </div>
                                                         <div class="col-md-6">
                                                             <p><strong>IP Address:</strong> {{ $activity->ip_address }}</p>
                                                             <p><strong>User Agent:</strong> {{ Str::limit($activity->user_agent, 50) }}</p>
+=======
+                                                            <p><strong>IP Address:</strong> {{ $activity->ip_address }}</p>
+                                                            <p><strong>User Agent:</strong> {{ $activity->user_agent }}</p>
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                                                         </div>
                                                     </div>
                                                     <div class="row mt-3">
                                                         <div class="col-12">
                                                             <p><strong>Description:</strong></p>
+<<<<<<< HEAD
                                                             <div class="p-3 bg-light rounded">
+=======
+                                                            <div class="mb-3 bg-light border rounded"
+                                                                style=" line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px;
+                                                                        overflow-y: auto; text-align: left; padding: 1rem;">
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                                                                 {{ $activity->description }}
                                                             </div>
                                                         </div>
@@ -258,7 +375,11 @@
             <div class="content-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
+<<<<<<< HEAD
                         <h6 class="card-subtitle">System</h6>
+=======
+                        <h6 class="card-subtitle mb-2">System</h6>
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                         <h3 class="card-title">Error Logs</h3>
                     </div>
                     <a href="{{ route('admin.errors') }}" class="btn btn-sm btn-primary">View All</a>
@@ -281,13 +402,21 @@
                                         {{ $error->level }}
                                     </span>
                                 </td>
+<<<<<<< HEAD
                                 <td>{{ Str::limit($error->message, 40) }}</td>
+=======
+                                <td>{{ Str::limit($error->message, 30) }}</td>
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                                 <td>{{ \Carbon\Carbon::parse($error->created_at)->diffForHumans() }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
                                         <i class="mdi mdi-information-outline"></i>
                                     </button>
+<<<<<<< HEAD
                                     
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                                     <!-- Error Details Modal -->
                                     <div class="modal fade" id="errorModal{{ $error->id }}" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel{{ $error->id }}" aria-hidden="true">
                                         <div class="modal-dialog modal-lg" role="document">
@@ -301,14 +430,22 @@
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="col-md-6">
+<<<<<<< HEAD
                                                             <p><strong>Level:</strong> 
+=======
+                                                            <p><strong>Level:</strong>
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                                                                 <span class="badge bg-{{ $error->level == 'error' ? 'danger' : ($error->level == 'warning' ? 'warning' : 'info') }} text-white">
                                                                     {{ $error->level }}
                                                                 </span>
                                                             </p>
                                                             <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') }}</p>
+<<<<<<< HEAD
                                                         </div>
                                                         <div class="col-md-6">
+=======
+
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                                                             @if($error->file)
                                                             <p><strong>File:</strong> {{ $error->file }}</p>
                                                             @endif
@@ -320,7 +457,13 @@
                                                     <div class="row mt-3">
                                                         <div class="col-12">
                                                             <p><strong>Message:</strong></p>
+<<<<<<< HEAD
                                                             <div class="p-3 bg-light rounded">
+=======
+                                                            <div class="mb-3 bg-light border rounded"
+                                                                style=" line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px;
+                                                                        overflow-y: auto; text-align: left; padding: 1rem;">
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                                                                 {{ $error->message }}
                                                             </div>
                                                         </div>
@@ -329,7 +472,11 @@
                                                     <div class="row mt-3">
                                                         <div class="col-12">
                                                             <p><strong>Stack Trace:</strong></p>
+<<<<<<< HEAD
                                                             <div class="p-3 bg-light rounded" style="max-height: 200px; overflow-y: auto;">
+=======
+                                                            <div class="mb-3 bg-light border rounded" style="max-height: 200px; overflow-y: auto;">
+>>>>>>> 08330b86 (Update dashboard.blade.php)
                                                                 <pre>{{ $error->stack_trace }}</pre>
                                                             </div>
                                                         </div>
@@ -450,4 +597,8 @@
     </div>
     @endif
 </div>
+<<<<<<< HEAD
 @endsection 
+=======
+@endsection
+>>>>>>> 08330b86 (Update dashboard.blade.php)
