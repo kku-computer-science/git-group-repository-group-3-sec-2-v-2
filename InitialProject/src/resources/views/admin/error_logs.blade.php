@@ -9,12 +9,14 @@
         padding: 20px;
         background: #f8f9fe;
     }
+
     .content-card {
         background: white;
         border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         margin-bottom: 30px;
     }
+
     .content-card .card-header {
         padding: 20px;
         border-bottom: 1px solid #e9ecef;
@@ -22,20 +24,24 @@
         border-radius: 15px 15px 0 0;
         color: white;
     }
+
     .content-card .card-title {
         margin: 0;
         color: white;
         font-size: 1.25rem;
         font-weight: 600;
     }
+
     .content-card .card-subtitle {
         color: rgba(255, 255, 255, 0.8);
         font-size: 0.875rem;
         text-transform: uppercase;
     }
+
     .table {
         margin: 0;
     }
+
     .table th {
         font-size: 0.875rem;
         font-weight: 600;
@@ -44,6 +50,7 @@
         border-bottom: 1px solid #e9ecef;
         background: #f6f9fc;
     }
+
     .table td {
         padding: 12px 20px;
         vertical-align: middle;
@@ -51,71 +58,88 @@
         color: #525f7f;
         font-size: 0.875rem;
     }
+
     .table tr:hover {
         background-color: #f8f9fa;
     }
+
     .badge {
         padding: 5px 10px;
         font-size: 0.75rem;
         font-weight: 600;
         border-radius: 5px;
     }
+
     .filter-form {
         padding: 20px;
         background: white;
         border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         margin-bottom: 30px;
         border-left: 4px solid #fb6340;
     }
+
     .pagination {
         justify-content: center;
         margin-top: 20px;
     }
+
     pre {
         white-space: pre-wrap;
         word-wrap: break-word;
         font-size: 12px;
         line-height: 1.4;
     }
+
     .btn-primary {
         background-color: #fb6340;
         border-color: #fb6340;
     }
+
     .btn-primary:hover {
         background-color: #fa3a0e;
         border-color: #fa3a0e;
     }
+
     .btn-secondary {
         background-color: #8898aa;
         border-color: #8898aa;
     }
+
     .btn-secondary:hover {
         background-color: #6c757d;
         border-color: #6c757d;
     }
+
     .btn-info {
         background-color: #11cdef;
         border-color: #11cdef;
     }
+
     .btn-info:hover {
         background-color: #0da5c0;
         border-color: #0da5c0;
     }
+
     .select2-container .select2-selection--single {
         height: 38px !important;
         border: 1px solid #ced4da !important;
     }
+
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         line-height: 38px !important;
     }
+
     .select2-container--default .select2-selection--single .select2-selection__arrow {
         height: 36px !important;
     }
-    .form-control:focus, .select2-container--default.select2-container--focus .select2-selection--single {
+
+    .form-control:focus,
+    .select2-container--default.select2-container--focus .select2-selection--single {
         border-color: #fb6340 !important;
         box-shadow: 0 0 0 0.2rem rgba(251, 99, 64, 0.25) !important;
     }
+
     .page-header {
         background: linear-gradient(87deg, #fb6340, #fbb140);
         padding: 30px;
@@ -126,58 +150,74 @@
         justify-content: space-between;
         align-items: center;
     }
+
     .page-title-container {
         flex: 1;
     }
+
     .page-title {
         margin: 0;
         font-weight: 600;
     }
+
     .page-subtitle {
         opacity: 0.8;
         margin-bottom: 0;
     }
+
     .modal-header {
         background: linear-gradient(87deg, #fb6340, #fbb140);
         color: white;
         border-radius: 0.3rem 0.3rem 0 0;
     }
+
     .modal-title {
         color: white;
     }
+
     .close {
         color: white;
         text-shadow: none;
         opacity: 0.8;
     }
+
     .close:hover {
         color: white;
         opacity: 1;
     }
+
     .bg-danger {
         background-color: #f5365c !important;
     }
+
     .bg-warning {
         background-color: #ffd600 !important;
     }
+
     .bg-info {
         background-color: #11cdef !important;
     }
+
     .text-white {
         color: white !important;
     }
+
     .form-group {
         margin-bottom: 1.5rem;
     }
+
     .form-row {
         margin-bottom: 1rem;
     }
+
     .filter-buttons {
         margin-top: 1.5rem;
     }
+
     .select2-container {
         width: 100% !important;
     }
+
     .back-button {
         margin-left: 15px;
     }
@@ -188,7 +228,7 @@
 <div class="logs-container">
     <div class="page-header">
         <div class="page-title-container">
-            <h1 class="page-title">Error Logs</h1>
+            <h1 class="page-title mb-3">Error Logs</h1>
             <p class="page-subtitle">Monitor system errors and warnings</p>
         </div>
         <div>
@@ -237,7 +277,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-12 text-right">
+                <div class="col-12 text-right mb-3">
                     <button type="submit" class="btn btn-primary">
                         <i class="mdi mdi-filter"></i> Filter
                     </button>
@@ -251,10 +291,10 @@
 
     <!-- Error Logs Table -->
     <div class="content-card">
-        <div class="card-header d-flex justify-content-between align-items-center">
+        <div class="card-header d-flex justify-content-between align-items-center rounded-top">
             <div>
-                <h6 class="card-subtitle">System</h6>
-                <h3 class="card-title">Error Logs</h3>
+                <h6 class="card-subtitle mt-1 mb-2">System</h6>
+                <h3 class="card-title mt-1">Error Logs</h3>
             </div>
             <div>
                 <span class="badge bg-white text-primary">Total: {{ $errors->total() }}</span>
@@ -288,11 +328,11 @@
                         <td>{{ $error->ip_address ?? 'Unknown' }}</td>
                         <td>
                             @if(isset($error->user_name) && $error->user_name)
-                                {{ $error->user_name }}
+                            {{ $error->user_name }}
                             @elseif($error->username)
-                                {{ $error->username }}
+                            {{ $error->username }}
                             @else
-                                -
+                            -
                             @endif
                         </td>
                         <td>{{ \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') }}</td>
@@ -331,7 +371,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>Level:</strong> 
+                        <p><strong>Level:</strong>
                             <span class="badge bg-{{ $error->level == 'error' ? 'danger' : ($error->level == 'warning' ? 'warning' : 'info') }} text-white">
                                 {{ $error->level }}
                             </span>
@@ -362,7 +402,8 @@
                 <div class="row mt-3">
                     <div class="col-12">
                         <p><strong>Message:</strong></p>
-                        <div class="p-3 bg-light rounded">
+                        <div class="mb-3 p-3 bg-light border rounded"
+                            style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px; font-size: 0.812rem; font-weight: 400; color: #525f7f;">
                             {{ $error->message }}
                         </div>
                     </div>
@@ -371,7 +412,8 @@
                 <div class="row mt-3">
                     <div class="col-12">
                         <p><strong>User Agent:</strong></p>
-                        <div class="p-3 bg-light rounded">
+                        <div class="mb-3 p-3 bg-light border rounded"
+                            style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px; font-size: 0.812rem; font-weight: 400; color: #525f7f; overflow-x: auto; overflow-y: auto;">
                             {{ $error->user_agent }}
                         </div>
                     </div>
@@ -381,7 +423,8 @@
                 <div class="row mt-3">
                     <div class="col-12">
                         <p><strong>Context:</strong></p>
-                        <div class="p-3 bg-light rounded" style="max-height: 150px; overflow-y: auto;">
+                        <div class="p-3 bg-light border rounded"
+                            style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px; font-size: 0.812rem; font-weight: 400; color: #525f7f; overflow-x: auto; overflow-y: auto;">
                             <pre>{{ json_encode(json_decode($error->context), JSON_PRETTY_PRINT) }}</pre>
                         </div>
                     </div>
@@ -391,7 +434,8 @@
                 <div class="row mt-3">
                     <div class="col-12">
                         <p><strong>Stack Trace:</strong></p>
-                        <div class="p-3 bg-light rounded" style="max-height: 200px; overflow-y: auto;">
+                        <div class="p-3 bg-light border rounded"
+                            style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px; font-size: 0.812rem; font-weight: 400; color: #525f7f; overflow-x: auto; overflow-y: auto;">
                             <pre>{{ $error->stack_trace }}</pre>
                         </div>
                     </div>
