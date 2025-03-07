@@ -2,10 +2,11 @@
 @section('content')
 <div class="container">
     @if ($message = Session::get('success'))
-    <div class="alert alert-success">
-        <p>{{ $message }}</p>
-    </div>
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
     @endif
+
     <div class="card" style="padding: 16px;">
         <div class="card-body">
             <h4 class="card-title">กลุ่มวิจัย</h4>
@@ -19,6 +20,7 @@
                         <th>Group name (ไทย)</th>
                         <th>Head</th>
                         <th>Member</th>
+                        <th>Visiting</th>
                         <th width="280px">Action</th>
                     </tr>
                 </thead>
@@ -36,32 +38,54 @@
                         </td>
                         <td>
                             @foreach($researchGroup->user as $user)
-                                @if ($user->pivot->role == 2)
+                                @if ($user->pivot->role == 2 || $user->pivot->role == 3) 
                                     {{ $user->fname_th }}@if (!$loop->last), @endif
                                 @endif
                             @endforeach
                         </td>
                         <td>
-                            <form action="{{ route('researchGroups.destroy', $researchGroup->id) }}" method="POST">
-                                <a class="btn btn-outline-primary btn-sm" type="button" data-toggle="tooltip"
-                                    data-placement="top" title="view"
-                                    href="{{ route('researchGroups.show', $researchGroup->id) }}">
-                                    <i class="mdi mdi-eye"></i>
-                                </a>
-                                @if(Auth::user()->can('update', $researchGroup))
-                                <a class="btn btn-outline-success btn-sm" type="button" data-toggle="tooltip"
-                                    data-placement="top" title="Edit"
-                                    href="{{ route('researchGroups.edit', $researchGroup->id) }}">
-                                    <i class="mdi mdi-pencil"></i>
-                                </a>
-                                @endif
-                                @if(Auth::user()->can('delete', $researchGroup))
+                            @foreach($researchGroup->visitingScholars as $visiting)
+                                {{ $visiting->author_fname }} @if(!$loop->last), @endif
+                            @endforeach
+                        </td>
+                        <td>
+                            @php
+                                $authPivot = $researchGroup->user->where('id', Auth::id())->first();
+                                
+                                $pivotRole  = optional($authPivot?->pivot)->role;
+                                $pivotCanEdit = optional($authPivot?->pivot)->can_edit;
+                                
+                                $isHead    = ($pivotRole == 1);
+                                $canEdit   = ($pivotCanEdit == 1);
+                                $isAdmin   = Auth::user()->hasRole('admin');
+                            @endphp
+
+                            <form action="{{ route('researchGroups.destroy', $researchGroup->id) }}" method="POST" style="display:inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-outline-danger btn-sm show_confirm" type="submit" data-toggle="tooltip"
-                                    data-placement="top" title="Delete">
-                                    <i class="mdi mdi-delete"></i>
-                                </button>
+
+                                <a class="btn btn-outline-primary btn-sm" type="button"
+                                   data-toggle="tooltip" data-placement="top" title="view"
+                                   href="{{ route('researchGroups.show', $researchGroup->id) }}">
+                                    <i class="mdi mdi-eye"></i>
+                                </a>
+
+                                @if($isAdmin || $isHead)
+                                    <a class="btn btn-outline-success btn-sm" type="button"
+                                       data-toggle="tooltip" data-placement="top" title="Edit"
+                                       href="{{ route('researchGroups.edit', $researchGroup->id) }}">
+                                        <i class="mdi mdi-pencil"></i>
+                                    </a>
+                                    <button class="btn btn-outline-danger btn-sm show_confirm" type="submit"
+                                        data-toggle="tooltip" data-placement="top" title="Delete">
+                                        <i class="mdi mdi-delete"></i>
+                                    </button>
+                                @elseif($canEdit)
+                                    <a class="btn btn-outline-success btn-sm" type="button"
+                                       data-toggle="tooltip" data-placement="top" title="Edit"
+                                       href="{{ route('researchGroups.edit', $researchGroup->id) }}">
+                                        <i class="mdi mdi-pencil"></i>
+                                    </a>
                                 @endif
                             </form>
                         </td>
@@ -73,7 +97,6 @@
     </div>
 </div>
 
-<!-- DataTables CSS & JS -->
 <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.2.3/css/fixedHeader.bootstrap4.min.css">
 
