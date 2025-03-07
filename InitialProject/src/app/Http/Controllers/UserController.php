@@ -85,6 +85,9 @@ class UserController extends Controller
             'sub_cat'   => 'required',
         ]);
 
+        // ตรวจสอบว่ามี role เป็น teacher หรือไม่
+        $isTeacher = in_array('teacher', (array)$request->input('roles'));
+        
         // สร้างผู้ใช้งานใหม่ โดยเพิ่มฟิลด์ is_research
         $user = User::create([
             'email'       => $request->email,
@@ -93,7 +96,7 @@ class UserController extends Controller
             'lname_en'    => $request->lname_en,
             'fname_th'    => $request->fname_th,
             'lname_th'    => $request->lname_th,
-            'is_research' => $request->has('is_research') ? 1 : 0, // ถ้า checkbox ถูกเลือกจะได้ 1, มิฉะนั้น 0
+            'is_research' => $isTeacher ? 1 : ($request->has('is_research') ? 1 : 0), // ถ้าเป็น teacher ให้เป็น 1 เสมอ
         ]);
 
         // กำหนด role ให้กับผู้ใช้งาน
@@ -165,8 +168,16 @@ class UserController extends Controller
 
         $input = $request->all();
 
-        // เพิ่มการอัปเดตฟิลด์ is_research
-        $input['is_research'] = $request->has('is_research') ? 1 : 0;
+        // ตรวจสอบว่ามี role เป็น teacher หรือไม่
+        $isTeacher = in_array('teacher', (array)$request->input('roles'));
+        
+        // ถ้าเป็น teacher ให้กำหนด is_research = 1 โดยอัตโนมัติ
+        if ($isTeacher) {
+            $input['is_research'] = 1;
+        } else {
+            // ถ้าไม่ใช่ teacher ให้ใช้ค่าจาก checkbox
+            $input['is_research'] = $request->has('is_research') ? 1 : 0;
+        }
 
         if (!empty($input['password'])) { 
             $input['password'] = Hash::make($input['password']);

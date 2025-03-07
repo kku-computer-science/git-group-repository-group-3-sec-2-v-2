@@ -1,0 +1,208 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\Models\User;
+
+class AdminDashboardController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware(['auth', 'role:admin']);
+    }
+
+    public function index()
+    {
+        // Get user activities (paginated)
+        $userActivities = DB::table('activity_logs')
+            ->join('users', 'activity_logs.user_id', '=', 'users.id')
+            ->select('activity_logs.*', 
+                DB::raw("CASE 
+                    WHEN users.fname_en IS NULL OR users.fname_en = '' THEN CONCAT(users.fname_th, ' ', users.lname_th)
+                    ELSE CONCAT(users.fname_en, ' ', users.lname_en) 
+                END as user_name"))
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Get error logs (last 50 entries)
+        $errorLogs = DB::table('error_logs')
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
+            ->get();
+
+        // Get system information
+        $systemInfo = [
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
+            'database_name' => env('DB_DATABASE'),
+            'total_users' => DB::table('users')->count(),
+            'total_papers' => DB::table('papers')->count(),
+            'disk_free_space' => $this->formatBytes(disk_free_space('/')),
+            'disk_total_space' => $this->formatBytes(disk_total_space('/')),
+        ];
+
+        return view('admin.dashboard', compact('userActivities', 'errorLogs', 'systemInfo'));
+    }
+
+    public function getUserActivities(Request $request)
+    {
+        $query = DB::table('activity_logs')
+            ->join('users', 'activity_logs.user_id', '=', 'users.id')
+            ->select('activity_logs.*', 
+                DB::raw("CASE 
+                    WHEN users.fname_en IS NULL OR users.fname_en = '' THEN CONCAT(users.fname_th, ' ', users.lname_th)
+                    ELSE CONCAT(users.fname_en, ' ', users.lname_en) 
+                END as user_name"));
+
+        // Apply filters
+        if ($request->has('user_id') && $request->user_id) {
+            $query->where('activity_logs.user_id', $request->user_id);
+        }
+
+        if ($request->has('action_type') && $request->action_type) {
+            $query->where('activity_logs.action_type', $request->action_type);
+        }
+
+        if ($request->has('action') && $request->action) {
+            $query->where('activity_logs.action', 'like', '%' . $request->action . '%');
+        }
+
+        if ($request->has('date_from') && $request->date_from) {
+            $query->whereDate('activity_logs.created_at', '>=', $request->date_from);
+        }
+
+        if ($request->has('date_to') && $request->date_to) {
+            $query->whereDate('activity_logs.created_at', '<=', $request->date_to);
+        }
+
+        $activities = $query->orderBy('activity_logs.created_at', 'desc')
+            ->paginate(20)
+            ->withQueryString();
+
+        // Get all users for the filter dropdown
+        $users = User::select('id', 
+            DB::raw("CASE 
+                WHEN fname_en IS NULL OR fname_en = '' THEN fname_th
+                ELSE fname_en 
+            END as fname"),
+            DB::raw("CASE 
+                WHEN lname_en IS NULL OR lname_en = '' THEN lname_th
+                ELSE lname_en 
+            END as lname"))
+            ->orderBy('fname')
+            ->get();
+            
+        // Get distinct action types for the filter dropdown
+        $actionTypes = DB::table('activity_logs')
+            ->select('action_type')
+            ->whereNotNull('action_type')
+            ->distinct()
+            ->orderBy('action_type')
+            ->pluck('action_type');
+
+        return view('admin.activity_logs', compact('activities', 'users', 'actionTypes'));
+    }
+
+    public function getErrorLogs(Request $request)
+    {
+        $query = DB::table('error_logs')
+            ->leftJoin('users', 'error_logs.user_id', '=', 'users.id')
+            ->select(
+                'error_logs.*',
+                DB::raw('CASE 
+                    WHEN users.id IS NOT NULL THEN CONCAT(
+                        COALESCE(users.fname_en, users.fname_th), " ", 
+                        COALESCE(users.lname_en, users.lname_th)
+                    )
+                    ELSE error_logs.username
+                END as user_name')
+            );
+
+        // Apply filters
+        if ($request->has('level') && $request->level) {
+            $query->where('error_logs.level', $request->level);
+        }
+
+        if ($request->has('message') && $request->message) {
+            $query->where('error_logs.message', 'like', '%' . $request->message . '%');
+        }
+
+        if ($request->has('file') && $request->file) {
+            $query->where('error_logs.file', 'like', '%' . $request->file . '%');
+        }
+        
+        if ($request->has('ip_address') && $request->ip_address) {
+            $query->where('error_logs.ip_address', 'like', '%' . $request->ip_address . '%');
+        }
+
+        if ($request->has('date_from') && $request->date_from) {
+            $query->whereDate('error_logs.created_at', '>=', $request->date_from);
+        }
+
+        if ($request->has('date_to') && $request->date_to) {
+            $query->whereDate('error_logs.created_at', '<=', $request->date_to);
+        }
+
+        $errors = $query->orderBy('created_at', 'desc')
+            ->paginate(15)
+            ->withQueryString();
+
+        // Get unique error levels for filter dropdown
+        $errorLevels = DB::table('error_logs')
+            ->select('level')
+            ->distinct()
+            ->pluck('level');
+
+        return view('admin.error_logs', compact('errors', 'errorLevels'));
+    }
+
+    public function getSystemInfo()
+    {
+        $systemInfo = [
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
+            'database_name' => env('DB_DATABASE'),
+            'total_users' => DB::table('users')->count(),
+            'total_papers' => DB::table('papers')->count(),
+            'disk_free_space' => $this->formatBytes(disk_free_space('/')),
+            'disk_total_space' => $this->formatBytes(disk_total_space('/')),
+            'server_load' => sys_getloadavg(),
+            'memory_usage' => $this->formatBytes(memory_get_usage(true)),
+            'database_size' => $this->getDatabaseSize(),
+            'activity_logs_count' => DB::table('activity_logs')->count(),
+            'error_logs_count' => DB::table('error_logs')->count(),
+        ];
+
+        return view('admin.system', compact('systemInfo'));
+    }
+
+    private function formatBytes($bytes, $precision = 2)
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+        return round($bytes / pow(1024, $pow), $precision) . ' ' . $units[$pow];
+    }
+
+    private function getDatabaseSize()
+    {
+        $dbName = env('DB_DATABASE');
+        try {
+            $result = DB::select("SELECT SUM(data_length + index_length) AS size FROM information_schema.TABLES WHERE table_schema = ?", [$dbName]);
+            if (isset($result[0]->size)) {
+                return $this->formatBytes($result[0]->size);
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to get database size: ' . $e->getMessage());
+        }
+        return 'Unknown';
+    }
+} 
