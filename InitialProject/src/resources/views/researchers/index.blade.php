@@ -374,6 +374,26 @@
         padding: 10px 25px;
         font-weight: 500;
     }
+    
+    /* ข้อความแจ้งเตือนไม่มีข้อมูลในหมวดหมู่ */
+    .no-data-message {
+        background-color: #f8f9fa;
+        border-radius: 10px;
+        padding: 30px;
+        margin: 20px 0;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+    
+    .no-data-message h4 {
+        font-size: 1.3rem;
+        margin-bottom: 10px;
+        color: #2C6FA8;
+    }
+    
+    .no-data-message p {
+        font-size: 1rem;
+        color: #6c757d;
+    }
 
     /* Responsive สำหรับมือถือ */
     @media (max-width: 992px) {
@@ -440,7 +460,6 @@
     <!-- Accordion Section -->
     <div class="accordion custom-accordion" id="roleAccordion">
         @foreach($roleUsers as $roleId => $roleData)
-        @if($roleData['users']->count() > 0)
         <div class="accordion-item border-0 rounded-4 overflow-hidden">
             <h2 class="accordion-header" id="heading{{ $roleId }}">
                 <button class="accordion-button custom-accordion-btn d-flex justify-content-between align-items-center px-4 py-3 w-100"
@@ -465,6 +484,7 @@
                 aria-labelledby="heading{{ $roleId }}">
                 <div class="accordion-body p-4">
                     <div class="container">
+                        @if($roleData['users']->count() > 0)
                         <div class="row">
                             @foreach($roleData['users'] as $user)
                             <div class="col-md-6 mb-4"> <!-- 2 คอลัมน์ต่อแถว -->
@@ -526,11 +546,20 @@
                             </div>
                             @endforeach
                         </div>
+                        @else
+                        <!-- แสดงข้อความเมื่อไม่มีข้อมูลในหมวดหมู่นี้ -->
+                        <div class="no-data-message text-center py-5">
+                            <div class="mb-3">
+                                <ion-icon name="alert-circle-outline" style="font-size: 3rem; color: #6c757d;"></ion-icon>
+                            </div>
+                            <h4 class="text-muted">ไม่มีข้อมูลนักวิจัยในหมวดหมู่นี้</h4>
+                            <p class="text-muted">ขออภัย ไม่พบข้อมูลนักวิจัยในหมวดหมู่ {{ strtoupper($roleData['role_name']) }}</p>
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
-        @endif
         @endforeach
     </div>
     @endif
@@ -614,7 +643,7 @@
         const roleElement = document.querySelector(`#collapse${roleId}`);
         const accordionHeader = document.querySelector(`#heading${roleId}`);
 
-        if (roleElement) {
+        if (roleElement && accordionHeader) {
             // เปิด Accordion
             roleElement.classList.add('show');
 
