@@ -15,26 +15,34 @@ use Illuminate\Support\Facades\DB;
 class ScopuscallController extends Controller
 {
     /**
-     * ดึงข้อมูลจาก Scopus API แล้วบันทึกข้อมูล Paper พร้อมแนบความสัมพันธ์กับ User (ในตาราง pivot user_papers)
+     * Fetch data from the Scopus API and store new Paper records.
+     * This method inserts new papers only. (If a paper already exists,
+     * no update or additional relation is performed.)
      *
-     * @param  string  $id  รหัสเข้ารหัสของ User
+     * @param  string  $id  (Encrypted) User ID.
      * @return \Illuminate\Http\RedirectResponse
      */
     public function create($id)
     {
-        // ถอดรหัสและดึงข้อมูลผู้ใช้
+        // Decrypt the user ID and retrieve the user from the database.
         $userId = Crypt::decrypt($id);
         $user = User::find($userId);
         if (!$user) {
             return redirect()->back()->with('error', 'User not found.');
         }
 
-        // สร้าง search query โดยใช้ตัวอักษรตัวแรกของ fname_en กับ lname_en
+        // Create an array to store the names of newly inserted papers.
+        $insertedPapers = [];
+
+        // ---------------------------------------------------------------------
+        //                           Scopus API Section
+        // ---------------------------------------------------------------------
+        // Build the search query using the first letter of the user's first name and their last name.
         $firstLetter = substr($user->fname_en, 0, 1);
         $lname = $user->lname_en;
         $searchQuery = "AUTHOR-NAME({$lname},{$firstLetter})";
 
-        // เรียก Scopus Search API
+        // Call the Scopus Search API.
         $searchResponse = Http::withHeaders([
             'X-ELS-APIKey' => 'c9505cb6a621474141aeb03dcde91963',
             'Accept'       => 'application/json',
@@ -48,68 +56,101 @@ class ScopuscallController extends Controller
 
         $entries = $searchResponse->json('search-results.entry');
         if (!$entries || !is_array($entries)) {
-            return redirect()->back()->with('error', 'No papers found.');
+            return redirect()->back()->with('error', 'No papers found on Scopus.');
         }
 
-        // ประมวลผลแต่ละ entry
+        // Process each entry from Scopus.
         foreach ($entries as $item) {
-            // หาก paper นี้มีอยู่แล้วในฐานข้อมูล (ตรวจสอบจาก paper_name ที่ได้จาก dc:title)
-            if (Paper::where('paper_name', $item['dc:title'])->exists()) {
-                $existingPaper = Paper::where('paper_name', $item['dc:title'])->first();
-                // แนบความสัมพันธ์กับ User ผ่านความสัมพันธ์ teacher() หากยังไม่แนบ
-                if (!$existingPaper->teacher()->where('user_id', $user->id)->exists()) {
-                    $existingPaper->teacher()->attach($user->id);
-                }
+            // Check if the paper has a title.
+            $scopusPaperName = $item['dc:title'] ?? null;
+            if (!$scopusPaperName) {
+                continue; // Skip if title is not present.
+            }
+
+            // Check if the paper already exists in the database.
+            $existingPaper = Paper::where('paper_name', $scopusPaperName)->first();
+            if ($existingPaper) {
+                // Skip if the paper already exists (we only insert new papers).
                 continue;
             }
 
-            // ดึง Scopus ID จากผลการค้นหา (ตัวอย่าง "SCOPUS_ID:85211026637")
+            // If the paper is not found in the DB, proceed to insert a new record.
             $rawScopusId = $item['dc:identifier'] ?? '';
             $scopusId = str_replace('SCOPUS_ID:', '', $rawScopusId);
-            // สร้าง URL สำหรับดึงรายละเอียดเพิ่มเติม (Abstract API)
             $detailUrl = "https://api.elsevier.com/content/abstract/scopus_id/{$scopusId}";
 
-            // ดึงข้อมูลรายละเอียดจาก Abstract API
+            // Fetch additional details from the Abstract API.
             $detailResponse = Http::withHeaders([
                 'X-ELS-APIKey' => 'c9505cb6a621474141aeb03dcde91963',
                 'Accept'       => 'application/json',
             ])->get($detailUrl);
 
-            // กำหนดค่าพื้นฐานจากผลการค้นหา
-            $paper_name = $item['dc:title'] ?? null;
-            $abstract = null;
+            // Set default values.
+            $paper_name   = $scopusPaperName;
+            $abstract     = null;
             $paper_funder = null;
-            $detailData = [];
+            $detailData   = [];
+
             if ($detailResponse->successful()) {
                 $detailData = $detailResponse->json('abstracts-retrieval-response.item');
-                // ถ้ามี citation-title ในรายละเอียด ให้ใช้แทน paper_name
+
+                // Use citation-title as the paper name if available.
                 if (isset($detailData['bibrecord']['head']['citation-title'])) {
                     $paper_name = $detailData['bibrecord']['head']['citation-title'];
                 }
-                // ดึง abstract
+
+                // Retrieve the abstract details.
                 if (isset($detailData['bibrecord']['head']['abstracts'])) {
-                    $abstract = $detailData['bibrecord']['head']['abstracts'];
+                    $abs = $detailData['bibrecord']['head']['abstracts'];
+                    $abstract = is_array($abs)
+                        ? json_encode($abs, JSON_UNESCAPED_UNICODE)
+                        : $abs;
                 }
-                // ดึงข้อมูล paper_funder (จาก xocs:funding-text)
+
+                // Retrieve funding details from xocs:funding-text.
                 if (isset($detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'])) {
-                    $paper_funder = $detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'];
+                    $funderRaw = $detailData['xocs:meta']['xocs:funding-list']['xocs:funding-text'];
+                    $paper_funder = is_array($funderRaw)
+                        ? json_encode($funderRaw, JSON_UNESCAPED_UNICODE)
+                        : $funderRaw;
                 }
             }
 
-            // กำหนด paper_url: ใช้ link[0]['@href'] จากผลการค้นหาหรือใช้ detailUrl เป็น fallback
-            $paper_url = $item['link'][0]['@href'] ?? $detailUrl;
-            // ดึงปีจาก prism:coverDate (เอา 4 ตัวแรก)
+            // Determine the paper URL using available links; fallback to $detailUrl.
+            $paper_url = $detailUrl;
+            if (!empty($item['link']) && is_array($item['link'])) {
+                foreach ($item['link'] as $linkObj) {
+                    if (isset($linkObj['@ref']) && $linkObj['@ref'] === 'scopus') {
+                        $paper_url = $linkObj['@href'] ?? $detailUrl;
+                        break;
+                    }
+                }
+            }
+
+            // Extract the publication year from prism:coverDate (first 4 characters).
             $coverDate = $item['prism:coverDate'] ?? null;
             $paper_yearpub = $coverDate ? substr($coverDate, 0, 4) : null;
+            $subtype = $item['subtype'] ?? 'ar';
 
-            // สร้าง instance ใหม่ของ Paper และแม็ปฟิลด์ต่างๆ
+            // Convert subtype 'ar' to 'Article'.
+            if ($subtype === 'ar') {
+                $subtype = 'Article';
+            }
+
+            // Create a new Paper instance and save it.
             $paper = new Paper;
             $paper->paper_name        = $paper_name;
             $paper->abstract          = $abstract;
             $paper->paper_type        = $item['prism:aggregationType'] ?? 'Journal';
-            $paper->paper_subtype     = $item['subtype'] ?? 'ar';
-            $paper->paper_sourcetitle = $item['subtypeDescription'] ?? 'Article';
-            $paper->keyword           = isset($item['author-keywords']) ? json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE) : null;
+            $paper->paper_subtype     = $subtype;
+            $subtypeDesc = $item['subtypeDescription'] ?? 'Article';
+            if (is_array($subtypeDesc)) {
+                $subtypeDesc = json_encode($subtypeDesc, JSON_UNESCAPED_UNICODE);
+            }
+            $paper->paper_sourcetitle = $subtypeDesc;
+            $paper->keyword           = !empty($item['author-keywords'])
+                                        ? json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE)
+                                        : null;
             $paper->paper_url         = $paper_url;
             $paper->publication       = $item['prism:publicationName'] ?? null;
             $paper->paper_yearpub     = $paper_yearpub;
@@ -122,13 +163,13 @@ class ScopuscallController extends Controller
             $paper->reference_number  = null;
             $paper->save();
 
-            // แนบข้อมูล Source (ในที่นี้ใช้ Source_data id=1)
+            // Attach Source Data (assume id=1 represents Scopus).
             $source = Source_data::find(1);
             if ($source) {
                 $paper->source()->sync([$source->id]);
             }
 
-            // --- แนบข้อมูลผู้แต่ง ---
+            // Attach Authors.
             $authorsData = $detailData['bibrecord']['head']['author-group']['author']
                 ?? $detailResponse->json('abstracts-retrieval-response.authors.author');
             if ($authorsData && !is_array($authorsData)) {
@@ -138,61 +179,90 @@ class ScopuscallController extends Controller
                 $totalAuthors = count($authorsData);
                 $x = 1;
                 foreach ($authorsData as $authorItem) {
-                    $givenName = $authorItem['ce:given-name'] ?? ($authorItem['preferred-name']['ce:given-name'] ?? '');
-                    $surname = $authorItem['ce:surname'] ?? ($authorItem['preferred-name']['ce:surname'] ?? '');
-                    $trimmedName = trim($givenName . ' ' . $surname);
+                    // Retrieve author's given name and surname.
+                    $givenName = $authorItem['ce:given-name']
+                        ?? ($authorItem['preferred-name']['ce:given-name'] ?? '');
+                    $surname   = $authorItem['ce:surname']
+                        ?? ($authorItem['preferred-name']['ce:surname'] ?? '');
 
-                    if ($x === 1) {
-                        $author_type = 1;
-                    } elseif ($x === $totalAuthors) {
-                        $author_type = 3;
-                    } else {
-                        $author_type = 2;
+                    // Determine the author order: 1 = first, 2 = co-author, 3 = last.
+                    $author_type = ($x === 1) ? 1 : (($x === $totalAuthors) ? 3 : 2);
+
+                    // Updated condition: require all three conditions to match:
+                    // 1. Given name (case-insensitive) matches.
+                    // 2. Surname (case-insensitive) matches.
+                    // 3. The affiliation array contains at least one item with "Khon Kaen".
+                    $isSameUser = false;
+                    if (
+                        strcasecmp($givenName, $user->fname_en) === 0 &&
+                        strcasecmp($surname, $user->lname_en) === 0 &&
+                        strtolower(substr($givenName, 0, 1)) === strtolower(substr($user->fname_en, 0, 1))
+                    ) {
+                        if (!empty($authorItem['affiliation']) && is_array($authorItem['affiliation'])) {
+                            foreach ($authorItem['affiliation'] as $aff) {
+                                $affName = $aff['affiliation-name'] ?? '';
+                                if (stripos($affName, 'Khon Kaen') !== false) {
+                                    $isSameUser = true;
+                                    break;
+                                }
+                            }
+                        }
                     }
 
-                    // ตรวจสอบในตาราง users
-                    $existingUser = User::where('fname_en', $givenName)
-                        ->where('lname_en', $surname)
-                        ->first();
-
-                    if ($existingUser) {
-                        // ใช้ความสัมพันธ์ teacher() หากเจอในตาราง users
-                        $paper->teacher()->attach($existingUser->id, ['author_type' => $author_type]);
+                    // Attach relation based on the check.
+                    if ($isSameUser) {
+                        $paper->teacher()->attach($user->id, ['author_type' => $author_type]);
                     } else {
-                        // หากไม่พบในตาราง users ให้ตรวจสอบในตาราง authors
-                        $existingAuthor = Author::where('author_fname', $givenName)
-                            ->where('author_lname', $surname)
+                        // Check in Users table.
+                        $existingUser = User::where('fname_en', $givenName)
+                            ->where('lname_en', $surname)
                             ->first();
-                        if (!$existingAuthor) {
-                            $newAuthor = new Author;
-                            $newAuthor->author_fname = $givenName;
-                            $newAuthor->author_lname = $surname;
-                            $newAuthor->save();
-                            // แนบข้อมูลผ่านความสัมพันธ์ author() (pivot table author_of_papers)
-                            $paper->author()->attach($newAuthor->id, ['author_type' => $author_type]);
+                        if ($existingUser) {
+                            $paper->teacher()->attach($existingUser->id, ['author_type' => $author_type]);
                         } else {
-                            $paper->author()->attach($existingAuthor->id, ['author_type' => $author_type]);
+                            // Check in Authors table.
+                            $existingAuthor = Author::where('author_fname', $givenName)
+                                ->where('author_lname', $surname)
+                                ->first();
+                            if (!$existingAuthor) {
+                                $newAuthor = new Author;
+                                $newAuthor->author_fname = $givenName;
+                                $newAuthor->author_lname = $surname;
+                                $newAuthor->save();
+                                $paper->author()->attach($newAuthor->id, ['author_type' => $author_type]);
+                            } else {
+                                $paper->author()->attach($existingAuthor->id, ['author_type' => $author_type]);
+                            }
                         }
                     }
                     $x++;
                 }
             }
+
+            // Attach the user who performed the import.
+            $paper->teacher()->attach($user->id);
+
+            // Save the name of the inserted paper.
+            $insertedPapers[] = $paper->paper_name;
         }
 
-        return redirect()->back()->with('success', 'Scopus data processed and saved.');
+        // If no new paper was inserted, return with an info flash message.
+        if (empty($insertedPapers)) {
+            return redirect()->back()->with('info', 'No changes were made.');
+        }
+
+        return redirect()->back()->with('insertedPapers', $insertedPapers);
     }
 
     /**
-     * ตัวอย่างการแสดงสถิติ paper ตามปี (5 ปีล่าสุด)
-     *
-     * @return \Illuminate\Http\Response
+     * Example: Display Paper statistics for the last 5 years.
      */
     public function index()
     {
         $year = range(Carbon::now()->year - 5, Carbon::now()->year);
         $paperCount = [];
         foreach ($year as $value) {
-            $paperCount[] = Paper::where(DB::raw('YEAR(paper_yearpub)'), $value)->count();
+            $paperCount[] = Paper::whereYear('paper_yearpub', $value)->count();
         }
         return view('test')
             ->with('year', json_encode($year, JSON_NUMERIC_CHECK))
@@ -201,23 +271,26 @@ class ScopuscallController extends Controller
 
     public function store(Request $request)
     {
-        //
+        // ...
     }
 
-    public function show($id) {}
+    public function show($id)
+    {
+        // ...
+    }
 
     public function edit($id)
     {
-        //
+        // ...
     }
 
     public function update(Request $request, $id)
     {
-        //
+        // ...
     }
 
     public function destroy($id)
     {
-        //
+        // ...
     }
 }

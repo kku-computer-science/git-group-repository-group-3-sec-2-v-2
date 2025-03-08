@@ -3,6 +3,14 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+
+//kunyakon
+use App\Http\Controllers\ScholarController;
+
+Route::get('/scholar/search', [ScholarController::class, 'searchScholar']);
+Route::get('/scholar/{id}', [ScholarController::class, 'getScholar']);
+
+//kunyakon
 /*
 |--------------------------------------------------------------------------
 | API Routes

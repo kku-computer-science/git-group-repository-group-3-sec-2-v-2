@@ -10,32 +10,39 @@ use Illuminate\Http\Request;
 
 class ResearchGroupDetailController extends Controller
 {
+
     public function request($id)
     {
-        $resgd = ResearchGroup::with(['User.paper' => function ($query) {
-            return $query->orderBy('paper_yearpub', 'DESC');
-        }])->where('id', '=', $id)->get();
+        $researchGroup = ResearchGroup::with([
+            'user.paper' => function ($query) {
+                return $query->orderBy('paper_yearpub', 'DESC');
+            },
+            'visitingScholars'
+        ])->findOrFail($id);
 
-        //return $resgd;
-        // $std = ResearchGroup::hasRole('student')::with(['User.paper' => function ($query) {
-        //     return $query->orderBy('paper_yearpub','DESC');
-        // }])->where('id','=',$id)->get();
-        // $ref = $resgd[0]->user[1]->fname_en;
-        // $rel = $resgd[0]->user[1]->lname_en;
-        // $author = Author::where([['author_fname', '=', $ref], ['author_lname', '=', $rel]])->get();
-        //return  $author;
+        if (!empty($researchGroup->link)) {
+            return redirect()->away($researchGroup->link);
+        }
+        $researchGroup->user = $researchGroup->user->map(function ($user) {
+            $user->role = $user->pivot->role;
+            $user->can_edit = $user->pivot->can_edit;
+            $user->author_id = $user->pivot->author_id;
+            return $user;
+        });
 
-        // $author = Paper::whereHas('author', function($q){
-        //     $q->where('author_fname', '=', 'Pongsathon');
-        // })->get();
-        // $author = collect($author);
-        //return  $author;
+        $researchGroup->visitingScholars = $researchGroup->visitingScholars->map(function ($author) {
+            $author->author_id = $author->pivot->author_id;
+            return $author;
+        });
 
-        return view('researchgroupdetail', compact('resgd'));
-        //return $resgd;
+        // dd($researchGroup);
 
+        return view('researchgroupdetail', ['resgd' => collect([$researchGroup])]);
     }
 
+
+    // ฟังก์ชัน user() ด้านล่างนี้ดูเหมือนจะไม่ใช่ส่วนที่เกี่ยวข้องกับ Controller
+    // ควรอยู่ใน Model แต่หากยังคงใช้งานก็สามารถไว้ได้
     public function user()
     {
         return $this->belongsToMany(User::class, 'work_of_research_groups')

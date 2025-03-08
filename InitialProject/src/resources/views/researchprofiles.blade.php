@@ -35,18 +35,253 @@
         display: table;
         color: #4ad1e5;
     }
+
+    .card {
+        height: 380px !important;
+        /* ปรับค่าตามที่ต้องการ */
+    }
+
+
+    /* ปรับแต่งปุ่ม Publications */
+    .title-pub {
+        background-color: #1075BB;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-size: 18px;
+        text-align: center;
+        display: inline-block;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    /* ปรับขนาดและระยะห่างของกล่องสถิติ */
+    .stats-row {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        /* ลดช่องว่างให้สมดุล */
+        flex-wrap: nowrap;
+    }
+
+    /* ปรับแต่งกล่องตัวเลข */
+    .count {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 95px;
+        /* ลดขนาดให้พอดี */
+        height: 60px;
+        border-radius: 20px;
+        background-color: #E8F5FE;
+        color: #1075BB;
+        font-weight: bold;
+        font-size: 16px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    /* ปรับขนาดตัวเลข */
+    .count h2 {
+        font-size: 20px;
+        margin: 0;
+        color: #1075BB;
+    }
+
+    /* ปรับขนาดคำบรรยาย */
+    .count p {
+        font-size: 12px;
+        margin: 0;
+        text-transform: uppercase;
+        color: #1075BB;
+        font-weight: bold;
+    }
+
+    /* จัดกล่องเป็นแนวนอน + เพิ่มช่องว่าง */
+    .row.text-center {
+        display: flex;
+        justify-content: center;
+        gap: 0px;
+        /* ระยะห่างระหว่างกล่อง */
+        flex-wrap: nowrap;
+        /* ไม่ให้ขึ้นบรรทัดใหม่ */
+    }
+
+    /* กราฟด้านล่าง */
+    .chart {
+        padding: 10px;
+        background: white;
+    }
+
+    .nav-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 20px;
+        background-color: #ffffff;
+    }
+
+    .nav-item .nav-link {
+        display: block;
+        padding: 0.5rem 1rem;
+        color: #1075BB;
+        ;
+    }
+
+    .custom-tabs {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        padding: 15px;
+        background-color: #ffffff;
+    }
+
+    .custom-tab-btn {
+        background-color: #E8F5FE;
+        color: #1075BB;
+        padding: 8px 18px;
+        border-radius: 25px;
+        font-size: 20px;
+        font-weight: bold;
+        border: none;
+        text-align: center;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        min-width: 120px;
+    }
+
+    .custom-tab-btn:hover {
+        background-color: #d0ebfd;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+        color: #0c5f92;
+    }
+
+    .custom-tab-btn.active {
+        background-color: #1075BB;
+        color: white;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-export {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #1075BB;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s, box-shadow 0.3s;
+        text-decoration: none;
+    }
+
+    .icon-export {
+        width: 32px;
+        height: 32px;
+        filter: brightness(0) invert(1);
+        /* เปลี่ยนเป็นสีขาว */
+    }
+
+    .btn-export:hover {
+        background-color: #0c5f92;
+        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    thead {
+        background-color: #1075BB;
+        color: white;
+        font-weight: bold;
+        text-align: left;
+    }
+
+    /* ปรับขนาดฟอนต์สำหรับหัวข้อ (thead) */
+    thead th {
+        font-size: 18px !important;
+        /* ขนาดตัวอักษรของหัวข้อ */
+        font-weight: bold !important;
+        height: 30px !important;
+        /* กำหนดความสูงขั้นต่ำ */
+        text-align: left;
+    }
+
+    th {
+        background-color: #1075BB;
+        color: white;
+        padding: 10px;
+        text-align: left;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    /* ทำให้มุมของ thead โค้งมน */
+    thead th:first-child {
+        border-top-left-radius: 10px;
+    }
+
+    thead th:last-child {
+        border-top-right-radius: 10px;
+    }
+
+    /* กำหนดรูปแบบของ tbody */
+    tbody tr {
+        background-color: #F4F9FD;
+        /* สีพื้นหลังแถว */
+        border-bottom: 1px solid #E0E8EF;
+        /* เส้นขอบแถว */
+        height: 20px !important;
+        /* กำหนดความสูงขั้นต่ำของแถว */
+    }
+
+    /* กำหนดสีพื้นหลังให้แถวที่เป็นเลขคี่ (odd) */
+    tbody tr:nth-child(odd) {
+        background-color: rgba(190, 228, 254, 0.57) !important;
+        /* ปรับเป็นสีฟ้าอ่อน */
+    }
+
+    /* กำหนดสีพื้นหลังให้แถวที่เป็นเลขคู่ (even) */
+    tbody tr:nth-child(even) {
+        background-color: rgb(229, 239, 247) !important;
+        /* ปรับเป็นสีฟ้าอ่อนกว่า */
+    }
+
+
+    tbody td {
+        padding: 20px 10px !important;
+        font-size: 16px !important;
+        font-weight: 550 !important;
+        color: rgb(6, 34, 54);
+    }
+
+    /* ทำให้มุมล่างของตารางมน */
+    tbody tr:last-child td:first-child {
+        border-bottom-left-radius: 10px;
+    }
+
+    tbody tr:last-child td:last-child {
+        border-bottom-right-radius: 10px;
+    }
+
+    /* ตั้งค่าทั่วไปของตาราง */
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 10px;
+        overflow: hidden;
+        font-family: Arial, sans-serif;
+    }
 </style>
 
 @section('content')
 
-<div class="container cardprofile mt-5">
+<div class="container cardprofile">
     <div class="card">
         <div class="row g-0">
             <div class="col-md-2">
                 <img class="card-image" src="{{$res->picture}}" alt="">
             </div>
-            <div class="col-md-6">
-                <div class="card-body">
+            <div class="col-md-6" style="width:40%">
+                <div class="card-body" style="width:auto">
                     <h6 class="card-text"><b>{{$res->position_th}} {{$res->fname_th}} {{$res->lname_th}}</b></h6>
                     @if($res->doctoral_degree == 'Ph.D.')
                     <h6 class="card-text"><b>{{$res->fname_en}} {{$res->lname_en}}, {{$res->doctoral_degree}} </b>
@@ -60,7 +295,7 @@
                         <h6 class="card-text1">E-mail: {{$res->email}}</h6>
                         <h6 class="card-title">{{ trans('message.education') }}</h6>
                         @foreach( $res->education as $edu)
-                        <h6 class="card-text2 col-sm-10"> {{$edu->year}} {{$edu->qua_name}} {{$edu->uname}}</h6>
+                        <h6 class="card-text2 col-sm-10" style="line-height: 1.6;"> {{$edu->year}} {{$edu->qua_name}} <br> {{$edu->uname}}</h6>
                         @endforeach
                         <!-- <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
                             data-bs-target="#exampleModal">
@@ -79,7 +314,7 @@
                 <h6 class="title-pub">{{ trans('message.publications2') }}</h6>
                 <div class="col-xs-12 text-center bt">
                     <div class="clearfix"></div>
-                    <div class="row text-center">
+                    <div class="row text-center gx-1">
                         <div class="col">
                             <div class="count" id='all'>
                             </div>
@@ -96,9 +331,7 @@
                             <div class="count" id='tci_sum'>
                             </div>
                         </div>
-
                     </div>
-                    <br>
                     <div class="chart">
                         <canvas id="barChart"></canvas>
                     </div>
@@ -129,32 +362,42 @@
     </div> -->
     <br>
 
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Summary</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="scopus-tab" data-bs-toggle="tab" data-bs-target="#scopus" type="button" role="tab" aria-controls="scopus" aria-selected="false">SCOPUS</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="wos-tab" data-bs-toggle="tab" data-bs-target="#wos" type="button" role="tab" aria-controls="wos" aria-selected="false">Web of Science</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="tci-tab" data-bs-toggle="tab" data-bs-target="#tci" type="button" role="tab" aria-controls="tci" aria-selected="false">TCI</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="book-tab" data-bs-toggle="tab" data-bs-target="#book" type="button" role="tab" aria-controls="book" aria-selected="false">หนังสือ</button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link" id="patent-tab" data-bs-toggle="tab" data-bs-target="#patent" type="button" role="tab" aria-controls="patent" aria-selected="false">ผลงานวิชาการด้านอื่นๆ</button>
-        </li>
-    </ul>
+    <div class="nav-container">
+        <ul class="nav custom-tabs" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active custom-tab-btn" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Summary</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab-btn" id="scopus-tab" data-bs-toggle="tab" data-bs-target="#scopus" type="button" role="tab" aria-controls="scopus" aria-selected="false">SCOPUS</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab-btn" id="wos-tab" data-bs-toggle="tab" data-bs-target="#wos" type="button" role="tab" aria-controls="wos" aria-selected="false">WEB OF SCIENCE</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab-btn" id="tci-tab" data-bs-toggle="tab" data-bs-target="#tci" type="button" role="tab" aria-controls="tci" aria-selected="false">TCI</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab-btn" id="book-tab" data-bs-toggle="tab" data-bs-target="#book" type="button" role="tab" aria-controls="book" aria-selected="false">หนังสือ</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link custom-tab-btn" id="patent-tab" data-bs-toggle="tab" data-bs-target="#patent" type="button" role="tab" aria-controls="patent" aria-selected="false">ผลงานวิชาการด้านอื่นๆ</button>
+            </li>
+        </ul>
+        <a class="btn-export" href="{{ route('excel', ['id' => $res->id]) }}" target="_blank" aria-label="Export to Excel">
+            <img src="https://cdn-icons-png.flaticon.com/512/3405/3405255.png" alt="Export Icon" class="icon-export" />
+        </a>
+    </div>
+
+
+
     <br>
     <div class="tab-content" id="myTabContent">
 
         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
             <div class="tab-content" style="padding-bottom: 20px;">
-                <a class="btn btn-success" href="{{ route('excel', ['id' => $res->id]) }}" target="_blank">Export To Excel</a>
+
+
+
             </div>
             <table id="example1" class="table table-striped" style="width:100%">
                 <thead>
@@ -162,27 +405,33 @@
                         <th><a href="{{ route('excel', ['id' => $res->id]) }}" target="_blank">#Export</a></td>
                     </tr> -->
                     <tr>
-                        <th>No.</th>
+                        <!-- <th>No.</th> -->
                         <th>Year</th>
                         <th>Paper Name</th>
-                        <th>Author</th>
+                        <!-- <th>Author</th>
                         <th>Document Type</th>
                         <th>Page</th>
-                        <th>Journals/Transactions</th>
+                        <th>Journals/Transactions</th> -->
                         <th>Ciations</th>
-                        <th>Doi</th>
-                        <th>Source</th>
+                        <!-- <th>Doi</th>
+                        <th>Source</th> -->
                     </tr>
                 </thead>
 
                 <tbody>
                     @foreach ($papers as $n => $paper)
                     <tr>
-                        <td> {{$n+1}}</td>
+                        <!-- <td> {{$n+1}}</td> -->
                         <td>{{ $paper->paper_yearpub }}</td>
                         <!-- <td style="width:90%;">{{$paper->paper_name}}</td> -->
-                        <td style="width:90%;">{!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}</td>
-                        <td>
+                        <!-- ทำให้ Paper Name เป็นลิงก์ไปยัง paperDetail.blade.php -->
+                        <td style="width:90%;">
+                            <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
+                            </a>
+
+                        </td>
+                        <!-- <td>
                             @foreach ($paper->author as $author)
                             <span>
                                 <a>{{$author -> author_fname}} {{$author -> author_lname}}</a>
@@ -197,16 +446,16 @@
                         </td>
                         <td>{{$paper->paper_type}}</td>
                         <td style="width:100%;">{{$paper->paper_page}}</td>
-                        <td>{{$paper->paper_sourcetitle}}</td>
+                        <td>{{$paper->paper_sourcetitle}}</td> -->
                         <td>{{$paper->paper_citation}}</td>
-                        <td>{{$paper->paper_doi}}</td>
+                        <!-- <td>{{$paper->paper_doi}}</td>
                         <td>
                             @foreach ($paper->source as $s)
                             <span>
                                 <a>{{$s -> source_name}}@if (!$loop->last) , @endif</a>
                             </span>
                             @endforeach
-                        </td>
+                        </td> -->
 
                     </tr>
                     @endforeach
@@ -220,48 +469,24 @@
             <table id="example2" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th>No.</th>
                         <th>Year</th>
-                        <th style="width:90%;">Paper Name</th>
-                        <th>Author</th>
-                        <th>Document Type</th>
-                        <th style="width:100%;">Page</th>
-                        <th>Journals/Transactions</th>
+                        <th>Paper Name</th>
                         <th>Ciations</th>
-                        <th>Doi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($papers_scopus as $n => $paper)
                     <tr>
-                        <td> {{$n+1}}</td>
                         <td>{{ $paper->paper_yearpub }}</td>
-                        <!-- <td style="width:90%;">{{$paper->paper_name}}</td> -->
-                        <td style="width:90%;">{!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}</td>
-                        <td>
-                            @foreach ($paper->author as $author)
-                            <span>
-                                <a>{{$author -> author_fname}} {{$author -> author_lname}}</a>
-                            </span>
-                            @endforeach
-                            @foreach ($paper->teacher as $author)
-                            <span>
-                                <a href="{{ route('detail',Crypt::encrypt($author->id))}}">
-                                    <teacher>{{$author -> fname_en}} {{$author -> lname_en}}</teacher></a>
-                            </span>
-                            @endforeach
+                        <td style="width:90%;">
+                            <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
+                            </a>
                         </td>
-                        <td>{{$paper->paper_type}}</td>
-                        <td style="width:100%;">{{$paper->paper_page}}</td>
-                        <td>{{$paper->paper_sourcetitle}}</td>
                         <td>{{$paper->paper_citation}}</td>
-                        <td>{{$paper->paper_doi}}</td>
-
-
                     </tr>
                     @endforeach
                 </tbody>
-
             </table>
 
 
@@ -271,49 +496,24 @@
             <table id="example3" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th>No.</th>
                         <th>Year</th>
-                        <th style="width:90%;">Paper Name</th>
-                        <th>Author</th>
-                        <th>Document Type</th>
-                        <th style="width:100%;">Page</th>
-                        <th>Journals/Transactions</th>
+                        <th>Paper Name</th>
                         <th>Ciations</th>
-                        <th>Doi</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     @foreach ($papers_wos as $n => $paper)
                     <tr>
-                        <td> {{$n+1}}</td>
                         <td>{{ $paper->paper_yearpub }}</td>
-                        <!-- <td style="width:90%;">{{$paper->paper_name}}</td> -->
-                        <td style="width:90%;">{!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}</td>
-                        <td>
-                            @foreach ($paper->author as $author)
-                            <span>
-                                <a>{{$author -> author_fname}} {{$author -> author_lname}}</a>
-                            </span>
-                            @endforeach
-                            @foreach ($paper->teacher as $author)
-                            <span>
-                                <a href="{{ route('detail',Crypt::encrypt($author->id))}}">
-                                    <teacher>{{$author -> fname_en}} {{$author -> lname_en}}</teacher></a>
-                            </span>
-                            @endforeach
+                        <td style="width:90%;">
+                            <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
+                            </a>
                         </td>
-                        <td>{{$paper->paper_type}}</td>
-                        <td style="width:100%;">{{$paper->paper_page}}</td>
-                        <td>{{$paper->paper_sourcetitle}}</td>
                         <td>{{$paper->paper_citation}}</td>
-                        <td>{{$paper->paper_doi}}</td>
-
-
                     </tr>
                     @endforeach
                 </tbody>
-
             </table>
 
 
@@ -323,45 +523,21 @@
             <table id="example4" class="table table-striped" style="width:100%">
                 <thead>
                     <tr>
-                        <th>No.</th>
                         <th>Year</th>
-                        <th style="width:90%;">Paper Name</th>
-                        <th>Author</th>
-                        <th>Document Type</th>
-                        <th style="width:100%;">Page</th>
-                        <th>Journals/Transactions</th>
+                        <th>Paper Name</th>
                         <th>Ciations</th>
-                        <th>Doi</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     @foreach ($papers_tci as $n => $paper)
                     <tr>
-                        <td> {{$n+1}}</td>
                         <td>{{ $paper->paper_yearpub }}</td>
-                        <!-- <td style="width:90%;">{{$paper->paper_name}}</td> -->
-                        <td style="width:90%;">{!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}</td>
-                        <td>
-                            @foreach ($paper->author as $author)
-                            <span>
-                                <a>{{$author -> author_fname}} {{$author -> author_lname}}</a>
-                            </span>
-                            @endforeach
-                            @foreach ($paper->teacher as $author)
-                            <span>
-                                <a href="{{ route('detail',Crypt::encrypt($author->id))}}">
-                                    <teacher>{{$author -> fname_en}} {{$author -> lname_en}}</teacher></a>
-                            </span>
-                            @endforeach
+                        <td style="width:90%;">
+                            <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
+                            </a>
                         </td>
-                        <td>{{$paper->paper_type}}</td>
-                        <td style="width:100%;">{{$paper->paper_page}}</td>
-                        <td>{{$paper->paper_sourcetitle}}</td>
                         <td>{{$paper->paper_citation}}</td>
-                        <td>{{$paper->paper_doi}}</td>
-
-
                     </tr>
                     @endforeach
                 </tbody>
@@ -438,7 +614,8 @@
                             @foreach ($paper->user as $author)
                             <span>
                                 <a href="{{ route('detail',Crypt::encrypt($author->id))}}">
-                                    <teacher>{{$author -> fname_en}} {{$author -> lname_en}}</teacher></a>
+                                    <teacher>{{$author -> fname_en}} {{$author -> lname_en}}</teacher>
+                                </a>
 
                             </span>
                             @endforeach
@@ -465,48 +642,74 @@
 
 <script>
     $(document).ready(function() {
+        // ค่าตั้งต้นของ DataTable
+        const tableConfig = {
+            responsive: true,
+            order: [
+                [0, 'desc']
+            ], // เรียงลำดับปีจากใหม่ไปเก่า
+            language: {
+                search: "ค้นหาข้อมูล:",
+                lengthMenu: "แสดง _MENU_ รายการต่อหน้า",
+                info: "แสดง _START_ ถึง _END_ จากทั้งหมด _TOTAL_ รายการ",
+                paginate: {
+                    first: "หน้าแรก",
+                    last: "หน้าสุดท้าย",
+                    next: "ถัดไป",
+                    previous: "ก่อนหน้า"
+                }
+            },
+            columnDefs: [{
+                    targets: '_all',
+                    searchable: true
+                } // เปิดให้ค้นหาได้ทุกคอลัมน์
+            ]
+        };
 
-        var table1 = $('#example1').DataTable({
-            responsive: true,
+        // สร้าง DataTable ให้กับทุกตาราง
+        const table1 = $('#example1').DataTable(tableConfig);
+        const table2 = $('#example2').DataTable(tableConfig);
+        const table3 = $('#example3').DataTable(tableConfig);
+        const table4 = $('#example4').DataTable(tableConfig);
+        const table5 = $('#example5').DataTable({
+            ...tableConfig,
+            order: [
+                [1, 'desc']
+            ]
+        });
+        const table6 = $('#example6').DataTable(tableConfig);
+
+        // เพิ่ม input ค้นหากลางสำหรับทุกตาราง
+        const searchBox = $('<div class="mb-3"><input type="text" id="globalSearch" class="form-control" placeholder="🔍 ค้นหาชื่อ, ปี, หรือรายละเอียด..." style="width: 100%; padding: 8px; border: 1px solid #1075BB; border-radius: 4px;"></div>');
+        $(".nav-container").after(searchBox);
+
+        // ฟังก์ชันค้นหาทั่วไป
+        $('#globalSearch').on('keyup', function() {
+            let value = $(this).val();
+            table1.search(value).draw();
+            table2.search(value).draw();
+            table3.search(value).draw();
+            table4.search(value).draw();
+            table5.search(value).draw();
+            table6.search(value).draw();
         });
 
-        var table2 = $('#example2').DataTable({
-            responsive: true,
-        });
-        var table3 = $('#example3').DataTable({
-            responsive: true,
-        });
-        var table4 = $('#example4').DataTable({
-            responsive: true,
-        });
-        var table5 = $('#example5').DataTable({
-            responsive: true,
-        });
-        var table6 = $('#example6').DataTable({
-            responsive: true,
-        });
-
-
+        // ให้ DataTable รีเฟรชเมื่อเปลี่ยนแท็บ
         $('button[data-bs-toggle="tab"]').on('shown.bs.tab', function(event) {
-            var tabID = $(event.target).attr('data-bs-target');
-            if (tabID === '#scopus') {
-                table2.columns.adjust().draw()
-            }
-            if (tabID === '#wos') {
-                table3.columns.adjust().draw()
-            }
-            if (tabID === '#tci') {
-                table4.columns.adjust().draw()
-            }
-            if (tabID === '#book') {
-                table5.columns.adjust().draw()
-            }
-            if (tabID === '#patent') {
-                table6.columns.adjust().draw()
-            }
+            const tabID = $(event.target).attr('data-bs-target');
+            const tableMap = {
+                '#home': table1,
+                '#scopus': table2,
+                '#wos': table3,
+                '#tci': table4,
+                '#book': table5,
+                '#patent': table6
+            };
 
+            if (tableMap[tabID]) {
+                tableMap[tabID].columns.adjust().draw();
+            }
         });
-
     });
 </script>
 
