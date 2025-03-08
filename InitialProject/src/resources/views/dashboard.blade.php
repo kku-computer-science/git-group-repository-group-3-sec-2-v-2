@@ -143,6 +143,36 @@
     .bg-warning {
         background: #fb6340 !important;
     }
+
+    /* Pagination Styles */
+    .pagination {
+        justify-content: center;
+        margin: 0;
+    }
+    
+    .page-link {
+        color: #5e72e4;
+        border: 1px solid #dee2e6;
+        margin: 0 2px;
+    }
+    
+    .page-link:hover {
+        color: #233dd2;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+    }
+    
+    .page-item.active .page-link {
+        background-color: #5e72e4;
+        border-color: #5e72e4;
+    }
+    
+    .pagination-info {
+        color: #8898aa;
+        font-size: 0.875rem;
+        text-align: center;
+        margin-bottom: 10px;
+    }
 </style>
 
 @section('content')
@@ -211,7 +241,14 @@
                         <h6 class="card-subtitle mb-2">Overview</h6>
                         <h3 class="card-title">Recent Activities</h3>
                     </div>
-                    <a href="{{ route('admin.activities') }}" class="btn btn-sm btn-primary">View All</a>
+                    <div class="d-flex align-items-center">
+                        @if($userActivities instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                            <span class="badge bg-white text-primary mr-3">Total: {{ $userActivities->total() }}</span>
+                        @else
+                            <span class="badge bg-white text-primary mr-3">Total: {{ count($userActivities) }}</span>
+                        @endif
+                        <a href="{{ route('admin.activities') }}" class="btn btn-sm btn-primary">View All</a>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
@@ -275,9 +312,14 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="p-3">
+                @if($userActivities instanceof \Illuminate\Pagination\LengthAwarePaginator && $userActivities->hasPages())
+                <div class="p-4">
+                    <div class="pagination-info">
+                        Showing {{ $userActivities->firstItem() }}-{{ $userActivities->lastItem() }} of {{ $userActivities->total() }} items
+                    </div>
                     {{ $userActivities->links() }}
                 </div>
+                @endif
             </div>
         </div>
 
@@ -285,10 +327,17 @@
             <div class="content-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
-                        <h6 class="card-subtitle mb-2">System</h6>
+                        <h6 class="card-subtitle">System</h6>
                         <h3 class="card-title">Error Logs</h3>
                     </div>
-                    <a href="{{ route('admin.errors') }}" class="btn btn-sm btn-primary">View All</a>
+                    <div class="d-flex align-items-center">
+                        @if($errorLogs instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                            <span class="badge bg-white text-primary mr-3">Total: {{ $errorLogs->total() }}</span>
+                        @else
+                            <span class="badge bg-white text-primary mr-3">Total: {{ count($errorLogs) }}</span>
+                        @endif
+                        <a href="{{ route('admin.errors') }}" class="btn btn-sm btn-primary">View All</a>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
@@ -308,71 +357,26 @@
                                         {{ $error->level }}
                                     </span>
                                 </td>
-                                <td>{{ Str::limit($error->message, 30) }}</td>
+                                <td>{{ Str::limit($error->message ?? '', 40) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($error->created_at)->diffForHumans() }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
                                         <i class="mdi mdi-information-outline"></i>
                                     </button>
-
-                                    <!-- Error Details Modal -->
-                                    <div class="modal fade" id="errorModal{{ $error->id }}" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel{{ $error->id }}" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title" id="errorModalLabel{{ $error->id }}">Error Details</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <p><strong>Level:</strong>
-                                                                <span class="badge bg-{{ $error->level == 'error' ? 'danger' : ($error->level == 'warning' ? 'warning' : 'info') }} text-white">
-                                                                    {{ $error->level }}
-                                                                </span>
-                                                            </p>
-                                                            <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') }}</p>
-                                                            @if($error->file)
-                                                            <p><strong>File:</strong> {{ $error->file }}</p>
-                                                            @endif
-                                                            @if($error->line)
-                                                            <p><strong>Line:</strong> {{ $error->line }}</p>
-                                                            @endif
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <p><strong>Message:</strong></p>
-                                                            <div class="mb-3 bg-light border rounded"
-                                                                style=" line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px;
-                                                                        overflow-y: auto; text-align: left; padding: 1rem;">
-                                                                {{ $error->message }}
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @if($error->stack_trace)
-                                                    <div class="row mt-3">
-                                                        <div class="col-12">
-                                                            <p><strong>Stack Trace:</strong></p>
-                                                            <div class="mb-3 bg-light border rounded" style="max-height: 200px; overflow-y: auto;">
-                                                                <pre>{{ $error->stack_trace }}</pre>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    @endif
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
+                @if($errorLogs instanceof \Illuminate\Pagination\LengthAwarePaginator && $errorLogs->hasPages())
+                <div class="p-4">
+                    <div class="pagination-info">
+                        Showing {{ $errorLogs->firstItem() }}-{{ $errorLogs->lastItem() }} of {{ $errorLogs->total() }} items
+                    </div>
+                    {{ $errorLogs->links() }}
+                </div>
+                @endif
             </div>
         </div>
     </div>

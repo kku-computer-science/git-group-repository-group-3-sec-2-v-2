@@ -29,11 +29,21 @@ class AdminDashboardController extends Controller
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        // Get error logs (last 50 entries)
+        // Get error logs with pagination
         $errorLogs = DB::table('error_logs')
+            ->leftJoin('users', 'error_logs.user_id', '=', 'users.id')
+            ->select(
+                'error_logs.*',
+                DB::raw('CASE 
+                    WHEN users.id IS NOT NULL THEN CONCAT(
+                        COALESCE(users.fname_en, users.fname_th), " ", 
+                        COALESCE(users.lname_en, users.lname_th)
+                    )
+                    ELSE error_logs.username
+                END as user_name')
+            )
             ->orderBy('created_at', 'desc')
-            ->limit(50)
-            ->get();
+            ->paginate(10);
 
         // Get system information
         $systemInfo = [
@@ -47,7 +57,12 @@ class AdminDashboardController extends Controller
             'disk_total_space' => $this->formatBytes(disk_total_space('/')),
         ];
 
-        return view('admin.dashboard', compact('userActivities', 'errorLogs', 'systemInfo'));
+        // Get user roles for the view
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
+
+        // Pass all required variables to the view
+        return view('dashboard', compact('userActivities', 'errorLogs', 'systemInfo', 'user', 'roles'));
     }
 
     public function getUserActivities(Request $request)
