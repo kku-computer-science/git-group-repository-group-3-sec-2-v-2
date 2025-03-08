@@ -154,7 +154,7 @@
                                             class="align-middle">
                                             <td class="font-weight-medium">{{ $safeIP }}</td>
                                             <td>{{ $safeBlockedAt }}</td>
-                                            <td>{{ Str::limit($safeReason, 50) }}</td>
+                                            <td>{{ Str::limit($safeReason ?? 'No reason provided', 50) }}</td>
                                             <td style="width: 200px;">
                                                 <div class="d-flex align-items-center">
                                                     <div class="progress flex-grow-1 mr-2" style="height: 6px;">

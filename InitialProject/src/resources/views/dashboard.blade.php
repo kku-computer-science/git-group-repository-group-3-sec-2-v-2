@@ -473,20 +473,33 @@
                             <tbody>
                                 @foreach($securityEvents ?? [] as $event)
                                 <tr>
-                                    <td>{{ $event->created_at->diffForHumans() }}</td>
+                                    <td>{{ $event->created_at ? \Carbon\Carbon::parse($event->created_at)->diffForHumans() : 'N/A' }}</td>
                                     <td>
                                         <i class="mdi {{ $event->icon_class }} security-icon"></i>
                                         {{ ucwords(str_replace('_', ' ', $event->event_type)) }}
                                     </td>
                                     <td>
                                         @if($event->user_id)
-                                            {{ $event->user->name ?? 'Unknown' }}<br>
+                                            @php
+                                                $user = \App\Models\User::find($event->user_id);
+                                                $username = 'Unknown';
+                                                if ($user) {
+                                                    if ($user->fname_en && $user->lname_en) {
+                                                        $username = $user->fname_en . ' ' . $user->lname_en;
+                                                    } elseif ($user->fname_th && $user->lname_th) {
+                                                        $username = $user->fname_th . ' ' . $user->lname_th;
+                                                    } elseif ($user->email) {
+                                                        $username = $user->email;
+                                                    }
+                                                }
+                                            @endphp
+                                            {{ $username }}<br>
                                             <small class="text-muted">{{ $event->ip_address }}</small>
                                         @else
                                             {{ $event->ip_address }}
                                         @endif
                                     </td>
-                                    <td>{{ Str::limit($event->details, 50) }}</td>
+                                    <td>{{ Str::limit($event->details ?? 'No details available', 50) }}</td>
                                     <td>
                                         <span class="badge badge-{{ $event->threat_level === 'high' ? 'danger' : ($event->threat_level === 'medium' ? 'warning' : 'info') }}">
                                             {{ ucfirst($event->threat_level) }}
@@ -527,23 +540,35 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-md-6">
+                            <p><strong>Time:</strong> {{ $event->created_at ? \Carbon\Carbon::parse($event->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
                             <p><strong>Event Type:</strong> {{ ucwords(str_replace('_', ' ', $event->event_type)) }}</p>
-                            <p><strong>Time:</strong> {{ $event->created_at }}</p>
                             <p><strong>IP Address:</strong> {{ $event->ip_address }}</p>
-                            <p><strong>User Agent:</strong> {{ $event->user_agent ?? 'N/A' }}</p>
-                            <p><strong>Location:</strong> {{ $event->location ?? 'Unknown' }}</p>
+                            <p><strong>User:</strong> 
+                                @php
+                                    $user = \App\Models\User::find($event->user_id);
+                                    $username = 'Unknown';
+                                    if ($user) {
+                                        if ($user->fname_en && $user->lname_en) {
+                                            $username = $user->fname_en . ' ' . $user->lname_en;
+                                        } elseif ($user->fname_th && $user->lname_th) {
+                                            $username = $user->fname_th . ' ' . $user->lname_th;
+                                        } elseif ($user->email) {
+                                            $username = $user->email;
+                                        }
+                                    }
+                                @endphp
+                                {{ $username }}
+                            </p>
                         </div>
                         <div class="col-md-6">
-                            <p><strong>Request Details:</strong></p>
-                            <div class="bg-light p-3 rounded">
-                                <pre class="mb-0">{{ json_encode($event->request_details ?? [], JSON_PRETTY_PRINT) }}</pre>
-                            </div>
-                            @if(isset($event->additional_data) && $event->additional_data)
-                            <p class="mt-3"><strong>Additional Data:</strong></p>
-                            <div class="bg-light p-3 rounded">
-                                <pre class="mb-0">{{ json_encode($event->additional_data, JSON_PRETTY_PRINT) }}</pre>
-                            </div>
-                            @endif
+                            <p><strong>Threat Level:</strong> 
+                                <span class="badge {{ $event->getThreatLevelClass() }}">
+                                    {{ $event->threat_level }}
+                                </span>
+                            </p>
+                            <p><strong>Details:</strong> {{ $event->details }}</p>
+                            <p><strong>User Agent:</strong> {{ $event->user_agent ?? 'Unknown' }}</p>
+                            <p><strong>Location:</strong> {{ $event->location ?? 'Unknown' }}</p>
                         </div>
                     </div>
                 </div>
@@ -562,6 +587,7 @@
 
     <!-- Activity & Error Logs -->
     <div class="row">
+        <!-- Recent Activities Section -->
         <div class="col-lg-6">
             <div class="content-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -570,11 +596,7 @@
                         <h3 class="card-title">Recent Activities</h3>
                     </div>
                     <div class="d-flex align-items-center">
-                        @if($userActivities instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                            <span class="badge bg-white text-primary mr-3">Total: {{ $userActivities->total() }}</span>
-                        @else
-                            <span class="badge bg-white text-primary mr-3">Total: {{ count($userActivities) }}</span>
-                        @endif
+                        <span class="badge bg-white text-primary mr-3">Showing: {{ count($userActivities) }} of {{ $totalActivities }}</span>
                         <a href="{{ route('admin.activities') }}" class="btn btn-sm btn-primary">View All</a>
                     </div>
                 </div>
@@ -626,7 +648,7 @@
                                                         <div class="col-md-6">
                                                             <p><strong>Description:</strong></p>
                                                             <div class="mb-3 bg-light border rounded"
-                                                                style=" line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px;
+                                                                style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px;
                                                                         overflow-y: auto; text-align: left; padding: 1rem;">
                                                                 {{ $activity->description ?? 'No description available' }}
                                                             </div>
@@ -645,17 +667,10 @@
                         </tbody>
                     </table>
                 </div>
-                @if($userActivities instanceof \Illuminate\Pagination\LengthAwarePaginator && $userActivities->hasPages())
-                <div class="p-4">
-                    <div class="pagination-info">
-                        Showing {{ $userActivities->firstItem() }}-{{ $userActivities->lastItem() }} of {{ $userActivities->total() }} items
-                    </div>
-                    {{ $userActivities->links() }}
-                </div>
-                @endif
             </div>
         </div>
 
+        <!-- Error Logs Section -->
         <div class="col-lg-6">
             <div class="content-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
@@ -664,11 +679,7 @@
                         <h3 class="card-title">Error Logs</h3>
                     </div>
                     <div class="d-flex align-items-center">
-                        @if($errorLogs instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                            <span class="badge bg-white text-primary mr-3">Total: {{ $errorLogs->total() }}</span>
-                        @else
-                            <span class="badge bg-white text-primary mr-3">Total: {{ count($errorLogs) }}</span>
-                        @endif
+                        <span class="badge bg-white text-primary mr-3">Showing: {{ count($errorLogs) }} of {{ $totalErrorLogs }}</span>
                         <a href="{{ route('admin.errors') }}" class="btn btn-sm btn-primary">View All</a>
                     </div>
                 </div>
@@ -676,30 +687,27 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>Time</th>
                                 <th>Level</th>
                                 <th>Message</th>
-                                <th>Time</th>
                                 <th>Details</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($errorLogs as $error)
                             <tr>
+                                <td>{{ \Carbon\Carbon::parse($error->created_at ?? now())->format('Y-m-d H:i') }}</td>
                                 <td>
-                                    @php
-                                        $level = $error->level ?? 'unknown';
-                                    @endphp
-                                    <span class="badge bg-{{ $level === 'error' ? 'danger' : ($level === 'warning' ? 'warning' : 'info') }} text-white">
-                                        {{ $level }}
+                                    <span class="badge {{ ($error->level ?? 'info') == 'error' ? 'bg-danger text-white' : (($error->level ?? 'info') == 'warning' ? 'bg-warning text-dark' : 'bg-info text-white') }}">
+                                        {{ ucfirst($error->level ?? 'info') }}
                                     </span>
                                 </td>
-                                <td>{{ Str::limit($error->message ?? '', 40) }}</td>
-                                <td>{{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->diffForHumans() : 'N/A' }}</td>
+                                <td>{{ Str::limit($error->message ?? 'No message available', 40) }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
                                         <i class="mdi mdi-information-outline"></i>
                                     </button>
-                                    
+
                                     <!-- Error Details Modal -->
                                     <div class="modal fade" id="errorModal{{ $error->id }}" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel{{ $error->id }}" aria-hidden="true">
                                         <div class="modal-dialog modal-lg" role="document">
@@ -713,24 +721,27 @@
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <p><strong>Level:</strong> <span class="badge bg-{{ $level === 'error' ? 'danger' : ($level === 'warning' ? 'warning' : 'info') }} text-white">{{ $level }}</span></p>
-                                                            <p><strong>User:</strong> {{ $error->user_name ?? 'N/A' }}</p>
-                                                            <p><strong>Time:</strong> {{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
-                                                            <p><strong>IP Address:</strong> {{ $error->ip_address ?? 'N/A' }}</p>
-                                                            <p><strong>URL:</strong> {{ $error->url ?? 'N/A' }}</p>
+                                                            <p><strong>Level:</strong> 
+                                                                <span class="badge {{ ($error->level ?? 'info') == 'error' ? 'bg-danger text-white' : (($error->level ?? 'info') == 'warning' ? 'bg-warning text-dark' : 'bg-info text-white') }}">
+                                                                    {{ ucfirst($error->level ?? 'info') }}
+                                                                </span>
+                                                            </p>
+                                                            <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($error->created_at ?? now())->format('Y-m-d H:i:s') }}</p>
+                                                            <p><strong>File:</strong> {{ $error->file ?? 'Unknown' }}</p>
+                                                            <p><strong>Line:</strong> {{ $error->line ?? 'Unknown' }}</p>
+                                                            <p><strong>User:</strong> {{ $error->user_name ?? 'Unknown' }}</p>
+                                                            <p><strong>IP Address:</strong> {{ $error->ip_address ?? 'Unknown' }}</p>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <p><strong>Message:</strong></p>
-                                                            <div class="mb-3 bg-light border rounded p-3" style="overflow-y: auto; max-height: 150px;">
+                                                            <div class="mb-3 bg-light border rounded p-3" style="word-break: break-word; max-height: 100px; overflow-y: auto;">
                                                                 {{ $error->message ?? 'No message available' }}
                                                             </div>
                                                             
-                                                            @if(isset($error->stack_trace) && $error->stack_trace)
                                                             <p><strong>Stack Trace:</strong></p>
-                                                            <div class="mb-3 bg-light border rounded p-3" style="overflow-y: auto; max-height: 150px; font-family: monospace; font-size: 0.8rem;">
-                                                                <pre>{{ $error->stack_trace }}</pre>
+                                                            <div class="bg-light border rounded p-3" style="font-size: 0.8rem; max-height: 200px; overflow-y: auto;">
+                                                                <pre style="white-space: pre-wrap; margin-bottom: 0;">{{ $error->stack_trace ?? 'No stack trace available' }}</pre>
                                                             </div>
-                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -746,14 +757,6 @@
                         </tbody>
                     </table>
                 </div>
-                @if($errorLogs instanceof \Illuminate\Pagination\LengthAwarePaginator && $errorLogs->hasPages())
-                <div class="p-4">
-                    <div class="pagination-info">
-                        Showing {{ $errorLogs->firstItem() }}-{{ $errorLogs->lastItem() }} of {{ $errorLogs->total() }} items
-                    </div>
-                    {{ $errorLogs->links() }}
-                </div>
-                @endif
             </div>
         </div>
     </div>
@@ -780,7 +783,7 @@
                             @foreach($papers as $paper)
                             <tr>
                                 <td>{{ $paper->title }}</td>
-                                <td>{{ \Carbon\Carbon::parse($paper->created_at)->format('Y-m-d') }}</td>
+                                <td>{{ isset($paper->created_at) && $paper->created_at ? \Carbon\Carbon::parse($paper->created_at)->format('Y-m-d') : 'N/A' }}</td>
                             </tr>
                             @endforeach
                         </tbody>

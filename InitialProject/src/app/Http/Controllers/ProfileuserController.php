@@ -46,12 +46,52 @@ class ProfileuserController extends Controller
                 ->paginate(10);
         }
 
+        // Get user activities (latest 10)
+        $userActivities = DB::table('activity_logs')
+            ->join('users', 'activity_logs.user_id', '=', 'users.id')
+            ->select('activity_logs.*', 
+                DB::raw("CASE 
+                    WHEN users.fname_en IS NULL OR users.fname_en = '' THEN CONCAT(users.fname_th, ' ', users.lname_th)
+                    ELSE CONCAT(users.fname_en, ' ', users.lname_en) 
+                END as user_name"))
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Get total count of user activities
+        $totalActivities = DB::table('activity_logs')->count();
+        
+        // Get error logs (last 10 entries)
+        $errorLogs = DB::table('error_logs')
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
+        // Get total count of error logs
+        $totalErrorLogs = DB::table('error_logs')->count();
+
+        // Get system information
+        $systemInfo = [
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
+            'database_name' => env('DB_DATABASE'),
+            'total_users' => DB::table('users')->count(),
+            'total_papers' => DB::table('papers')->count(),
+            'disk_free_space' => $this->formatBytes(disk_free_space('/')),
+            'disk_total_space' => $this->formatBytes(disk_total_space('/')),
+        ];
+
         // ข้อมูลพื้นฐานสำหรับทุก role
         $data = [
             'user' => $user,
             'roles' => $roles,
             'securityStats' => $securityStats,
-            'securityEvents' => $securityEvents
+            'securityEvents' => $securityEvents,
+            'userActivities' => $userActivities,
+            'errorLogs' => $errorLogs,
+            'totalActivities' => $totalActivities,
+            'totalErrorLogs' => $totalErrorLogs,
+            'systemInfo' => $systemInfo
         ];
 
         // ถ้าเป็น admin ให้เพิ่มข้อมูล dashboard
@@ -67,10 +107,10 @@ class ProfileuserController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
-            // Get error logs (last 50 entries)
+            // Get error logs (last 10 entries)
             $errorLogs = DB::table('error_logs')
                 ->orderBy('created_at', 'desc')
-                ->limit(50)
+                ->limit(10)
                 ->get();
 
             // Get system information

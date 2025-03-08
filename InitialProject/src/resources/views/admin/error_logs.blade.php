@@ -323,19 +323,19 @@
                                 {{ $error->level }}
                             </span>
                         </td>
-                        <td>{{ Str::limit($error->message, 40) }}</td>
-                        <td>{{ Str::limit($error->file, 20) }}</td>
+                        <td>{{ Str::limit($error->message ?? 'No message available', 40) }}</td>
+                        <td>{{ Str::limit($error->file ?? 'Unknown', 20) }}</td>
                         <td>{{ $error->ip_address ?? 'Unknown' }}</td>
                         <td>
                             @if(isset($error->user_name) && $error->user_name)
                             {{ $error->user_name }}
-                            @elseif($error->username)
+                            @elseif(isset($error->username) && $error->username)
                             {{ $error->username }}
                             @else
                             -
                             @endif
                         </td>
-                        <td>{{ \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') }}</td>
+                        <td>{{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</td>
                         <td>
                             <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
                                 <i class="mdi mdi-information-outline"></i>
@@ -359,8 +359,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="errorModalLabel{{ $error->id }}">
-                    <span class="badge bg-{{ $error->level == 'error' ? 'danger' : ($error->level == 'warning' ? 'warning' : 'info') }} text-white">
-                        {{ $error->level }}
+                    <span class="badge bg-{{ ($error->level ?? 'info') == 'error' ? 'danger' : (($error->level ?? 'info') == 'warning' ? 'warning' : 'info') }} text-white">
+                        {{ $error->level ?? 'info' }}
                     </span>
                     Error Details #{{ $error->id }}
                 </h5>
@@ -372,15 +372,15 @@
                 <div class="row">
                     <div class="col-md-6">
                         <p><strong>Level:</strong>
-                            <span class="badge bg-{{ $error->level == 'error' ? 'danger' : ($error->level == 'warning' ? 'warning' : 'info') }} text-white">
-                                {{ $error->level }}
+                            <span class="badge bg-{{ ($error->level ?? 'info') == 'error' ? 'danger' : (($error->level ?? 'info') == 'warning' ? 'warning' : 'info') }} text-white">
+                                {{ $error->level ?? 'info' }}
                             </span>
                         </p>
-                        <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') }}</p>
-                        @if($error->file)
+                        <p><strong>Time:</strong> {{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
+                        @if(isset($error->file) && $error->file)
                         <p><strong>File:</strong> {{ $error->file }}</p>
                         @endif
-                        @if($error->line)
+                        @if(isset($error->line) && $error->line)
                         <p><strong>Line:</strong> {{ $error->line }}</p>
                         @endif
                     </div>
@@ -388,13 +388,13 @@
                         <p><strong>IP Address:</strong> {{ $error->ip_address ?? 'Unknown' }}</p>
                         @if(isset($error->user_name) && $error->user_name)
                         <p><strong>User:</strong> {{ $error->user_name }}</p>
-                        @elseif($error->username)
+                        @elseif(isset($error->username) && $error->username)
                         <p><strong>Username:</strong> {{ $error->username }}</p>
                         @endif
-                        @if($error->url)
+                        @if(isset($error->url) && $error->url)
                         <p><strong>URL:</strong> {{ $error->url }}</p>
                         @endif
-                        @if($error->method)
+                        @if(isset($error->method) && $error->method)
                         <p><strong>Method:</strong> {{ $error->method }}</p>
                         @endif
                     </div>
@@ -404,11 +404,11 @@
                         <p><strong>Message:</strong></p>
                         <div class="mb-3 p-3 bg-light border rounded"
                             style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px; font-size: 0.812rem; font-weight: 400; color: #525f7f;">
-                            {{ $error->message }}
+                            {{ $error->message ?? 'No message available' }}
                         </div>
                     </div>
                 </div>
-                @if($error->user_agent)
+                @if(isset($error->user_agent) && $error->user_agent)
                 <div class="row mt-3">
                     <div class="col-12">
                         <p><strong>User Agent:</strong></p>
@@ -419,7 +419,7 @@
                     </div>
                 </div>
                 @endif
-                @if($error->context)
+                @if(isset($error->context) && $error->context)
                 <div class="row mt-3">
                     <div class="col-12">
                         <p><strong>Context:</strong></p>
@@ -430,7 +430,7 @@
                     </div>
                 </div>
                 @endif
-                @if($error->stack_trace)
+                @if(isset($error->stack_trace) && $error->stack_trace)
                 <div class="row mt-3">
                     <div class="col-12">
                         <p><strong>Stack Trace:</strong></p>

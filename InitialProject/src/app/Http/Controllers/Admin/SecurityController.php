@@ -129,8 +129,8 @@ class SecurityController extends Controller
             $search = $request->search;
             $query->where(function($q) use ($search) {
                 $q->where('details', 'like', "%{$search}%")
-                  ->orWhere('ip_address', 'like', "%{$search}%")
-                  ->orWhere('event_type', 'like', "%{$search}%");
+                    ->orWhere('ip_address', 'like', "%{$search}%")
+                    ->orWhere('event_type', 'like', "%{$search}%");
             });
         }
 
@@ -139,8 +139,39 @@ class SecurityController extends Controller
 
         // Paginate results
         $events = $query->paginate(20)->withQueryString();
+        
+        // Process user names for display
+        foreach ($events as $event) {
+            if ($event->user_id) {
+                $event->username = $this->getUserDisplayName($event->user);
+            }
+        }
 
         return view('admin.security.events', compact('events', 'eventTypes'));
+    }
+
+    /**
+     * Helper method to get user display name
+     */
+    private function getUserDisplayName($user)
+    {
+        if (!$user) {
+            return 'Unknown';
+        }
+        
+        if ($user->fname_en && $user->lname_en) {
+            return $user->fname_en . ' ' . $user->lname_en;
+        } 
+        
+        if ($user->fname_th && $user->lname_th) {
+            return $user->fname_th . ' ' . $user->lname_th;
+        }
+        
+        if ($user->email) {
+            return $user->email;
+        }
+        
+        return 'Unknown';
     }
 
     public function export(Request $request)

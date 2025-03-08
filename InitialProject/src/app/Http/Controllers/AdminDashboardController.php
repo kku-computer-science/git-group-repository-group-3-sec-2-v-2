@@ -34,10 +34,11 @@ class AdminDashboardController extends Controller
             $securityStats = $this->securityController->getSecurityStats();
             $securityEvents = SecurityEvent::with('user')
                 ->orderBy('created_at', 'desc')
-                ->paginate(10);
+                ->take(10)
+                ->get();
         }
 
-        // Get user activities (paginated)
+        // Get user activities (latest 10)
         $userActivities = DB::table('activity_logs')
             ->join('users', 'activity_logs.user_id', '=', 'users.id')
             ->select('activity_logs.*', 
@@ -46,9 +47,13 @@ class AdminDashboardController extends Controller
                     ELSE CONCAT(users.fname_en, ' ', users.lname_en) 
                 END as user_name"))
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->take(10)
+            ->get();
 
-        // Get error logs with pagination
+        // Get total count of user activities
+        $totalActivities = DB::table('activity_logs')->count();
+
+        // Get error logs (latest 10)
         $errorLogs = DB::table('error_logs')
             ->leftJoin('users', 'error_logs.user_id', '=', 'users.id')
             ->select(
@@ -62,7 +67,11 @@ class AdminDashboardController extends Controller
                 END as user_name')
             )
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->take(10)
+            ->get();
+
+        // Get total count of error logs
+        $totalErrorLogs = DB::table('error_logs')->count();
 
         // Get system information
         $systemInfo = [
@@ -83,7 +92,9 @@ class AdminDashboardController extends Controller
             'securityEvents',
             'userActivities',
             'errorLogs',
-            'systemInfo'
+            'systemInfo',
+            'totalActivities',
+            'totalErrorLogs'
         ));
     }
 

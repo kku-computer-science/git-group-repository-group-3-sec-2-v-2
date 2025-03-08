@@ -121,13 +121,13 @@
                                 </td>
                                 <td>
                                     @if($event->user_id)
-                                        {{ $event->user->name ?? 'Unknown' }}<br>
+                                        {{ $event->username }}<br>
                                         <small class="text-muted">{{ $event->ip_address }}</small>
                                     @else
                                         {{ $event->ip_address }}
                                     @endif
                                 </td>
-                                <td>{{ Str::limit($event->details, 50) }}</td>
+                                <td>{{ Str::limit($event->details ?? 'No details available', 50) }}</td>
                                 <td>
                                     <span class="threat-level {{ $event->threat_level }}">
                                         {{ ucfirst($event->threat_level) }}
@@ -181,11 +181,16 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <p><strong>Event Type:</strong> {{ ucwords(str_replace('_', ' ', $event->event_type)) }}</p>
-                        <p><strong>Time:</strong> {{ $event->created_at }}</p>
+                        <p><strong>Time:</strong> {{ $event->created_at->format('Y-m-d H:i:s') }}</p>
+                        <p><strong>Event Type:</strong> {{ $event->event_type }}</p>
                         <p><strong>IP Address:</strong> {{ $event->ip_address }}</p>
-                        <p><strong>User Agent:</strong> {{ $event->user_agent }}</p>
-                        <p><strong>Location:</strong> {{ $event->location ?? 'Unknown' }}</p>
+                        <p><strong>User:</strong> {{ $event->username ?? 'Unknown' }}</p>
+                        <p><strong>Threat Level:</strong> 
+                            <span class="badge {{ $event->getThreatLevelClass() }}">
+                                {{ $event->threat_level }}
+                            </span>
+                        </p>
+                        <p><strong>Details:</strong> {{ $event->details }}</p>
                     </div>
                     <div class="col-md-6">
                         <p><strong>Request Details:</strong></p>
