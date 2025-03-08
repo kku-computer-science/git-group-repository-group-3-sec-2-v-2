@@ -481,9 +481,10 @@
                                     <td>
                                         @if($event->user_id)
                                             @php
-                                                $user = \App\Models\User::find($event->user_id);
+                                                // Avoid querying the database inside a loop - this can cause memory issues
                                                 $username = 'Unknown';
-                                                if ($user) {
+                                                if (isset($event->user)) {
+                                                    $user = $event->user;
                                                     if ($user->fname_en && $user->lname_en) {
                                                         $username = $user->fname_en . ' ' . $user->lname_en;
                                                     } elseif ($user->fname_th && $user->lname_th) {
@@ -545,9 +546,10 @@
                             <p><strong>IP Address:</strong> {{ $event->ip_address }}</p>
                             <p><strong>User:</strong> 
                                 @php
-                                    $user = \App\Models\User::find($event->user_id);
+                                    // Avoid querying the database inside a loop - this can cause memory issues
                                     $username = 'Unknown';
-                                    if ($user) {
+                                    if (isset($event->user)) {
+                                        $user = $event->user;
                                         if ($user->fname_en && $user->lname_en) {
                                             $username = $user->fname_en . ' ' . $user->lname_en;
                                         } elseif ($user->fname_th && $user->lname_th) {

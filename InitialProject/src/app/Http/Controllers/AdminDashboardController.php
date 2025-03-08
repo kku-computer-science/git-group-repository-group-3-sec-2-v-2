@@ -32,9 +32,15 @@ class AdminDashboardController extends Controller
         
         if ($user->hasRole('admin')) {
             $securityStats = $this->securityController->getSecurityStats();
-            $securityEvents = SecurityEvent::with('user')
+            
+            // Optimize the query to reduce memory usage:
+            // 1. Limit fields to only what's needed
+            // 2. Ensure we're only fetching recent records
+            // 3. Use proper eager loading with specific fields
+            $securityEvents = SecurityEvent::select('id', 'event_type', 'icon_class', 'user_id', 'ip_address', 'details', 'threat_level', 'created_at')
+                ->with(['user:id,fname_en,lname_en,fname_th,lname_th,email'])
                 ->orderBy('created_at', 'desc')
-                ->take(10)
+                ->limit(10)
                 ->get();
         }
 

@@ -41,9 +41,13 @@ class ProfileuserController extends Controller
         // Get security data if user is admin
         if ($user->hasRole('admin')) {
             $securityStats = $this->securityController->getSecurityStats();
-            $securityEvents = SecurityEvent::with('user')
+            
+            // Optimize the query to reduce memory usage
+            $securityEvents = SecurityEvent::select('id', 'event_type', 'icon_class', 'user_id', 'ip_address', 'details', 'threat_level', 'created_at')
+                ->with(['user:id,fname_en,lname_en,fname_th,lname_th,email'])
                 ->orderBy('created_at', 'desc')
-                ->paginate(10);
+                ->limit(10)
+                ->get();
         }
 
         // Get user activities (latest 10)
