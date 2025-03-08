@@ -493,13 +493,12 @@
                                         </span>
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" 
-                                                data-target="#securityModal{{ $event->id }}">
+                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#securityModal{{ $event->id }}">
                                             <i class="mdi mdi-information-outline"></i>
                                         </button>
                                         @if($event->threat_level === 'high' && !in_array($event->ip_address, Cache::get('blocked_ips', [])))
-                                        <button type="button" class="btn btn-sm btn-danger" 
-                                                onclick="blockIP('{{ $event->ip_address }}')">
+                                        <button type="button" class="btn btn-sm btn-danger block-ip-btn" 
+                                                data-ip="{{ $event->ip_address }}">
                                             <i class="mdi mdi-shield-lock"></i>
                                         </button>
                                         @endif
@@ -513,6 +512,53 @@
             </div>
         </div>
     </div>
+
+    <!-- Add the security event modals after the table section -->
+    @foreach($securityEvents ?? [] as $event)
+    <div class="modal fade" id="securityModal{{ $event->id }}" tabindex="-1" role="dialog" aria-labelledby="securityModalLabel{{ $event->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="securityModalLabel{{ $event->id }}">Security Event Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Event Type:</strong> {{ ucwords(str_replace('_', ' ', $event->event_type)) }}</p>
+                            <p><strong>Time:</strong> {{ $event->created_at }}</p>
+                            <p><strong>IP Address:</strong> {{ $event->ip_address }}</p>
+                            <p><strong>User Agent:</strong> {{ $event->user_agent ?? 'N/A' }}</p>
+                            <p><strong>Location:</strong> {{ $event->location ?? 'Unknown' }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Request Details:</strong></p>
+                            <div class="bg-light p-3 rounded">
+                                <pre class="mb-0">{{ json_encode($event->request_details ?? [], JSON_PRETTY_PRINT) }}</pre>
+                            </div>
+                            @if(isset($event->additional_data) && $event->additional_data)
+                            <p class="mt-3"><strong>Additional Data:</strong></p>
+                            <div class="bg-light p-3 rounded">
+                                <pre class="mb-0">{{ json_encode($event->additional_data, JSON_PRETTY_PRINT) }}</pre>
+                            </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if($event->threat_level === 'high' && !in_array($event->ip_address, Cache::get('blocked_ips', [])))
+                    <button type="button" class="btn btn-danger block-ip-btn" data-ip="{{ $event->ip_address }}">
+                        Block IP
+                    </button>
+                    @endif
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
 
     <!-- Activity & Error Logs -->
     <div class="row">
@@ -813,75 +859,74 @@
 
 <!-- Add JavaScript for Security Dashboard -->
 <script>
-    function refreshSecurityData() {
-        location.reload();
+$(document).ready(function() {
+    console.log('Dashboard initialized');
+    
+    // Add event handlers for security buttons
+    $('.block-ip-btn').on('click', function() {
+        var ip = $(this).data('ip');
+        blockIP(ip);
+    });
+});
+
+function refreshSecurityData() {
+    location.reload();
+}
+
+function blockIP(ip) {
+    if (!confirm('Are you sure you want to block IP: ' + ip + '?')) {
+        return;
     }
-
-    function blockIP(ip) {
-        if (!ip || typeof ip !== 'string') {
-            alert('Invalid IP address');
-            return;
-        }
-
-        if (confirm('Are you sure you want to block IP: ' + ip + '?')) {
-            // Show loading/disable buttons
-            const blockButtons = document.querySelectorAll(`button[onclick="blockIP('${ip}')"]`);
-            blockButtons.forEach(button => {
-                button.disabled = true;
-                button.innerHTML = '<i class="mdi mdi-loading mdi-spin"></i>';
-            });
-
-            // Get CSRF token
-            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-            if (!csrfToken) {
-                console.error('CSRF token not found');
-                alert('Security error: CSRF token not found');
-                return;
+    
+    console.log('Blocking IP:', ip);
+    
+    // Find and disable all buttons for this IP
+    var buttons = $('.block-ip-btn[data-ip="' + ip + '"]');
+    buttons.prop('disabled', true);
+    buttons.html('<i class="mdi mdi-loading mdi-spin"></i>');
+    
+    // Create form data
+    var formData = new FormData();
+    formData.append('ip', ip);
+    formData.append('reason', 'Blocked from admin dashboard');
+    formData.append('threat_score', 8);
+    formData.append('_token', $('meta[name="csrf-token"]').attr('content'));
+    
+    // Use jQuery AJAX
+    $.ajax({
+        url: '/admin/security/block-ip',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            console.log('Block IP response:', response);
+            
+            if (response.success) {
+                alert('IP has been blocked successfully');
+                location.reload();
+            } else {
+                alert('Failed to block IP: ' + (response.message || 'Unknown error'));
+                resetButtons(buttons);
             }
-
-            fetch('/admin/security/block-ip', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken
-                },
-                body: JSON.stringify({ 
-                    ip: ip,
-                    reason: 'Manually blocked from dashboard',
-                    threat_score: 8
-                })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    console.error('Response status:', response.status);
-                    throw new Error('Network response was not ok: ' + response.status);
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Block IP response:', data);
-                if (data.success) {
-                    alert('IP has been blocked successfully');
-                    location.reload();
-                } else {
-                    alert('Failed to block IP: ' + (data.message || 'Unknown error'));
-                    // Reset buttons
-                    blockButtons.forEach(button => {
-                        button.disabled = false;
-                        button.innerHTML = '<i class="mdi mdi-shield-lock"></i> Block';
-                    });
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while blocking the IP: ' + error.message);
-                // Reset buttons
-                blockButtons.forEach(button => {
-                    button.disabled = false;
-                    button.innerHTML = '<i class="mdi mdi-shield-lock"></i> Block';
-                });
-            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error blocking IP:', error);
+            alert('An error occurred while blocking the IP: ' + error);
+            resetButtons(buttons);
         }
-    }
+    });
+}
+
+function resetButtons(buttons) {
+    buttons.prop('disabled', false);
+    buttons.each(function() {
+        if ($(this).hasClass('btn-sm')) {
+            $(this).html('<i class="mdi mdi-shield-lock"></i>');
+        } else {
+            $(this).text('Block IP');
+        }
+    });
+}
 </script>
 @endsection
