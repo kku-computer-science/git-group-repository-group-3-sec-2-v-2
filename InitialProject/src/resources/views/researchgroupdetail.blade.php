@@ -99,6 +99,18 @@
         margin: 5px 0;
     }
 
+    .person-info .email {
+        color: #0066cc;
+        font-size: 0.9rem;
+        font-weight: 400;
+        word-break: break-all;
+        text-decoration: none;
+    }
+
+    .person-info .email:hover {
+        text-decoration: underline;
+    }
+
     @media (max-width: 768px) {
         .blue-stripe h1 {
             font-size: 1.8rem;
@@ -136,7 +148,6 @@
     <!-- Main Research Areas / Topics -->
     <div class="research-rationale-box">
         <h2>Main Research Areas / Topics</h2>
-        <!-- เปลี่ยนเป็น group_main_research_ ตามที่แก้ใน DB/Controller -->
         <h4>{{ $rg->{'group_main_research_'.app()->getLocale()} }}</h4>
     </div>
 
@@ -173,6 +184,7 @@
                         @else
                         <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
                         @endif
+                        <a href="mailto:{{ $r->email }}" class="email">{{ $r->email }}</a>
                     </div>
                 </div>
             </div>
@@ -201,6 +213,7 @@
                         @else
                         <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
                         @endif
+                        <a href="mailto:{{ $r->email }}" class="email">{{ $r->email }}</a>
                     </div>
                 </div>
             </div>
@@ -209,6 +222,7 @@
         </div>
 
         <!-- Postdoctoral Researcher -->
+        @if($rg->user->where('pivot.role', 3)->isNotEmpty())
         <h3 class="mt-5">Postdoctoral Researcher</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
             @foreach($rg->user as $r)
@@ -226,14 +240,17 @@
                         @else
                         <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
                         @endif
+                        <a href="mailto:{{ $r->email }}" class="email">{{ $r->email }}</a>
                     </div>
                 </div>
             </div>
             @endif
             @endforeach
         </div>
+        @endif
 
         <!-- Students -->
+        @if($uniqueStudents->isNotEmpty())
         <h3 class="mt-5">Students</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
             @php
@@ -256,29 +273,36 @@
                             {{ $user->{'fname_'.app()->getLocale()} }}
                             {{ $user->{'lname_'.app()->getLocale()} }}
                         </p>
+                        <a href="mailto:{{ $user->email }}" class="email">{{ $user->email }}</a>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
+        @endif
 
         <!-- Visiting Scholars -->
+        @if($rg->visitingScholars->isNotEmpty())
         <h3 class="mt-5">Visiting Scholars</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
             @foreach($rg->visitingScholars as $scholar)
             <div class="col">
                 <div class="member-card">
                     <a class="profile-link">
-                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}" alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}" class="center-image">
+                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}"
+                            alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}"
+                            class="center-image">
                     </a>
                     <div class="person-info">
                         <p>{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
                         <p>{{ $scholar->belong_to }}</p>
+                        <a href="mailto:{{ $scholar->email }}" class="email">{{ $scholar->email }}</a>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
+        @endif
 
     </div> <!-- end research-rationale-box -->
 
