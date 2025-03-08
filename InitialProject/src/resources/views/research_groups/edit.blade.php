@@ -40,13 +40,13 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>หัวข้อการวิจัยหลัก (ภาษาไทย)</b></label>
                     <div class="col-sm-8">
-                        <input name="group_main_research_th" value="{{ $researchGroup->group_main_research_th }}" class="form-control" placeholder="หัวข้อการวิจัยหลัก (ภาษาไทย)">
+                        <textarea name="group_main_research_th" class="form-control" style="height:90px" placeholder="หัวข้อการวิจัยหลัก (ภาษาไทย)">{{ $researchGroup->group_main_research_th }}</textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>หัวข้อการวิจัยหลัก (English)</b></label>
                     <div class="col-sm-8">
-                        <input name="group_main_research_en" value="{{ $researchGroup->group_main_research_en }}" class="form-control" placeholder="Main research topic (English)">
+                        <textarea name="group_main_research_en" class="form-control" style="height:90px" placeholder="Main research topic (English)">{{ $researchGroup->group_main_research_en }}</textarea>
                     </div>
                 </div>
 
