@@ -210,6 +210,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/errors', [App\Http\Controllers\AdminDashboardController::class, 'getErrorLogs'])->name('admin.errors');
     Route::get('/system', [App\Http\Controllers\AdminDashboardController::class, 'getSystemInfo'])->name('admin.system');
     
+    // Security Routes
+    Route::get('/security/events', [App\Http\Controllers\Admin\SecurityController::class, 'events'])->name('admin.security.events');
+    Route::get('/security/export', [App\Http\Controllers\Admin\SecurityController::class, 'export'])->name('admin.security.export');
+    Route::post('/security/block-ip', [App\Http\Controllers\Admin\SecurityController::class, 'blockIP'])->name('admin.security.block-ip');
+
     // Test routes for logging
     Route::get('/test-activity', function() {
         \App\Models\ActivityLog::log(auth()->id(), 'TEST_ACTION', 'This is a test activity log entry');
@@ -238,4 +243,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
             return redirect()->back()->with('success', 'Test error log created successfully');
         }
     })->name('admin.test.error');
+});
+
+// Security Routes
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::post('/admin/security/block-ip', [App\Http\Controllers\Admin\SecurityController::class, 'blockIP'])->name('admin.security.block-ip');
+    Route::get('/admin/security/events', [App\Http\Controllers\Admin\SecurityController::class, 'events'])->name('admin.security.events');
+    Route::get('/admin/security/export', [App\Http\Controllers\Admin\SecurityController::class, 'export'])->name('admin.security.export');
 });

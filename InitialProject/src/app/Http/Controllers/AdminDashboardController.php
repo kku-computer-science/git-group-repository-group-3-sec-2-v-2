@@ -8,16 +8,35 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\SecurityEvent;
+use App\Http\Controllers\Admin\SecurityController;
 
 class AdminDashboardController extends Controller
 {
-    public function __construct()
+    protected $securityController;
+
+    public function __construct(SecurityController $securityController)
     {
         $this->middleware(['auth', 'role:admin']);
+        $this->securityController = $securityController;
     }
 
     public function index()
     {
+        $user = auth()->user();
+        $roles = $user->getRoleNames();
+
+        // Get security data if user is admin
+        $securityStats = [];
+        $securityEvents = collect([]);
+        
+        if ($user->hasRole('admin')) {
+            $securityStats = $this->securityController->getSecurityStats();
+            $securityEvents = SecurityEvent::with('user')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        }
+
         // Get user activities (paginated)
         $userActivities = DB::table('activity_logs')
             ->join('users', 'activity_logs.user_id', '=', 'users.id')
@@ -57,12 +76,15 @@ class AdminDashboardController extends Controller
             'disk_total_space' => $this->formatBytes(disk_total_space('/')),
         ];
 
-        // Get user roles for the view
-        $user = Auth::user();
-        $roles = $user->getRoleNames();
-
-        // Pass all required variables to the view
-        return view('dashboard', compact('userActivities', 'errorLogs', 'systemInfo', 'user', 'roles'));
+        return view('dashboard', compact(
+            'user',
+            'roles',
+            'securityStats',
+            'securityEvents',
+            'userActivities',
+            'errorLogs',
+            'systemInfo'
+        ));
     }
 
     public function getUserActivities(Request $request)

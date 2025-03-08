@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\SecurityEvent;
 
 class LoginController extends Controller
 {
@@ -55,19 +56,27 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        // Log logout activity before actually logging out
-        if (Auth::check()) {
-            \App\Models\ActivityLog::log(
-                Auth::id(),
-                'Logout',
-                'User logged out of the system'
-            );
+        // Log logout event before actually logging out
+        if (auth()->check()) {
+            SecurityEvent::create([
+                'event_type' => 'logout',
+                'icon_class' => 'mdi-logout',
+                'user_id' => auth()->id(),
+                'ip_address' => $request->ip(),
+                'details' => 'User logged out',
+                'threat_level' => 'low',
+                'user_agent' => $request->userAgent(),
+                'request_details' => [
+                    'logout_time' => now()->toDateTimeString()
+                ]
+            ]);
         }
-        
-        $request->session()->flush();
-        $request->session()->regenerate();
-        Auth::logout();
-        return redirect('/login');
+
+        $this->guard()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect('/');
     }
 
     protected function redirectTo()
@@ -96,10 +105,19 @@ class LoginController extends Controller
             $this->fireLockoutEvent($request);
             
             // Log too many login attempts
-            ErrorLogService::logAuthError(
-                'Too many login attempts. User has been locked out.',
-                $request->input('username') ?? ''
-            );
+            SecurityEvent::create([
+                'event_type' => 'account_locked',
+                'icon_class' => 'mdi-lock-alert',
+                'ip_address' => $request->ip(),
+                'details' => 'Account temporarily locked due to too many login attempts',
+                'threat_level' => 'high',
+                'user_agent' => $request->userAgent(),
+                'request_details' => [
+                    'username' => $request->username,
+                    'attempts' => $this->limiter()->attempts($this->throttleKey($request)),
+                    'lockout_time' => now()->toDateTimeString()
+                ]
+            ]);
             
             return $this->sendLockoutResponse($request);
         }
@@ -121,11 +139,19 @@ class LoginController extends Controller
         $input = $request->all();
         
         if ($validator->fails()) {
-            // Log validation errors
-            ErrorLogService::logValidationError(
-                $validator->errors()->toArray(),
-                'login'
-            );
+            // Log validation errors as security event
+            SecurityEvent::create([
+                'event_type' => 'invalid_login_attempt',
+                'icon_class' => 'mdi-alert',
+                'ip_address' => $request->ip(),
+                'details' => 'Login attempt with invalid input',
+                'threat_level' => 'low',
+                'user_agent' => $request->userAgent(),
+                'request_details' => [
+                    'errors' => $validator->errors()->toArray(),
+                    'attempt_time' => now()->toDateTimeString()
+                ]
+            ]);
             
             return redirect('login')->withErrors($validator->errors())->withInput();
         }
@@ -133,41 +159,126 @@ class LoginController extends Controller
         $fieldType = filter_var($request->username ?? '', FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         
         if (auth()->attempt(array($fieldType => $input['username'] ?? '', 'password' => $input['password'] ?? ''))) {
-            //success
-            
-            // Log successful login in the same format as other activities
-            if (auth()->check() && auth()->id()) {
-                \App\Models\ActivityLog::log(
-                    auth()->id(), 
-                    'Login', 
-                    'User logged in successfully'
-                );
-            }
+            // Log successful login
+            SecurityEvent::create([
+                'event_type' => 'successful_login',
+                'icon_class' => 'mdi-check-circle',
+                'user_id' => auth()->id(),
+                'ip_address' => $request->ip(),
+                'details' => 'Successful login',
+                'threat_level' => 'low',
+                'user_agent' => $request->userAgent(),
+                'request_details' => [
+                    'login_time' => now()->toDateTimeString(),
+                    'username' => $input['username'],
+                    'login_type' => $fieldType
+                ]
+            ]);
             
             if (Auth::check() && Auth::user() && Auth::user()->hasRole('admin')) {
                 return redirect()->route('dashboard');
-            } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('student')) { //นักศึกษา
+            } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('student')) {
                 return redirect()->route('dashboard');
-            } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('staff')) { //อาจารย์
+            } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('staff')) {
                 return redirect()->route('dashboard');
-            } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('teacher')) { //เจ้าหน้าที่
+            } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('teacher')) {
                 return redirect()->route('dashboard');
             } else {
                 return redirect()->route('dashboard');
             }
         } else {
-            //fail
             $this->incrementLoginAttempts($request);
             
-            // Log failed login attempts
-            ErrorLogService::logAuthError(
-                'Login Failed: Incorrect username or password.',
-                $request->input('username') ?? ''
-            );
+            // Log failed login attempt with threat level assessment
+            $failedAttempts = $this->limiter()->attempts($this->throttleKey($request));
+            $threatLevel = 'low';
+            if ($failedAttempts > 8) {
+                $threatLevel = 'high';
+            } elseif ($failedAttempts > 4) {
+                $threatLevel = 'medium';
+            }
+
+            SecurityEvent::create([
+                'event_type' => 'failed_login',
+                'icon_class' => 'mdi-alert-circle',
+                'ip_address' => $request->ip(),
+                'details' => 'Failed login attempt - Invalid credentials',
+                'threat_level' => $threatLevel,
+                'user_agent' => $request->userAgent(),
+                'request_details' => [
+                    'username' => $input['username'],
+                    'login_type' => $fieldType,
+                    'attempt_number' => $failedAttempts,
+                    'attempt_time' => now()->toDateTimeString()
+                ]
+            ]);
             
             return redirect()->back()
-                ->withInput($request->all())
+                ->withInput($request->except('password'))
                 ->withErrors(['error' => 'Login Failed: Your user ID or password is incorrect']);
         }
+    }
+
+    /**
+     * Override the failed login attempt method
+     */
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        // Log failed login attempt
+        SecurityEvent::create([
+            'event_type' => 'failed_login',
+            'icon_class' => 'mdi-alert-circle',
+            'ip_address' => $request->ip(),
+            'details' => 'Failed login attempt for email: ' . $request->email,
+            'threat_level' => $this->determineLoginThreatLevel($request->email),
+            'user_agent' => $request->userAgent(),
+            'request_details' => [
+                'email' => $request->email,
+                'attempt_time' => now()->toDateTimeString(),
+            ]
+        ]);
+
+        return parent::sendFailedLoginResponse($request);
+    }
+
+    /**
+     * Override the successful login method
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        // Log successful login
+        SecurityEvent::create([
+            'event_type' => 'successful_login',
+            'icon_class' => 'mdi-check-circle',
+            'user_id' => $user->id,
+            'ip_address' => $request->ip(),
+            'details' => 'Successful login',
+            'threat_level' => 'low',
+            'user_agent' => $request->userAgent(),
+            'request_details' => [
+                'login_time' => now()->toDateTimeString(),
+                'email' => $user->email
+            ]
+        ]);
+
+        return redirect()->intended($this->redirectPath());
+    }
+
+    /**
+     * Determine threat level based on failed attempts
+     */
+    private function determineLoginThreatLevel($email)
+    {
+        $recentFailedAttempts = SecurityEvent::where('event_type', 'failed_login')
+            ->where('created_at', '>=', now()->subHours(1))
+            ->where('request_details->email', $email)
+            ->count();
+
+        if ($recentFailedAttempts > 10) {
+            return 'high';
+        } elseif ($recentFailedAttempts > 5) {
+            return 'medium';
+        }
+        return 'low';
     }
 }
