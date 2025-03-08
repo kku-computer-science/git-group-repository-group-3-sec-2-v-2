@@ -61,6 +61,8 @@ class ResearchGroupController extends Controller
             'group_name_en' => 'required',
             'head'          => 'required',
             'link'          => 'nullable|url',
+            'group_image'     => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'visiting.*.picture' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
     
         $researchGroup = new ResearchGroup();
@@ -74,10 +76,18 @@ class ResearchGroupController extends Controller
         $researchGroup->group_main_research_th = $request->group_main_research_th;
     
         if ($request->hasFile('group_image')) {
-            $filename = time() . '.' . $request->file('group_image')->extension();
-            $request->file('group_image')->move(public_path('img'), $filename);
-            $researchGroup->group_image = $filename;
+            $file = $request->file('group_image');
+            // ตรวจสอบว่าไฟล์มี MIME type ที่เริ่มต้นด้วย "image/"
+            if ($file->isValid() && strpos($file->getMimeType(), 'image/') === 0) {
+                $filename = time() . '.' . $file->extension();
+                $file->move(public_path('img'), $filename);
+                $researchGroup->group_image = $filename;
+            } else {
+                // หากไฟล์ไม่ใช่รูปภาพ ให้ส่ง error กลับไป
+                return redirect()->back()->withErrors(['group_image' => 'Uploaded file must be an image.']);
+            }
         }
+        
         $researchGroup->link = $request->link;
         $researchGroup->save();
     
@@ -173,6 +183,8 @@ class ResearchGroupController extends Controller
             'group_name_th' => 'required',
             'group_name_en' => 'required',
             'link'          => 'nullable|url',
+            'group_image'     => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
+            'visiting.*.picture' => 'nullable|image|mimes:jpg,jpeg,png,gif|max:2048',
         ]);
     
         // อัปเดตข้อมูลพื้นฐานของกลุ่มวิจัย
@@ -186,10 +198,18 @@ class ResearchGroupController extends Controller
         $researchGroup->group_main_research_th = $request->group_main_research_th;
     
         if ($request->hasFile('group_image')) {
-            $filename = time() . '.' . $request->file('group_image')->extension();
-            $request->file('group_image')->move(public_path('img'), $filename);
-            $researchGroup->group_image = $filename;
+            $file = $request->file('group_image');
+            // ตรวจสอบว่าไฟล์มี MIME type ที่เริ่มต้นด้วย "image/"
+            if ($file->isValid() && strpos($file->getMimeType(), 'image/') === 0) {
+                $filename = time() . '.' . $file->extension();
+                $file->move(public_path('img'), $filename);
+                $researchGroup->group_image = $filename;
+            } else {
+                // หากไฟล์ไม่ใช่รูปภาพ ให้ส่ง error กลับไป
+                return redirect()->back()->withErrors(['group_image' => 'Uploaded file must be an image.']);
+            }
         }
+        
         $researchGroup->link = $request->link;
         $researchGroup->save();
     
@@ -239,10 +259,14 @@ class ResearchGroupController extends Controller
     
                     if ($request->hasFile("visiting.$key.picture")) {
                         $file = $request->file("visiting.$key.picture");
-                        $filename = time() . '_' . uniqid() . '.' . $file->extension();
-                        $file->move(public_path('images/imag_user'), $filename);
-                        $author->picture = $filename;
+                        $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                        if ($file->isValid() && in_array(strtolower($file->extension()), $allowedExtensions)) {
+                            $filename = time() . '_' . uniqid() . '.' . $file->extension();
+                            $file->move(public_path('images/imag_user'), $filename);
+                            $author->picture = $filename;
+                        }
                     }
+                    
                     $author->save();
                     $newVisiting[$author->id] = ['role' => 4, 'can_edit' => 0];
                 } else {
