@@ -2,6 +2,15 @@
 @section('title', 'Security Events')
 
 @section('content')
+<!-- Always include the CSRF token as both a meta tag and a hidden input for maximum compatibility -->
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<form id="block-ip-form" method="POST" action="{{ route('admin.security.block-ip') }}" style="display:none;">
+    @csrf
+    <input type="hidden" name="ip" id="block-ip-input">
+    <input type="hidden" name="reason" value="Blocked from security events page">
+    <input type="hidden" name="threat_score" value="8">
+</form>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
@@ -131,8 +140,8 @@
                                     </button>
 
                                     @if($event->threat_level === 'high')
-                                    <button type="button" class="btn btn-sm btn-danger" 
-                                            onclick="blockIP('{{ $event->ip_address }}')">
+                                    <button type="button" class="btn btn-sm btn-danger block-ip-btn" 
+                                            data-ip="{{ $event->ip_address }}">
                                         <i class="mdi mdi-shield-lock"></i>
                                     </button>
                                     @endif
@@ -174,8 +183,8 @@
                                         </div>
                                         <div class="modal-footer">
                                             @if($event->threat_level === 'high')
-                                            <button type="button" class="btn btn-danger" 
-                                                    onclick="blockIP('{{ $event->ip_address }}')">
+                                            <button type="button" class="btn btn-danger block-ip-btn"
+                                                    data-ip="{{ $event->ip_address }}">
                                                 Block IP
                                             </button>
                                             @endif
@@ -208,6 +217,27 @@
 
 @push('scripts')
 <script>
+// Make sure jQuery is available
+if (typeof jQuery === 'undefined') {
+    console.error('jQuery is not available. Some features may not work.');
+}
+
+// Initialize event handlers when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded. Setting up event handlers.');
+    
+    // Set up block IP button event listeners
+    const blockButtons = document.querySelectorAll('.block-ip-btn');
+    console.log('Found block IP buttons:', blockButtons.length);
+    
+    blockButtons.forEach(function(button) {
+        button.addEventListener('click', function(e) {
+            const ip = this.getAttribute('data-ip');
+            blockIP(ip, this);
+        });
+    });
+});
+
 function refreshData() {
     location.reload();
 }
@@ -217,30 +247,139 @@ function resetFilters() {
     document.getElementById('filterForm').submit();
 }
 
-function blockIP(ip) {
-    if (confirm('Are you sure you want to block IP: ' + ip + '?')) {
-        fetch('/admin/security/block-ip', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            },
-            body: JSON.stringify({ ip: ip })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('IP has been blocked successfully');
-                location.reload();
-            } else {
-                alert('Failed to block IP: ' + data.message);
+function blockIP(ip, buttonElement) {
+    console.log('blockIP function called with IP:', ip);
+    
+    if (!ip) {
+        console.error('Invalid IP address');
+        alert('Error: Invalid IP address');
+        return;
+    }
+    
+    if (!confirm('Are you sure you want to block IP: ' + ip + '?')) {
+        return;
+    }
+    
+    try {
+        // Show loading state on the button
+        if (buttonElement) {
+            buttonElement.disabled = true;
+            buttonElement.innerHTML = '<i class="mdi mdi-loading mdi-spin"></i>';
+        }
+        
+        // Find all buttons for this IP and disable them
+        const allButtons = document.querySelectorAll(`.block-ip-btn[data-ip="${ip}"]`);
+        allButtons.forEach(btn => {
+            btn.disabled = true;
+            btn.innerHTML = '<i class="mdi mdi-loading mdi-spin"></i>';
+        });
+        
+        console.log('Sending block IP request for:', ip);
+        
+        // Method 1: Use the form submission approach (most reliable)
+        const form = document.getElementById('block-ip-form');
+        const ipInput = document.getElementById('block-ip-input');
+        
+        if (form && ipInput) {
+            ipInput.value = ip;
+            
+            // Submit the form
+            fetch(form.action, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(new FormData(form))
+            })
+            .then(response => {
+                console.log('Server response status:', response.status);
+                if (!response.ok) {
+                    throw new Error('Server returned error: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Block IP response:', data);
+                handleBlockIPResponse(data, ip, allButtons);
+            })
+            .catch(error => {
+                console.error('Error in block IP request:', error);
+                handleBlockIPError(error, allButtons);
+            });
+        } else {
+            // Fallback to direct fetch with JSON if form is not found
+            console.log('Form not found, using direct fetch');
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            
+            if (!csrfToken) {
+                throw new Error('CSRF token not found');
             }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while blocking the IP');
+            
+            fetch('/admin/security/block-ip', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken,
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    ip: ip,
+                    reason: 'Blocked from security events page',
+                    threat_score: 8
+                })
+            })
+            .then(response => {
+                console.log('Server response status:', response.status);
+                if (!response.ok) {
+                    throw new Error('Server returned error: ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Block IP response:', data);
+                handleBlockIPResponse(data, ip, allButtons);
+            })
+            .catch(error => {
+                console.error('Error in block IP request:', error);
+                handleBlockIPError(error, allButtons);
+            });
+        }
+    } catch (error) {
+        console.error('Exception in blockIP function:', error);
+        alert('An error occurred: ' + error.message);
+        
+        // Reset all buttons
+        const allButtons = document.querySelectorAll(`.block-ip-btn[data-ip="${ip}"]`);
+        allButtons.forEach(btn => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="mdi mdi-shield-lock"></i>';
         });
     }
+}
+
+function handleBlockIPResponse(data, ip, buttons) {
+    if (data.success) {
+        alert('IP address ' + ip + ' has been blocked successfully');
+        // Reload the page to reflect changes
+        location.reload();
+    } else {
+        alert('Failed to block IP: ' + (data.message || 'Unknown error'));
+        // Reset all buttons
+        buttons.forEach(btn => {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="mdi mdi-shield-lock"></i>';
+        });
+    }
+}
+
+function handleBlockIPError(error, buttons) {
+    alert('Error blocking IP: ' + error.message);
+    // Reset all buttons
+    buttons.forEach(btn => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="mdi mdi-shield-lock"></i>';
+    });
 }
 </script>
 @endpush

@@ -818,27 +818,68 @@
     }
 
     function blockIP(ip) {
+        if (!ip || typeof ip !== 'string') {
+            alert('Invalid IP address');
+            return;
+        }
+
         if (confirm('Are you sure you want to block IP: ' + ip + '?')) {
+            // Show loading/disable buttons
+            const blockButtons = document.querySelectorAll(`button[onclick="blockIP('${ip}')"]`);
+            blockButtons.forEach(button => {
+                button.disabled = true;
+                button.innerHTML = '<i class="mdi mdi-loading mdi-spin"></i>';
+            });
+
+            // Get CSRF token
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            if (!csrfToken) {
+                console.error('CSRF token not found');
+                alert('Security error: CSRF token not found');
+                return;
+            }
+
             fetch('/admin/security/block-ip', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                    'X-CSRF-TOKEN': csrfToken
                 },
-                body: JSON.stringify({ ip: ip })
+                body: JSON.stringify({ 
+                    ip: ip,
+                    reason: 'Manually blocked from dashboard',
+                    threat_score: 8
+                })
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    console.error('Response status:', response.status);
+                    throw new Error('Network response was not ok: ' + response.status);
+                }
+                return response.json();
+            })
             .then(data => {
+                console.log('Block IP response:', data);
                 if (data.success) {
                     alert('IP has been blocked successfully');
                     location.reload();
                 } else {
-                    alert('Failed to block IP: ' + data.message);
+                    alert('Failed to block IP: ' + (data.message || 'Unknown error'));
+                    // Reset buttons
+                    blockButtons.forEach(button => {
+                        button.disabled = false;
+                        button.innerHTML = '<i class="mdi mdi-shield-lock"></i> Block';
+                    });
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('An error occurred while blocking the IP');
+                alert('An error occurred while blocking the IP: ' + error.message);
+                // Reset buttons
+                blockButtons.forEach(button => {
+                    button.disabled = false;
+                    button.innerHTML = '<i class="mdi mdi-shield-lock"></i> Block';
+                });
             });
         }
     }
