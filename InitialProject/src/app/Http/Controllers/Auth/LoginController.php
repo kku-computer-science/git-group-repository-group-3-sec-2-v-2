@@ -72,16 +72,19 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        if (Auth::user()->hasRole('admin')) {
+        if (Auth::check() && Auth::user() && Auth::user()->hasRole('admin')) {
             return route('dashboard');
-        } elseif (Auth::user()->hasRole('staff')) {
+        } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('staff')) {
             return route('dashboard');
-        } elseif (Auth::user()->hasRole('teacher')) {
+        } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('teacher')) {
             return route('dashboard');
-        } elseif (Auth::user()->hasRole('student')) {
+        } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('student')) {
             return route('dashboard');
             //return view('home');
         }
+        
+        // Default fallback
+        return route('dashboard');
     }
 
     public function login(Request $request)
@@ -95,7 +98,7 @@ class LoginController extends Controller
             // Log too many login attempts
             ErrorLogService::logAuthError(
                 'Too many login attempts. User has been locked out.',
-                $request->input('username')
+                $request->input('username') ?? ''
             );
             
             return $this->sendLockoutResponse($request);
@@ -104,8 +107,8 @@ class LoginController extends Controller
         $credentials = $request->only('username', 'password');
 
         $data = [
-            "username" => $credentials['username'],
-            "password" => $credentials['password']
+            "username" => $credentials['username'] ?? '',
+            "password" => $credentials['password'] ?? ''
         ];
 
         $rules = [
@@ -127,27 +130,31 @@ class LoginController extends Controller
             return redirect('login')->withErrors($validator->errors())->withInput();
         }
 
-        $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $fieldType = filter_var($request->username ?? '', FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         
-        if (auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password']))) {
+        if (auth()->attempt(array($fieldType => $input['username'] ?? '', 'password' => $input['password'] ?? ''))) {
             //success
             
             // Log successful login in the same format as other activities
-            \App\Models\ActivityLog::log(
-                auth()->id(), 
-                'Login', 
-                'User logged in successfully'
-            );
+            if (auth()->check() && auth()->id()) {
+                \App\Models\ActivityLog::log(
+                    auth()->id(), 
+                    'Login', 
+                    'User logged in successfully'
+                );
+            }
             
-            if (Auth::user()->hasRole('admin')) {
+            if (Auth::check() && Auth::user() && Auth::user()->hasRole('admin')) {
                 return redirect()->route('dashboard');
-            } elseif (Auth::user()->hasRole('student')) { //นักศึกษา
+            } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('student')) { //นักศึกษา
                 return redirect()->route('dashboard');
-            } elseif (Auth::user()->hasRole('staff')) { //อาจารย์
+            } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('staff')) { //อาจารย์
                 return redirect()->route('dashboard');
-            } elseif (Auth::user()->hasRole('teacher')) { //เจ้าหน้าที่
+            } elseif (Auth::check() && Auth::user() && Auth::user()->hasRole('teacher')) { //เจ้าหน้าที่
                 return redirect()->route('dashboard');
-            } 
+            } else {
+                return redirect()->route('dashboard');
+            }
         } else {
             //fail
             $this->incrementLoginAttempts($request);
@@ -155,7 +162,7 @@ class LoginController extends Controller
             // Log failed login attempts
             ErrorLogService::logAuthError(
                 'Login Failed: Incorrect username or password.',
-                $request->input('username')
+                $request->input('username') ?? ''
             );
             
             return redirect()->back()

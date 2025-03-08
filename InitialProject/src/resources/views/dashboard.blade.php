@@ -264,8 +264,13 @@
                             @foreach($userActivities as $activity)
                             <tr>
                                 <td>{{ $activity->user_name ?? 'Unknown' }}</td>
-                                <td>{{ Str::limit($activity->action ?? '', 30) }}</td>
-                                <td>{{ \Carbon\Carbon::parse($activity->created_at)->diffForHumans() }}</td>
+                                <td>
+                                    @php
+                                        $action = $activity->action ?? '';
+                                    @endphp
+                                    {{ Str::limit($action, 30) }}
+                                </td>
+                                <td>{{ isset($activity->created_at) && $activity->created_at ? \Carbon\Carbon::parse($activity->created_at)->diffForHumans() : 'N/A' }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#activityModal{{ $activity->id }}">
                                         <i class="mdi mdi-information-outline"></i>
@@ -286,7 +291,7 @@
                                                         <div class="col-md-6">
                                                             <p><strong>User:</strong> {{ $activity->user_name ?? 'Unknown' }}</p>
                                                             <p><strong>Action:</strong> {{ $activity->action ?? 'N/A' }}</p>
-                                                            <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($activity->created_at)->format('Y-m-d H:i:s') }}</p>
+                                                            <p><strong>Time:</strong> {{ isset($activity->created_at) && $activity->created_at ? \Carbon\Carbon::parse($activity->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
                                                             <p><strong>IP Address:</strong> {{ $activity->ip_address ?? 'N/A' }}</p>
                                                             <p><strong>User Agent:</strong> {{ $activity->user_agent ?? 'N/A' }}</p>
                                                         </div>
@@ -353,12 +358,15 @@
                             @foreach($errorLogs as $error)
                             <tr>
                                 <td>
-                                    <span class="badge bg-{{ $error->level == 'error' ? 'danger' : ($error->level == 'warning' ? 'warning' : 'info') }} text-white">
-                                        {{ $error->level ?? 'unknown' }}
+                                    @php
+                                        $level = $error->level ?? 'unknown';
+                                    @endphp
+                                    <span class="badge bg-{{ $level === 'error' ? 'danger' : ($level === 'warning' ? 'warning' : 'info') }} text-white">
+                                        {{ $level }}
                                     </span>
                                 </td>
                                 <td>{{ Str::limit($error->message ?? '', 40) }}</td>
-                                <td>{{ $error->created_at ? \Carbon\Carbon::parse($error->created_at)->diffForHumans() : 'N/A' }}</td>
+                                <td>{{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->diffForHumans() : 'N/A' }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
                                         <i class="mdi mdi-information-outline"></i>
@@ -377,9 +385,9 @@
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <p><strong>Level:</strong> <span class="badge bg-{{ $error->level == 'error' ? 'danger' : ($error->level == 'warning' ? 'warning' : 'info') }} text-white">{{ $error->level ?? 'unknown' }}</span></p>
+                                                            <p><strong>Level:</strong> <span class="badge bg-{{ $level === 'error' ? 'danger' : ($level === 'warning' ? 'warning' : 'info') }} text-white">{{ $level }}</span></p>
                                                             <p><strong>User:</strong> {{ $error->user_name ?? 'N/A' }}</p>
-                                                            <p><strong>Time:</strong> {{ $error->created_at ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
+                                                            <p><strong>Time:</strong> {{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
                                                             <p><strong>IP Address:</strong> {{ $error->ip_address ?? 'N/A' }}</p>
                                                             <p><strong>URL:</strong> {{ $error->url ?? 'N/A' }}</p>
                                                         </div>
@@ -389,7 +397,7 @@
                                                                 {{ $error->message ?? 'No message available' }}
                                                             </div>
                                                             
-                                                            @if($error->stack_trace)
+                                                            @if(isset($error->stack_trace) && $error->stack_trace)
                                                             <p><strong>Stack Trace:</strong></p>
                                                             <div class="mb-3 bg-light border rounded p-3" style="overflow-y: auto; max-height: 150px; font-family: monospace; font-size: 0.8rem;">
                                                                 <pre>{{ $error->stack_trace }}</pre>
