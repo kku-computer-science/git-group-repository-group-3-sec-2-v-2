@@ -10,9 +10,17 @@ use Illuminate\Support\Facades\Cache;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SecurityEventsExport;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Services\SecurityMonitoringService;
 
 class SecurityController extends Controller
 {
+    protected $securityService;
+
+    public function __construct(SecurityMonitoringService $securityService)
+    {
+        $this->securityService = $securityService;
+    }
+
     public function getSecurityStats()
     {
         $now = Carbon::now();
@@ -22,12 +30,15 @@ class SecurityController extends Controller
             'failed_logins' => SecurityEvent::where('event_type', 'failed_login')
                 ->where('created_at', '>=', $dayAgo)
                 ->count(),
-            'suspicious_ips' => SecurityEvent::where('threat_level', 'high')
+            'suspicious_ips' => SecurityEvent::whereIn('event_type', ['ddos_attempt', 'sql_injection_attempt', 'xss_attempt', 'suspicious_behavior'])
                 ->where('created_at', '>=', $dayAgo)
                 ->distinct('ip_address')
                 ->count(),
             'blocked_attempts' => Cache::get('blocked_ips_count', 0),
             'total_monitoring' => SecurityEvent::where('created_at', '>=', $dayAgo)->count(),
+            'attack_attempts' => SecurityEvent::whereIn('event_type', ['ddos_attempt', 'brute_force_attempt', 'sql_injection_attempt', 'xss_attempt'])
+                ->where('created_at', '>=', $dayAgo)
+                ->count(),
         ];
     }
 
@@ -48,20 +59,17 @@ class SecurityController extends Controller
             Cache::put('blocked_ips', $blockedIPs, now()->addDays(7));
             Cache::increment('blocked_ips_count');
 
-            // Log the blocking event
-            SecurityEvent::create([
-                'event_type' => 'ip_blocked',
-                'icon_class' => 'mdi-shield-lock',
-                'ip_address' => $ip,
-                'details' => 'IP address blocked by administrator',
-                'threat_level' => 'high',
-                'user_agent' => $request->userAgent(),
-                'location' => null, // You might want to implement IP geolocation here
-                'request_details' => [
+            // Log the blocking event using SecurityMonitoringService
+            $this->securityService->logAttackAttempt(
+                $ip,
+                'ip_blocked',
+                'IP address blocked by administrator',
+                'high',
+                [
                     'blocked_by' => auth()->id(),
                     'reason' => 'Manual block by administrator'
                 ]
-            ]);
+            );
 
             return response()->json(['success' => true, 'message' => 'IP blocked successfully']);
         }

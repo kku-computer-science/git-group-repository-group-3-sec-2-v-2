@@ -214,6 +214,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/security/events', [App\Http\Controllers\Admin\SecurityController::class, 'events'])->name('admin.security.events');
     Route::get('/security/export', [App\Http\Controllers\Admin\SecurityController::class, 'export'])->name('admin.security.export');
     Route::post('/security/block-ip', [App\Http\Controllers\Admin\SecurityController::class, 'blockIP'])->name('admin.security.block-ip');
+    Route::post('/security/unblock-ip', [App\Http\Controllers\Admin\BlockedIPController::class, 'unblock'])->name('admin.security.unblock-ip');
+    Route::get('/security/blocked-ips', [App\Http\Controllers\Admin\BlockedIPController::class, 'index'])->name('admin.security.blocked-ips');
 
     // Test routes for logging
     Route::get('/test-activity', function() {

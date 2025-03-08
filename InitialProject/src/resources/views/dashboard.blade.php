@@ -246,6 +246,85 @@
         font-size: 14px;
         color: #8898aa;
     }
+
+    .security-stat-card {
+        padding: 20px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        transition: transform 0.2s;
+    }
+
+    .security-stat-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+    }
+
+    .stat-icon i {
+        font-size: 24px;
+        color: white;
+    }
+
+    .stat-details {
+        flex-grow: 1;
+    }
+
+    .stat-value {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 0;
+    }
+
+    .stat-label {
+        margin: 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+
+    .bg-danger-light {
+        background-color: rgba(220, 53, 69, 0.1);
+    }
+
+    .bg-warning-light {
+        background-color: rgba(255, 193, 7, 0.1);
+    }
+
+    .bg-info-light {
+        background-color: rgba(23, 162, 184, 0.1);
+    }
+
+    .bg-success-light {
+        background-color: rgba(40, 167, 69, 0.1);
+    }
+
+    .security-icon {
+        font-size: 18px;
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+
+    .badge {
+        padding: 5px 10px;
+        font-weight: 500;
+    }
+
+    .btn-group .btn {
+        margin-left: 5px;
+    }
+
+    .table td {
+        vertical-align: middle;
+    }
 </style>
 
 @section('content')
@@ -314,9 +393,12 @@
                         <h6 class="card-subtitle mb-2">Security</h6>
                         <h3 class="card-title">Security Monitoring Dashboard</h3>
                     </div>
-                    <div>
-                        <a href="{{ route('admin.security.events') }}" class="btn btn-primary btn-sm mr-2">
-                            <i class="mdi mdi-format-list-bulleted"></i> View All Events
+                    <div class="btn-group">
+                        <a href="{{ route('admin.security.events') }}" class="btn btn-primary btn-sm">
+                            <i class="mdi mdi-format-list-bulleted"></i> View Events
+                        </a>
+                        <a href="{{ route('admin.security.blocked-ips') }}" class="btn btn-danger btn-sm">
+                            <i class="mdi mdi-shield-lock"></i> Manage Blocked IPs
                         </a>
                         <button class="btn btn-secondary btn-sm" onclick="refreshSecurityData()">
                             <i class="mdi mdi-refresh"></i> Refresh
@@ -326,26 +408,56 @@
                 
                 <div class="card-body">
                     <!-- Security Stats -->
-                    <div class="security-stats">
-                        <div class="security-stat-item">
-                            <div class="security-stat-value text-danger">{{ $securityStats['failed_logins'] ?? 0 }}</div>
-                            <div class="security-stat-label">Failed Logins (24h)</div>
-                        </div>
-                        <div class="security-stat-item">
-                            <div class="security-stat-value text-warning">{{ $securityStats['suspicious_ips'] ?? 0 }}</div>
-                            <div class="security-stat-label">Suspicious IPs</div>
-                        </div>
-                        <div class="security-stat-item">
-                            <div class="security-stat-value text-info">{{ $securityStats['blocked_attempts'] ?? 0 }}</div>
-                            <div class="security-stat-label">Blocked Attempts</div>
-                        </div>
-                        <div class="security-stat-item">
-                            <div class="security-stat-value text-success">{{ $securityStats['total_monitoring'] ?? 0 }}</div>
-                            <div class="security-stat-label">Monitored Events</div>
+                    <div class="security-stats mb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="security-stat-card bg-danger-light">
+                                    <div class="stat-icon bg-danger">
+                                        <i class="mdi mdi-shield-alert"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 class="stat-value text-danger">{{ $securityStats['failed_logins'] ?? 0 }}</h3>
+                                        <p class="stat-label">Failed Logins (24h)</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="security-stat-card bg-warning-light">
+                                    <div class="stat-icon bg-warning">
+                                        <i class="mdi mdi-ip-network"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 class="stat-value text-warning">{{ $securityStats['suspicious_ips'] ?? 0 }}</h3>
+                                        <p class="stat-label">Suspicious IPs</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="security-stat-card bg-info-light">
+                                    <div class="stat-icon bg-info">
+                                        <i class="mdi mdi-shield-check"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 class="stat-value text-info">{{ $securityStats['blocked_attempts'] ?? 0 }}</h3>
+                                        <p class="stat-label">Blocked Attempts</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="security-stat-card bg-success-light">
+                                    <div class="stat-icon bg-success">
+                                        <i class="mdi mdi-chart-line"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 class="stat-value text-success">{{ $securityStats['total_monitoring'] ?? 0 }}</h3>
+                                        <p class="stat-label">Monitored Events</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Security Alerts -->
+                    <!-- Recent Security Events -->
                     <div class="table-responsive">
                         <table class="table">
                             <thead>
@@ -364,7 +476,7 @@
                                     <td>{{ $event->created_at->diffForHumans() }}</td>
                                     <td>
                                         <i class="mdi {{ $event->icon_class }} security-icon"></i>
-                                        {{ $event->event_type }}
+                                        {{ ucwords(str_replace('_', ' ', $event->event_type)) }}
                                     </td>
                                     <td>
                                         @if($event->user_id)
@@ -374,9 +486,9 @@
                                             {{ $event->ip_address }}
                                         @endif
                                     </td>
-                                    <td>{{ $event->details }}</td>
+                                    <td>{{ Str::limit($event->details, 50) }}</td>
                                     <td>
-                                        <span class="threat-level {{ $event->threat_level }}">
+                                        <span class="badge badge-{{ $event->threat_level === 'high' ? 'danger' : ($event->threat_level === 'medium' ? 'warning' : 'info') }}">
                                             {{ ucfirst($event->threat_level) }}
                                         </span>
                                     </td>
@@ -385,68 +497,18 @@
                                                 data-target="#securityModal{{ $event->id }}">
                                             <i class="mdi mdi-information-outline"></i>
                                         </button>
-
-                                        <!-- Security Event Modal -->
-                                        <div class="modal fade" id="securityModal{{ $event->id }}" tabindex="-1">
-                                            <div class="modal-dialog modal-lg">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">Security Event Details</h5>
-                                                        <button type="button" class="close" data-dismiss="modal">
-                                                            <span>&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <p><strong>Event Type:</strong> {{ $event->event_type }}</p>
-                                                                <p><strong>Time:</strong> {{ $event->created_at }}</p>
-                                                                <p><strong>IP Address:</strong> {{ $event->ip_address }}</p>
-                                                                <p><strong>User Agent:</strong> {{ $event->user_agent }}</p>
-                                                                <p><strong>Location:</strong> {{ $event->location }}</p>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <p><strong>Request Details:</strong></p>
-                                                                <div class="bg-light p-3 rounded">
-                                                                    <pre class="mb-0">{{ json_encode($event->request_details, JSON_PRETTY_PRINT) }}</pre>
-                                                                </div>
-                                                                @if($event->additional_data)
-                                                                <p class="mt-3"><strong>Additional Data:</strong></p>
-                                                                <div class="bg-light p-3 rounded">
-                                                                    <pre class="mb-0">{{ json_encode($event->additional_data, JSON_PRETTY_PRINT) }}</pre>
-                                                                </div>
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        @if($event->threat_level === 'high')
-                                                        <button type="button" class="btn btn-danger" 
-                                                                onclick="blockIP('{{ $event->ip_address }}')">
-                                                            Block IP
-                                                        </button>
-                                                        @endif
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        @if($event->threat_level === 'high' && !in_array($event->ip_address, Cache::get('blocked_ips', [])))
+                                        <button type="button" class="btn btn-sm btn-danger" 
+                                                onclick="blockIP('{{ $event->ip_address }}')">
+                                            <i class="mdi mdi-shield-lock"></i>
+                                        </button>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
                     </div>
-
-                    @if($securityEvents instanceof \Illuminate\Pagination\LengthAwarePaginator && $securityEvents->hasPages())
-                    <div class="p-4">
-                        <div class="pagination-info">
-                            Showing {{ $securityEvents->firstItem() }}-{{ $securityEvents->lastItem() }} 
-                            of {{ $securityEvents->total() }} events
-                        </div>
-                        {{ $securityEvents->links() }}
-                    </div>
-                    @endif
                 </div>
             </div>
         </div>
@@ -752,13 +814,11 @@
 <!-- Add JavaScript for Security Dashboard -->
 <script>
     function refreshSecurityData() {
-        // Implement AJAX refresh logic here
         location.reload();
     }
 
     function blockIP(ip) {
         if (confirm('Are you sure you want to block IP: ' + ip + '?')) {
-            // Implement IP blocking logic via AJAX
             fetch('/admin/security/block-ip', {
                 method: 'POST',
                 headers: {
