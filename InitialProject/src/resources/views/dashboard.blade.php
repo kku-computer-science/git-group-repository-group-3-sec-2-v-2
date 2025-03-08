@@ -263,8 +263,8 @@
                         <tbody>
                             @foreach($userActivities as $activity)
                             <tr>
-                                <td>{{ $activity->user_name }}</td>
-                                <td>{{ Str::limit($activity->action, 30) }}</td>
+                                <td>{{ $activity->user_name ?? 'Unknown' }}</td>
+                                <td>{{ Str::limit($activity->action ?? '', 30) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($activity->created_at)->diffForHumans() }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#activityModal{{ $activity->id }}">
@@ -284,18 +284,18 @@
                                                 <div class="modal-body">
                                                     <div class="row">
                                                         <div class="col-md-6">
-                                                            <p><strong>User:</strong> {{ $activity->user_name }}</p>
-                                                            <p><strong>Action:</strong> {{ $activity->action }}</p>
+                                                            <p><strong>User:</strong> {{ $activity->user_name ?? 'Unknown' }}</p>
+                                                            <p><strong>Action:</strong> {{ $activity->action ?? 'N/A' }}</p>
                                                             <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($activity->created_at)->format('Y-m-d H:i:s') }}</p>
-                                                            <p><strong>IP Address:</strong> {{ $activity->ip_address }}</p>
-                                                            <p><strong>User Agent:</strong> {{ $activity->user_agent }}</p>
+                                                            <p><strong>IP Address:</strong> {{ $activity->ip_address ?? 'N/A' }}</p>
+                                                            <p><strong>User Agent:</strong> {{ $activity->user_agent ?? 'N/A' }}</p>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <p><strong>Description:</strong></p>
                                                             <div class="mb-3 bg-light border rounded"
                                                                 style=" line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px;
                                                                         overflow-y: auto; text-align: left; padding: 1rem;">
-                                                                {{ $activity->description }}
+                                                                {{ $activity->description ?? 'No description available' }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -354,15 +354,56 @@
                             <tr>
                                 <td>
                                     <span class="badge bg-{{ $error->level == 'error' ? 'danger' : ($error->level == 'warning' ? 'warning' : 'info') }} text-white">
-                                        {{ $error->level }}
+                                        {{ $error->level ?? 'unknown' }}
                                     </span>
                                 </td>
                                 <td>{{ Str::limit($error->message ?? '', 40) }}</td>
-                                <td>{{ \Carbon\Carbon::parse($error->created_at)->diffForHumans() }}</td>
+                                <td>{{ $error->created_at ? \Carbon\Carbon::parse($error->created_at)->diffForHumans() : 'N/A' }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
                                         <i class="mdi mdi-information-outline"></i>
                                     </button>
+                                    
+                                    <!-- Error Details Modal -->
+                                    <div class="modal fade" id="errorModal{{ $error->id }}" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel{{ $error->id }}" aria-hidden="true">
+                                        <div class="modal-dialog modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="errorModalLabel{{ $error->id }}">Error Details</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <p><strong>Level:</strong> <span class="badge bg-{{ $error->level == 'error' ? 'danger' : ($error->level == 'warning' ? 'warning' : 'info') }} text-white">{{ $error->level ?? 'unknown' }}</span></p>
+                                                            <p><strong>User:</strong> {{ $error->user_name ?? 'N/A' }}</p>
+                                                            <p><strong>Time:</strong> {{ $error->created_at ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
+                                                            <p><strong>IP Address:</strong> {{ $error->ip_address ?? 'N/A' }}</p>
+                                                            <p><strong>URL:</strong> {{ $error->url ?? 'N/A' }}</p>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <p><strong>Message:</strong></p>
+                                                            <div class="mb-3 bg-light border rounded p-3" style="overflow-y: auto; max-height: 150px;">
+                                                                {{ $error->message ?? 'No message available' }}
+                                                            </div>
+                                                            
+                                                            @if($error->stack_trace)
+                                                            <p><strong>Stack Trace:</strong></p>
+                                                            <div class="mb-3 bg-light border rounded p-3" style="overflow-y: auto; max-height: 150px; font-family: monospace; font-size: 0.8rem;">
+                                                                <pre>{{ $error->stack_trace }}</pre>
+                                                            </div>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
