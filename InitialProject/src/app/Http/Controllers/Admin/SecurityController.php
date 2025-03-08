@@ -11,6 +11,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\SecurityEventsExport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Services\SecurityMonitoringService;
+use Illuminate\Support\Facades\DB;
 
 class SecurityController extends Controller
 {
@@ -23,23 +24,41 @@ class SecurityController extends Controller
 
     public function getSecurityStats()
     {
-        $now = Carbon::now();
-        $dayAgo = $now->copy()->subDay();
+        try {
+            return cache()->remember('security_stats', 300, function() {
+                $now = now();
+                $thirtyDaysAgo = $now->copy()->subDays(30);
 
-        return [
-            'failed_logins' => SecurityEvent::where('event_type', 'failed_login')
-                ->where('created_at', '>=', $dayAgo)
-                ->count(),
-            'suspicious_ips' => SecurityEvent::whereIn('event_type', ['ddos_attempt', 'sql_injection_attempt', 'xss_attempt', 'suspicious_behavior'])
-                ->where('created_at', '>=', $dayAgo)
-                ->distinct('ip_address')
-                ->count(),
-            'blocked_attempts' => Cache::get('blocked_ips_count', 0),
-            'total_monitoring' => SecurityEvent::where('created_at', '>=', $dayAgo)->count(),
-            'attack_attempts' => SecurityEvent::whereIn('event_type', ['ddos_attempt', 'brute_force_attempt', 'sql_injection_attempt', 'xss_attempt'])
-                ->where('created_at', '>=', $dayAgo)
-                ->count(),
-        ];
+                return [
+                    'failed_logins' => DB::table('security_events')
+                        ->where('event_type', 'failed_login')
+                        ->where('created_at', '>=', $thirtyDaysAgo)
+                        ->count(),
+
+                    'suspicious_ips' => DB::table('security_events')
+                        ->where('threat_level', '>=', 3)
+                        ->where('created_at', '>=', $thirtyDaysAgo)
+                        ->distinct('ip_address')
+                        ->count(),
+
+                    'blocked_attempts' => DB::table('blocked_ips')
+                        ->where('created_at', '>=', $thirtyDaysAgo)
+                        ->count(),
+
+                    'total_monitoring' => DB::table('security_events')
+                        ->where('created_at', '>=', $thirtyDaysAgo)
+                        ->count()
+                ];
+            });
+        } catch (\Exception $e) {
+            \Log::error('Error getting security stats: ' . $e->getMessage());
+            return [
+                'failed_logins' => 0,
+                'suspicious_ips' => 0,
+                'blocked_attempts' => 0,
+                'total_monitoring' => 0
+            ];
+        }
     }
 
     public function blockIP(Request $request)
