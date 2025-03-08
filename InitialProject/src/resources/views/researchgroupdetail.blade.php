@@ -136,13 +136,12 @@
     <!-- Main Research Areas / Topics -->
     <div class="research-rationale-box">
         <h2>Main Research Areas / Topics</h2>
-        <!-- เปลี่ยนเป็น group_main_research_ ตามที่แก้ใน DB/Controller -->
-        <h4>{{ $rg->{'group_main_research_'.app()->getLocale()} }}</h4>
+        <h4 style="white-space: pre-wrap;">{{ $rg->{'group_main_research_'.app()->getLocale()} }}</h4>
     </div>
 
-    <!-- Researcher Details -->
+    <!-- Researcher Group Details -->
     <div class="research-rationale-box">
-        <h2>Researcher Details</h2>
+        <h2>Researcher Group Details</h2>
         <h4>{{ $rg->{'group_detail_'.app()->getLocale()} }}</h4>
     </div>
 
