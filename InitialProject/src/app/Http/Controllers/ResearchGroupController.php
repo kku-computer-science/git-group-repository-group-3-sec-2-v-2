@@ -91,13 +91,7 @@ class ResearchGroupController extends Controller
                 }
             }
         }
-        // if ($request->visiting) {
-        //     foreach ($request->visiting as $key => $value) {
-        //         if ($value['userid'] != null) {
-        //             $researchGroup->user()->attach($value['userid'], ['role' => 4]);
-        //         }
-        //     }
-        // }
+        
         if ($request->students) {
             foreach ($request->students as $key => $value) {
                 if ($value['userid'] != null) {
@@ -184,17 +178,11 @@ class ResearchGroupController extends Controller
         if ($request->postdoctoral) {
             foreach ($request->postdoctoral as $key => $value) {
                 if ($value['userid'] != null) {
-                    $researchGroup->user()->attach($value['userid'], ['role' => 3]);
+                    $researchGroup->user()->attach($value, ['role' => 3]);
                 }
             }
         }
-        // if ($request->visiting) {
-        //     foreach ($request->visiting as $key => $value) {
-        //         if ($value['userid'] != null) {
-        //             $researchGroup->user()->attach($value['userid'], ['role' => 4]);
-        //         }
-        //     }
-        // }
+        
         if ($request->students) {
             foreach ($request->students as $key => $value) {
                 if ($value['userid'] != null) {
