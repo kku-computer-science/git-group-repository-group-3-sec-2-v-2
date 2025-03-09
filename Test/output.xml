@@ -1,1007 +1,882 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.1.1 (Python 3.13.1 on win32)" generated="2025-02-26T13:45:38.992545" rpa="false" schemaversion="5">
+<robot generator="Robot 7.1.1 (Python 3.13.1 on win32)" generated="2025-03-10T02:39:14.943897" rpa="false" schemaversion="5">
 <suite id="s1" name="testRobotSprint2" source="D:\sprint1\git-group-repository-group-3-sec-2-v-2\Test\testRobotSprint2.robot">
 <test id="s1-t1" name="TC001 Open Event Registration Page" line="48">
 <kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:45:40.130503" level="INFO">Opening browser 'Chrome' to base url 'https://sesec2group3.cpkkuhost.com'.</msg>
+<msg time="2025-03-10T02:39:15.544145" level="INFO">Opening browser 'Chrome' to base url 'https://projectsoften.cpkkuhost.com'.</msg>
 <arg>${URL}</arg>
 <arg>${BROWSER}</arg>
 <arg>options=add_argument("--force-device-scale-factor=0.9")</arg>
 <doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2025-02-26T13:45:40.103537" elapsed="21.997443"/>
+<status status="PASS" start="2025-03-10T02:39:15.543894" elapsed="7.567521"/>
 </kw>
 <kw name="Maximize Browser Window" owner="SeleniumLibrary">
 <doc>Maximizes current browser window.</doc>
-<status status="PASS" start="2025-02-26T13:46:02.103308" elapsed="0.081506"/>
+<status status="PASS" start="2025-03-10T02:39:23.112504" elapsed="0.063913"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:39:53.620983" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-1.png"&gt;&lt;img src="selenium-screenshot-1.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:39:53.624794" level="FAIL">Text 'ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์' did not appear in 30 seconds.</msg>
 <arg>ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:46:02.187736" elapsed="0.063007"/>
+<status status="FAIL" start="2025-03-10T02:39:23.176911" elapsed="30.463260">Text 'ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์' did not appear in 30 seconds.</status>
 </kw>
 <kw name="Page Should Contain" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:02.266426" level="INFO">Current page contains text 'ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์'.</msg>
 <arg>ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์</arg>
 <doc>Verifies that current page contains ``text``.</doc>
-<status status="PASS" start="2025-02-26T13:46:02.251311" elapsed="0.015367"/>
+<status status="NOT RUN" start="2025-03-10T02:39:53.640832" elapsed="0.000047"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:45:40.092617" elapsed="22.174510"/>
+<status status="FAIL" start="2025-03-10T02:39:15.543050" elapsed="38.100769">Text 'ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์' did not appear in 30 seconds.</status>
 </test>
 <test id="s1-t2" name="TC002 Researcher Group Navigation" line="54">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:40:24.067039" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-2.png"&gt;&lt;img src="selenium-screenshot-2.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:40:24.094086" level="FAIL">Element 'xpath=//a[contains(text(),'Research Group')]' not visible after 30 seconds.</msg>
 <arg>xpath=//a[contains(text(),'Research Group')]</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:02.269829" elapsed="0.050644"/>
+<status status="FAIL" start="2025-03-10T02:39:53.648037" elapsed="30.680545">Element 'xpath=//a[contains(text(),'Research Group')]' not visible after 30 seconds.</status>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:02.321241" level="INFO">Clicking element 'xpath=//a[contains(text(),'Research Group')]'.</msg>
 <arg>xpath=//a[contains(text(),'Research Group')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:02.320973" elapsed="3.933271"/>
+<status status="NOT RUN" start="2025-03-10T02:40:24.359489" elapsed="0.000167"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Research Group</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:46:06.254796" elapsed="0.018165"/>
+<status status="NOT RUN" start="2025-03-10T02:40:24.360825" elapsed="0.000087"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:46:02.269114" elapsed="4.004304"/>
+<status status="FAIL" start="2025-03-10T02:39:53.646928" elapsed="30.716340">Element 'xpath=//a[contains(text(),'Research Group')]' not visible after 30 seconds.</status>
 </test>
 <test id="s1-t3" name="TC003 View Research Group Details" line="59">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:41:24.583821" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-3.png"&gt;&lt;img src="selenium-screenshot-3.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:41:24.584089" level="FAIL">Element 'xpath=//div[@class='overlay']//h5[text()='Applied Intelligence and Data Analytics (AIDA)']' not visible after 1 minute.</msg>
 <arg>xpath=//div[@class='overlay']//h5[text()='Applied Intelligence and Data Analytics (AIDA)']</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:06.275485" elapsed="0.031695"/>
+<status status="FAIL" start="2025-03-10T02:40:24.396573" elapsed="60.189290">Element 'xpath=//div[@class='overlay']//h5[text()='Applied Intelligence and Data Analytics (AIDA)']' not visible after 1 minute.</status>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:06.308193" level="INFO">Clicking element 'xpath=//div[@class='overlay']//h5[text()='Applied Intelligence and Data Analytics (AIDA)']'.</msg>
 <arg>xpath=//div[@class='overlay']//h5[text()='Applied Intelligence and Data Analytics (AIDA)']</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:06.307907" elapsed="5.722860"/>
+<status status="NOT RUN" start="2025-03-10T02:41:24.586500" elapsed="0.000048"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:46:14.031769" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:46:12.031313" elapsed="2.000687"/>
+<status status="NOT RUN" start="2025-03-10T02:41:24.587750" elapsed="0.000042"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>AIDA</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:46:14.032553" elapsed="0.016130"/>
+<status status="NOT RUN" start="2025-03-10T02:41:24.588010" elapsed="0.000031"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:46:06.274851" elapsed="7.774305"/>
+<status status="FAIL" start="2025-03-10T02:40:24.394111" elapsed="60.194441">Element 'xpath=//div[@class='overlay']//h5[text()='Applied Intelligence and Data Analytics (AIDA)']' not visible after 1 minute.</status>
 </test>
 <test id="s1-t4" name="TC004 Login Button" line="65">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:41:54.786610" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-4.png"&gt;&lt;img src="selenium-screenshot-4.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:41:54.788710" level="FAIL">Element 'xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']' not visible after 30 seconds.</msg>
 <arg>xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:14.050715" elapsed="0.022413"/>
+<status status="FAIL" start="2025-03-10T02:41:24.593118" elapsed="30.197243">Element 'xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']' not visible after 30 seconds.</status>
 </kw>
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
 <arg>xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-02-26T13:46:14.073604" elapsed="0.305860"/>
+<status status="NOT RUN" start="2025-03-10T02:41:54.791581" elapsed="0.000032"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:14.380111" level="INFO">Clicking element 'xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']'.</msg>
 <arg>xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:14.379890" elapsed="0.457058"/>
+<status status="NOT RUN" start="2025-03-10T02:41:54.791755" elapsed="0.000023"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:46:16.838172" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:46:14.837599" elapsed="2.000794"/>
+<status status="NOT RUN" start="2025-03-10T02:41:54.791914" elapsed="0.000021"/>
 </kw>
 <kw name="Switch Window" owner="SeleniumLibrary">
 <arg>NEW</arg>
 <doc>Switches to browser window matching ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:16.838932" elapsed="0.016019"/>
+<status status="NOT RUN" start="2025-03-10T02:41:54.792565" elapsed="0.000038"/>
 </kw>
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>name=username</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:16.855560" elapsed="0.036146"/>
+<status status="NOT RUN" start="2025-03-10T02:41:54.792738" elapsed="0.000021"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:46:14.050083" elapsed="2.842236"/>
+<status status="FAIL" start="2025-03-10T02:41:24.592614" elapsed="30.200337">Element 'xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']' not visible after 30 seconds.</status>
 </test>
 <test id="s1-t5" name="TC005 Login Head" line="73">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:16.894139" level="INFO">Typing text 'Ngamnij@kku.ac.th' into text field 'name=username'.</msg>
+<msg time="2025-03-10T02:41:54.795400" level="INFO">Typing text 'Ngamnij@kku.ac.th' into text field 'name=username'.</msg>
+<msg time="2025-03-10T02:41:54.948060" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-5.png"&gt;&lt;img src="selenium-screenshot-5.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:41:54.948532" level="FAIL">Element with locator 'name=username' not found.</msg>
 <arg>name=username</arg>
 <arg>Ngamnij@kku.ac.th</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:16.893858" elapsed="0.162119"/>
+<status status="FAIL" start="2025-03-10T02:41:54.795053" elapsed="0.162729">Element with locator 'name=username' not found.</status>
 </kw>
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:17.056933" level="INFO">Typing text '123456789' into text field 'name=password'.</msg>
 <arg>name=password</arg>
 <arg>123456789</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:17.056563" elapsed="0.120854"/>
+<status status="NOT RUN" start="2025-03-10T02:41:54.958118" elapsed="0.000031"/>
 </kw>
 <kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:17.178318" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
 <arg>xpath=//button[@type='submit']</arg>
 <doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:17.177931" elapsed="23.711257"/>
+<status status="NOT RUN" start="2025-03-10T02:41:54.958356" elapsed="0.000032"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Dashboard</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:46:40.889748" elapsed="0.022911"/>
+<status status="NOT RUN" start="2025-03-10T02:41:54.958568" elapsed="0.000028"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:46:16.893322" elapsed="24.023068"/>
+<status status="FAIL" start="2025-03-10T02:41:54.794724" elapsed="0.164108">Element with locator 'name=username' not found.</status>
 </test>
 <test id="s1-t6" name="TC006 Research Groups" line="79">
 <kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:43:25.196477" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-6.png"&gt;&lt;img src="selenium-screenshot-6.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:43:25.196683" level="FAIL">Element 'xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]' did not appear in 1 minute 30 seconds.</msg>
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <arg>timeout=90s</arg>
 <doc>Waits until the element ``locator`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:46:40.922206" elapsed="0.023208"/>
+<status status="FAIL" start="2025-03-10T02:41:54.962080" elapsed="90.236534">Element 'xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]' did not appear in 1 minute 30 seconds.</status>
 </kw>
 <kw name="Execute Javascript" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:40.947647" level="INFO">Executing JavaScript:
-window.scrollTo(0, document.body.scrollHeight);
-Without any arguments.</msg>
 <arg>window.scrollTo(0, document.body.scrollHeight);</arg>
 <doc>Executes the given JavaScript code with possible arguments.</doc>
-<status status="PASS" start="2025-02-26T13:46:40.946695" elapsed="0.010330"/>
+<status status="NOT RUN" start="2025-03-10T02:43:25.206537" elapsed="0.000073"/>
 </kw>
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-02-26T13:46:40.957774" elapsed="0.308434"/>
+<status status="NOT RUN" start="2025-03-10T02:43:25.206820" elapsed="0.000023"/>
 </kw>
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:41.266746" elapsed="0.020523"/>
+<status status="NOT RUN" start="2025-03-10T02:43:25.206985" elapsed="0.000022"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:41.288192" level="INFO">Clicking element 'xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]'.</msg>
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:41.287749" elapsed="1.917945"/>
+<status status="NOT RUN" start="2025-03-10T02:43:25.207143" elapsed="0.000044"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:46:45.207104" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:46:43.206489" elapsed="2.000898"/>
+<status status="NOT RUN" start="2025-03-10T02:43:25.207335" elapsed="0.000023"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Research Information Management System</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:46:45.209056" elapsed="0.022371"/>
+<status status="NOT RUN" start="2025-03-10T02:43:25.207493" elapsed="0.000024"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:46:40.921037" elapsed="4.311041"/>
+<status status="FAIL" start="2025-03-10T02:41:54.961545" elapsed="90.246173">Element 'xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]' did not appear in 1 minute 30 seconds.</status>
 </test>
 <test id="s1-t7" name="TC007 Edit Research Groups1" line="88">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
+<msg time="2025-03-10T02:44:25.438378" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-7.png"&gt;&lt;img src="selenium-screenshot-7.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:44:25.439431" level="FAIL">Element 'xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']' not visible after 1 minute.</msg>
+<arg>xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:45.233843" elapsed="0.033695"/>
+<status status="FAIL" start="2025-03-10T02:43:25.211300" elapsed="60.249973">Element 'xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']' not visible after 1 minute.</status>
 </kw>
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
-<arg>xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
+<arg>xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-02-26T13:46:45.268382" elapsed="0.290827"/>
+<status status="NOT RUN" start="2025-03-10T02:44:25.461806" elapsed="0.000041"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:45.560259" level="INFO">Clicking element 'xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']'.</msg>
-<arg>xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
+<arg>xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:45.559890" elapsed="1.459131"/>
+<status status="NOT RUN" start="2025-03-10T02:44:25.462053" elapsed="0.000100"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:46:49.020274" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:46:47.019640" elapsed="2.000873"/>
+<status status="NOT RUN" start="2025-03-10T02:44:25.462329" elapsed="0.000028"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>แก้ไขข้อมูลกลุ่มวิจัย</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:46:49.021162" elapsed="0.026204"/>
+<status status="NOT RUN" start="2025-03-10T02:44:25.462516" elapsed="0.000026"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:46:45.233115" elapsed="3.814770"/>
+<status status="FAIL" start="2025-03-10T02:43:25.210694" elapsed="60.252279">Element 'xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']' not visible after 1 minute.</status>
 </test>
 <test id="s1-t8" name="TC008 Add Member" line="95">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:45:25.587600" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-8.png"&gt;&lt;img src="selenium-screenshot-8.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:45:25.588035" level="FAIL">Element 'xpath=//button[@id='add-btn2']' not visible after 1 minute.</msg>
 <arg>xpath=//button[@id='add-btn2']</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:49.049472" elapsed="0.025186"/>
+<status status="FAIL" start="2025-03-10T02:44:25.464559" elapsed="60.125765">Element 'xpath=//button[@id='add-btn2']' not visible after 1 minute.</status>
 </kw>
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
 <arg>xpath=//button[@id='add-btn2']</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-02-26T13:46:49.075135" elapsed="0.296784"/>
+<status status="NOT RUN" start="2025-03-10T02:45:25.591412" elapsed="0.000034"/>
 </kw>
 <kw name="Execute Javascript" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:49.372872" level="INFO">Executing JavaScript:
-document.getElementById('add-btn2').click();
-Without any arguments.</msg>
 <arg>document.getElementById('add-btn2').click();</arg>
 <doc>Executes the given JavaScript code with possible arguments.</doc>
-<status status="PASS" start="2025-02-26T13:46:49.372376" elapsed="0.158988"/>
+<status status="NOT RUN" start="2025-03-10T02:45:25.591613" elapsed="0.000024"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:46:51.532739" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:46:49.531818" elapsed="2.001186"/>
+<status status="NOT RUN" start="2025-03-10T02:45:25.591787" elapsed="0.000025"/>
 </kw>
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>xpath=//span[@id='select2-selUser5-container']</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:51.533752" elapsed="0.023259"/>
+<status status="NOT RUN" start="2025-03-10T02:45:25.591951" elapsed="0.000023"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:46:49.048969" elapsed="2.508460"/>
+<status status="FAIL" start="2025-03-10T02:44:25.464185" elapsed="60.128040">Element 'xpath=//button[@id='add-btn2']' not visible after 1 minute.</status>
 </test>
 <test id="s1-t9" name="TC009 DropDown" line="102">
 <kw name="Select User from DropDown1">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:45:35.889224" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-9.png"&gt;&lt;img src="selenium-screenshot-9.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:45:35.889396" level="FAIL">Element 'xpath=//span[@id='select2-selUser6-container']' not visible after 10 seconds.</msg>
 <arg>xpath=//span[@id='select2-selUser6-container']</arg>
 <arg>timeout=10s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:51.652151" elapsed="0.075932"/>
+<status status="FAIL" start="2025-03-10T02:45:25.610111" elapsed="10.283449">Element 'xpath=//span[@id='select2-selUser6-container']' not visible after 10 seconds.</status>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:51.728853" level="INFO">Clicking element 'xpath=//span[@id='select2-selUser6-container']'.</msg>
 <arg>xpath=//span[@id='select2-selUser6-container']</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:51.728493" elapsed="0.176413"/>
+<status status="NOT RUN" start="2025-03-10T02:45:35.893886" elapsed="0.000046"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:46:52.906042" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:46:51.905319" elapsed="1.001151"/>
+<status status="NOT RUN" start="2025-03-10T02:45:35.894336" elapsed="0.000199"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:52.908182" level="INFO">Clicking element 'xpath=//li[contains(@id, 'select2-selUser6-result') and contains(text(),'สิรภัทร เชี่ยวชาญวัฒนา')]'.</msg>
 <arg>xpath=//li[contains(@id, 'select2-selUser6-result') and contains(text(),'สิรภัทร เชี่ยวชาญวัฒนา')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:52.907193" elapsed="0.112059"/>
+<status status="NOT RUN" start="2025-03-10T02:45:35.894640" elapsed="0.000021"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:46:54.019924" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:46:53.019502" elapsed="1.000579"/>
+<status status="NOT RUN" start="2025-03-10T02:45:35.894935" elapsed="0.000021"/>
 </kw>
 <doc>เลือก "สิรภัทร" จาก DropDown</doc>
-<status status="PASS" start="2025-02-26T13:46:51.651453" elapsed="2.368818"/>
+<status status="FAIL" start="2025-03-10T02:45:25.603522" elapsed="10.292375">Element 'xpath=//span[@id='select2-selUser6-container']' not visible after 10 seconds.</status>
 </kw>
-<status status="PASS" start="2025-02-26T13:46:51.560069" elapsed="2.460616"/>
+<status status="FAIL" start="2025-03-10T02:45:25.593279" elapsed="10.302946">Element 'xpath=//span[@id='select2-selUser6-container']' not visible after 10 seconds.</status>
 </test>
 <test id="s1-t10" name="TC010 Add Success" line="105">
 <kw name="Select User from DropDown1">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:45:46.120508" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-10.png"&gt;&lt;img src="selenium-screenshot-10.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:45:46.120728" level="FAIL">Element 'xpath=//span[@id='select2-selUser6-container']' not visible after 10 seconds.</msg>
 <arg>xpath=//span[@id='select2-selUser6-container']</arg>
 <arg>timeout=10s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:54.025372" elapsed="0.036146"/>
+<status status="FAIL" start="2025-03-10T02:45:35.899347" elapsed="10.222381">Element 'xpath=//span[@id='select2-selUser6-container']' not visible after 10 seconds.</status>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:54.062140" level="INFO">Clicking element 'xpath=//span[@id='select2-selUser6-container']'.</msg>
 <arg>xpath=//span[@id='select2-selUser6-container']</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:54.061848" elapsed="0.119355"/>
+<status status="NOT RUN" start="2025-03-10T02:45:46.122024" elapsed="0.000031"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:46:55.182583" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:46:54.181643" elapsed="1.001102"/>
+<status status="NOT RUN" start="2025-03-10T02:45:46.122138" elapsed="0.000020"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:55.183386" level="INFO">Clicking element 'xpath=//li[contains(@id, 'select2-selUser6-result') and contains(text(),'สิรภัทร เชี่ยวชาญวัฒนา')]'.</msg>
 <arg>xpath=//li[contains(@id, 'select2-selUser6-result') and contains(text(),'สิรภัทร เชี่ยวชาญวัฒนา')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:55.183061" elapsed="0.079115"/>
+<status status="NOT RUN" start="2025-03-10T02:45:46.122268" elapsed="0.000020"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:46:56.263448" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:46:55.262576" elapsed="1.001061"/>
+<status status="NOT RUN" start="2025-03-10T02:45:46.122348" elapsed="0.000017"/>
 </kw>
 <doc>เลือก "สิรภัทร" จาก DropDown</doc>
-<status status="PASS" start="2025-02-26T13:46:54.024893" elapsed="2.238937"/>
+<status status="FAIL" start="2025-03-10T02:45:35.899119" elapsed="10.223337">Element 'xpath=//span[@id='select2-selUser6-container']' not visible after 10 seconds.</status>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:56.264663" level="INFO">Clicking element 'xpath=//button[@type='submit' and contains(@class, 'btn-primary')]'.</msg>
 <arg>xpath=//button[@type='submit' and contains(@class, 'btn-primary')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:56.264330" elapsed="1.700878"/>
+<status status="NOT RUN" start="2025-03-10T02:45:46.122801" elapsed="0.000040"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Research group updated successfully</arg>
 <arg>timeout=10s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:46:57.965871" elapsed="0.017634"/>
+<status status="NOT RUN" start="2025-03-10T02:45:46.123018" elapsed="0.000027"/>
 </kw>
 <doc>ใช้ค่าเลือกจาก DropDown แล้วกด Submit</doc>
-<status status="PASS" start="2025-02-26T13:46:54.023274" elapsed="3.960711"/>
+<status status="FAIL" start="2025-03-10T02:45:35.897573" elapsed="10.225686">Element 'xpath=//span[@id='select2-selUser6-container']' not visible after 10 seconds.</status>
 </test>
 <test id="s1-t11" name="TC011 Logout1" line="111">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:46:46.337351" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-11.png"&gt;&lt;img src="selenium-screenshot-11.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:46:46.337490" level="FAIL">Element 'xpath=//a[contains(text(),'Logout')]' not visible after 1 minute.</msg>
 <arg>xpath=//a[contains(text(),'Logout')]</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:46:57.986125" elapsed="0.032326"/>
+<status status="FAIL" start="2025-03-10T02:45:46.124971" elapsed="60.213382">Element 'xpath=//a[contains(text(),'Logout')]' not visible after 1 minute.</status>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:58.019935" level="INFO">Clicking element 'xpath=//a[contains(text(),'Logout')]'.</msg>
 <arg>xpath=//a[contains(text(),'Logout')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:58.019358" elapsed="0.878980"/>
+<status status="NOT RUN" start="2025-03-10T02:46:46.338633" elapsed="0.000044"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Login</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:46:58.898900" elapsed="0.016119"/>
+<status status="NOT RUN" start="2025-03-10T02:46:46.339222" elapsed="0.000027"/>
 </kw>
 <kw name="Location Should Be" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:58.923286" level="INFO">Current location is 'https://sesec2group3.cpkkuhost.com/login'.</msg>
 <arg>${URL}/login</arg>
 <doc>Verifies that the current URL is exactly ``url``.</doc>
-<status status="PASS" start="2025-02-26T13:46:58.915484" elapsed="0.007906"/>
+<status status="NOT RUN" start="2025-03-10T02:46:46.339407" elapsed="0.000024"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:46:57.985208" elapsed="0.938504"/>
+<status status="FAIL" start="2025-03-10T02:45:46.124400" elapsed="60.215198">Element 'xpath=//a[contains(text(),'Logout')]' not visible after 1 minute.</status>
 </test>
 <test id="s1-t12" name="TC012 Login Member1" line="117">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:58.925215" level="INFO">Typing text 'Urachart@kku.ac.th' into text field 'name=username'.</msg>
+<msg time="2025-03-10T02:46:46.341166" level="INFO">Typing text 'Urachart@kku.ac.th' into text field 'name=username'.</msg>
+<msg time="2025-03-10T02:46:46.474030" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-12.png"&gt;&lt;img src="selenium-screenshot-12.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:46:46.474232" level="FAIL">Element with locator 'name=username' not found.</msg>
 <arg>name=username</arg>
 <arg>Urachart@kku.ac.th</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:58.924989" elapsed="0.145772"/>
+<status status="FAIL" start="2025-03-10T02:46:46.340980" elapsed="0.136356">Element with locator 'name=username' not found.</status>
 </kw>
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:59.072219" level="INFO">Typing text '123456789' into text field 'name=password'.</msg>
 <arg>name=password</arg>
 <arg>123456789</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:59.071710" elapsed="0.125001"/>
+<status status="NOT RUN" start="2025-03-10T02:46:46.477678" elapsed="0.000037"/>
 </kw>
 <kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:46:59.197880" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
 <arg>xpath=//button[@type='submit']</arg>
 <doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:46:59.197449" elapsed="1.320074"/>
+<status status="NOT RUN" start="2025-03-10T02:46:46.478162" elapsed="0.000028"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Dashboard</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:00.518105" elapsed="0.012708"/>
+<status status="NOT RUN" start="2025-03-10T02:46:46.478358" elapsed="0.000024"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:46:58.924459" elapsed="1.606808"/>
+<status status="FAIL" start="2025-03-10T02:46:46.340691" elapsed="0.137888">Element with locator 'name=username' not found.</status>
 </test>
 <test id="s1-t13" name="TC013 Research Groups1" line="123">
 <kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:48:16.649013" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-13.png"&gt;&lt;img src="selenium-screenshot-13.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-10T02:48:16.649176" level="FAIL">Element 'xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]' did not appear in 1 minute 30 seconds.</msg>
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <arg>timeout=90s</arg>
 <doc>Waits until the element ``locator`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:00.533104" elapsed="0.010207"/>
+<status status="FAIL" start="2025-03-10T02:46:46.480295" elapsed="90.170190">Element 'xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]' did not appear in 1 minute 30 seconds.</status>
 </kw>
 <kw name="Execute Javascript" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:00.545369" level="INFO">Executing JavaScript:
-window.scrollTo(0, document.body.scrollHeight);
-Without any arguments.</msg>
 <arg>window.scrollTo(0, document.body.scrollHeight);</arg>
 <doc>Executes the given JavaScript code with possible arguments.</doc>
-<status status="PASS" start="2025-02-26T13:47:00.544215" elapsed="0.009060"/>
+<status status="NOT RUN" start="2025-03-10T02:48:16.650856" elapsed="0.000279"/>
 </kw>
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-02-26T13:47:00.554235" elapsed="0.291568"/>
+<status status="NOT RUN" start="2025-03-10T02:48:16.651306" elapsed="0.000025"/>
 </kw>
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:00.846248" elapsed="0.018657"/>
+<status status="NOT RUN" start="2025-03-10T02:48:16.651482" elapsed="0.000021"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:00.865485" level="INFO">Clicking element 'xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]'.</msg>
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:00.865258" elapsed="1.101913"/>
+<status status="NOT RUN" start="2025-03-10T02:48:16.651628" elapsed="0.000020"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:47:03.968961" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:47:01.967909" elapsed="2.001256"/>
+<status status="NOT RUN" start="2025-03-10T02:48:16.651773" elapsed="0.000020"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Research Information Management System</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:03.969718" elapsed="0.011262"/>
+<status status="NOT RUN" start="2025-03-10T02:48:16.651915" elapsed="0.000019"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:00.532477" elapsed="3.448861"/>
+<status status="FAIL" start="2025-03-10T02:46:46.479795" elapsed="90.172344">Element 'xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]' did not appear in 1 minute 30 seconds.</status>
 </test>
 <test id="s1-t14" name="TC014 Logout2" line="132">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:49:04.775347" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B6C50B90&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:49:08.933585" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7A060D0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:49:13.040239" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7966B10&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:49:17.130698" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7966780&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:49:17.134774" level="FAIL">ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))</msg>
 <arg>xpath=//a[contains(text(),'Logout')]</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:03.983197" elapsed="0.022156"/>
+<status status="FAIL" start="2025-03-10T02:48:16.653625" elapsed="60.518081">ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))</status>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:04.006284" level="INFO">Clicking element 'xpath=//a[contains(text(),'Logout')]'.</msg>
 <arg>xpath=//a[contains(text(),'Logout')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:04.005936" elapsed="0.755552"/>
+<status status="NOT RUN" start="2025-03-10T02:49:17.174829" elapsed="0.000140"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Login</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:04.762682" elapsed="0.012081"/>
+<status status="NOT RUN" start="2025-03-10T02:49:17.175298" elapsed="0.000045"/>
 </kw>
 <kw name="Location Should Be" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:04.781260" level="INFO">Current location is 'https://sesec2group3.cpkkuhost.com/login'.</msg>
 <arg>${URL}/login</arg>
 <doc>Verifies that the current URL is exactly ``url``.</doc>
-<status status="PASS" start="2025-02-26T13:47:04.775188" elapsed="0.006253"/>
+<status status="NOT RUN" start="2025-03-10T02:49:17.175620" elapsed="0.000039"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:03.982767" elapsed="0.799339"/>
+<status status="FAIL" start="2025-03-10T02:48:16.653277" elapsed="60.523019">ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))</status>
 </test>
 <test id="s1-t15" name="TC015 Login Admin" line="138">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:04.784580" level="INFO">Typing text 'Admin@gmail.com' into text field 'name=username'.</msg>
+<msg time="2025-03-10T02:49:17.180838" level="INFO">Typing text 'Admin@gmail.com' into text field 'name=username'.</msg>
+<msg time="2025-03-10T02:49:21.288104" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7929A30&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:49:25.381142" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79888D0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:49:29.458769" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7988E20&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:49:37.641305" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC46B0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:49:41.724338" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC48D0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:49:45.819609" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC4AF0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:49:49.911398" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC4D10&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:49:49.912891" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7988160&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
 <arg>name=username</arg>
 <arg>Admin@gmail.com</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:04.784315" elapsed="0.133668"/>
+<status status="FAIL" start="2025-03-10T02:49:17.179488" elapsed="33.095873">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7988160&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:04.918983" level="INFO">Typing text '12345678' into text field 'name=password'.</msg>
 <arg>name=password</arg>
 <arg>12345678</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:04.918641" elapsed="0.132726"/>
+<status status="NOT RUN" start="2025-03-10T02:49:50.275784" elapsed="0.000046"/>
 </kw>
 <kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:05.052301" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
 <arg>xpath=//button[@type='submit']</arg>
 <doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:05.051934" elapsed="1.370603"/>
+<status status="NOT RUN" start="2025-03-10T02:49:50.276093" elapsed="0.000039"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Dashboard</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:06.423395" elapsed="0.016624"/>
+<status status="NOT RUN" start="2025-03-10T02:49:50.276344" elapsed="0.000035"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:04.783163" elapsed="1.657294"/>
+<status status="FAIL" start="2025-03-10T02:49:17.178663" elapsed="33.097959">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7988160&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t16" name="TC016 Research Groups" line="144">
 <kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:49:54.364346" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5260&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:49:58.454720" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5480&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:50:02.571194" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC58C0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:50:10.762043" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7988E20&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:50:14.867254" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79888D0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:50:18.965941" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79889E0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:50:23.047406" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989370&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:50:23.048673" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79897B0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <arg>timeout=90s</arg>
 <doc>Waits until the element ``locator`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:06.441955" elapsed="0.013265"/>
+<status status="FAIL" start="2025-03-10T02:49:50.278340" elapsed="32.775052">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79897B0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Execute Javascript" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:06.456502" level="INFO">Executing JavaScript:
-window.scrollTo(0, document.body.scrollHeight);
-Without any arguments.</msg>
 <arg>window.scrollTo(0, document.body.scrollHeight);</arg>
 <doc>Executes the given JavaScript code with possible arguments.</doc>
-<status status="PASS" start="2025-02-26T13:47:06.456021" elapsed="0.006919"/>
+<status status="NOT RUN" start="2025-03-10T02:50:23.053662" elapsed="0.000225"/>
 </kw>
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-02-26T13:47:06.463543" elapsed="0.298028"/>
+<status status="NOT RUN" start="2025-03-10T02:50:23.054063" elapsed="0.000023"/>
 </kw>
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:06.762121" elapsed="0.018298"/>
+<status status="NOT RUN" start="2025-03-10T02:50:23.054211" elapsed="0.000019"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:06.781155" level="INFO">Clicking element 'xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]'.</msg>
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:06.780865" elapsed="0.533254"/>
+<status status="NOT RUN" start="2025-03-10T02:50:23.054350" elapsed="0.000019"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:47:09.315824" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:47:07.314802" elapsed="2.001267"/>
+<status status="NOT RUN" start="2025-03-10T02:50:23.054543" elapsed="0.000026"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Research Information Management System</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:09.316889" elapsed="0.011404"/>
+<status status="NOT RUN" start="2025-03-10T02:50:23.054691" elapsed="0.000018"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:06.441282" elapsed="2.887390"/>
+<status status="FAIL" start="2025-03-10T02:49:50.277974" elapsed="32.776912">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79897B0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t17" name="TC017 Edit Research Group" line="153">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
+<msg time="2025-03-10T02:50:27.153707" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7988F30&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:50:31.229525" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79898C0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:50:35.332513" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79899D0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:50:43.543034" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A360&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:50:47.630817" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A140&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:50:51.734185" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A030&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:50:55.863036" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A9C0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:50:55.874798" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A690&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<arg>xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:09.330343" elapsed="0.017340"/>
+<status status="FAIL" start="2025-03-10T02:50:23.056690" elapsed="32.824836">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A690&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
-<arg>xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
+<arg>xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-02-26T13:47:09.348072" elapsed="0.286683"/>
+<status status="NOT RUN" start="2025-03-10T02:50:55.882500" elapsed="0.000765"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:09.635470" level="INFO">Clicking element 'xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']'.</msg>
-<arg>xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
+<arg>xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:09.635211" elapsed="0.999294"/>
+<status status="NOT RUN" start="2025-03-10T02:50:55.883483" elapsed="0.000031"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:47:12.635884" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:47:10.635182" elapsed="2.000926"/>
+<status status="NOT RUN" start="2025-03-10T02:50:55.883656" elapsed="0.000023"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>แก้ไขข้อมูลกลุ่มวิจัย</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:12.636779" elapsed="0.017800"/>
+<status status="NOT RUN" start="2025-03-10T02:50:55.883802" elapsed="0.000020"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:09.329657" elapsed="3.325346"/>
+<status status="FAIL" start="2025-03-10T02:50:23.056313" elapsed="32.827921">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A690&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t18" name="TC018 Change Permission Button" line="160">
 <kw name="Select Permission from DropDown">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:51:00.017782" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798B130&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:51:04.106395" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798B570&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:51:08.188782" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798ACF0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:51:16.405044" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798B790&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:51:20.495157" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5AE0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:51:24.599168" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5590&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:51:28.701222" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5040&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:51:28.703262" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798BAC0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
 <arg>xpath=//select[@name="moreFields[1][can_edit]"]</arg>
 <arg>timeout=10s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:12.657018" elapsed="0.024832"/>
+<status status="FAIL" start="2025-03-10T02:50:55.890999" elapsed="32.816362">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798BAC0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Select From List By Label" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:12.682904" level="INFO">Selecting options from selection list 'xpath=//select[@name="moreFields[1][can_edit]"]' by label View and Edit.</msg>
 <arg>xpath=//select[@name="moreFields[1][can_edit]"]</arg>
 <arg>View and Edit</arg>
 <doc>Selects options from selection list ``locator`` by ``labels``.</doc>
-<status status="PASS" start="2025-02-26T13:47:12.682343" elapsed="0.100769"/>
+<status status="NOT RUN" start="2025-03-10T02:51:28.707758" elapsed="0.000033"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:47:13.784239" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:47:12.783399" elapsed="1.001068"/>
+<status status="NOT RUN" start="2025-03-10T02:51:28.707874" elapsed="0.000038"/>
 </kw>
 <doc>เลือก "View and Edit" จาก DropDown</doc>
-<status status="PASS" start="2025-02-26T13:47:12.656703" elapsed="1.128052"/>
+<status status="FAIL" start="2025-03-10T02:50:55.890288" elapsed="32.817886">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798BAC0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:12.656049" elapsed="1.129312"/>
+<status status="FAIL" start="2025-03-10T02:50:55.885214" elapsed="32.823202">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798BAC0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t19" name="TC019 Submit Button" line="163">
 <kw name="Select Permission from DropDown">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:51:32.792322" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC48D0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:51:36.903547" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC46B0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:51:41.002459" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5D00&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:51:49.206321" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC6250&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:51:53.288247" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC6470&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:51:57.388351" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC6690&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:52:01.485173" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC68B0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:52:01.487014" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5F20&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
 <arg>xpath=//select[@name="moreFields[1][can_edit]"]</arg>
 <arg>timeout=10s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:13.787342" elapsed="0.024948"/>
+<status status="FAIL" start="2025-03-10T02:51:28.709886" elapsed="32.783907">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5F20&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Select From List By Label" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:13.813408" level="INFO">Selecting options from selection list 'xpath=//select[@name="moreFields[1][can_edit]"]' by label View and Edit.</msg>
 <arg>xpath=//select[@name="moreFields[1][can_edit]"]</arg>
 <arg>View and Edit</arg>
 <doc>Selects options from selection list ``locator`` by ``labels``.</doc>
-<status status="PASS" start="2025-02-26T13:47:13.812785" elapsed="0.059655"/>
+<status status="NOT RUN" start="2025-03-10T02:52:01.494082" elapsed="0.000041"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:47:14.873640" level="INFO">Slept 1 second.</msg>
 <arg>1s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:47:13.872797" elapsed="1.001072"/>
+<status status="NOT RUN" start="2025-03-10T02:52:01.494222" elapsed="0.000026"/>
 </kw>
 <doc>เลือก "View and Edit" จาก DropDown</doc>
-<status status="PASS" start="2025-02-26T13:47:13.787015" elapsed="1.087154"/>
+<status status="FAIL" start="2025-03-10T02:51:28.709614" elapsed="32.784765">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5F20&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:14.875041" level="INFO">Clicking element 'xpath=//button[@type='submit' and contains(@class, 'btn-primary')]'.</msg>
 <arg>xpath=//button[@type='submit' and contains(@class, 'btn-primary')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:14.874725" elapsed="1.027102"/>
+<status status="NOT RUN" start="2025-03-10T02:52:01.494670" elapsed="0.000031"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Research group updated successfully</arg>
 <arg>timeout=10s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:15.902372" elapsed="0.011609"/>
+<status status="NOT RUN" start="2025-03-10T02:52:01.494886" elapsed="0.000028"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:13.786408" elapsed="2.127981"/>
+<status status="FAIL" start="2025-03-10T02:51:28.709207" elapsed="32.785946">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5F20&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t20" name="TC020 Logout3" line="168">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:52:05.575938" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798B9B0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:52:09.679893" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798BAC0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:52:13.783117" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798B460&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:52:21.976028" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798AF10&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:52:26.078241" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798ABE0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:52:30.181651" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A7A0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:52:34.297109" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A8B0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:52:34.298342" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798B680&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
 <arg>xpath=//a[contains(text(),'Logout')]</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:15.925655" elapsed="0.027007"/>
+<status status="FAIL" start="2025-03-10T02:52:01.497345" elapsed="32.805070">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798B680&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:15.953375" level="INFO">Clicking element 'xpath=//a[contains(text(),'Logout')]'.</msg>
 <arg>xpath=//a[contains(text(),'Logout')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:15.953130" elapsed="0.842174"/>
+<status status="NOT RUN" start="2025-03-10T02:52:34.302674" elapsed="0.000027"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Login</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:16.796077" elapsed="0.011743"/>
+<status status="NOT RUN" start="2025-03-10T02:52:34.302838" elapsed="0.000022"/>
 </kw>
 <kw name="Location Should Be" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:16.814266" level="INFO">Current location is 'https://sesec2group3.cpkkuhost.com/login'.</msg>
 <arg>${URL}/login</arg>
 <doc>Verifies that the current URL is exactly ``url``.</doc>
-<status status="PASS" start="2025-02-26T13:47:16.808258" elapsed="0.006125"/>
+<status status="NOT RUN" start="2025-03-10T02:52:34.302989" elapsed="0.000021"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:15.924793" elapsed="0.889917"/>
+<status status="FAIL" start="2025-03-10T02:52:01.496934" elapsed="32.806298">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798B680&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t21" name="TC021 Login Member2" line="174">
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:16.817340" level="INFO">Typing text 'Urachart@kku.ac.th' into text field 'name=username'.</msg>
+<msg time="2025-03-10T02:52:34.304888" level="INFO">Typing text 'Urachart@kku.ac.th' into text field 'name=username'.</msg>
+<msg time="2025-03-10T02:52:38.397563" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989AE0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:52:42.495069" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A690&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:52:46.578453" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79899D0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:52:54.783397" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989260&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:52:58.870553" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7988AF0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:53:02.960215" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79887C0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:53:07.043927" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7988D10&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:53:07.046205" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989480&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
 <arg>name=username</arg>
 <arg>Urachart@kku.ac.th</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:16.816998" elapsed="0.144151"/>
+<status status="FAIL" start="2025-03-10T02:52:34.304621" elapsed="32.754608">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989480&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:16.962114" level="INFO">Typing text '123456789' into text field 'name=password'.</msg>
 <arg>name=password</arg>
 <arg>123456789</arg>
 <doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:16.961785" elapsed="0.123759"/>
+<status status="NOT RUN" start="2025-03-10T02:53:07.063356" elapsed="0.000074"/>
 </kw>
 <kw name="Click Button" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:17.086272" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
 <arg>xpath=//button[@type='submit']</arg>
 <doc>Clicks the button identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:17.085976" elapsed="3.297926"/>
+<status status="NOT RUN" start="2025-03-10T02:53:07.066849" elapsed="0.000050"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Dashboard</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:20.384716" elapsed="0.020472"/>
+<status status="NOT RUN" start="2025-03-10T02:53:07.069402" elapsed="0.000506"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:16.816008" elapsed="3.589552"/>
+<status status="FAIL" start="2025-03-10T02:52:34.304086" elapsed="32.766288">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989480&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t22" name="TC022 Research Groups2" line="180">
 <kw name="Wait Until Page Contains Element" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:53:11.176194" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC67A0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:53:15.264620" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC6580&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:53:19.351506" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC45A0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:53:27.535284" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC4D10&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:53:31.641107" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC4F30&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:53:35.747400" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC5150&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:53:39.847322" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC56A0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:53:39.860566" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC47C0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <arg>timeout=90s</arg>
 <doc>Waits until the element ``locator`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:20.407033" elapsed="0.009205"/>
+<status status="FAIL" start="2025-03-10T02:53:07.072458" elapsed="32.860988">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC47C0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Execute Javascript" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:20.417629" level="INFO">Executing JavaScript:
-window.scrollTo(0, document.body.scrollHeight);
-Without any arguments.</msg>
 <arg>window.scrollTo(0, document.body.scrollHeight);</arg>
 <doc>Executes the given JavaScript code with possible arguments.</doc>
-<status status="PASS" start="2025-02-26T13:47:20.416785" elapsed="0.008190"/>
+<status status="NOT RUN" start="2025-03-10T02:53:39.941887" elapsed="0.007942"/>
 </kw>
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-02-26T13:47:20.425374" elapsed="0.310012"/>
+<status status="NOT RUN" start="2025-03-10T02:53:39.950830" elapsed="0.000088"/>
 </kw>
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:20.735845" elapsed="0.018517"/>
+<status status="NOT RUN" start="2025-03-10T02:53:39.951314" elapsed="0.000047"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:20.755007" level="INFO">Clicking element 'xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]'.</msg>
 <arg>xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:20.754756" elapsed="2.520203"/>
+<status status="NOT RUN" start="2025-03-10T02:53:39.951698" elapsed="0.000042"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:47:25.276919" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:47:23.276066" elapsed="2.001105"/>
+<status status="NOT RUN" start="2025-03-10T02:53:39.952120" elapsed="0.000063"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>Research Information Management System</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:25.277732" elapsed="0.014499"/>
+<status status="NOT RUN" start="2025-03-10T02:53:39.952515" elapsed="0.000041"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:20.406474" elapsed="4.886292"/>
+<status status="FAIL" start="2025-03-10T02:53:07.071955" elapsed="32.883357">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC47C0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t23" name="TC023 Edit Research Groups2" line="189">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
+<msg time="2025-03-10T02:53:44.065391" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC7240&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:53:48.124810" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC7460&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:53:52.205903" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC78A0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:54:00.403211" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC7DF0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:54:04.511240" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7EC8050&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:54:08.611030" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7EC8270&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:54:12.710213" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7EC8490&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:54:12.741471" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC7AC0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<arg>xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:25.294757" elapsed="0.022278"/>
+<status status="FAIL" start="2025-03-10T02:53:39.964336" elapsed="32.803188">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC7AC0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
-<arg>xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
+<arg>xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-02-26T13:47:25.317700" elapsed="0.295656"/>
+<status status="NOT RUN" start="2025-03-10T02:54:12.771380" elapsed="0.000140"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:25.614306" level="INFO">Clicking element 'xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']'.</msg>
-<arg>xpath=//a[@href='https://sesec2group3.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
+<arg>xpath=//a[@href='https://projectsoften.cpkkuhost.com/researchGroups/22/edit' and contains(@class,'btn-outline-success') and @title='Edit']</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:25.613968" elapsed="1.852478"/>
+<status status="NOT RUN" start="2025-03-10T02:54:12.772030" elapsed="0.000043"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:47:29.467885" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:47:27.466907" elapsed="2.001279"/>
+<status status="NOT RUN" start="2025-03-10T02:54:12.772288" elapsed="0.000032"/>
 </kw>
 <kw name="Wait Until Page Contains" owner="SeleniumLibrary">
 <arg>แก้ไขข้อมูลกลุ่มวิจัย</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:29.469073" elapsed="0.020855"/>
+<status status="NOT RUN" start="2025-03-10T02:54:12.772918" elapsed="0.000042"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:25.293939" elapsed="4.196524"/>
+<status status="FAIL" start="2025-03-10T02:53:39.962587" elapsed="32.811927">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC7AC0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t24" name="TC024 Add Member2" line="196">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:54:16.849730" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC4F30&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:54:20.922333" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC6F10&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:54:25.021639" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC6E00&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:54:33.217782" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC47C0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:54:37.308653" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC45A0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:54:41.406729" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC6580&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:54:45.492680" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC67A0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:54:45.495361" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC4D10&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
 <arg>xpath=//button[@id='add-btn-visiting']</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:29.493392" elapsed="0.034158"/>
+<status status="FAIL" start="2025-03-10T02:54:12.779524" elapsed="32.734427">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC4D10&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Scroll Element Into View" owner="SeleniumLibrary">
 <arg>xpath=//button[@id='add-btn-visiting']</arg>
 <doc>Scrolls the element identified by ``locator`` into view.</doc>
-<status status="PASS" start="2025-02-26T13:47:29.531186" elapsed="0.287078"/>
+<status status="NOT RUN" start="2025-03-10T02:54:45.514744" elapsed="0.000078"/>
 </kw>
 <kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:29.819209" level="INFO">Clicking element 'xpath=//button[@id='add-btn-visiting']'.</msg>
 <arg>xpath=//button[@id='add-btn-visiting']</arg>
 <doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:29.818803" elapsed="0.157000"/>
+<status status="NOT RUN" start="2025-03-10T02:54:45.515129" elapsed="0.000054"/>
 </kw>
 <kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:47:31.977482" level="INFO">Slept 2 seconds.</msg>
 <arg>2s</arg>
 <doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:47:29.976531" elapsed="2.001164"/>
+<status status="NOT RUN" start="2025-03-10T02:54:45.515465" elapsed="0.000054"/>
 </kw>
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>xpath=//div[contains(@class, 'visiting-scholar-entry')]</arg>
 <arg>timeout=60s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:31.978292" elapsed="0.028178"/>
+<status status="NOT RUN" start="2025-03-10T02:54:45.515791" elapsed="0.000054"/>
 </kw>
 <doc>กดปุ่มเพิ่มนักวิจัยรับเชิญและรอให้กล่องปรากฏ</doc>
-<status status="PASS" start="2025-02-26T13:47:29.491313" elapsed="2.515688"/>
+<status status="FAIL" start="2025-03-10T02:54:12.776723" elapsed="32.739510">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC4D10&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t25" name="TC025 Verify Input Fields Appear" line="207">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<msg time="2025-03-10T02:54:49.624425" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7DC6AD0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:54:53.708534" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7988E20&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:54:57.813071" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7988D10&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements</msg>
+<msg time="2025-03-10T02:55:06.005384" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989480&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:55:10.095214" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B79899D0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:55:14.177761" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798A690&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot</msg>
+<msg time="2025-03-10T02:55:18.271728" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989AE0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-10T02:55:18.275432" level="FAIL">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989260&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
 <arg>xpath=//input[@name='visiting[1][first_name]']</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:32.009117" elapsed="0.024312"/>
+<status status="FAIL" start="2025-03-10T02:54:45.518905" elapsed="32.784194">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989260&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </kw>
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
 <arg>xpath=//input[@name='visiting[1][last_name]']</arg>
 <arg>timeout=30s</arg>
 <doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:32.033998" elapsed="0.023940"/>
+<status status="NOT RUN" start="2025-03-10T02:55:18.303844" elapsed="0.002733"/>
 </kw>
-<status status="PASS" start="2025-02-26T13:47:32.008117" elapsed="0.050215"/>
+<status status="FAIL" start="2025-03-10T02:54:45.517894" elapsed="32.789353">MaxRetryError: HTTPConnectionPool(host='localhost', port=49175): Max retries exceeded with url: /session/9690d2f0cb7666cb8c5cb713df549eb3/elements (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B7989260&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</status>
 </test>
 <test id="s1-t26" name="TC026 Enter Name" line="212">
 <kw name="Enter First and Last Name">
 <kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>xpath=//input[@name='visiting[1][first_name]']</arg>
-<arg>timeout=10s</arg>
-<doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:32.061010" elapsed="0.018840"/>
-</kw>
-<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>xpath=//input[@name='visiting[1][last_name]']</arg>
-<arg>timeout=10s</arg>
-<doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:32.080112" elapsed="0.018922"/>
-</kw>
-<kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:32.099594" level="INFO">Typing text 'Loan Thi-Thuy' into text field 'xpath=//input[@name='visiting[1][first_name]']'.</msg>
-<arg>xpath=//input[@name='visiting[1][first_name]']</arg>
-<arg>Loan Thi-Thuy</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:32.099269" elapsed="0.126704"/>
-</kw>
-<kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:32.226602" level="INFO">Typing text 'Ho' into text field 'xpath=//input[@name='visiting[1][last_name]']'.</msg>
-<arg>xpath=//input[@name='visiting[1][last_name]']</arg>
-<arg>Ho</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:32.226236" elapsed="0.105464"/>
-</kw>
-<kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:47:33.332395" level="INFO">Slept 1 second.</msg>
-<arg>1s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:47:32.331939" elapsed="1.000642"/>
-</kw>
-<doc>กรอกชื่อนามสกุล "Loan Thi-Thuy Ho" ลงในช่อง Input</doc>
-<status status="PASS" start="2025-02-26T13:47:32.060524" elapsed="1.272250"/>
-</kw>
-<doc>กรอกชื่อ "Loan Thi-Thuy" และนามสกุล "Ho"</doc>
-<status status="PASS" start="2025-02-26T13:47:32.059231" elapsed="1.274459"/>
-</test>
-<test id="s1-t27" name="TC027 Add Success" line="216">
-<kw name="Enter First and Last Name">
-<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>xpath=//input[@name='visiting[1][first_name]']</arg>
-<arg>timeout=10s</arg>
-<doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:33.336162" elapsed="0.019928"/>
-</kw>
-<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>xpath=//input[@name='visiting[1][last_name]']</arg>
-<arg>timeout=10s</arg>
-<doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:33.356349" elapsed="0.022335"/>
-</kw>
-<kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:33.379711" level="INFO">Typing text 'Loan Thi-Thuy' into text field 'xpath=//input[@name='visiting[1][first_name]']'.</msg>
-<arg>xpath=//input[@name='visiting[1][first_name]']</arg>
-<arg>Loan Thi-Thuy</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:33.379203" elapsed="0.182548"/>
-</kw>
-<kw name="Input Text" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:33.562770" level="INFO">Typing text 'Ho' into text field 'xpath=//input[@name='visiting[1][last_name]']'.</msg>
-<arg>xpath=//input[@name='visiting[1][last_name]']</arg>
-<arg>Ho</arg>
-<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:33.562209" elapsed="0.138674"/>
-</kw>
-<kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:47:34.702326" level="INFO">Slept 1 second.</msg>
-<arg>1s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:47:33.701394" elapsed="1.002083"/>
-</kw>
-<doc>กรอกชื่อนามสกุล "Loan Thi-Thuy Ho" ลงในช่อง Input</doc>
-<status status="PASS" start="2025-02-26T13:47:33.335863" elapsed="1.367755"/>
-</kw>
-<kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:34.704366" level="INFO">Clicking element 'xpath=//button[@type='submit' and contains(@class, 'btn-primary')]'.</msg>
-<arg>xpath=//button[@type='submit' and contains(@class, 'btn-primary')]</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:34.704086" elapsed="1.958473"/>
-</kw>
-<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
-<arg>Research group updated successfully</arg>
-<arg>timeout=30s</arg>
-<doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:36.663332" elapsed="0.042152"/>
-</kw>
-<doc>ใช้ค่าที่กรอกจาก Input Fields แล้วกด Submit</doc>
-<status status="PASS" start="2025-02-26T13:47:33.334685" elapsed="3.371317"/>
-</test>
-<test id="s1-t28" name="TC028 Open Event Registration Page2" line="229">
-<kw name="Open Browser" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:36.708955" level="INFO">Opening browser 'Chrome' to base url 'https://sesec2group3.cpkkuhost.com'.</msg>
-<arg>${URL}</arg>
-<arg>${BROWSER}</arg>
-<arg>options=add_argument("--force-device-scale-factor=0.9")</arg>
-<doc>Opens a new browser instance to the optional ``url``.</doc>
-<status status="PASS" start="2025-02-26T13:47:36.707614" elapsed="17.583934"/>
-</kw>
-<kw name="Maximize Browser Window" owner="SeleniumLibrary">
-<doc>Maximizes current browser window.</doc>
-<status status="PASS" start="2025-02-26T13:47:54.293001" elapsed="0.095662"/>
-</kw>
-<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
-<arg>ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์</arg>
-<arg>timeout=30s</arg>
-<doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:54.389387" elapsed="0.024230"/>
-</kw>
-<kw name="Page Should Contain" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:54.425335" level="INFO">Current page contains text 'ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์'.</msg>
-<arg>ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์</arg>
-<doc>Verifies that current page contains ``text``.</doc>
-<status status="PASS" start="2025-02-26T13:47:54.414115" elapsed="0.011654"/>
-</kw>
-<status status="PASS" start="2025-02-26T13:47:36.706988" elapsed="17.719620"/>
-</test>
-<test id="s1-t29" name="TC029 Researcher Group Navigation2" line="235">
-<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>xpath=//a[contains(text(),'Research Group')]</arg>
-<arg>timeout=30s</arg>
-<doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:54.428252" elapsed="0.041160"/>
-</kw>
-<kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:54.470036" level="INFO">Clicking element 'xpath=//a[contains(text(),'Research Group')]'.</msg>
-<arg>xpath=//a[contains(text(),'Research Group')]</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:54.469795" elapsed="4.559963"/>
-</kw>
-<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
-<arg>Research Group</arg>
-<arg>timeout=30s</arg>
-<doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:47:59.030161" elapsed="0.018338"/>
-</kw>
-<status status="PASS" start="2025-02-26T13:47:54.427624" elapsed="4.621259"/>
-</test>
-<test id="s1-t30" name="TC030 View Research Group Details2" line="240">
-<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
-<arg>xpath=//div[@class='overlay']//h5[text()='Applied Intelligence and Data Analytics (AIDA)']</arg>
-<arg>timeout=60s</arg>
-<doc>Waits until the element ``locator`` is visible.</doc>
-<status status="PASS" start="2025-02-26T13:47:59.050946" elapsed="0.030484"/>
-</kw>
-<kw name="Click Element" owner="SeleniumLibrary">
-<msg time="2025-02-26T13:47:59.083233" level="INFO">Clicking element 'xpath=//div[@class='overlay']//h5[text()='Applied Intelligence and Data Analytics (AIDA)']'.</msg>
-<arg>xpath=//div[@class='overlay']//h5[text()='Applied Intelligence and Data Analytics (AIDA)']</arg>
-<doc>Click the element identified by ``locator``.</doc>
-<status status="PASS" start="2025-02-26T13:47:59.082530" elapsed="5.001659"/>
-</kw>
-<kw name="Sleep" owner="BuiltIn">
-<msg time="2025-02-26T13:48:09.085287" level="INFO">Slept 5 seconds.</msg>
-<arg>5s</arg>
-<doc>Pauses the test executed for the given time.</doc>
-<status status="PASS" start="2025-02-26T13:48:04.084744" elapsed="5.000804"/>
-</kw>
-<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
-<arg>AIDA</arg>
-<arg>timeout=60s</arg>
-<doc>Waits until ``text`` appears on the current page.</doc>
-<status status="PASS" start="2025-02-26T13:48:09.086057" elapsed="0.014366"/>
-</kw>
-<status status="PASS" start="2025-02-26T13:47:59.050213" elapsed="10.051018"/>
-</test>
-<status status="PASS" start="2025-02-26T13:45:38.995528" elapsed="150.113621"/>
-</suite>
-<statistics>
-<total>
-<stat pass="30" fail="0" skip="0">All Tests</stat>
-</total>
-<tag>
-</tag>
-<suite>
-<stat pass="30" fail="0" skip="0" id="s1" name="testRobotSprint2">testRobotSprint2</stat>
-</suite>
-</statistics>
-<errors>
-</errors>
-</robot>
+<msg time="2025-03-10T02:55:22.417478" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001E0B798ABE0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/9690d2f0cb7666cb8c5cb713df549eb3/elements

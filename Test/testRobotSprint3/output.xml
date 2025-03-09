@@ -1,0 +1,703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.1.1 (Python 3.13.1 on win32)" generated="2025-03-09T23:24:56.016889" rpa="false" schemaversion="5">
+<suite id="s1" name="Scene2" source="D:\sprint1\git-group-repository-group-3-sec-2-v-2\Test\testRobotSprint3\Scene2.robot">
+<test id="s1-t1" name="TC001 Open Event Registration Page" line="45">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:24:56.497354" level="INFO">Opening browser 'Chrome' to base url 'https://projectsoften.cpkkuhost.com'.</msg>
+<arg>${URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=add_argument("--force-device-scale-factor=0.9")</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-03-09T23:24:56.497102" elapsed="25.946736"/>
+</kw>
+<kw name="Maximize Browser Window" owner="SeleniumLibrary">
+<doc>Maximizes current browser window.</doc>
+<status status="PASS" start="2025-03-09T23:25:22.444943" elapsed="0.031254"/>
+</kw>
+<kw name="Get Window Handles" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:22.479297" level="INFO">${main_window} = ['CA651D27BA09D77506369CD4767E5467']</msg>
+<var>${main_window}</var>
+<doc>Returns all child window handles of the selected browser as a list.</doc>
+<status status="PASS" start="2025-03-09T23:25:22.476819" elapsed="0.002583"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:22.480698" elapsed="0.047281"/>
+</kw>
+<kw name="Page Should Contain" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:22.536223" level="INFO">Current page contains text 'ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์'.</msg>
+<arg>ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<status status="PASS" start="2025-03-09T23:25:22.528335" elapsed="0.007990"/>
+</kw>
+<doc>เปิดเว็บไซต์</doc>
+<status status="PASS" start="2025-03-09T23:24:56.495957" elapsed="26.040659"/>
+</test>
+<test id="s1-t2" name="TC002 Login Button" line="53">
+<kw name="Select Login Button">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-03-09T23:25:22.538432" elapsed="0.034064"/>
+</kw>
+<kw name="Scroll Element Into View" owner="SeleniumLibrary">
+<arg>xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']</arg>
+<doc>Scrolls the element identified by ``locator`` into view.</doc>
+<status status="PASS" start="2025-03-09T23:25:22.572900" elapsed="0.322024"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:22.895407" level="INFO">Clicking element 'xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']'.</msg>
+<arg>xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:22.895153" elapsed="0.163585"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:25.059710" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:23.058998" elapsed="2.000855"/>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:25.060070" elapsed="0.007600"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>name=username</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-03-09T23:25:25.067837" elapsed="0.018819"/>
+</kw>
+<doc>ปุ่ม Login</doc>
+<status status="PASS" start="2025-03-09T23:25:22.538128" elapsed="2.548654"/>
+</kw>
+<status status="PASS" start="2025-03-09T23:25:22.537428" elapsed="2.549620"/>
+</test>
+<test id="s1-t3" name="TC003 Login Fail" line="56">
+<kw name="Select Login Fail">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:25.088497" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:25.088335" elapsed="0.104215"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:25.192998" level="INFO">Typing text '1234' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>1234</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:25.192745" elapsed="0.063454"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:25.256748" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:25.256464" elapsed="0.926019"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:28.183381" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:26.182721" elapsed="2.000865"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Failed: Your user ID or password is incorrect</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:28.183805" elapsed="0.009962"/>
+</kw>
+<doc>เข้าสู่ระบบผิดพลาด</doc>
+<status status="PASS" start="2025-03-09T23:25:25.088097" elapsed="3.105796"/>
+</kw>
+<kw name="Select Login Fail">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:28.194602" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:28.194445" elapsed="0.070506"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:28.265359" level="INFO">Typing text '1234' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>1234</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:28.265160" elapsed="0.053644"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:28.319282" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:28.319043" elapsed="0.876317"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:31.196360" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:29.195740" elapsed="2.000794"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Failed: Your user ID or password is incorrect</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:31.196843" elapsed="0.007124"/>
+</kw>
+<doc>เข้าสู่ระบบผิดพลาด</doc>
+<status status="PASS" start="2025-03-09T23:25:28.194217" elapsed="3.009877"/>
+</kw>
+<kw name="Select Login Fail">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:31.205128" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:31.204952" elapsed="0.078829"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:31.284268" level="INFO">Typing text '1234' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>1234</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:31.284022" elapsed="0.081582"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:31.366120" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:31.365842" elapsed="0.890855"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:34.257355" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:32.256914" elapsed="2.000613"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Failed: Your user ID or password is incorrect</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:34.257885" elapsed="0.007268"/>
+</kw>
+<doc>เข้าสู่ระบบผิดพลาด</doc>
+<status status="PASS" start="2025-03-09T23:25:31.204689" elapsed="3.060573"/>
+</kw>
+<kw name="Select Login Fail">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:34.266109" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:34.265922" elapsed="0.061473"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:34.327882" level="INFO">Typing text '1234' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>1234</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:34.327666" elapsed="0.049586"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:34.377769" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:34.377519" elapsed="1.395891"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:37.774369" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:35.773743" elapsed="2.000825"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Failed: Your user ID or password is incorrect</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:37.774866" elapsed="0.008456"/>
+</kw>
+<doc>เข้าสู่ระบบผิดพลาด</doc>
+<status status="PASS" start="2025-03-09T23:25:34.265631" elapsed="3.517841"/>
+</kw>
+<kw name="Select Login Fail">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:37.784457" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:37.784238" elapsed="0.090927"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:37.875879" level="INFO">Typing text '1234' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>1234</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:37.875535" elapsed="0.081525"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:37.957676" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:37.957380" elapsed="0.895028"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:40.853297" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:38.852680" elapsed="2.000768"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Failed: Your user ID or password is incorrect</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:40.853680" elapsed="0.009416"/>
+</kw>
+<doc>เข้าสู่ระบบผิดพลาด</doc>
+<status status="PASS" start="2025-03-09T23:25:37.783911" elapsed="3.079348"/>
+</kw>
+<kw name="Select Login Fail">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:40.864494" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:40.864172" elapsed="0.136241"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:41.001171" level="INFO">Typing text '1234' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>1234</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:41.000823" elapsed="0.093596"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:41.095126" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:41.094771" elapsed="0.942292"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:44.037932" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:42.037271" elapsed="2.000880"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Failed: Your user ID or password is incorrect</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:44.038535" elapsed="0.006968"/>
+</kw>
+<doc>เข้าสู่ระบบผิดพลาด</doc>
+<status status="PASS" start="2025-03-09T23:25:40.863763" elapsed="3.181851"/>
+</kw>
+<kw name="Select Login Fail">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:44.046441" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:44.046264" elapsed="0.088822"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:44.135648" level="INFO">Typing text '1234' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>1234</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:44.135341" elapsed="0.057878"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:44.194095" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:44.193828" elapsed="1.367327"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:47.561814" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:45.561373" elapsed="2.000622"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Failed: Your user ID or password is incorrect</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:47.562362" elapsed="0.007139"/>
+</kw>
+<doc>เข้าสู่ระบบผิดพลาด</doc>
+<status status="PASS" start="2025-03-09T23:25:44.045994" elapsed="3.523632"/>
+</kw>
+<kw name="Select Login Fail">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:47.570451" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:47.570245" elapsed="0.060695"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:47.631546" level="INFO">Typing text '1234' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>1234</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:47.631208" elapsed="0.058353"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:47.690119" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:47.689823" elapsed="0.850191"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:50.540779" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:48.540233" elapsed="2.000716"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Failed: Your user ID or password is incorrect</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:50.541214" elapsed="0.009457"/>
+</kw>
+<doc>เข้าสู่ระบบผิดพลาด</doc>
+<status status="PASS" start="2025-03-09T23:25:47.569996" elapsed="2.980837"/>
+</kw>
+<kw name="Select Login Fail">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:50.551783" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:50.551573" elapsed="0.131309"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:50.683767" level="INFO">Typing text '1234' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>1234</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:50.683310" elapsed="0.119943"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:50.804139" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:50.803708" elapsed="1.389464"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:54.194306" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:52.193486" elapsed="2.001032"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Failed: Your user ID or password is incorrect</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:54.194842" elapsed="0.007330"/>
+</kw>
+<doc>เข้าสู่ระบบผิดพลาด</doc>
+<status status="PASS" start="2025-03-09T23:25:50.551269" elapsed="3.650994"/>
+</kw>
+<kw name="Select Login Fail">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:54.203021" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:54.202884" elapsed="0.070537"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:54.273993" level="INFO">Typing text '1234' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>1234</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:54.273695" elapsed="0.054324"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:54.328609" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:54.328327" elapsed="1.380540"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:25:57.709544" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:55.709075" elapsed="2.000726"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Login Failed: Your user ID or password is incorrect</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:25:57.710160" elapsed="0.011721"/>
+</kw>
+<doc>เข้าสู่ระบบผิดพลาด</doc>
+<status status="PASS" start="2025-03-09T23:25:54.202675" elapsed="3.519403"/>
+</kw>
+<status status="PASS" start="2025-03-09T23:25:25.087696" elapsed="32.634827"/>
+</test>
+<test id="s1-t4" name="TC004 Login Success" line="68">
+<kw name="Select Login Success">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:57.725109" level="INFO">Typing text 'putklang_w@kku.ac.th' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>putklang_w@kku.ac.th</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:57.724807" elapsed="0.167208"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:57.892604" level="INFO">Typing text '123456789' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>123456789</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:57.892329" elapsed="0.105699"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:25:57.998663" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:25:57.998291" elapsed="0.688091"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:26:00.687482" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:25:58.686689" elapsed="2.001170"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>Too many login attempts. Please try again</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="PASS" start="2025-03-09T23:26:00.688211" elapsed="0.010104"/>
+</kw>
+<doc>เข้าสู่ระบบสำเร็จ</doc>
+<status status="PASS" start="2025-03-09T23:25:57.724405" elapsed="2.974083"/>
+</kw>
+<status status="PASS" start="2025-03-09T23:25:57.723740" elapsed="2.975055"/>
+</test>
+<test id="s1-t5" name="TC005 Open Registration Page" line="71">
+<kw name="Open Browser" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:00.701023" level="INFO">Opening browser 'Chrome' to base url 'https://projectsoften.cpkkuhost.com'.</msg>
+<arg>${URL}</arg>
+<arg>${BROWSER}</arg>
+<arg>options=add_argument("--force-device-scale-factor=0.9")</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<status status="PASS" start="2025-03-09T23:26:00.700554" elapsed="31.075087"/>
+</kw>
+<kw name="Get Window Handles" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:31.778253" level="INFO">${main_window} = ['77B5F666883E965AB6BC082F89C6BBA4']</msg>
+<var>${main_window}</var>
+<doc>Returns all child window handles of the selected browser as a list.</doc>
+<status status="PASS" start="2025-03-09T23:26:31.776281" elapsed="0.002024"/>
+</kw>
+<kw name="Wait Until Keyword Succeeds" owner="BuiltIn">
+<kw name="Switch Window" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:32.047520" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-5.png"&gt;&lt;img src="selenium-screenshot-5.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-09T23:26:32.048869" level="FAIL">Window with last index is same as the current window.</msg>
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="FAIL" start="2025-03-09T23:26:31.779798" elapsed="0.283563">Window with last index is same as the current window.</status>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:33.186806" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-6.png"&gt;&lt;img src="selenium-screenshot-6.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-09T23:26:33.187008" level="FAIL">Window with last index is same as the current window.</msg>
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="FAIL" start="2025-03-09T23:26:33.064514" elapsed="0.123639">Window with last index is same as the current window.</status>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:34.330360" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-7.png"&gt;&lt;img src="selenium-screenshot-7.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-09T23:26:34.330621" level="FAIL">Window with last index is same as the current window.</msg>
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="FAIL" start="2025-03-09T23:26:34.188915" elapsed="0.143343">Window with last index is same as the current window.</status>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:35.435864" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-8.png"&gt;&lt;img src="selenium-screenshot-8.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-09T23:26:35.436017" level="FAIL">Window with last index is same as the current window.</msg>
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="FAIL" start="2025-03-09T23:26:35.332897" elapsed="0.103978">Window with last index is same as the current window.</status>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:36.539293" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-9.png"&gt;&lt;img src="selenium-screenshot-9.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-09T23:26:36.539565" level="FAIL">Window with last index is same as the current window.</msg>
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="FAIL" start="2025-03-09T23:26:36.437455" elapsed="0.103082">Window with last index is same as the current window.</status>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:37.711432" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-10.png"&gt;&lt;img src="selenium-screenshot-10.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-09T23:26:37.711827" level="FAIL">Window with last index is same as the current window.</msg>
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="FAIL" start="2025-03-09T23:26:37.541325" elapsed="0.173348">Window with last index is same as the current window.</status>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:38.842223" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-11.png"&gt;&lt;img src="selenium-screenshot-11.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-09T23:26:38.842450" level="FAIL">Window with last index is same as the current window.</msg>
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="FAIL" start="2025-03-09T23:26:38.715857" elapsed="0.128197">Window with last index is same as the current window.</status>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:40.053480" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-12.png"&gt;&lt;img src="selenium-screenshot-12.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-09T23:26:40.053839" level="FAIL">Window with last index is same as the current window.</msg>
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="FAIL" start="2025-03-09T23:26:39.845032" elapsed="0.211343">Window with last index is same as the current window.</status>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:41.168232" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-13.png"&gt;&lt;img src="selenium-screenshot-13.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-09T23:26:41.168414" level="FAIL">Window with last index is same as the current window.</msg>
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="FAIL" start="2025-03-09T23:26:41.057336" elapsed="0.111934">Window with last index is same as the current window.</status>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:42.265641" level="INFO" html="true">&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td colspan="3"&gt;&lt;a href="selenium-screenshot-14.png"&gt;&lt;img src="selenium-screenshot-14.png" width="800px"&gt;&lt;/a&gt;</msg>
+<msg time="2025-03-09T23:26:42.265802" level="FAIL">Window with last index is same as the current window.</msg>
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="FAIL" start="2025-03-09T23:26:42.169948" elapsed="0.097048">Window with last index is same as the current window.</status>
+</kw>
+<msg time="2025-03-09T23:26:42.267131" level="FAIL">Keyword 'Switch Window' failed after retrying for 10 seconds. The last error was: Window with last index is same as the current window.</msg>
+<arg>10s</arg>
+<arg>1s</arg>
+<arg>Switch Window</arg>
+<arg>NEW</arg>
+<doc>Runs the specified keyword and retries if it fails.</doc>
+<status status="FAIL" start="2025-03-09T23:26:31.778790" elapsed="10.489158">Keyword 'Switch Window' failed after retrying for 10 seconds. The last error was: Window with last index is same as the current window.</status>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="NOT RUN" start="2025-03-09T23:26:42.277541" elapsed="0.000077"/>
+</kw>
+<kw name="Page Should Contain" owner="SeleniumLibrary">
+<arg>ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<status status="NOT RUN" start="2025-03-09T23:26:42.277886" elapsed="0.000034"/>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<arg>${main_window}</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="NOT RUN" start="2025-03-09T23:26:42.278108" elapsed="0.000025"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<arg>ระบบข้อมูลงานวิจัย วิทยาลัยการคอมพิวเตอร์</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="NOT RUN" start="2025-03-09T23:26:42.278364" elapsed="0.000036"/>
+</kw>
+<doc>เปิดเว็บไซต์</doc>
+<status status="FAIL" start="2025-03-09T23:26:00.699703" elapsed="41.579248">Keyword 'Switch Window' failed after retrying for 10 seconds. The last error was: Window with last index is same as the current window.</status>
+</test>
+<test id="s1-t6" name="TC006 Login Button" line="81">
+<kw name="Select Login Button">
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-03-09T23:26:42.281081" elapsed="0.027296"/>
+</kw>
+<kw name="Scroll Element Into View" owner="SeleniumLibrary">
+<arg>xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']</arg>
+<doc>Scrolls the element identified by ``locator`` into view.</doc>
+<status status="PASS" start="2025-03-09T23:26:42.308730" elapsed="0.321103"/>
+</kw>
+<kw name="Click Element" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:42.630362" level="INFO">Clicking element 'xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']'.</msg>
+<arg>xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']</arg>
+<doc>Click the element identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:26:42.630093" elapsed="0.115256"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:26:44.746543" level="INFO">Slept 2 seconds.</msg>
+<arg>2s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:26:42.745893" elapsed="2.000855"/>
+</kw>
+<kw name="Switch Window" owner="SeleniumLibrary">
+<arg>NEW</arg>
+<doc>Switches to browser window matching ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:26:44.747052" elapsed="0.006502"/>
+</kw>
+<kw name="Wait Until Element Is Visible" owner="SeleniumLibrary">
+<arg>name=username</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until the element ``locator`` is visible.</doc>
+<status status="PASS" start="2025-03-09T23:26:44.753777" elapsed="0.016779"/>
+</kw>
+<doc>ปุ่ม Login</doc>
+<status status="PASS" start="2025-03-09T23:26:42.280791" elapsed="2.489870"/>
+</kw>
+<status status="PASS" start="2025-03-09T23:26:42.280337" elapsed="2.490559"/>
+</test>
+<test id="s1-t7" name="TC007 Login Admin" line="84">
+<kw name="Select Login_Admin">
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:44.772706" level="INFO">Typing text 'Admin@gmail.com' into text field 'name=username'.</msg>
+<arg>name=username</arg>
+<arg>Admin@gmail.com</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:26:44.772549" elapsed="0.108547"/>
+</kw>
+<kw name="Input Text" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:44.881829" level="INFO">Typing text '12345678' into text field 'name=password'.</msg>
+<arg>name=password</arg>
+<arg>12345678</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:26:44.881457" elapsed="0.085425"/>
+</kw>
+<kw name="Click Button" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:44.967537" level="INFO">Clicking button 'xpath=//button[@type='submit']'.</msg>
+<arg>xpath=//button[@type='submit']</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<status status="PASS" start="2025-03-09T23:26:44.967196" elapsed="0.683904"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-03-09T23:26:48.652071" level="INFO">Slept 3 seconds.</msg>
+<arg>3s</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-03-09T23:26:45.651334" elapsed="3.000950"/>
+</kw>
+<kw name="Wait Until Page Contains" owner="SeleniumLibrary">
+<msg time="2025-03-09T23:26:55.600778" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001D8B8174050&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/fe25344f376e2c6bb3ede8457697c585/screenshot</msg>
+<msg time="2025-03-09T23:26:59.682404" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001D8B8706D70&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/fe25344f376e2c6bb3ede8457697c585/screenshot</msg>
+<msg time="2025-03-09T23:27:03.780806" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001D8B87068B0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/fe25344f376e2c6bb3ede8457697c585/screenshot</msg>
+<msg time="2025-03-09T23:27:07.871330" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=56655): Max retries exceeded with url: /session/fe25344f376e2c6bb3ede8457697c585/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001D8B86BFE30&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+<msg time="2025-03-09T23:27:07.872636" level="FAIL">ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))</msg>
+<arg>Dashboard</arg>
+<arg>timeout=30s</arg>
+<doc>Waits until ``text`` appears on the current page.</doc>
+<status status="FAIL" start="2025-03-09T23:26:48.652611" elapsed="19.236755">ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))</status>
+</kw>
+<doc>เข้าสู่ระบบ System Admin</doc>
+<status status="FAIL" start="2025-03-09T23:26:44.772338" elapsed="23.117390">ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))</status>
+</kw>
+<status status="FAIL" start="2025-03-09T23:26:44.771674" elapsed="23.118433">ProtocolError: ('Connection aborted.', ConnectionResetError(10054, 'An existing connection was forcibly closed by the remote host', None, 10054, None))</status>
+</test>
+<status status="FAIL" start="2025-03-09T23:24:56.018389" elapsed="131.873454"/>
+</suite>
+<statistics>
+<total>
+<stat pass="5" fail="2" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="5" fail="2" skip="0" id="s1" name="Scene2">Scene2</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-03-09T23:26:55.600778" level="WARN">Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001D8B8174050&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/fe25344f376e2c6bb3ede8457697c585/screenshot</msg>
+<msg time="2025-03-09T23:26:59.682404" level="WARN">Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001D8B8706D70&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/fe25344f376e2c6bb3ede8457697c585/screenshot</msg>
+<msg time="2025-03-09T23:27:03.780806" level="WARN">Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001D8B87068B0&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it')': /session/fe25344f376e2c6bb3ede8457697c585/screenshot</msg>
+<msg time="2025-03-09T23:27:07.871330" level="WARN">Keyword 'Capture Page Screenshot' could not be run on failure: HTTPConnectionPool(host='localhost', port=56655): Max retries exceeded with url: /session/fe25344f376e2c6bb3ede8457697c585/screenshot (Caused by NewConnectionError('&lt;urllib3.connection.HTTPConnection object at 0x000001D8B86BFE30&gt;: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))</msg>
+</errors>
+</robot>
