@@ -12,6 +12,7 @@ use App\Exports\SecurityEventsExport;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Services\SecurityMonitoringService;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class SecurityController extends Controller
 {
@@ -29,6 +30,14 @@ class SecurityController extends Controller
                 $now = now();
                 $thirtyDaysAgo = $now->copy()->subDays(30);
 
+                // Check if blocked_ips table exists
+                $blockedAttempts = 0;
+                if (Schema::hasTable('blocked_ips')) {
+                    $blockedAttempts = DB::table('blocked_ips')
+                        ->where('created_at', '>=', $thirtyDaysAgo)
+                        ->count();
+                }
+
                 return [
                     'failed_logins' => DB::table('security_events')
                         ->where('event_type', 'failed_login')
@@ -41,9 +50,7 @@ class SecurityController extends Controller
                         ->distinct('ip_address')
                         ->count(),
 
-                    'blocked_attempts' => DB::table('blocked_ips')
-                        ->where('created_at', '>=', $thirtyDaysAgo)
-                        ->count(),
+                    'blocked_attempts' => $blockedAttempts,
 
                     'total_monitoring' => DB::table('security_events')
                         ->where('created_at', '>=', $thirtyDaysAgo)
@@ -64,36 +71,65 @@ class SecurityController extends Controller
     public function blockIP(Request $request)
     {
         $ip = $request->input('ip');
+        $reason = $request->input('reason', 'Manual block by administrator');
         
         if (!$ip) {
             return response()->json(['success' => false, 'message' => 'IP address is required'], 400);
         }
 
-        // Get current blocked IPs from cache or empty array if none
-        $blockedIPs = Cache::get('blocked_ips', []);
-        
-        // Add new IP if not already blocked
-        if (!in_array($ip, $blockedIPs)) {
-            $blockedIPs[] = $ip;
-            Cache::put('blocked_ips', $blockedIPs, now()->addDays(7));
-            Cache::increment('blocked_ips_count');
+        try {
+            // First check if blocked_ips table exists, if not create it
+            if (!Schema::hasTable('blocked_ips')) {
+                // Run the migration programmatically
+                \Artisan::call('migrate', [
+                    '--path' => 'database/migrations/2025_03_08_200000_create_blocked_ips_table.php',
+                    '--force' => true
+                ]);
+            }
 
-            // Log the blocking event using SecurityMonitoringService
-            $this->securityService->logAttackAttempt(
-                $ip,
-                'ip_blocked',
-                'IP address blocked by administrator',
-                'high',
-                [
-                    'blocked_by' => auth()->id(),
-                    'reason' => 'Manual block by administrator'
-                ]
-            );
+            // Check if IP already exists in the blocked_ips table
+            $exists = DB::table('blocked_ips')
+                ->where('ip_address', $ip)
+                ->exists();
 
-            return response()->json(['success' => true, 'message' => 'IP blocked successfully']);
+            if (!$exists) {
+                // Add to database
+                DB::table('blocked_ips')->insert([
+                    'ip_address' => $ip,
+                    'reason' => $reason,
+                    'user_id' => auth()->id(),
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+
+                // Also maintain the cache for performance
+                $blockedIPs = Cache::get('blocked_ips', []);
+                if (!in_array($ip, $blockedIPs)) {
+                    $blockedIPs[] = $ip;
+                    Cache::put('blocked_ips', $blockedIPs, now()->addDays(7));
+                    Cache::increment('blocked_ips_count');
+                }
+
+                // Log the blocking event using SecurityMonitoringService
+                $this->securityService->logAttackAttempt(
+                    $ip,
+                    'ip_blocked',
+                    'IP address blocked by administrator',
+                    'high',
+                    [
+                        'blocked_by' => auth()->id(),
+                        'reason' => $reason
+                    ]
+                );
+
+                return response()->json(['success' => true, 'message' => 'IP address blocked successfully']);
+            } else {
+                return response()->json(['success' => true, 'message' => 'IP address is already blocked']);
+            }
+        } catch (\Exception $e) {
+            \Log::error('Error blocking IP address: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Failed to block IP: ' . $e->getMessage()], 500);
         }
-
-        return response()->json(['success' => false, 'message' => 'IP is already blocked'], 400);
     }
 
     public function logSecurityEvent($eventType, $details, $threatLevel = 'low', $userId = null)
@@ -126,7 +162,7 @@ class SecurityController extends Controller
     public function events(Request $request)
     {
         // Optimize the base query to select only necessary fields
-        $query = SecurityEvent::select('id', 'event_type', 'icon_class', 'user_id', 'ip_address', 'details', 'threat_level', 'created_at')
+        $query = SecurityEvent::select('id', 'event_type', 'icon_class', 'user_id', 'ip_address', 'details', 'threat_level', 'request_details', 'created_at')
             ->with(['user:id,fname_en,lname_en,fname_th,lname_th,email'])
             ->orderBy('created_at', 'desc');
 

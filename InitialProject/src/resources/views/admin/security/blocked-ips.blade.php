@@ -174,20 +174,20 @@
                                             <td>
                                                 <span class="badge badge-{{ $safeBlockedBy === 'system' ? 'info' : 'primary' }} badge-pill px-3">
                                                     {{ isset($details['blocked_by_display']) ? e($details['blocked_by_display']) : ucfirst($safeBlockedBy) }}
-                                                </span>
-                                            </td>
-                                            <td>
+                                            </span>
+                                        </td>
+                                        <td>
                                                 <button type="button" class="btn btn-sm btn-outline-info mr-1" 
                                                         data-toggle="modal" 
                                                         data-target="#{{ $modalId }}">
-                                                    <i class="mdi mdi-information-outline"></i>
-                                                </button>
+                                                <i class="mdi mdi-information-outline"></i>
+                                            </button>
                                                 <button type="button" class="btn btn-sm btn-outline-warning" 
                                                         onclick="unblockIP('{{ $safeIP }}')">
-                                                    <i class="mdi mdi-shield-off"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                                <i class="mdi mdi-shield-off"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -205,11 +205,11 @@
                                 // Ensure unique modal ID
                                 $modalId = 'ipModal-' . $index . '-' . preg_replace('/[^a-zA-Z0-9]/', '-', $safeIP);
                             @endphp
-                            
-                            <!-- IP Details Modal -->
+
+                                    <!-- IP Details Modal -->
                             <div class="modal fade" id="{{ $modalId }}" tabindex="-1" role="dialog" aria-labelledby="{{ $modalId }}-label" aria-hidden="true">
                                 <div class="modal-dialog modal-lg" role="document">
-                                    <div class="modal-content">
+                                            <div class="modal-content">
                                         <div class="modal-header border-bottom-0">
                                             <h5 class="modal-title font-weight-bold" id="{{ $modalId }}-label">
                                                 <i class="mdi mdi-ip-network text-primary mr-2"></i>
@@ -217,12 +217,12 @@
                                             </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
                                             <!-- Modal content -->
-                                            <div class="row">
-                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
                                                     <div class="card shadow-sm mb-4">
                                                         <div class="card-body">
                                                             <h6 class="card-subtitle text-muted mb-3">Basic Information</h6>
@@ -260,8 +260,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-6">
+                                                        </div>
+                                                        <div class="col-md-6">
                                                     <div class="card shadow-sm mb-4">
                                                         <div class="card-body">
                                                             <h6 class="card-subtitle text-muted mb-3">Block Reason</h6>
@@ -269,23 +269,23 @@
                                                                 {{ $safeReason }}
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                    
+                                                            </div>
+                                                            
                                                     <div class="card shadow-sm">
                                                         <div class="card-body">
                                                             <h6 class="card-subtitle text-muted mb-3">Recent Events</h6>
                                                             @if(!empty($details['recent_events']))
-                                                                <div class="table-responsive">
+                                                            <div class="table-responsive">
                                                                     <table class="table table-sm mb-0">
                                                                         <thead class="bg-light">
-                                                                            <tr>
-                                                                                <th>Time</th>
-                                                                                <th>Event</th>
-                                                                                <th>Level</th>
-                                                                            </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                            @foreach($details['recent_events'] as $event)
+                                                                        <tr>
+                                                                            <th>Time</th>
+                                                                            <th>Event</th>
+                                                                            <th>Level</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        @foreach($details['recent_events'] as $event)
                                                                                 @php
                                                                                     $safeEventType = e($event->event_type ?? 'unknown');
                                                                                     $safeThreatLevel = e($event->threat_level ?? 'low');
@@ -300,13 +300,13 @@
                                                                                     <td>
                                                                                         <span class="badge badge-{{ $safeThreatLevel === 'high' ? 'danger' : ($safeThreatLevel === 'medium' ? 'warning' : 'info') }} badge-pill">
                                                                                             {{ ucfirst($safeThreatLevel) }}
-                                                                                        </span>
-                                                                                    </td>
-                                                                                </tr>
-                                                                            @endforeach
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
+                                                                                </span>
+                                                                            </td>
+                                                                        </tr>
+                                                                        @endforeach
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
                                                             @else
                                                                 <div class="alert alert-info mb-0">
                                                                     No recent events recorded for this IP.
@@ -323,11 +323,11 @@
                                                 <i class="mdi mdi-shield-off mr-1"></i> Unblock IP
                                             </button>
                                             <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        @endforeach
+                                    @endforeach
                         
                         <!-- Pagination -->
                         <div class="d-flex justify-content-between align-items-center mt-4">
@@ -622,7 +622,7 @@ function clearAllIPs() {
         console.log('Clear all IPs response data:', data);
         if (data.success) {
             alert('All IP addresses have been unblocked successfully');
-            location.reload();
+    location.reload();
         } else {
             alert('Failed to clear blocked IPs: ' + (data.message || 'Unknown error'));
             
@@ -674,9 +674,9 @@ function unblockIP(ip) {
     
     // Use the correct URL format for the destroy method
     fetch(`/admin/security/unblock-ip/${encodeURIComponent(ip)}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
             'X-CSRF-TOKEN': csrfToken
         }
     })
@@ -687,12 +687,12 @@ function unblockIP(ip) {
         }
         return response.json();
     })
-    .then(data => {
+        .then(data => {
         console.log('Unblock response data:', data);
-        if (data.success) {
-            alert('IP has been unblocked successfully');
-            location.reload();
-        } else {
+            if (data.success) {
+                alert('IP has been unblocked successfully');
+                location.reload();
+            } else {
             alert('Failed to unblock IP: ' + (data.message || 'Unknown error'));
             
             // Reset buttons
@@ -700,9 +700,9 @@ function unblockIP(ip) {
                 button.disabled = false;
                 button.innerHTML = '<i class="mdi mdi-shield-off"></i>';
             });
-        }
-    })
-    .catch(error => {
+            }
+        })
+        .catch(error => {
         console.error('Error unblocking IP:', error);
         alert('An error occurred while unblocking the IP: ' + error.message);
         

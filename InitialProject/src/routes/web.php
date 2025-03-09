@@ -211,6 +211,8 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/system', [App\Http\Controllers\AdminDashboardController::class, 'getSystemInfo'])->name('admin.system');
     
     // Security Routes
+    Route::get('/security/dashboard', [App\Http\Controllers\Admin\SecurityDashboardController::class, 'index'])->name('admin.security.dashboard');
+    Route::get('/security/dashboard/realtime', [App\Http\Controllers\Admin\SecurityDashboardController::class, 'getRealtimeData'])->name('admin.security.dashboard.realtime');
     Route::get('/security/events', [App\Http\Controllers\Admin\SecurityController::class, 'events'])->name('admin.security.events');
     Route::get('/security/export', [App\Http\Controllers\Admin\SecurityController::class, 'export'])->name('admin.security.export');
     Route::post('/security/block-ip', [App\Http\Controllers\Admin\BlockedIPController::class, 'store'])->name('admin.security.block-ip');

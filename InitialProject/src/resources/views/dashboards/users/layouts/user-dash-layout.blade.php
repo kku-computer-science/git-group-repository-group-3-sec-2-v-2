@@ -271,6 +271,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     @endcan
+                    
+                    @can('role:admin')
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#SecurityManagement" aria-expanded="false" aria-controls="SecurityManagement">
+                            <i class="menu-icon mdi mdi-shield-account"></i>
+                            <span class="menu-title">Security Management</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="SecurityManagement">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('admin.security.dashboard') ? 'active' : '' }}" href="{{ route('admin.security.dashboard') }}">
+                                        Security Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('admin.security.events') ? 'active' : '' }}" href="{{ route('admin.security.events') }}">
+                                        Security Events
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('admin.security.blocked-ips') ? 'active' : '' }}" href="{{ route('admin.security.blocked-ips') }}">
+                                        Blocked IPs
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    @endcan
                 </ul>
             </nav>
 
