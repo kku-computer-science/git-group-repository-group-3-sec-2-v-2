@@ -305,20 +305,119 @@ class AdminDashboardController extends Controller
 
     public function getSystemInfo()
     {
+        // Get MySQL version
+        try {
+            $mysqlVersion = DB::select('SELECT VERSION() as version')[0]->version;
+        } catch (\Exception $e) {
+            $mysqlVersion = 'Unknown';
+        }
+
+        // Get latest error logs
+        $latestErrorLogs = DB::table('error_logs')
+            ->select('id', 'level', 'message', 'created_at')
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+            
+        // Convert created_at strings to Carbon objects
+        $latestErrorLogs = $latestErrorLogs->map(function($log) {
+            $log->created_at = \Carbon\Carbon::parse($log->created_at);
+            return $log;
+        });
+
+        // Get latest activity logs
+        $latestActivityLogs = DB::table('activity_logs')
+            ->leftJoin('users', 'activity_logs.user_id', '=', 'users.id')
+            ->select(
+                'activity_logs.id',
+                'activity_logs.action_type',
+                'activity_logs.description',
+                'activity_logs.created_at',
+                DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "), 
+                     NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "), 
+                     users.username,
+                     "Unknown") as user_name')
+            )
+            ->orderBy('activity_logs.created_at', 'desc')
+            ->limit(10)
+            ->get();
+            
+        // Convert created_at strings to Carbon objects
+        $latestActivityLogs = $latestActivityLogs->map(function($log) {
+            $log->created_at = \Carbon\Carbon::parse($log->created_at);
+            return $log;
+        });
+
+        // Get system uptime (Linux only)
+        $uptime = 'Unknown';
+        try {
+            if (function_exists('shell_exec')) {
+                $uptime = shell_exec('uptime -p');
+                $uptime = $uptime ? trim($uptime) : 'Unknown';
+            }
+        } catch (\Exception $e) {
+            $uptime = 'Unknown';
+        }
+
+        // Calculate disk usage metrics
+        $diskTotal = disk_total_space('/');
+        $diskFree = disk_free_space('/');
+        $diskUsed = $diskTotal - $diskFree;
+        $diskUsagePercent = round($diskUsed / $diskTotal * 100, 2);
+
+        // Organize PHP settings in a structured array
+        $phpSettings = [
+            'max_execution_time' => ini_get('max_execution_time'),
+            'max_input_time' => ini_get('max_input_time'),
+            'memory_limit' => ini_get('memory_limit'),
+            'post_max_size' => ini_get('post_max_size'),
+            'upload_max_filesize' => ini_get('upload_max_filesize'),
+            'max_file_uploads' => ini_get('max_file_uploads'),
+        ];
+
         $systemInfo = [
+            // Basic PHP and server info
             'php_version' => PHP_VERSION,
             'laravel_version' => app()->version(),
             'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
             'database_name' => env('DB_DATABASE'),
+            'mysql_version' => $mysqlVersion,
+            'operating_system' => php_uname(),
+            'timezone' => config('app.timezone'),
+            
+            // Counts
             'total_users' => DB::table('users')->count(),
             'total_papers' => DB::table('papers')->count(),
-            'disk_free_space' => $this->formatBytes(disk_free_space('/')),
-            'disk_total_space' => $this->formatBytes(disk_total_space('/')),
+            
+            // Resource usage
+            'disk_free' => $this->formatBytes($diskFree),
+            'disk_total' => $this->formatBytes($diskTotal),
+            'disk_used' => $this->formatBytes($diskUsed),
+            'disk_usage_percent' => $diskUsagePercent,
             'server_load' => sys_getloadavg(),
             'memory_usage' => $this->formatBytes(memory_get_usage(true)),
+            'memory_peak_usage' => $this->formatBytes(memory_get_peak_usage(true)),
+            'server_uptime' => $uptime,
+            
+            // Database info
             'database_size' => $this->getDatabaseSize(),
+            'table_count' => $this->getTableCount(),
+            'database_tables_count' => $this->getTableCount(), // For backward compatibility
+            
+            // Logs info
             'activity_logs_count' => DB::table('activity_logs')->count(),
             'error_logs_count' => DB::table('error_logs')->count(),
+            'latest_error_logs' => $latestErrorLogs,
+            'latest_activity_logs' => $latestActivityLogs,
+            
+            // PHP extensions and settings (both structured and flat for backward compatibility)
+            'php_settings' => $phpSettings,
+            'max_execution_time' => $phpSettings['max_execution_time'],
+            'max_input_time' => $phpSettings['max_input_time'],
+            'memory_limit' => $phpSettings['memory_limit'],
+            'post_max_size' => $phpSettings['post_max_size'],
+            'upload_max_filesize' => $phpSettings['upload_max_filesize'],
+            'max_file_uploads' => $phpSettings['max_file_uploads'],
         ];
 
         return view('admin.system', compact('systemInfo'));
@@ -343,6 +442,23 @@ class AdminDashboardController extends Controller
             }
         } catch (\Exception $e) {
             Log::error('Failed to get database size: ' . $e->getMessage());
+        }
+        return 'Unknown';
+    }
+
+    /**
+     * Get the count of tables in the database
+     */
+    private function getTableCount()
+    {
+        $dbName = env('DB_DATABASE');
+        try {
+            $result = DB::select("SELECT COUNT(*) as count FROM information_schema.TABLES WHERE table_schema = ?", [$dbName]);
+            if (isset($result[0]->count)) {
+                return $result[0]->count;
+            }
+        } catch (\Exception $e) {
+            Log::error('Failed to get database table count: ' . $e->getMessage());
         }
         return 'Unknown';
     }

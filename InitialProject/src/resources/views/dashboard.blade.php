@@ -803,6 +803,14 @@
 
     <!-- Admin Stats -->
     <div class="row">
+        <div class="col-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">System Overview</h4>
+                <a href="{{ route('admin.system') }}" class="btn btn-primary btn-sm">
+                    <i class="mdi mdi-information-outline mr-1"></i> View All System Info
+                </a>
+            </div>
+        </div>
         <div class="col-xl-3 col-md-6">
             <div class="stat-card">
                 <div class="stat-icon bg-primary">
@@ -936,7 +944,7 @@
             <div class="content-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
-                        <h6 class="card-subtitle">System</h6>
+                        <h6 class="card-subtitle mb-2">System</h6>
                         <h3 class="card-title">Error Logs</h3>
                     </div>
                     <div class="d-flex align-items-center">
@@ -957,13 +965,18 @@
                         <tbody>
                             @foreach($errorLogs as $error)
                             <tr>
-                                <td>{{ \Carbon\Carbon::parse($error->created_at ?? now())->format('Y-m-d H:i') }}</td>
+                                <td>{{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->diffForHumans() : 'N/A' }}</td>
                                 <td>
                                     <span class="badge {{ ($error->level ?? 'info') == 'error' ? 'bg-danger text-white' : (($error->level ?? 'info') == 'warning' ? 'bg-warning text-dark' : 'bg-info text-white') }}">
                                         {{ ucfirst($error->level ?? 'info') }}
                                     </span>
                                 </td>
-                                <td>{{ Str::limit($error->message ?? 'No message available', 40) }}</td>
+                                <td>
+                                    @php
+                                        $message = $error->message ?? 'No message available';
+                                    @endphp
+                                    {{ Str::limit($message, 30) }}
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
                                         <i class="mdi mdi-information-outline"></i>
@@ -987,7 +1000,7 @@
                                                                     {{ ucfirst($error->level ?? 'info') }}
                                                                 </span>
                                                             </p>
-                                                            <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($error->created_at ?? now())->format('Y-m-d H:i:s') }}</p>
+                                                            <p><strong>Time:</strong> {{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
                                                             <p><strong>File:</strong> {{ $error->file ?? 'Unknown' }}</p>
                                                             <p><strong>Line:</strong> {{ $error->line ?? 'Unknown' }}</p>
                                                             <p><strong>User:</strong> {{ $error->user_name ?? 'Unknown' }}</p>
@@ -995,12 +1008,16 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <p><strong>Message:</strong></p>
-                                                            <div class="mb-3 bg-light border rounded p-3" style="word-break: break-word; max-height: 100px; overflow-y: auto;">
+                                                            <div class="mb-3 bg-light border rounded"
+                                                                style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px;
+                                                                        overflow-y: auto; text-align: left; padding: 1rem;">
                                                                 {{ $error->message ?? 'No message available' }}
                                                             </div>
                                                             
                                                             <p><strong>Stack Trace:</strong></p>
-                                                            <div class="bg-light border rounded p-3" style="font-size: 0.8rem; max-height: 200px; overflow-y: auto;">
+                                                            <div class="bg-light border rounded"
+                                                                style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px;
+                                                                        overflow-y: auto; text-align: left; padding: 1rem; font-size: 0.8rem;">
                                                                 <pre style="white-space: pre-wrap; margin-bottom: 0;">{{ $error->stack_trace ?? 'No stack trace available' }}</pre>
                                                             </div>
                                                         </div>
