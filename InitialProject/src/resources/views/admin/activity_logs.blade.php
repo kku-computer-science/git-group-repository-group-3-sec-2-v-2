@@ -231,7 +231,7 @@
                         <option value="">All Users</option>
                         @foreach($users as $user)
                         <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
-                            {{ htmlspecialchars($user->fname) }} {{ htmlspecialchars($user->lname) }}
+                            {{ htmlspecialchars($user->fname ?? '') }} {{ htmlspecialchars($user->lname ?? '') }}
                         </option>
                         @endforeach
                     </select>
@@ -261,14 +261,14 @@
                                 }
                             @endphp
                             <option value="{{ $encodedValue }}" {{ request('action_type') == $type || request('action_type') == $encodedValue ? 'selected' : '' }}>
-                                {{ htmlspecialchars($type) }}
+                                {{ htmlspecialchars($type ?? '') }}
                             </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-4 form-group">
                     <label for="action">Action</label>
-                    <input type="text" name="action" id="action" class="form-control" value="{{ htmlspecialchars(request('action')) }}" placeholder="Filter by action">
+                    <input type="text" name="action" id="action" class="form-control" value="{{ htmlspecialchars(request('action') ?? '') }}" placeholder="Filter by action">
                 </div>
             </div>
             <div class="row">

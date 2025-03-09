@@ -98,14 +98,14 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script>
-var year = <?php echo $year; ?>;
-var paper_tci = <?php echo $paper_tci; ?>;
-var paper_scopus = <?php echo $paper_scopus; ?>;
-var paper_wos = <?php echo $paper_wos; ?>;
+var year = <?php echo $year ?? '[]'; ?>;
+var paper_tci = <?php echo $paper_tci ?? '[]'; ?>;
+var paper_scopus = <?php echo $paper_scopus ?? '[]'; ?>;
+var paper_wos = <?php echo $paper_wos ?? '[]'; ?>;
 
-var paper_tci_cit = <?php echo $paper_tci_cit; ?>;
-var paper_scopus_cit = <?php echo $paper_scopus_cit; ?>;
-var paper_wos_cit = <?php echo $paper_wos_cit; ?>;
+var paper_tci_cit = <?php echo $paper_tci_cit ?? '[]'; ?>;
+var paper_scopus_cit = <?php echo $paper_scopus_cit ?? '[]'; ?>;
+var paper_wos_cit = <?php echo $paper_wos_cit ?? '[]'; ?>;
 
 year.unshift("source");
 paper_tci.unshift("tci");
@@ -196,10 +196,10 @@ generateTable(table2, res2);
 </script>
 
 <script>
-var year = <?php echo $year; ?>;
-var paper_tci = <?php echo $paper_tci; ?>;
-var paper_scopus = <?php echo $paper_scopus; ?>;
-var paper_wos = <?php echo $paper_wos; ?>;
+var year = <?php echo $year ?? '[]'; ?>;
+var paper_tci = <?php echo $paper_tci ?? '[]'; ?>;
+var paper_scopus = <?php echo $paper_scopus ?? '[]'; ?>;
+var paper_wos = <?php echo $paper_wos ?? '[]'; ?>;
 
 
 var areaChartData = {
@@ -274,10 +274,10 @@ new Chart(barChartCanvas3, {
 })
 </script>
 <script>
-var year = <?php echo $year; ?>;
-var paper_tci = <?php echo $paper_tci_cit; ?>;
-var paper_scopus = <?php echo $paper_scopus_cit; ?>;
-var paper_wos = <?php echo $paper_wos_cit; ?>;
+var year = <?php echo $year ?? '[]'; ?>;
+var paper_tci = <?php echo $paper_tci_cit ?? '[]'; ?>;
+var paper_scopus = <?php echo $paper_scopus_cit ?? '[]'; ?>;
+var paper_wos = <?php echo $paper_wos_cit ?? '[]'; ?>;
 var areaChartData = {
 
     labels: year,
@@ -343,10 +343,10 @@ new Chart(barChartCanvas, {
 })
 </script>
 <script>
-var year = <?php echo $year; ?>;
-var paper_tci = <?php echo $paper_tci_cit; ?>;
-var paper_scopus = <?php echo $paper_scopus_cit; ?>;
-var paper_wos = <?php echo $paper_wos_cit; ?>;
+var year = <?php echo $year ?? '[]'; ?>;
+var paper_tci = <?php echo $paper_tci_cit ?? '[]'; ?>;
+var paper_scopus = <?php echo $paper_scopus_cit ?? '[]'; ?>;
+var paper_wos = <?php echo $paper_wos_cit ?? '[]'; ?>;
 var areaChartData = {
 
     labels: year,

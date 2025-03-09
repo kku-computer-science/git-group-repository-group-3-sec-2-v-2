@@ -282,8 +282,8 @@
                     <select name="level" id="level" class="form-control select2-basic">
                         <option value="">All Levels</option>
                         @foreach($errorLevels as $level)
-                            <option value="{{ htmlspecialchars($level) }}" {{ request('level') == $level ? 'selected' : '' }}>
-                                {{ htmlspecialchars(ucfirst($level)) }}
+                            <option value="{{ htmlspecialchars($level ?? '') }}" {{ request('level') == $level ? 'selected' : '' }}>
+                                {{ htmlspecialchars(ucfirst($level ?? '')) }}
                             </option>
                         @endforeach
                     </select>
@@ -293,7 +293,7 @@
                     <input type="text" name="message" id="message" class="form-control" value="{{ htmlspecialchars(request('message') ?? '') }}" placeholder="Filter by error message">
                 </div>
                 <div class="col-md-4 form-group">
-                    <label for="file">File Path</label>
+                    <label for="file">File</label>
                     <input type="text" name="file" id="file" class="form-control" value="{{ htmlspecialchars(request('file') ?? '') }}" placeholder="Filter by file path">
                 </div>
             </div>
@@ -373,7 +373,7 @@
                                         break;
                                 }
                             @endphp
-                            <span class="badge {{ $badgeClass }}">{{ htmlspecialchars(ucfirst($level)) }}</span>
+                            <span class="badge {{ $badgeClass }}">{{ htmlspecialchars(ucfirst($level ?? '')) }}</span>
                         </td>
                         <td>{{ Str::limit(htmlspecialchars($error->file ?? ''), 30) }}</td>
                         <td>{{ Str::limit(htmlspecialchars($error->message ?? ''), 50) }}</td>
@@ -421,7 +421,7 @@
                                     break;
                             }
                         @endphp
-                        <span class="badge {{ $badgeClass }}">{{ htmlspecialchars(ucfirst($level)) }}</span>
+                        <span class="badge {{ $badgeClass }}">{{ htmlspecialchars(ucfirst($level ?? '')) }}</span>
                         Error Details #{{ $error->id }}
                     </h5>
                     <button class="close" data-dismiss="modal">&times;</button>
@@ -478,7 +478,7 @@
                                 <h6 class="border-bottom pb-2 mb-3">Error Message</h6>
                                 <div class="alert alert-danger mb-0">
                                     @php
-                                        $message = htmlspecialchars_decode($error->message);
+                                        $message = htmlspecialchars_decode($error->message ?? '');
                                         // Check if the message contains file path, highlight it
                                         $message = preg_replace('/(View: )([^)]+)/', '$1<span class="text-monospace font-weight-bold">$2</span>', $message);
                                         $message = preg_replace('/(Class ")([^"]+)(" not found)/', '$1<span class="text-danger font-weight-bold">$2</span>$3', $message);
@@ -493,7 +493,7 @@
                                     @if(isset($error->file) && !empty($error->file))
                                     <div class="mb-3">
                                         <label class="font-weight-bold">File:</label>
-                                        <div class="text-monospace text-muted">{{ htmlspecialchars($error->file) }}</div>
+                                        <div class="text-monospace text-muted">{{ htmlspecialchars($error->file ?? '') }}</div>
                                     </div>
                                     @endif
 
@@ -516,21 +516,21 @@
                                     @if(isset($error->url) && !empty($error->url))
                                     <div class="mb-3">
                                         <label class="font-weight-bold">URL:</label>
-                                        <div class="text-break">{{ htmlspecialchars($error->url) }}</div>
+                                        <div class="text-break">{{ htmlspecialchars($error->url ?? '') }}</div>
                                     </div>
                                     @endif
 
                                     @if(isset($error->method) && !empty($error->method))
                                     <div class="mb-3">
                                         <label class="font-weight-bold">Method:</label>
-                                        <div><code>{{ htmlspecialchars($error->method) }}</code></div>
+                                        <div><code>{{ htmlspecialchars($error->method ?? '') }}</code></div>
                                     </div>
                                     @endif
 
                                     @if(isset($error->ip_address) && !empty($error->ip_address))
                                     <div class="mb-3">
                                         <label class="font-weight-bold">IP Address:</label>
-                                        <div><code>{{ htmlspecialchars($error->ip_address) }}</code></div>
+                                        <div><code>{{ htmlspecialchars($error->ip_address ?? '') }}</code></div>
                                     </div>
                                     @endif
                                 </div>
@@ -540,7 +540,7 @@
                             <div class="mb-4">
                                 <h6 class="border-bottom pb-2 mb-3">Stack Trace</h6>
                                 <div class="bg-light p-3 rounded" style="max-height: 300px; overflow-y: auto;">
-                                    <pre class="mb-0" style="white-space: pre-wrap; word-break: break-word; color: #666;">{{ htmlspecialchars($error->stack_trace) }}</pre>
+                                    <pre class="mb-0" style="white-space: pre-wrap; word-break: break-word; color: #666;">{{ htmlspecialchars($error->stack_trace ?? '') }}</pre>
                                 </div>
                             </div>
                             @endif
@@ -549,7 +549,7 @@
                             <div class="mb-4">
                                 <h6 class="border-bottom pb-2 mb-3">User Agent</h6>
                                 <div class="bg-light p-3 rounded">
-                                    <pre class="mb-0" style="white-space: pre-wrap; word-break: break-word; color: #666;">{{ htmlspecialchars($error->user_agent) }}</pre>
+                                    <pre class="mb-0" style="white-space: pre-wrap; word-break: break-word; color: #666;">{{ htmlspecialchars($error->user_agent ?? '') }}</pre>
                                 </div>
                             </div>
                             @endif
