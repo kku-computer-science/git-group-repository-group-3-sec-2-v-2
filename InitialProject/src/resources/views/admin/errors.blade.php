@@ -34,14 +34,14 @@
                                 @foreach($errors as $error)
                                 <tr>
                                     <td>
-                                        <span class="badge badge-{{ $error->level == 'error' ? 'danger' : 'warning' }}">
-                                            {{ $error->level }}
+                                        <span class="badge badge-{{ ($error->level ?? 'info') == 'error' ? 'danger' : (($error->level ?? 'info') == 'warning' ? 'warning' : 'info') }}">
+                                            {{ $error->level ?? 'info' }}
                                         </span>
                                     </td>
-                                    <td>{{ $error->message }}</td>
-                                    <td>{{ $error->file }}</td>
-                                    <td>{{ $error->line }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') }}</td>
+                                    <td>{{ $error->message ?? 'No message available' }}</td>
+                                    <td>{{ $error->file ?? 'Unknown' }}</td>
+                                    <td>{{ $error->line ?? 'N/A' }}</td>
+                                    <td>{{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</td>
                                     <td>
                                         <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
                                             View Details
@@ -61,9 +61,9 @@
                                             </div>
                                             <div class="modal-body">
                                                 <h6>Stack Trace:</h6>
-                                                <pre class="bg-light p-3"><code>{{ $error->stack_trace }}</code></pre>
+                                                <pre class="bg-light p-3"><code>{{ $error->stack_trace ?? 'No stack trace available' }}</code></pre>
                                                 
-                                                @if($error->context)
+                                                @if(isset($error->context) && $error->context)
                                                 <h6 class="mt-4">Context:</h6>
                                                 <pre class="bg-light p-3"><code>{{ json_encode(json_decode($error->context), JSON_PRETTY_PRINT) }}</code></pre>
                                                 @endif

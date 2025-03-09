@@ -9,12 +9,14 @@
         padding: 20px;
         background: #f8f9fe;
     }
+
     .content-card {
         background: white;
         border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         margin-bottom: 30px;
     }
+
     .content-card .card-header {
         padding: 20px;
         border-bottom: 1px solid #e9ecef;
@@ -22,20 +24,24 @@
         border-radius: 15px 15px 0 0;
         color: white;
     }
+
     .content-card .card-title {
         margin: 0;
         color: white;
         font-size: 1.25rem;
         font-weight: 600;
     }
+
     .content-card .card-subtitle {
         color: rgba(255, 255, 255, 0.8);
         font-size: 0.875rem;
         text-transform: uppercase;
     }
+
     .table {
         margin: 0;
     }
+
     .table th {
         font-size: 0.875rem;
         font-weight: 600;
@@ -44,6 +50,7 @@
         border-bottom: 1px solid #e9ecef;
         background: #f6f9fc;
     }
+
     .table td {
         padding: 12px 20px;
         vertical-align: middle;
@@ -51,65 +58,81 @@
         color: #525f7f;
         font-size: 0.875rem;
     }
+
     .table tr:hover {
         background-color: #f8f9fa;
     }
+
     .badge {
         padding: 5px 10px;
         font-size: 0.75rem;
         font-weight: 600;
         border-radius: 5px;
     }
+
     .filter-form {
         padding: 20px;
         background: white;
         border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         margin-bottom: 30px;
         border-left: 4px solid #5e72e4;
     }
+
     .pagination {
         justify-content: center;
         margin-top: 20px;
     }
+
     .btn-primary {
         background-color: #5e72e4;
         border-color: #5e72e4;
     }
+
     .btn-primary:hover {
         background-color: #324cdd;
         border-color: #324cdd;
     }
+
     .btn-secondary {
         background-color: #8898aa;
         border-color: #8898aa;
     }
+
     .btn-secondary:hover {
         background-color: #6c757d;
         border-color: #6c757d;
     }
+
     .btn-info {
         background-color: #11cdef;
         border-color: #11cdef;
     }
+
     .btn-info:hover {
         background-color: #0da5c0;
         border-color: #0da5c0;
     }
+
     .select2-container .select2-selection--single {
         height: 38px !important;
         border: 1px solid #ced4da !important;
     }
+
     .select2-container--default .select2-selection--single .select2-selection__rendered {
         line-height: 38px !important;
     }
+
     .select2-container--default .select2-selection--single .select2-selection__arrow {
         height: 36px !important;
     }
-    .form-control:focus, .select2-container--default.select2-container--focus .select2-selection--single {
+
+    .form-control:focus,
+    .select2-container--default.select2-container--focus .select2-selection--single {
         border-color: #5e72e4 !important;
         box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25) !important;
     }
+
     .page-header {
         background: linear-gradient(87deg, #5e72e4, #825ee4);
         padding: 30px;
@@ -120,50 +143,63 @@
         justify-content: space-between;
         align-items: center;
     }
+
     .page-title-container {
         flex: 1;
     }
+
     .page-title {
         margin: 0;
         font-weight: 600;
     }
+
     .page-subtitle {
         opacity: 0.8;
         margin-bottom: 0;
     }
+
     .modal-header {
         background: linear-gradient(87deg, #5e72e4, #825ee4);
         color: white;
         border-radius: 0.3rem 0.3rem 0 0;
     }
+
     .modal-title {
         color: white;
     }
+
     .close {
         color: white;
         text-shadow: none;
         opacity: 0.8;
     }
+
     .close:hover {
         color: white;
         opacity: 1;
     }
+
     .form-group {
         margin-bottom: 1.5rem;
     }
+
     .form-row {
         margin-bottom: 1rem;
     }
+
     .filter-buttons {
         margin-top: 1.5rem;
     }
+
     .badge.bg-login {
         background-color: #5e72e4 !important;
         color: white !important;
     }
+
     .select2-container {
         width: 100% !important;
     }
+
     .back-button {
         margin-left: 15px;
     }
@@ -193,9 +229,9 @@
                     <select name="user_id" id="user_id" class="form-control select2-users">
                         <option value="">All Users</option>
                         @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
-                                {{ $user->fname }} {{ $user->lname }}
-                            </option>
+                        <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
+                            {{ $user->fname }} {{ $user->lname }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -204,9 +240,9 @@
                     <select name="action_type" id="action_type" class="form-control select2-basic">
                         <option value="">All Types</option>
                         @foreach($actionTypes as $type)
-                            <option value="{{ $type }}" {{ request('action_type') == $type ? 'selected' : '' }}>
-                                {{ $type }}
-                            </option>
+                        <option value="{{ $type }}" {{ request('action_type') == $type ? 'selected' : '' }}>
+                            {{ $type }}
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -268,44 +304,44 @@
                         <td>{{ $activity->user_name }}</td>
                         <td>
                             @php
-                                $actionType = $activity->action_type;
-                                
-                                $badgeClass = 'bg-secondary';
-                                
-                                switch($actionType) {
-                                    case 'Create':
-                                        $badgeClass = 'bg-success';
-                                        break;
-                                    case 'Update':
-                                        $badgeClass = 'bg-primary';
-                                        break;
-                                    case 'Delete':
-                                        $badgeClass = 'bg-danger';
-                                        break;
-                                    case 'Upload':
-                                        $badgeClass = 'bg-info';
-                                        break;
-                                    case 'View':
-                                        $badgeClass = 'bg-light text-dark';
-                                        break;
-                                    case 'Submit':
-                                        $badgeClass = 'bg-warning text-dark';
-                                        break;
-                                    case 'Scopus':
-                                        $badgeClass = 'bg-info';
-                                        break;
-                                    case 'Paper':
-                                        $badgeClass = 'bg-primary';
-                                        break;
-                                    case 'Login':
-                                        $badgeClass = 'bg-login';
-                                        break;
-                                }
+                            $actionType = $activity->action_type;
+                            
+                            $badgeClass = 'bg-secondary';
+                            
+                            switch($actionType) {
+                                case 'Create':
+                                    $badgeClass = 'bg-success';
+                                    break;
+                                case 'Update':
+                                    $badgeClass = 'bg-primary';
+                                    break;
+                                case 'Delete':
+                                    $badgeClass = 'bg-danger';
+                                    break;
+                                case 'Upload':
+                                    $badgeClass = 'bg-info';
+                                    break;
+                                case 'View':
+                                    $badgeClass = 'bg-light text-dark';
+                                    break;
+                                case 'Submit':
+                                    $badgeClass = 'bg-warning text-dark';
+                                    break;
+                                case 'Scopus':
+                                    $badgeClass = 'bg-info';
+                                    break;
+                                case 'Paper':
+                                    $badgeClass = 'bg-primary';
+                                    break;
+                                case 'Login':
+                                    $badgeClass = 'bg-login';
+                                    break;
+                            }
                             @endphp
                             <span class="badge {{ $badgeClass }}">{{ $actionType }}</span>
                         </td>
                         <td>{{ str_replace($activity->action_type . ' ', '', $activity->action) }}</td>
-                        <td>{{ Str::limit($activity->description, 40) }}</td>
+                        <td>{{ Str::limit($activity->description ?? '', 40) }}</td>
                         <td>{{ $activity->ip_address }}</td>
                         <td>{{ \Carbon\Carbon::parse($activity->created_at)->format('Y-m-d H:i:s') }}</td>
                         <td>
@@ -327,39 +363,39 @@
 <!-- Activity Details Modals -->
 @foreach($activities as $activity)
 @php
-    $actionType = $activity->action_type;
-    
-    $badgeClass = 'bg-secondary';
-    
-    switch($actionType) {
-        case 'Create':
-            $badgeClass = 'bg-success';
-            break;
-        case 'Update':
-            $badgeClass = 'bg-primary';
-            break;
-        case 'Delete':
-            $badgeClass = 'bg-danger';
-            break;
-        case 'Upload':
-            $badgeClass = 'bg-info';
-            break;
-        case 'View':
-            $badgeClass = 'bg-light text-dark';
-            break;
-        case 'Submit':
-            $badgeClass = 'bg-warning text-dark';
-            break;
-        case 'Scopus':
-            $badgeClass = 'bg-info';
-            break;
-        case 'Paper':
-            $badgeClass = 'bg-primary';
-            break;
-        case 'Login':
-            $badgeClass = 'bg-login';
-            break;
-    }
+$actionType = $activity->action_type;
+
+$badgeClass = 'bg-secondary';
+
+switch($actionType) {
+case 'Create':
+$badgeClass = 'bg-success';
+break;
+case 'Update':
+$badgeClass = 'bg-primary';
+break;
+case 'Delete':
+$badgeClass = 'bg-danger';
+break;
+case 'Upload':
+$badgeClass = 'bg-info';
+break;
+case 'View':
+$badgeClass = 'bg-light text-dark';
+break;
+case 'Submit':
+$badgeClass = 'bg-warning text-dark';
+break;
+case 'Scopus':
+$badgeClass = 'bg-info';
+break;
+case 'Paper':
+$badgeClass = 'bg-primary';
+break;
+case 'Login':
+$badgeClass = 'bg-login';
+break;
+}
 @endphp
 <div class="modal fade" id="activityModal{{ $activity->id }}" tabindex="-1" role="dialog" aria-labelledby="activityModalLabel{{ $activity->id }}" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
@@ -382,7 +418,7 @@
                     </div>
                     <div class="col-md-6">
                         <p><strong>IP Address:</strong> {{ $activity->ip_address }}</p>
-                        <p><strong>User Agent:</strong> {{ Str::limit($activity->user_agent, 100) }}</p>
+                        <p><strong>User Agent:</strong> {{ Str::limit($activity->user_agent ?? '', 100) }}</p>
                     </div>
                 </div>
                 <div class="row mt-3">
@@ -414,7 +450,7 @@
             width: '100%',
             dropdownParent: $('.filter-form')
         });
-        
+
         // Initialize Select2 for other dropdowns
         $('.select2-basic').select2({
             width: '100%',
@@ -422,4 +458,4 @@
         });
     });
 </script>
-@endpush 
+@endpush

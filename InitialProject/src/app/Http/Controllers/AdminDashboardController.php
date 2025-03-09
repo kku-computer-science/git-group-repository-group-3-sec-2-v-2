@@ -8,46 +8,132 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\SecurityEvent;
+use App\Http\Controllers\Admin\SecurityController;
 
 class AdminDashboardController extends Controller
 {
-    public function __construct()
+    protected $securityController;
+
+    public function __construct(SecurityController $securityController)
     {
         $this->middleware(['auth', 'role:admin']);
+        $this->securityController = $securityController;
     }
 
     public function index()
     {
-        // Get user activities (paginated)
-        $userActivities = DB::table('activity_logs')
-            ->join('users', 'activity_logs.user_id', '=', 'users.id')
-            ->select('activity_logs.*', 
-                DB::raw("CASE 
-                    WHEN users.fname_en IS NULL OR users.fname_en = '' THEN CONCAT(users.fname_th, ' ', users.lname_th)
-                    ELSE CONCAT(users.fname_en, ' ', users.lname_en) 
-                END as user_name"))
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        $user = auth()->user();
+        $roles = $user->getRoleNames();
 
-        // Get error logs (last 50 entries)
-        $errorLogs = DB::table('error_logs')
-            ->orderBy('created_at', 'desc')
-            ->limit(50)
-            ->get();
+        // Get security data if user is admin
+        $securityStats = [];
+        $securityEvents = collect([]);
+        
+        if ($user->hasRole('admin')) {
+            try {
+                $securityStats = cache()->remember('security_stats', 300, function() {
+                    return $this->securityController->getSecurityStats();
+                });
+                
+                // Optimize security events query with specific fields and smaller limit
+                $securityEvents = SecurityEvent::select(
+                    'id', 
+                    'event_type', 
+                    'icon_class', 
+                    'user_id', 
+                    'ip_address', 
+                    'details', 
+                    'threat_level', 
+                    'created_at'
+                )
+                ->with(['user' => function($query) {
+                    $query->select('id', 'fname_en', 'lname_en', 'fname_th', 'lname_th', 'email');
+                }])
+                ->orderBy('created_at', 'desc')
+                ->limit(5)
+                ->get();
+            } catch (\Exception $e) {
+                \Log::error('Error loading security data: ' . $e->getMessage());
+                $securityStats = [
+                    'failed_logins' => 0,
+                    'suspicious_ips' => 0,
+                    'blocked_attempts' => 0,
+                    'total_monitoring' => 0
+                ];
+            }
+        }
 
-        // Get system information
-        $systemInfo = [
-            'php_version' => PHP_VERSION,
-            'laravel_version' => app()->version(),
-            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
-            'database_name' => env('DB_DATABASE'),
-            'total_users' => DB::table('users')->count(),
-            'total_papers' => DB::table('papers')->count(),
-            'disk_free_space' => $this->formatBytes(disk_free_space('/')),
-            'disk_total_space' => $this->formatBytes(disk_total_space('/')),
-        ];
+        // Get user activities with optimized query
+        try {
+            $userActivities = DB::table('activity_logs')
+                ->select(
+                    'activity_logs.id',
+                    'activity_logs.action_type',
+                    'activity_logs.action',
+                    'activity_logs.created_at',
+                    'users.id as user_id',
+                    DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "), 
+                                    NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "), 
+                                    users.email) as user_name')
+                )
+                ->leftJoin('users', 'activity_logs.user_id', '=', 'users.id')
+                ->orderBy('activity_logs.created_at', 'desc')
+                ->limit(5)
+                ->get();
+        } catch (\Exception $e) {
+            \Log::error('Error loading user activities: ' . $e->getMessage());
+            $userActivities = collect([]);
+        }
 
-        return view('admin.dashboard', compact('userActivities', 'errorLogs', 'systemInfo'));
+        // Get error logs with optimized query
+        try {
+            $errorLogs = DB::table('error_logs')
+                ->select(
+                    'error_logs.id',
+                    'error_logs.level',
+                    'error_logs.message',
+                    'error_logs.created_at'
+                )
+                ->orderBy('created_at', 'desc')
+                ->limit(5)
+                ->get();
+
+            $totalErrorLogs = cache()->remember('total_error_logs', 300, function() {
+                return DB::table('error_logs')->count();
+            });
+        } catch (\Exception $e) {
+            \Log::error('Error loading error logs: ' . $e->getMessage());
+            $errorLogs = collect([]);
+            $totalErrorLogs = 0;
+        }
+
+        // Get system info with caching
+        try {
+            $systemInfo = cache()->remember('system_info', 3600, function() {
+                return $this->getSystemInfo();
+            });
+        } catch (\Exception $e) {
+            \Log::error('Error loading system info: ' . $e->getMessage());
+            $systemInfo = [];
+        }
+
+        // Get total activities count with caching
+        $totalActivities = cache()->remember('total_activities', 300, function() {
+            return DB::table('activity_logs')->count();
+        });
+
+        return view('dashboard', compact(
+            'user',
+            'roles',
+            'securityStats',
+            'securityEvents',
+            'userActivities',
+            'errorLogs',
+            'systemInfo',
+            'totalActivities',
+            'totalErrorLogs'
+        ));
     }
 
     public function getUserActivities(Request $request)
@@ -111,55 +197,62 @@ class AdminDashboardController extends Controller
 
     public function getErrorLogs(Request $request)
     {
+        // Base query with optimized select fields
         $query = DB::table('error_logs')
             ->leftJoin('users', 'error_logs.user_id', '=', 'users.id')
             ->select(
-                'error_logs.*',
-                DB::raw('CASE 
-                    WHEN users.id IS NOT NULL THEN CONCAT(
-                        COALESCE(users.fname_en, users.fname_th), " ", 
-                        COALESCE(users.lname_en, users.lname_th)
-                    )
-                    ELSE error_logs.username
-                END as user_name')
+                'error_logs.id',
+                'error_logs.level',
+                'error_logs.message',
+                'error_logs.file',
+                'error_logs.line',
+                'error_logs.ip_address',
+                'error_logs.created_at',
+                DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "), 
+                               NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "), 
+                               error_logs.username,
+                               "Unknown") as user_name')
             );
 
-        // Apply filters
-        if ($request->has('level') && $request->level) {
+        // Apply filters efficiently
+        if ($request->filled('level')) {
             $query->where('error_logs.level', $request->level);
         }
 
-        if ($request->has('message') && $request->message) {
+        if ($request->filled('message')) {
             $query->where('error_logs.message', 'like', '%' . $request->message . '%');
         }
 
-        if ($request->has('file') && $request->file) {
+        if ($request->filled('file')) {
             $query->where('error_logs.file', 'like', '%' . $request->file . '%');
         }
         
-        if ($request->has('ip_address') && $request->ip_address) {
-            $query->where('error_logs.ip_address', 'like', '%' . $request->ip_address . '%');
+        if ($request->filled('ip_address')) {
+            $query->where('error_logs.ip_address', $request->ip_address);
         }
 
-        if ($request->has('date_from') && $request->date_from) {
+        if ($request->filled('date_from')) {
             $query->whereDate('error_logs.created_at', '>=', $request->date_from);
         }
 
-        if ($request->has('date_to') && $request->date_to) {
+        if ($request->filled('date_to')) {
             $query->whereDate('error_logs.created_at', '<=', $request->date_to);
         }
 
-        $errors = $query->orderBy('created_at', 'desc')
-            ->paginate(15)
+        // Use smaller chunk size for pagination
+        $errors = $query->orderBy('error_logs.created_at', 'desc')
+            ->paginate(10)
             ->withQueryString();
 
-        // Get unique error levels for filter dropdown
+        // Get unique error levels efficiently using distinct and indexing
         $errorLevels = DB::table('error_logs')
             ->select('level')
             ->distinct()
+            ->orderBy('level')
             ->pluck('level');
 
-        return view('admin.error_logs', compact('errors', 'errorLevels'));
+        return view('admin.error_logs', compact('errors', 'errorLevels'))
+            ->with('i', ($request->input('page', 1) - 1) * 10);
     }
 
     public function getSystemInfo()

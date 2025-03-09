@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Mar 08, 2025 at 01:47 AM
--- Server version: 5.7.23-23
--- PHP Version: 8.1.31
+-- Host: db
+-- Generation Time: Mar 04, 2025 at 09:19 PM
+-- Server version: 8.0.41
+-- PHP Version: 8.2.27
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -114,507 +114,17 @@ INSERT INTO `academicworks` (`id`, `ac_name`, `ac_type`, `ac_sourcetitle`, `ac_y
 --
 
 DROP TABLE IF EXISTS `activity_logs`;
-CREATE TABLE IF NOT EXISTS `activity_logs` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `user_id` bigint(20) UNSIGNED NOT NULL,
+CREATE TABLE `activity_logs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `user_id` bigint UNSIGNED NOT NULL,
   `action_type` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `action` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `ip_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_agent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `activity_logs_user_id_foreign` (`user_id`),
-  KEY `activity_logs_action_type_index` (`action_type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1102 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `activity_logs`
---
-
-INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `action`, `description`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES
-(622, 1, 'Login', 'Login', 'User logged in successfully', '182.232.88.80', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 00:16:46', '2025-03-06 00:16:46'),
-(623, 1, 'Submit', 'Submit generated::9VoycQalz1C7bVAR', 'User performed Submit operation on login with data: {\"_token\":\"f3ugb60QY7IyZ0DotZs9Q6kaecV9iEwmBbSH6AlU\",\"username\":\"admin@gmail.com\"}', '182.232.88.80', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 00:16:46', '2025-03-06 00:16:46'),
-(624, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '182.232.88.80', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 00:16:46', '2025-03-06 00:16:46'),
-(625, 1, 'Login', 'Login', 'User logged in successfully', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:20:40', '2025-03-06 00:20:40'),
-(626, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"iVm203B3Z3UAPAbV5RaPznEtJPWecAC3byrV3QVs\",\"username\":\"admin@gmail.com\"}', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:20:40', '2025-03-06 00:20:40'),
-(627, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:20:41', '2025-03-06 00:20:41'),
-(628, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:20:50', '2025-03-06 00:20:50'),
-(629, 1, 'View', 'View users.create', 'User performed View operation on users/create', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:21:23', '2025-03-06 00:21:23'),
-(630, 1, 'View', 'View generated::EIuaf5ARnVLiQdIX', 'User performed View operation on ajax-get-subcat', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:22:34', '2025-03-06 00:22:34'),
-(631, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:22:49', '2025-03-06 00:22:49'),
-(632, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/3/edit', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:22:52', '2025-03-06 00:22:52'),
-(633, 1, 'View', 'View detail', 'User performed View operation on detail/eyJpdiI6ImFzTk9BY3RyRTNLTFZzcHFBRHFWYWc9PSIsInZhbHVlIjoiWXdGQmlIQWFhcGhxbFNnUGZRWXpHdz09IiwibWFjIjoiNGYzOGRlNDAyNjE5YzBiNGVlYjUwZDc3YjUzYjQ2OGMxOTE5ZDA5ZjBjYTk0YmMxNGE1OTA1NWUxZmU0YTdiOSIsInRhZyI6IiJ9', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:13', '2025-03-06 00:25:13'),
-(634, 1, 'View', 'View detail', 'User performed View operation on detail/eyJpdiI6InEyRHIrbGQ4dllPT0I1Zjdxam85S3c9PSIsInZhbHVlIjoiVEhWaHRPNlNiRWFkZk81RzhTZlVPZz09IiwibWFjIjoiMzM3NjhkYmJmNDFkODFlMjVkMzE4MzgxYjg5YTRlOGU5NTg5OTNlYTUxZmZkODVjNDljNTYxMTE4ZTA3MDlmMiIsInRhZyI6IiJ9', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:13', '2025-03-06 00:25:13'),
-(635, 1, 'Call', 'Call paper', 'User performed call on paper with ID: 432 with details: {\"paper_id\":432,\"paper_name\":\"An empirical study of the performance of active self-assembly\",\"paper_type\":\"Conference Proceeding\",\"paper_sourcetitle\":\"2009 IEEE\\/RSJ International Conference on Intelligent Robots and Systems, IROS 2009\",\"paper_year\":\"2009\",\"paper_doi\":\"10.1109\\/IROS.2009.5354762\",\"search_params\":{\"user_id\":\"29\"},\"action_type\":\"Call Paper\",\"referrer\":\"https:\\/\\/projectsoften.cpkkuhost.com\\/detail\\/eyJpdiI6InEyRHIrbGQ4dllPT0I1Zjdxam85S3c9PSIsInZhbHVlIjoiVEhWaHRPNlNiRWFkZk81RzhTZlVPZz09IiwibWFjIjoiMzM3NjhkYmJmNDFkODFlMjVkMzE4MzgxYjg5YTRlOGU5NTg5OTNlYTUxZmZkODVjNDljNTYxMTE4ZTA3MDlmMiIsInRhZyI6IiJ9\"}', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:17', '2025-03-06 00:25:17'),
-(636, 1, NULL, 'Paper View', 'Viewed: An empirical study of the performance of active self-assembly (ID: 432)', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:17', '2025-03-06 00:25:17'),
-(637, 1, 'View', 'View paper.detail', 'User performed View operation on paper/432/detail', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:17', '2025-03-06 00:25:17'),
-(638, 1, 'View', 'View researchgroup', 'User performed View operation on researchgroup', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:32', '2025-03-06 00:25:32'),
-(639, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/24', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:34', '2025-03-06 00:25:34'),
-(640, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/22', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:41', '2025-03-06 00:25:41'),
-(641, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/22', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:46', '2025-03-06 00:25:46'),
-(642, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/3', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:50', '2025-03-06 00:25:50'),
-(643, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/5', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:25:53', '2025-03-06 00:25:53'),
-(644, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/24', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:26:00', '2025-03-06 00:26:00'),
-(645, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/8', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:26:05', '2025-03-06 00:26:05'),
-(646, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:26:35', '2025-03-06 00:26:35'),
-(647, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:27:44', '2025-03-06 00:27:44'),
-(648, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:27:46', '2025-03-06 00:27:46'),
-(649, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:27:50', '2025-03-06 00:27:50'),
-(650, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:28:20', '2025-03-06 00:28:20'),
-(651, 1, 'View', 'View researchers.index', 'User performed View operation on researchers', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:28:44', '2025-03-06 00:28:44'),
-(652, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:28:51', '2025-03-06 00:28:51'),
-(653, 3, 'Login', 'Login', 'User logged in successfully', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:28:59', '2025-03-06 00:28:59'),
-(654, 3, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"BLRpdczsEfrnMIlGISt5oYsQKrvYcKWkklRISUXr\",\"username\":\"chakso@kku.ac.th\"}', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:28:59', '2025-03-06 00:28:59'),
-(655, 3, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:28:59', '2025-03-06 00:28:59'),
-(656, 3, 'View', 'View profile', 'User performed View operation on profile', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:29:10', '2025-03-06 00:29:10'),
-(657, 3, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:29:12', '2025-03-06 00:29:12'),
-(658, 3, 'View', 'View profile', 'User performed View operation on profile', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:29:21', '2025-03-06 00:29:21'),
-(659, 3, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:29:24', '2025-03-06 00:29:24'),
-(660, 3, 'Logout', 'Logout', 'User logged out of the system', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:29:34', '2025-03-06 00:29:34'),
-(661, 1, 'Login', 'Login', 'User logged in successfully', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:29:48', '2025-03-06 00:29:48'),
-(662, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"AT7tLsDG993fA8JgFCZwUNQKuZGthMV6Pi6d2GBN\",\"username\":\"admin@gmail.com\"}', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:29:48', '2025-03-06 00:29:48'),
-(663, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:29:48', '2025-03-06 00:29:48'),
-(664, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:29:57', '2025-03-06 00:29:57'),
-(665, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:30:22', '2025-03-06 00:30:22'),
-(666, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 00:30:25', '2025-03-06 00:30:25'),
-(667, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:10:05', '2025-03-06 01:10:05'),
-(668, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"Be5trxrnCfYUH0ZmZQ1UQPHjfrnnZbfHxgznF3RD\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:10:05', '2025-03-06 01:10:05'),
-(669, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:10:05', '2025-03-06 01:10:05'),
-(670, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:11:14', '2025-03-06 01:11:14'),
-(671, 1, 'View', 'View users.create', 'User performed View operation on users/create', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:11:21', '2025-03-06 01:11:21'),
-(672, 1, 'View', 'View generated::EIuaf5ARnVLiQdIX', 'User performed View operation on ajax-get-subcat', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:12:18', '2025-03-06 01:12:18'),
-(673, 1, 'Submit', 'Submit users.store', 'User performed Submit operation on users with data: {\"_token\":\"Be5trxrnCfYUH0ZmZQ1UQPHjfrnnZbfHxgznF3RD\",\"fname_th\":\"วาสนา\",\"lname_th\":\"พุฒกลาง\",\"fname_en\":\"Wasana\",\"lname_en\":\"Putklang\",\"email\":\"putklang_w@kku.ac.th\",\"roles\":[\"teacher\"],\"cat\":\"1\",\"sub_cat\":\"3\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:12:49', '2025-03-06 01:12:49'),
-(674, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:12:50', '2025-03-06 01:12:50'),
-(675, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:12:55', '2025-03-06 01:12:55'),
-(676, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:13:11', '2025-03-06 01:13:11'),
-(677, 153, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:13:15', '2025-03-06 01:13:15'),
-(678, 153, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"tCbP0RHZtJAhlUGGIGdjB9QHh7CuD74g1aWHc8Wo\",\"username\":\"putklang_w@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:13:15', '2025-03-06 01:13:15'),
-(679, 153, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:13:16', '2025-03-06 01:13:16'),
-(680, 153, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:13:20', '2025-03-06 01:13:20'),
-(681, 153, 'Update', 'Update profile', 'User performed update on profile with ID: 153 with details: {\"fname_en\":\"Wasana\",\"lname_en\":\"Putklang\",\"email\":\"putklang_w@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"title_name_en\":\"Mr.\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:13:32', '2025-03-06 01:13:32'),
-(682, 153, 'Submit', 'Submit adminUpdateInfo', 'User performed Submit operation on update-profile-info with data: {\"title_name_en\":\"Mr.\",\"fname_en\":\"Wasana\",\"lname_en\":\"Putklang\",\"fname_th\":\"วาสนา\",\"lname_th\":\"พุฒกลาง\",\"email\":\"putklang_w@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"academic_ranks_th\":\"อาจารย์\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:13:32', '2025-03-06 01:13:32'),
-(683, 153, 'Submit', 'Submit adminPictureUpdate', 'User performed Submit operation on change-profile-picture with data: {\"_token\":\"tCbP0RHZtJAhlUGGIGdjB9QHh7CuD74g1aWHc8Wo\",\"ijaboCropToolFile\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:03', '2025-03-06 01:14:03'),
-(684, 153, 'Submit', 'Submit adminPictureUpdate', 'User performed Submit operation on change-profile-picture with data: {\"_token\":\"tCbP0RHZtJAhlUGGIGdjB9QHh7CuD74g1aWHc8Wo\",\"ijaboCropToolFile\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:03', '2025-03-06 01:14:03'),
-(685, 153, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:10', '2025-03-06 01:14:10'),
-(686, 153, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:19', '2025-03-06 01:14:19'),
-(687, 153, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"5fkYyNIMEZMOPGhCXLOv06jqUSuDrLx1K2WzqzzN\",\"username\":\"putklang_w@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:19', '2025-03-06 01:14:19'),
-(688, 153, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:19', '2025-03-06 01:14:19'),
-(689, 153, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:21', '2025-03-06 01:14:21'),
-(690, 153, 'Update', 'Update profile', 'User performed update on profile with ID: 153 with details: {\"fname_en\":\"Wasana\",\"lname_en\":\"Putklang\",\"email\":\"putklang_w@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"title_name_en\":\"Miss\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:42', '2025-03-06 01:14:42'),
-(691, 153, 'Submit', 'Submit adminUpdateInfo', 'User performed Submit operation on update-profile-info with data: {\"title_name_en\":\"Miss\",\"fname_en\":\"Wasana\",\"lname_en\":\"Putklang\",\"fname_th\":\"วาสนา\",\"lname_th\":\"พุฒกลาง\",\"email\":\"putklang_w@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"academic_ranks_th\":\"อาจารย์\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:42', '2025-03-06 01:14:42'),
-(692, 153, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:45', '2025-03-06 01:14:45'),
-(693, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:51', '2025-03-06 01:14:51'),
-(694, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"kd2I7SHBkd6dwIGedV1eR461nupQTrt3yscy3Xl3\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:51', '2025-03-06 01:14:51'),
-(695, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:51', '2025-03-06 01:14:51'),
-(696, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:14:57', '2025-03-06 01:14:57'),
-(697, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:15:12', '2025-03-06 01:15:12'),
-(698, 1, 'View', 'View researchers.index', 'User performed View operation on researchers', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:16:46', '2025-03-06 01:16:46'),
-(699, 1, 'View', 'View researchgroup', 'User performed View operation on researchgroup', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:16:56', '2025-03-06 01:16:56'),
-(700, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/9', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:17:01', '2025-03-06 01:17:01'),
-(701, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/8', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:17:05', '2025-03-06 01:17:05'),
-(702, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/20', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:17:16', '2025-03-06 01:17:16'),
-(703, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/3', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:17:52', '2025-03-06 01:17:52'),
-(704, 1, 'View', 'View programs.index', 'User performed View operation on programs', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:02', '2025-03-06 01:18:02'),
-(705, 1, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:10', '2025-03-06 01:18:10'),
-(706, 1, 'View', 'View programs.index', 'User performed View operation on programs', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:12', '2025-03-06 01:18:12'),
-(707, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:14', '2025-03-06 01:18:14'),
-(708, 153, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:24', '2025-03-06 01:18:24'),
-(709, 153, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"HjtrhB7mDmdULlg5aajf6WB7dFYbe5IihdvfVopi\",\"username\":\"putklang_w@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:24', '2025-03-06 01:18:24'),
-(710, 153, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:24', '2025-03-06 01:18:24'),
-(711, 153, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:26', '2025-03-06 01:18:26'),
-(712, 153, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/5', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:37', '2025-03-06 01:18:37'),
-(713, 153, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:43', '2025-03-06 01:18:43'),
-(714, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:51', '2025-03-06 01:18:51'),
-(715, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"e8N7OHczhuiuN75Pkcgu892BaCWliHnjN3HrKoqa\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:51', '2025-03-06 01:18:51'),
-(716, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:51', '2025-03-06 01:18:51'),
-(717, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:18:58', '2025-03-06 01:18:58'),
-(718, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/3/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:19:03', '2025-03-06 01:19:03'),
-(719, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/3 with data: {\"_token\":\"e8N7OHczhuiuN75Pkcgu892BaCWliHnjN3HrKoqa\",\"_method\":\"PUT\",\"group_name_th\":\"เทคโนโลยี GIS ขั้นสูง (AGT)\",\"group_name_en\":\"Advanced GIS Technology (AGT)\",\"group_main_research_th\":\"- Web GIS                                                 - Health GIS                                                  - Hydrologic modeling with GIS                                                  - Internet of Things                                                  - Global Navigation Satellite System                                                  - Remote Sensing                                                  - UAV                                                  - Spatial Data Science\",\"group_main_research_en\":\"- Web GIS                                                 - Health GIS                                                  - Hydrologic modeling with GIS                                                  - Internet of Things                                                  - Global Navigation Satellite System                                                  - Remote Sensing                                                  - UAV                                                  - Spatial Data Science\",\"group_desc_th\":\"เพื่อดำเนินการวิจัยและให้บริการวิชาการในสาขาอินเทอร์เน็ต GIS สุขภาพ GIS และแบบจำลองทางอุทกวิทยาด้วย GIS\",\"group_desc_en\":\"To conduct research and provide academic services in the fields of Internet, GIS, Health GIS, and Hydrologic modeling with GIS.\",\"group_detail_th\":\"เพื่อดำเนินการวิจัยและให้บริการวิชาการในสาขาอินเทอร์เน็ต GIS สุขภาพ GIS และแบบจำลองทางอุทกวิทยาด้วย GIS\",\"group_detail_en\":\"To conduct research and provide academic services in the fields of Internet, GIS, Health GIS, and Hydrologic modeling with GIS.\",\"link\":null,\"head\":\"153\",\"moreFields\":[{\"userid\":\"31\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"15\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"5\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"23\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"11\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"30\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"28\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:22:28', '2025-03-06 01:22:28'),
-(720, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:22:28', '2025-03-06 01:22:28'),
-(721, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/5/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:22:44', '2025-03-06 01:22:44'),
-(722, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:23:06', '2025-03-06 01:23:06'),
-(723, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/3/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:23:10', '2025-03-06 01:23:10'),
-(724, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:24:25', '2025-03-06 01:24:25'),
-(725, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/5/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:24:41', '2025-03-06 01:24:41'),
-(726, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/5 with data: {\"_token\":\"e8N7OHczhuiuN75Pkcgu892BaCWliHnjN3HrKoqa\",\"_method\":\"PUT\",\"group_name_th\":\"ห้องปฏิบัติการการคำนวณแบบฉลาดขั้นสูง (ASC)\",\"group_name_en\":\"Advanced Intelligent Computing Laboratory (ASC)\",\"group_main_research_th\":\"- Machine Learning  - Soft computing  - Evolutionary computing - Artificial Intelligence\",\"group_main_research_en\":\"- Machine Learning  - Soft computing  - Evolutionary computing - Artificial Intelligence\",\"group_desc_th\":\"ห้องปฏิบัติการนี้มีจุดมุ่งหมายเพื่อศึกษาและวิจัยเกี่ยวกับเทคโนโลยีอัจฉริยะสำหรับการประมวลผลประสิทธิภาพสูงซึ่งเลียนแบบพฤติกรรมที่ได้รับแรงบันดาลใจจากธรรมชาติ\",\"group_desc_en\":\"This laboratory aims to study and research on the smart technology for high performance computing which imitates the nature-inspired behaviors.\",\"group_detail_th\":\"ห้องปฏิบัติการนี้มีจุดมุ่งหมายเพื่อศึกษาและวิจัยเกี่ยวกับเทคโนโลยีอัจฉริยะสำหรับการประมวลผลประสิทธิภาพสูงซึ่งเลียนแบบพฤติกรรมที่ได้รับแรงบันดาลใจจากธรรมชาติ\",\"group_detail_en\":\"This laboratory aims to study and research on the smart technology for high performance computing which imitates the nature-inspired behaviors.\",\"link\":null,\"head\":\"9\",\"moreFields\":[{\"userid\":\"8\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"6\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"29\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"33\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"151\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"152\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:26:13', '2025-03-06 01:26:13'),
-(727, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:26:13', '2025-03-06 01:26:13'),
-(728, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/23/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:26:19', '2025-03-06 01:26:19'),
-(729, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/23 with data: {\"_token\":\"e8N7OHczhuiuN75Pkcgu892BaCWliHnjN3HrKoqa\",\"_method\":\"PUT\",\"group_name_th\":\"การบูรณาการสหวิทยาการอัจฉริยะขั้นสูง (AIII)\",\"group_name_en\":\"Advanced Intelligent Interdisciplinary Integration (AIII)\",\"group_main_research_th\":\"- Applied Machine Learning in X - Applied AI in X - Applied Optimization in X - Intelligent Cybersecurity Applications - Intelligent Supply Chain - Smart (Smart X) Digital Token, Decentralized Applications\",\"group_main_research_en\":\"- Applied Machine Learning in X - Applied AI in X - Applied Optimization in X - Intelligent Cybersecurity Applications - Intelligent Supply Chain - Smart (Smart X) Digital Token, Decentralized Applications\",\"group_desc_th\":\"ห้องปฏิบัติการการบูรณาการสหวิทยาการอัจฉริยะขั้นสูง มุ่งเน้นที่การพัฒนาการคำนวณอัจฉริยะและประยุกต์ใช้ในศาสตร์ด้านต่างๆ\",\"group_desc_en\":\"The goal of Advanced Intelligent Interdisciplinary Integration Laboratory is to advance intelligent computing and employ it in a variety of interdisciplinary domains.\",\"group_detail_th\":\"ห้องปฏิบัติการการบูรณาการสหวิทยาการอัจฉริยะขั้นสูง มุ่งเน้นที่การพัฒนาการคำนวณอัจฉริยะและประยุกต์ใช้ในศาสตร์ด้านต่างๆ\",\"group_detail_en\":\"The goal of Advanced Intelligent Interdisciplinary Integration Laboratory is to advance intelligent computing and employ it in a variety of interdisciplinary domains.\",\"link\":null,\"head\":\"151\",\"moreFields\":[{\"userid\":\"152\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"24\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:27:14', '2025-03-06 01:27:14'),
-(730, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:27:15', '2025-03-06 01:27:15'),
-(731, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:27:21', '2025-03-06 01:27:21'),
-(732, 1, 'View', 'View users.create', 'User performed View operation on users/create', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:27:23', '2025-03-06 01:27:23'),
-(733, 1, 'View', 'View generated::EIuaf5ARnVLiQdIX', 'User performed View operation on ajax-get-subcat', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:28:29', '2025-03-06 01:28:29'),
-(734, 1, 'Submit', 'Submit users.store', 'User performed Submit operation on users with data: {\"_token\":\"e8N7OHczhuiuN75Pkcgu892BaCWliHnjN3HrKoqa\",\"fname_th\":\"สาธิต\",\"lname_th\":\"กระเวนกิจ\",\"fname_en\":\"Satit\",\"lname_en\":\"Kravenkit\",\"email\":\"satikr@kku.ac.th\",\"roles\":[\"teacher\"],\"cat\":\"1\",\"sub_cat\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:29:44', '2025-03-06 01:29:44'),
-(735, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:29:44', '2025-03-06 01:29:44'),
-(736, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:00', '2025-03-06 01:30:00'),
-(737, 154, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:02', '2025-03-06 01:30:02'),
-(738, 154, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"poJiHPN8DvEx2GDMwhtRoWXL7NczrfGQ66vdIJ80\",\"username\":\"satikr@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:02', '2025-03-06 01:30:02'),
-(739, 154, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:03', '2025-03-06 01:30:03'),
-(740, 154, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:04', '2025-03-06 01:30:04'),
-(741, 154, 'Submit', 'Submit adminPictureUpdate', 'User performed Submit operation on change-profile-picture with data: {\"_token\":\"poJiHPN8DvEx2GDMwhtRoWXL7NczrfGQ66vdIJ80\",\"ijaboCropToolFile\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:26', '2025-03-06 01:30:26'),
-(742, 154, 'Update', 'Update profile', 'User performed update on profile with ID: 154 with details: {\"fname_en\":\"Satit\",\"lname_en\":\"Kravenkit\",\"email\":\"satikr@kku.ac.th\",\"academic_ranks_en\":\"Professor\",\"title_name_en\":\"Mr.\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:34', '2025-03-06 01:30:34'),
-(743, 154, 'Submit', 'Submit adminUpdateInfo', 'User performed Submit operation on update-profile-info with data: {\"title_name_en\":\"Mr.\",\"fname_en\":\"Satit\",\"lname_en\":\"Kravenkit\",\"fname_th\":\"สาธิต\",\"lname_th\":\"กระเวนกิจ\",\"email\":\"satikr@kku.ac.th\",\"academic_ranks_en\":\"Professor\",\"academic_ranks_th\":\"ศาสตราจารย์\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:34', '2025-03-06 01:30:34'),
-(744, 154, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:37', '2025-03-06 01:30:37'),
-(745, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:43', '2025-03-06 01:30:43'),
-(746, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"ZsCee7QcjlqY6MjEYRKJCBF8qKOx73ZkWicK3usZ\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:43', '2025-03-06 01:30:43'),
-(747, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:43', '2025-03-06 01:30:43'),
-(748, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:50', '2025-03-06 01:30:50'),
-(749, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/23/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:30:53', '2025-03-06 01:30:53'),
-(750, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/23 with data: {\"_token\":\"ZsCee7QcjlqY6MjEYRKJCBF8qKOx73ZkWicK3usZ\",\"_method\":\"PUT\",\"group_name_th\":\"การบูรณาการสหวิทยาการอัจฉริยะขั้นสูง (AIII)\",\"group_name_en\":\"Advanced Intelligent Interdisciplinary Integration (AIII)\",\"group_main_research_th\":\"- Applied Machine Learning in X - Applied AI in X - Applied Optimization in X - Intelligent Cybersecurity Applications - Intelligent Supply Chain - Smart (Smart X) Digital Token, Decentralized Applications\",\"group_main_research_en\":\"- Applied Machine Learning in X - Applied AI in X - Applied Optimization in X - Intelligent Cybersecurity Applications - Intelligent Supply Chain - Smart (Smart X) Digital Token, Decentralized Applications\",\"group_desc_th\":\"ห้องปฏิบัติการการบูรณาการสหวิทยาการอัจฉริยะขั้นสูง มุ่งเน้นที่การพัฒนาการคำนวณอัจฉริยะและประยุกต์ใช้ในศาสตร์ด้านต่างๆ\",\"group_desc_en\":\"The goal of Advanced Intelligent Interdisciplinary Integration Laboratory is to advance intelligent computing and employ it in a variety of interdisciplinary domains.\",\"group_detail_th\":\"ห้องปฏิบัติการการบูรณาการสหวิทยาการอัจฉริยะขั้นสูง มุ่งเน้นที่การพัฒนาการคำนวณอัจฉริยะและประยุกต์ใช้ในศาสตร์ด้านต่างๆ\",\"group_detail_en\":\"The goal of Advanced Intelligent Interdisciplinary Integration Laboratory is to advance intelligent computing and employ it in a variety of interdisciplinary domains.\",\"link\":null,\"head\":\"151\",\"moreFields\":[{\"userid\":\"154\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"24\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"152\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:31:35', '2025-03-06 01:31:35'),
-(751, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:31:35', '2025-03-06 01:31:35'),
-(752, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/22/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:31:41', '2025-03-06 01:31:41'),
-(753, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/22 with data: {\"_token\":\"ZsCee7QcjlqY6MjEYRKJCBF8qKOx73ZkWicK3usZ\",\"_method\":\"PUT\",\"group_name_th\":\"การประยุกต์อัฉริยะและการวิเคราะห์ข้อมูล(AIDA)\",\"group_name_en\":\"Applied Intelligence and Data Analytics (AIDA)\",\"group_main_research_th\":\"•    วิทยาศาสตร์ข้อมูลและการวิเคราะห์ข้อมูล •    ธุรกิจอัฉริยะ •    ระบบการวางแผนจัดการห่วงโซ่อุปทาน •    เว็บแบบสื่อความหมาย •    การวิเคราะห์อารมณ์หรือความรู้สึก •    การประมวลผลภาพ •    การเรียนรู้ในสภาพแวดล้อมคอมพิวเตอร์ทุกแห่งหนและทุกเวลาและการเรียนรู้แบบผสมผสาน •    เหมืองข้อมูลและเหมืองข้อความ\",\"group_main_research_en\":\"•  Data Science & Data Analytics •  Business Intelligence •   ERP Systems Semantic •  Web Sentiment Analysis •   Image Processing  •   Ubiquitous Learning and Blending Learning •  Data Mining and Text Mining\",\"group_desc_th\":\"กลุ่มงานวิจัยนี้ได้เกิดจากการบูรณาการงานวิจัยจากหลากหลายสาขา เช่น งานวิจัยด้านวิทยาศาสตร์ข้อมูลและการวิเคราะห์ข้อมูล (Data Science & Data Analytics) เหมืองข้อมูล (Data Mining) เหมืองข้อความ (Text Mining) เหมืองความคิด (Opinion Mining) ธุรกิจอัฉริยะ (Business Intelligence) ระบบการวางแผนจัดการห่วงโซ่อุปทาน (ERP Systems) การบริหารด้านเทคโนโลยีสารสนเทศ (IT Management) เว็บแบบสื่อความหมาย (Semantic Web) การวิเคราะห์อารมณ์หรือความรู้สึก (Sentiment Analysis) การประมวลผลภาพ (Image Processing) การเรียนรู้ในสภาพแวดล้อมคอมพิวเตอร์ทุกแห่งหนและทุกเวลา (Ubiquitous Learning), การเรียนรู้แบบผสมผสาน (Blended Learning) และชีวสารสนเทศ (Bioinformatics)\",\"group_desc_en\":\"This research lab brings together interdisciplinary research fields, such as, Data Science & Data Analytics, Data Mining, Text Mining, Opinion Mining, Business Intelligence, ERP Systems, IT Management, Semantic Web, Sentiment Analysis, Image Processing, Ubiquitous Learning, Blended Learning, and Bioinformatics.\",\"group_detail_th\":\"กลุ่มงานวิจัยนี้ได้เกิดจากการบูรณาการงานวิจัยจากหลากหลายสาขา เช่น งานวิจัยด้านวิทยาศาสตร์ข้อมูลและการวิเคราะห์ข้อมูล (Data Science & Data Analytics) เหมืองข้อมูล (Data Mining) เหมืองข้อความ (Text Mining) เหมืองความคิด (Opinion Mining) ธุรกิจอัฉริยะ (Business Intelligence) ระบบการวางแผนจัดการห่วงโซ่อุปทาน (ERP Systems) การบริหารด้านเทคโนโลยีสารสนเทศ (IT Management) เว็บแบบสื่อความหมาย (Semantic Web) การวิเคราะห์อารมณ์หรือความรู้สึก (Sentiment Analysis) การประมวลผลภาพ (Image Processing) การเรียนรู้ในสภาพแวดล้อมคอมพิวเตอร์ทุกแห่งหนและทุกเวลา (Ubiquitous Learning), การเรียนรู้แบบผสมผสาน (Blended Learning) และชีวสารสนเทศ (Bioinformatics)\",\"group_detail_en\":\"This research lab brings together interdisciplinary research fields, such as, Data Science & Data Analytics, Data Mining, Text Mining, Opinion Mining, Business Intelligence, ERP Systems, IT Management, Semantic Web, Sentiment Analysis, Image Processing, Ubiquitous Learning, Blended Learning, and Bioinformatics.\",\"link\":null,\"head\":\"2\",\"moreFields\":[{\"userid\":\"18\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"22\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"14\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"26\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"17\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"107\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:32:49', '2025-03-06 01:32:49'),
-(754, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:32:49', '2025-03-06 01:32:49'),
-(755, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/20/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:33:00', '2025-03-06 01:33:00'),
-(756, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/20 with data: {\"_token\":\"ZsCee7QcjlqY6MjEYRKJCBF8qKOx73ZkWicK3usZ\",\"_method\":\"PUT\",\"group_name_th\":\"เทคโนโลยีเครือข่ายประยุกต์ (ANT)\",\"group_name_en\":\"Applied Network Technology (ANT)\",\"group_main_research_th\":null,\"group_main_research_en\":null,\"group_desc_th\":null,\"group_desc_en\":null,\"group_detail_th\":null,\"group_detail_en\":null,\"link\":\"https:\\/\\/sites.google.com\\/view\\/antlabkku\\/home?fbclid=IwAR2If2eC0DlYuUmquyk3eKMe3MlBdLPZvzeJjYF4EYq9VYX32X7LxJpPxU4\",\"head\":\"3\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:33:09', '2025-03-06 01:33:09'),
-(757, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:33:10', '2025-03-06 01:33:10'),
-(758, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/20/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:33:19', '2025-03-06 01:33:19'),
-(759, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/20 with data: {\"_token\":\"ZsCee7QcjlqY6MjEYRKJCBF8qKOx73ZkWicK3usZ\",\"_method\":\"PUT\",\"group_name_th\":\"เทคโนโลยีเครือข่ายประยุกต์ (ANT)\",\"group_name_en\":\"Applied Network Technology (ANT)\",\"group_main_research_th\":null,\"group_main_research_en\":null,\"group_desc_th\":null,\"group_desc_en\":null,\"group_detail_th\":null,\"group_detail_en\":null,\"link\":\"https:\\/\\/sites.google.com\\/view\\/antlabkku\\/home?fbclid=IwAR2If2eC0DlYuUmquyk3eKMe3MlBdLPZvzeJjYF4EYq9VYX32X7LxJpPxU4\",\"head\":\"3\",\"moreFields\":[{\"userid\":\"13\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"24\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":null,\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":null,\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:34:09', '2025-03-06 01:34:09'),
-(760, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:34:09', '2025-03-06 01:34:09'),
-(761, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:34:19', '2025-03-06 01:34:19'),
-(762, 1, 'View', 'View users.create', 'User performed View operation on users/create', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:34:26', '2025-03-06 01:34:26'),
-(763, 1, 'View', 'View generated::EIuaf5ARnVLiQdIX', 'User performed View operation on ajax-get-subcat', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:35:45', '2025-03-06 01:35:45'),
-(764, 1, 'Submit', 'Submit users.store', 'User performed Submit operation on users with data: {\"_token\":\"ZsCee7QcjlqY6MjEYRKJCBF8qKOx73ZkWicK3usZ\",\"fname_th\":\"Arfat\",\"lname_th\":\"Ahmad Khan\",\"fname_en\":\"Arfat\",\"lname_en\":\"Ahmad Khan\",\"email\":\"arfatkhan@kku.ac.th\",\"roles\":[\"teacher\"],\"cat\":\"1\",\"sub_cat\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:36:20', '2025-03-06 01:36:20'),
-(765, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:36:21', '2025-03-06 01:36:21'),
-(766, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:36:24', '2025-03-06 01:36:24'),
-(767, 155, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:36:28', '2025-03-06 01:36:28'),
-(768, 155, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"xetPc6YTLTjJQgq0mzAizzjqpU3XVp4sekUfqFVt\",\"username\":\"arfatkhan@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:36:28', '2025-03-06 01:36:28'),
-(769, 155, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:36:28', '2025-03-06 01:36:28'),
-(770, 155, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:36:30', '2025-03-06 01:36:30'),
-(771, 155, 'Submit', 'Submit adminPictureUpdate', 'User performed Submit operation on change-profile-picture with data: {\"_token\":\"xetPc6YTLTjJQgq0mzAizzjqpU3XVp4sekUfqFVt\",\"ijaboCropToolFile\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:36:48', '2025-03-06 01:36:48'),
-(772, 155, 'Update', 'Update profile', 'User performed update on profile with ID: 155 with details: {\"fname_en\":\"Arfat\",\"lname_en\":\"Ahmad Khan\",\"email\":\"arfatkhan@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"title_name_en\":\"Mr.\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:37:23', '2025-03-06 01:37:23'),
-(773, 155, 'Submit', 'Submit adminUpdateInfo', 'User performed Submit operation on update-profile-info with data: {\"title_name_en\":\"Mr.\",\"fname_en\":\"Arfat\",\"lname_en\":\"Ahmad Khan\",\"fname_th\":\"Arfat\",\"lname_th\":\"Ahmad Khan\",\"email\":\"arfatkhan@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"academic_ranks_th\":\"อาจารย์\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:37:23', '2025-03-06 01:37:23'),
-(774, 155, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:37:27', '2025-03-06 01:37:27'),
-(775, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:37:34', '2025-03-06 01:37:34'),
-(776, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:37:34', '2025-03-06 01:37:34'),
-(777, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:37:34', '2025-03-06 01:37:34'),
-(778, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:37:39', '2025-03-06 01:37:39'),
-(779, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/20/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:37:43', '2025-03-06 01:37:43'),
-(780, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/20 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"เทคโนโลยีเครือข่ายประยุกต์ (ANT)\",\"group_name_en\":\"Applied Network Technology (ANT)\",\"group_main_research_th\":null,\"group_main_research_en\":null,\"group_desc_th\":null,\"group_desc_en\":null,\"group_detail_th\":null,\"group_detail_en\":null,\"link\":\"https:\\/\\/sites.google.com\\/view\\/antlabkku\\/home?fbclid=IwAR2If2eC0DlYuUmquyk3eKMe3MlBdLPZvzeJjYF4EYq9VYX32X7LxJpPxU4\",\"head\":\"3\",\"moreFields\":[{\"userid\":\"13\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"24\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"155\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"154\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"152\",\"role\":\"3\",\"can_edit\":\"0\"},{\"userid\":\"151\",\"role\":\"3\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:39:15', '2025-03-06 01:39:15'),
-(781, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:39:15', '2025-03-06 01:39:15'),
-(782, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/24/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:39:33', '2025-03-06 01:39:33'),
-(783, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/24 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"ห้องปฏิบัติการอินเตอร์เฟสระหว่างฮาร์ดแวร์กับมนุษย์และการสื่อสาร H2I-Comm\",\"group_name_en\":\"Hardware-Human Interface and Communications Lab\",\"group_main_research_th\":\"- Internet technologies - Wireless communications - Cryptography and security - Robotics - Digital signal processing for robotics - Hardware implementation - UX\\/UI design - Human-Computer Interaction and UX Design - Smart Technology and Artificial Intelligence in Healthcare - Data Mining and Machine Learning for Health Informatics - Persuasive Technology - Health Information Systems\",\"group_main_research_en\":\"- Internet technologies - Wireless communications - Cryptography and security - Robotics - Digital signal processing for robotics - Hardware implementation - UX\\/UI design - Human-Computer Interaction and UX Design - Smart Technology and Artificial Intelligence in Healthcare - Data Mining and Machine Learning for Health Informatics - Persuasive Technology - Health Information Systems\",\"group_desc_th\":\"Hardware-Human Interface and Communications (H2I-Comm) research group is to design, build, and evaluate tools that are user-friendly, useful, and innovative. Our intellectual goals to continue to advance the fields of Internet technologies, wireless communications, cryptography and security, robotics, digital signal processing for robotics, UX\\/UI design, social computing, health informatics, mobile interfaces, and hardware implementation. The H2I-Comm research group focuses on interdisciplinary aspects as we work on different disciplines that deal with different sciences and interest groups in order to maximize constructive outcomes.\",\"group_desc_en\":\"Hardware-Human Interface and Communications (H2I-Comm) research group is to design, build, and evaluate tools that are user-friendly, useful, and innovative. Our intellectual goals to continue to advance the fields of Internet technologies, wireless communications, cryptography and security, robotics, digital signal processing for robotics, UX\\/UI design, social computing, health informatics, mobile interfaces, and hardware implementation. The H2I-Comm research group focuses on interdisciplinary aspects as we work on different disciplines that deal with different sciences and interest groups in order to maximize constructive outcomes.\",\"group_detail_th\":\"Hardware-Human Interface and Communications (H2I-Comm) research group is to design, build, and evaluate tools that are user-friendly, useful, and innovative. Our intellectual goals to continue to advance the fields of Internet technologies, wireless communications, cryptography and security, robotics, digital signal processing for robotics, UX\\/UI design, social computing, health informatics, mobile interfaces, and hardware implementation. The H2I-Comm research group focuses on interdisciplinary aspects as we work on different disciplines that deal with different sciences and interest groups in order to maximize constructive outcomes.\",\"group_detail_en\":\"Hardware-Human Interface and Communications (H2I-Comm) research group is to design, build, and evaluate tools that are user-friendly, useful, and innovative. Our intellectual goals to continue to advance the fields of Internet technologies, wireless communications, cryptography and security, robotics, digital signal processing for robotics, UX\\/UI design, social computing, health informatics, mobile interfaces, and hardware implementation. The H2I-Comm research group focuses on interdisciplinary aspects as we work on different disciplines that deal with different sciences and interest groups in order to maximize constructive outcomes.\",\"link\":null,\"head\":\"20\",\"moreFields\":[{\"userid\":\"21\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"34\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:40:38', '2025-03-06 01:40:38'),
-(784, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:40:38', '2025-03-06 01:40:38'),
-(785, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/3/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:40:42', '2025-03-06 01:40:42'),
-(786, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/3 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"เทคโนโลยี GIS ขั้นสูง (AGT)\",\"group_name_en\":\"Advanced GIS Technology (AGT)\",\"group_main_research_th\":\"- Web GIS                                                 - Health GIS                                                  - Hydrologic modeling with GIS                                                  - Internet of Things                                                  - Global Navigation Satellite System                                                  - Remote Sensing                                                  - UAV                                                  - Spatial Data Science\",\"group_main_research_en\":\"- Web GIS                                                 - Health GIS                                                  - Hydrologic modeling with GIS                                                  - Internet of Things                                                  - Global Navigation Satellite System                                                  - Remote Sensing                                                  - UAV                                                  - Spatial Data Science\",\"group_desc_th\":\"เพื่อดำเนินการวิจัยและให้บริการวิชาการในสาขาอินเทอร์เน็ต GIS สุขภาพ GIS และแบบจำลองทางอุทกวิทยาด้วย GIS\",\"group_desc_en\":\"To conduct research and provide academic services in the fields of Internet, GIS, Health GIS, and Hydrologic modeling with GIS.\",\"group_detail_th\":\"เพื่อดำเนินการวิจัยและให้บริการวิชาการในสาขาอินเทอร์เน็ต GIS สุขภาพ GIS และแบบจำลองทางอุทกวิทยาด้วย GIS\",\"group_detail_en\":\"To conduct research and provide academic services in the fields of Internet, GIS, Health GIS, and Hydrologic modeling with GIS.\",\"link\":null,\"head\":\"153\",\"moreFields\":[{\"userid\":\"31\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"15\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"5\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"23\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"11\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"30\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"28\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:40:55', '2025-03-06 01:40:55'),
-(787, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:40:55', '2025-03-06 01:40:55'),
-(788, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/5/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:40:58', '2025-03-06 01:40:58'),
-(789, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/5 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"ห้องปฏิบัติการการคำนวณแบบฉลาดขั้นสูง (ASC)\",\"group_name_en\":\"Advanced Intelligent Computing Laboratory (ASC)\",\"group_main_research_th\":\"- Machine Learning  - Soft computing  - Evolutionary computing - Artificial Intelligence\",\"group_main_research_en\":\"- Machine Learning  - Soft computing  - Evolutionary computing - Artificial Intelligence\",\"group_desc_th\":\"ห้องปฏิบัติการนี้มีจุดมุ่งหมายเพื่อศึกษาและวิจัยเกี่ยวกับเทคโนโลยีอัจฉริยะสำหรับการประมวลผลประสิทธิภาพสูงซึ่งเลียนแบบพฤติกรรมที่ได้รับแรงบันดาลใจจากธรรมชาติ\",\"group_desc_en\":\"This laboratory aims to study and research on the smart technology for high performance computing which imitates the nature-inspired behaviors.\",\"group_detail_th\":\"ห้องปฏิบัติการนี้มีจุดมุ่งหมายเพื่อศึกษาและวิจัยเกี่ยวกับเทคโนโลยีอัจฉริยะสำหรับการประมวลผลประสิทธิภาพสูงซึ่งเลียนแบบพฤติกรรมที่ได้รับแรงบันดาลใจจากธรรมชาติ\",\"group_detail_en\":\"This laboratory aims to study and research on the smart technology for high performance computing which imitates the nature-inspired behaviors.\",\"link\":null,\"head\":\"9\",\"moreFields\":[{\"userid\":\"8\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"6\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"29\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"33\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"151\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"152\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:11', '2025-03-06 01:41:11'),
-(790, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:12', '2025-03-06 01:41:12'),
-(791, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/23/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:15', '2025-03-06 01:41:15'),
-(792, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/23 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"การบูรณาการสหวิทยาการอัจฉริยะขั้นสูง (AIII)\",\"group_name_en\":\"Advanced Intelligent Interdisciplinary Integration (AIII)\",\"group_main_research_th\":\"- Applied Machine Learning in X - Applied AI in X - Applied Optimization in X - Intelligent Cybersecurity Applications - Intelligent Supply Chain - Smart (Smart X) Digital Token, Decentralized Applications\",\"group_main_research_en\":\"- Applied Machine Learning in X - Applied AI in X - Applied Optimization in X - Intelligent Cybersecurity Applications - Intelligent Supply Chain - Smart (Smart X) Digital Token, Decentralized Applications\",\"group_desc_th\":\"ห้องปฏิบัติการการบูรณาการสหวิทยาการอัจฉริยะขั้นสูง มุ่งเน้นที่การพัฒนาการคำนวณอัจฉริยะและประยุกต์ใช้ในศาสตร์ด้านต่างๆ\",\"group_desc_en\":\"The goal of Advanced Intelligent Interdisciplinary Integration Laboratory is to advance intelligent computing and employ it in a variety of interdisciplinary domains.\",\"group_detail_th\":\"ห้องปฏิบัติการการบูรณาการสหวิทยาการอัจฉริยะขั้นสูง มุ่งเน้นที่การพัฒนาการคำนวณอัจฉริยะและประยุกต์ใช้ในศาสตร์ด้านต่างๆ\",\"group_detail_en\":\"The goal of Advanced Intelligent Interdisciplinary Integration Laboratory is to advance intelligent computing and employ it in a variety of interdisciplinary domains.\",\"link\":null,\"head\":\"151\",\"moreFields\":[{\"userid\":\"152\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"24\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"154\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:19', '2025-03-06 01:41:19'),
-(793, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:20', '2025-03-06 01:41:20'),
-(794, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/23/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:24', '2025-03-06 01:41:24'),
-(795, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/23 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"การบูรณาการสหวิทยาการอัจฉริยะขั้นสูง (AIII)\",\"group_name_en\":\"Advanced Intelligent Interdisciplinary Integration (AIII)\",\"group_main_research_th\":\"- Applied Machine Learning in X - Applied AI in X - Applied Optimization in X - Intelligent Cybersecurity Applications - Intelligent Supply Chain - Smart (Smart X) Digital Token, Decentralized Applications\",\"group_main_research_en\":\"- Applied Machine Learning in X - Applied AI in X - Applied Optimization in X - Intelligent Cybersecurity Applications - Intelligent Supply Chain - Smart (Smart X) Digital Token, Decentralized Applications\",\"group_desc_th\":\"ห้องปฏิบัติการการบูรณาการสหวิทยาการอัจฉริยะขั้นสูง มุ่งเน้นที่การพัฒนาการคำนวณอัจฉริยะและประยุกต์ใช้ในศาสตร์ด้านต่างๆ\",\"group_desc_en\":\"The goal of Advanced Intelligent Interdisciplinary Integration Laboratory is to advance intelligent computing and employ it in a variety of interdisciplinary domains.\",\"group_detail_th\":\"ห้องปฏิบัติการการบูรณาการสหวิทยาการอัจฉริยะขั้นสูง มุ่งเน้นที่การพัฒนาการคำนวณอัจฉริยะและประยุกต์ใช้ในศาสตร์ด้านต่างๆ\",\"group_detail_en\":\"The goal of Advanced Intelligent Interdisciplinary Integration Laboratory is to advance intelligent computing and employ it in a variety of interdisciplinary domains.\",\"link\":null,\"head\":\"151\",\"moreFields\":[{\"userid\":\"152\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"24\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"154\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:36', '2025-03-06 01:41:36'),
-(796, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:37', '2025-03-06 01:41:37'),
-(797, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/22/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:41', '2025-03-06 01:41:41'),
-(798, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/22 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"การประยุกต์อัฉริยะและการวิเคราะห์ข้อมูล(AIDA)\",\"group_name_en\":\"Applied Intelligence and Data Analytics (AIDA)\",\"group_main_research_th\":\"•    วิทยาศาสตร์ข้อมูลและการวิเคราะห์ข้อมูล •    ธุรกิจอัฉริยะ •    ระบบการวางแผนจัดการห่วงโซ่อุปทาน •    เว็บแบบสื่อความหมาย •    การวิเคราะห์อารมณ์หรือความรู้สึก •    การประมวลผลภาพ •    การเรียนรู้ในสภาพแวดล้อมคอมพิวเตอร์ทุกแห่งหนและทุกเวลาและการเรียนรู้แบบผสมผสาน •    เหมืองข้อมูลและเหมืองข้อความ\",\"group_main_research_en\":\"•  Data Science & Data Analytics •  Business Intelligence •   ERP Systems Semantic •  Web Sentiment Analysis •   Image Processing  •   Ubiquitous Learning and Blending Learning •  Data Mining and Text Mining\",\"group_desc_th\":\"กลุ่มงานวิจัยนี้ได้เกิดจากการบูรณาการงานวิจัยจากหลากหลายสาขา เช่น งานวิจัยด้านวิทยาศาสตร์ข้อมูลและการวิเคราะห์ข้อมูล (Data Science & Data Analytics) เหมืองข้อมูล (Data Mining) เหมืองข้อความ (Text Mining) เหมืองความคิด (Opinion Mining) ธุรกิจอัฉริยะ (Business Intelligence) ระบบการวางแผนจัดการห่วงโซ่อุปทาน (ERP Systems) การบริหารด้านเทคโนโลยีสารสนเทศ (IT Management) เว็บแบบสื่อความหมาย (Semantic Web) การวิเคราะห์อารมณ์หรือความรู้สึก (Sentiment Analysis) การประมวลผลภาพ (Image Processing) การเรียนรู้ในสภาพแวดล้อมคอมพิวเตอร์ทุกแห่งหนและทุกเวลา (Ubiquitous Learning), การเรียนรู้แบบผสมผสาน (Blended Learning) และชีวสารสนเทศ (Bioinformatics)\",\"group_desc_en\":\"This research lab brings together interdisciplinary research fields, such as, Data Science & Data Analytics, Data Mining, Text Mining, Opinion Mining, Business Intelligence, ERP Systems, IT Management, Semantic Web, Sentiment Analysis, Image Processing, Ubiquitous Learning, Blended Learning, and Bioinformatics.\",\"group_detail_th\":\"กลุ่มงานวิจัยนี้ได้เกิดจากการบูรณาการงานวิจัยจากหลากหลายสาขา เช่น งานวิจัยด้านวิทยาศาสตร์ข้อมูลและการวิเคราะห์ข้อมูล (Data Science & Data Analytics) เหมืองข้อมูล (Data Mining) เหมืองข้อความ (Text Mining) เหมืองความคิด (Opinion Mining) ธุรกิจอัฉริยะ (Business Intelligence) ระบบการวางแผนจัดการห่วงโซ่อุปทาน (ERP Systems) การบริหารด้านเทคโนโลยีสารสนเทศ (IT Management) เว็บแบบสื่อความหมาย (Semantic Web) การวิเคราะห์อารมณ์หรือความรู้สึก (Sentiment Analysis) การประมวลผลภาพ (Image Processing) การเรียนรู้ในสภาพแวดล้อมคอมพิวเตอร์ทุกแห่งหนและทุกเวลา (Ubiquitous Learning), การเรียนรู้แบบผสมผสาน (Blended Learning) และชีวสารสนเทศ (Bioinformatics)\",\"group_detail_en\":\"This research lab brings together interdisciplinary research fields, such as, Data Science & Data Analytics, Data Mining, Text Mining, Opinion Mining, Business Intelligence, ERP Systems, IT Management, Semantic Web, Sentiment Analysis, Image Processing, Ubiquitous Learning, Blended Learning, and Bioinformatics.\",\"link\":null,\"head\":\"2\",\"moreFields\":[{\"userid\":\"18\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"22\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"14\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"26\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"17\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"107\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:52', '2025-03-06 01:41:52'),
-(799, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:52', '2025-03-06 01:41:52'),
-(800, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/20/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:41:57', '2025-03-06 01:41:57'),
-(801, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/20 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"เทคโนโลยีเครือข่ายประยุกต์ (ANT)\",\"group_name_en\":\"Applied Network Technology (ANT)\",\"group_main_research_th\":null,\"group_main_research_en\":null,\"group_desc_th\":null,\"group_desc_en\":null,\"group_detail_th\":null,\"group_detail_en\":null,\"link\":\"https:\\/\\/sites.google.com\\/view\\/antlabkku\\/home?fbclid=IwAR2If2eC0DlYuUmquyk3eKMe3MlBdLPZvzeJjYF4EYq9VYX32X7LxJpPxU4\",\"head\":\"3\",\"moreFields\":[{\"userid\":\"13\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"24\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"155\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"154\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"152\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"151\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:42:10', '2025-03-06 01:42:10'),
-(802, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:42:11', '2025-03-06 01:42:11'),
-(803, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/25/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:42:15', '2025-03-06 01:42:15'),
-(804, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/25 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"กลุ่มวิจัยวิศวกรรมซอฟต์แวร์อัจฉริยะ (I-SERG)\",\"group_name_en\":\"Intelligent Software Engineering Research Group (I-SERG)\",\"group_main_research_th\":null,\"group_main_research_en\":\"- Artificial Intelligence for Software Engineering (AI4SE) - Software Engineering for Artificial Intelligence (SE4AI) - Computational Intelligence for Software Engineering - Formal verification - Software Quality - Secure Software Engineering - Software Development Practices\",\"group_desc_th\":\"กลุ่มวิจัยวิศวกรรมซอฟต์แวร์อัจฉริยะเน้นการวิจัยเชิงประจักษ์ โดยมีหัวข้อวิจัยหลักได้แก่ AI4SE, SE4AI, Computational Intelligence for Software Engineering, Formal verification, Software Analytics, Software Quality, Secure Software Engineering และ Software development practices\",\"group_desc_en\":\"The Intelligent Software Engineering Research Group focuses on empirical research.  Topics of interest include AI4SE, SE4AI, Computational Intelligence for Software Engineering, Formal verification, Software Analytics, Software Quality, Secure Software Engineering, and Software Development Practices.\",\"group_detail_th\":\"กลุ่มวิจัยวิศวกรรมซอฟต์แวร์อัจฉริยะเน้นการวิจัยเชิงประจักษ์ โดยมีหัวข้อวิจัยหลักได้แก่ AI4SE, SE4AI, Computational Intelligence for Software Engineering, Formal verification, Software Analytics, Software Quality, Secure Software Engineering และ Software development practices\",\"group_detail_en\":\"The Intelligent Software Engineering Research Group focuses on empirical research.  Topics of interest include AI4SE, SE4AI, Computational Intelligence for Software Engineering, Formal verification, Software Analytics, Software Quality, Secure Software Engineering, and Software Development Practices.\",\"link\":null,\"head\":\"10\",\"moreFields\":[{\"userid\":\"32\",\"role\":\"2\",\"can_edit\":\"0\"},{\"userid\":\"6\",\"role\":\"2\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:42:53', '2025-03-06 01:42:53'),
-(805, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:42:53', '2025-03-06 01:42:53'),
-(806, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/8/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:43:02', '2025-03-06 01:43:02'),
-(807, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/8 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"ห้องปฏิบัติการวิจัย ระบบอัจฉริยะและการเรียนรู้เครื่อง (MLIS)\",\"group_name_en\":\"Intelligent Systems and Machine Learning Research Laboratory (MLIS)\",\"group_main_research_th\":\"- Interpretability and Explainability of Deep Learning Models - Adversarial Reinforcement Learning - Multi-Modal Learning - Adversarial Attacks and Defenses - Pre-training and Transfer Learning in NLP - Attention Mechanisms in NLP - Explainable AI (XAI) in NLP - Generative Adversarial Networks (GANs) for Image Synthesis - Imitation Learning and Inverse Reinforcement Learning\",\"group_main_research_en\":\"- Interpretability and Explainability of Deep Learning Models - Adversarial Reinforcement Learning - Multi-Modal Learning - Adversarial Attacks and Defenses - Pre-training and Transfer Learning in NLP - Attention Mechanisms in NLP - Explainable AI (XAI) in NLP - Generative Adversarial Networks (GANs) for Image Synthesis - Imitation Learning and Inverse Reinforcement Learning\",\"group_desc_th\":\"การเรียนรู้ของเครื่องและระบบอัจฉริยะมีความก้าวหน้าอย่างมากในช่วงไม่กี่ปีที่ผ่านมา ซึ่งนำไปสู่ความต้องการที่เพิ่มขึ้น สำหรับเทคโนโลยีใหม่ๆ ที่ล้ำหน้ากว่า เหตุผลหลักคือความต้องการที่เพิ่มขึ้นของระบบอัตโนมัติที่สามารถประมวลผลและวิเคราะห์ข้อมูลจำนวนมากและตัดสินใจจากข้อมูลนั้น สิ่งนี้มีความสำคัญอย่างยิ่งในอุตสาหกรรมต่างๆ เช่น การเงิน การดูแลสุขภาพ และการขนส่งซึ่งมีการสร้างและประมวลผลข้อมูลจำนวนมากในแต่ละวัน\\r\\n\\r\\nหนึ่งในตัวขับเคลื่อนหลักของความก้าวหน้าในการเรียนรู้ของเครื่องและระบบอัจฉริยะคือความพร้อมใช้งานของข้อมูลที่เพิ่มขึ้นด้วยการใช้เทคโนโลยีดิจิทัลที่เพิ่มขึ้น ปริมาณข้อมูลที่ถูกสร้างขึ้นจึงเพิ่มขึ้นอย่างรวดเร็ว ทำให้เกิดข้อมูลจำนวนมหาศาลสำหรับอัลกอริทึมการเรียนรู้ของเครื่องที่จะเรียนรู้จาก สิ่งนี้นำไปสู่การพัฒนาอัลกอริธึมขั้นสูงที่สามารถจัดการได้กับข้อมูลจำนวนมากและดึงข้อมูลเชิงลึกที่มีความหมายออกมา\\r\\n\\r\\nอีกเหตุผลหนึ่งสำหรับความก้าวหน้าในการเรียนรู้ของเครื่องและระบบอัจฉริยะคือความต้องการที่เพิ่มขึ้นสำหรับระบบที่สามารถตัดสินใจได้แบบเรียลไทม์ สิ่งนี้มีความสำคัญอย่างยิ่งในอุตสาหกรรมต่างๆ เช่น การเงินและการดูแลสุขภาพ ซึ่งการตัดสินใจที่รวดเร็วและแม่นยำเป็นสิ่งสำคัญ\\r\\nอัลกอริทึมการเรียนรู้ของเครื่องได้รับการพัฒนาให้สามารถประมวลผลและวิเคราะห์ข้อมูลจำนวนมากได้แบบเรียลไทม์ ทำให้สามารถการตัดสินใจในเวลาไม่กี่มิลลิวินาที\\r\\n\\r\\nประการสุดท้าย ความก้าวหน้าในการเรียนรู้ของเครื่องและระบบอัจฉริยะยังได้รับแรงผลักดันจากความต้องการระบบที่สามารถทำงานด้วยตนเองได้มีความต้องการเพิ่มขึ้นสำหรับระบบที่สามารถทำงานได้อย่างอิสระโดยไม่จำเป็นต้องมีการแทรกแซงจากมนุษย์ นี่เป็นสิ่งสำคัญอย่างยิ่งในอุตสาหกรรมต่างๆ เช่น การขนส่งและโลจิสติกส์ ซึ่งจำเป็นต้องมีระบบอัตโนมัติเพื่อปรับปรุงประสิทธิภาพและลดต้นทุน\\r\\nอัลกอริทึมการเรียนรู้ของเครื่องได้รับการพัฒนาที่สามารถทำงานโดยอัตโนมัติ ตัดสินใจและดำเนินการตามข้อมูลที่ได้รับ\",\"group_desc_en\":\"Machine learning and intelligent systems have made tremendous advancements in recent years, leading to a growing demand \\r\\nfor new and more advanced technologies. The primary reason for this is the increasing need for automated systems that can process and \\r\\nanalyze large amounts of data and make decisions based on that data. This is particularly important in industries such as finance, healthcare, \\r\\nand transportation, where large amounts of data are generated and processed on a daily basis.\\r\\n\\r\\nOne of the main drivers of the advancement in machine learning and intelligent systems is the growing availability of data.  With the increasing use of digital technologies, the amount of data being generated has increased dramatically, providing vast amounts of \\r\\ninformation for machine learning algorithms to learn from. This has led to the development of more advanced algorithms that can handle  large amounts of data and extract meaningful insights from it.\\r\\n\\r\\nAnother reason for the advancement in machine learning and intelligent systems is the increasing need for systems that can make decisions in real-time. This is particularly important in industries such as finance and healthcare, where quick and accurate decisions are critical.  Machine learning algorithms have been developed that can process and analyze large amounts of data in real-time, enabling them to make  decisions in a matter of milliseconds.\\r\\n\\r\\nFinally, the advancement in machine learning and intelligent systems is also driven by the need for systems that can operate autonomously.  There is a growing demand for systems that can work independently, without the need for human intervention. This is particularly important in industries such as transportation and logistics, where autonomous systems are needed to improve efficiency and reduce costs.  Machine learning algorithms have been developed that can operate autonomously, making decisions and taking actions based on the data they receive.\",\"group_detail_th\":\"การเรียนรู้ของเครื่องและระบบอัจฉริยะมีความก้าวหน้าอย่างมากในช่วงไม่กี่ปีที่ผ่านมา ซึ่งนำไปสู่ความต้องการที่เพิ่มขึ้น สำหรับเทคโนโลยีใหม่ๆ ที่ล้ำหน้ากว่า เหตุผลหลักคือความต้องการที่เพิ่มขึ้นของระบบอัตโนมัติที่สามารถประมวลผลและวิเคราะห์ข้อมูลจำนวนมากและตัดสินใจจากข้อมูลนั้น สิ่งนี้มีความสำคัญอย่างยิ่งในอุตสาหกรรมต่างๆ เช่น การเงิน การดูแลสุขภาพ และการขนส่งซึ่งมีการสร้างและประมวลผลข้อมูลจำนวนมากในแต่ละวัน\\r\\n\\r\\nหนึ่งในตัวขับเคลื่อนหลักของความก้าวหน้าในการเรียนรู้ของเครื่องและระบบอัจฉริยะคือความพร้อมใช้งานของข้อมูลที่เพิ่มขึ้นด้วยการใช้เทคโนโลยีดิจิทัลที่เพิ่มขึ้น ปริมาณข้อมูลที่ถูกสร้างขึ้นจึงเพิ่มขึ้นอย่างรวดเร็ว ทำให้เกิดข้อมูลจำนวนมหาศาลสำหรับอัลกอริทึมการเรียนรู้ของเครื่องที่จะเรียนรู้จาก สิ่งนี้นำไปสู่การพัฒนาอัลกอริธึมขั้นสูงที่สามารถจัดการได้กับข้อมูลจำนวนมากและดึงข้อมูลเชิงลึกที่มีความหมายออกมา\\r\\n\\r\\nอีกเหตุผลหนึ่งสำหรับความก้าวหน้าในการเรียนรู้ของเครื่องและระบบอัจฉริยะคือความต้องการที่เพิ่มขึ้นสำหรับระบบที่สามารถตัดสินใจได้แบบเรียลไทม์ สิ่งนี้มีความสำคัญอย่างยิ่งในอุตสาหกรรมต่างๆ เช่น การเงินและการดูแลสุขภาพ ซึ่งการตัดสินใจที่รวดเร็วและแม่นยำเป็นสิ่งสำคัญ\\r\\nอัลกอริทึมการเรียนรู้ของเครื่องได้รับการพัฒนาให้สามารถประมวลผลและวิเคราะห์ข้อมูลจำนวนมากได้แบบเรียลไทม์ ทำให้สามารถการตัดสินใจในเวลาไม่กี่มิลลิวินาที\\r\\n\\r\\nประการสุดท้าย ความก้าวหน้าในการเรียนรู้ของเครื่องและระบบอัจฉริยะยังได้รับแรงผลักดันจากความต้องการระบบที่สามารถทำงานด้วยตนเองได้มีความต้องการเพิ่มขึ้นสำหรับระบบที่สามารถทำงานได้อย่างอิสระโดยไม่จำเป็นต้องมีการแทรกแซงจากมนุษย์ นี่เป็นสิ่งสำคัญอย่างยิ่งในอุตสาหกรรมต่างๆ เช่น การขนส่งและโลจิสติกส์ ซึ่งจำเป็นต้องมีระบบอัตโนมัติเพื่อปรับปรุงประสิทธิภาพและลดต้นทุน\\r\\nอัลกอริทึมการเรียนรู้ของเครื่องได้รับการพัฒนาที่สามารถทำงานโดยอัตโนมัติ ตัดสินใจและดำเนินการตามข้อมูลที่ได้รับ\",\"group_detail_en\":\"Machine learning and intelligent systems have made tremendous advancements in recent years, leading to a growing demand \\r\\nfor new and more advanced technologies. The primary reason for this is the increasing need for automated systems that can process and \\r\\nanalyze large amounts of data and make decisions based on that data. This is particularly important in industries such as finance, healthcare, \\r\\nand transportation, where large amounts of data are generated and processed on a daily basis.\\r\\n\\r\\nOne of the main drivers of the advancement in machine learning and intelligent systems is the growing availability of data.  With the increasing use of digital technologies, the amount of data being generated has increased dramatically, providing vast amounts of \\r\\ninformation for machine learning algorithms to learn from. This has led to the development of more advanced algorithms that can handle  large amounts of data and extract meaningful insights from it.\\r\\n\\r\\nAnother reason for the advancement in machine learning and intelligent systems is the increasing need for systems that can make decisions in real-time. This is particularly important in industries such as finance and healthcare, where quick and accurate decisions are critical.  Machine learning algorithms have been developed that can process and analyze large amounts of data in real-time, enabling them to make  decisions in a matter of milliseconds.\\r\\n\\r\\nFinally, the advancement in machine learning and intelligent systems is also driven by the need for systems that can operate autonomously.  There is a growing demand for systems that can work independently, without the need for human intervention. This is particularly important in industries such as transportation and logistics, where autonomous systems are needed to improve efficiency and reduce costs.  Machine learning algorithms have been developed that can operate autonomously, making decisions and taking actions based on the data they receive.\",\"link\":null,\"head\":\"7\",\"moreFields\":{\"0\":{\"userid\":\"25\",\"role\":\"2\",\"can_edit\":\"0\"},\"4\":{\"userid\":\"129\",\"can_edit\":\"0\"}},\"visiting\":{\"1\":{\"author_id\":\"150\",\"first_name\":\"Nguyen Ngoc\",\"last_name\":\"Thuy\",\"affiliation\":\"Ph.D. Department of Computer Science, Faculty of Information Technology,  University of Science, Hue University, Vietnam\"},\"2\":{\"author_id\":\"manual\",\"first_name\":\"Manoj\",\"last_name\":\"Gupta\",\"affiliation\":\"Associate Professor Department of Electronics and Communication Engineering,  JECRC University, India India\"},\"3\":{\"author_id\":\"manual\",\"first_name\":\"ชัยนันทน์\",\"last_name\":\"สมพงษ์\",\"affiliation\":\"ภาควิชาวิทยาการคอมพิวเตอร์  มหาวิทยาลัยราชภัฎสกลนคร ประเทศไทย\"}}}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:50:37', '2025-03-06 01:50:37'),
-(808, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:50:37', '2025-03-06 01:50:37'),
-(809, 1, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/9/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:50:55', '2025-03-06 01:50:55'),
-(810, 1, 'Update', 'Update researchGroups.update', 'User performed Update operation on researchGroups/9 with data: {\"_token\":\"S2GGLZDlMMdqTZXKLlCrIhDbZSd16gebhtMH2OI5\",\"_method\":\"PUT\",\"group_name_th\":\"ห้องปฎิบัติการประมวลผลภาษาธรรมชาติและการประมวลผลด้านเสียง (NLSP)\",\"group_name_en\":\"Natural Language Processing and Sound Processing Laboratory (NLSP)\",\"group_main_research_th\":\"- การประมวลผลภาษาธรรมชาติ - การสังเคราะห์เสียงพูด - การรู้จำเสียงพูดอัตโนมัติ - การรู้จำอักษรโบราณ\",\"group_main_research_en\":\"- Natural language processing - Speech synthesis - Automatic speech recognition - Ancient Character Recognition\",\"group_desc_th\":\"จุดมุ่งหมายหลักของโครงการนี้คือ การวิจัยเกี่ยวกับภาษาธรรมชาติและการประมวลผลเสียงพูดในระบบคอมพิวเตอร์ ระบบแทนสเลชันด้วยเครื่อง ระบบคอมพิวเตอร์สังเคราะห์เสียงพูดและการรู้จำเสียง การรู้จำอักขระและการค้นหาข้อมูล การสร้างและพัฒนาระบบการทำงานเพื่อบูรณาการทางธรรมชาติ การประมวลผลภาษาและคำพูดด้วยระบบงานทางธุรกิจและเพื่อสร้างผลงานทางวิชาการเกี่ยวกับการประมวลผลตามธรรมชาติ\",\"group_desc_en\":\"The main aims of this project are to conduct research concerning natural language and speech processing in the computer system, Machine Tanslation system, Speech Synthesis and Speech Recognition computer system, Char- acter Recognition and information searching, construction and development of working system to integrate natural language and speech processing with business work system,and to create academic works on natural processing.\",\"group_detail_th\":\"รายละเอียดจุดมุ่งหมายหลักของโครงการนี้คือ การวิจัยเกี่ยวกับภาษาธรรมชาติและการประมวลผลเสียงพูดในระบบคอมพิวเตอร์ ระบบแทนสเลชันด้วยเครื่อง ระบบคอมพิวเตอร์สังเคราะห์เสียงพูดและการรู้จำเสียง การรู้จำอักขระและการค้นหาข้อมูล การสร้างและพัฒนาระบบการทำงานเพื่อบูรณาการทางธรรมชาติ การประมวลผลภาษาและคำพูดด้วยระบบงานทางธุรกิจและเพื่อสร้างผลงานทางวิชาการเกี่ยวกับการประมวลผลตามธรรมชาติ\",\"group_detail_en\":\"dec The main aims of this project are to conduct research concerning natural language and speech processing in the computer system, Machine Tanslation system, Speech Synthesis and Speech Recognition computer system, Char- acter Recognition and information searching, construction and development of working system to integrate natural language and speech processing with business work system,and to create academic works on natural processing.\",\"link\":null,\"head\":\"16\",\"moreFields\":[{\"userid\":\"46\",\"can_edit\":\"0\"}]}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:51:41', '2025-03-06 01:51:41'),
-(811, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:51:41', '2025-03-06 01:51:41'),
-(812, 1, 'View', 'View researchgroup', 'User performed View operation on researchgroup', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:51:49', '2025-03-06 01:51:49'),
-(813, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/9', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:51:54', '2025-03-06 01:51:54'),
-(814, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/8', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:52:00', '2025-03-06 01:52:00'),
-(815, 1, 'View', 'View researchgroup', 'User performed View operation on researchgroup', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:52:20', '2025-03-06 01:52:20'),
-(816, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/24', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:52:25', '2025-03-06 01:52:25'),
-(817, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/22', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:52:29', '2025-03-06 01:52:29'),
-(818, 1, 'View', 'View researchgroupdetail', 'User performed View operation on researchgroupdetail/3', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:52:38', '2025-03-06 01:52:38'),
-(819, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:52:55', '2025-03-06 01:52:55');
-INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `action`, `description`, `ip_address`, `user_agent`, `created_at`, `updated_at`) VALUES
-(820, 153, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:53:23', '2025-03-06 01:53:23'),
-(821, 153, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"z8tbA9nbpnXlQdNTiqmDE3EN2koqDqn09JxR8ve2\",\"username\":\"putklang_w@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:53:23', '2025-03-06 01:53:23'),
-(822, 153, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:53:23', '2025-03-06 01:53:23'),
-(823, 153, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:54:40', '2025-03-06 01:54:40'),
-(824, 153, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:54:40', '2025-03-06 01:54:40'),
-(825, 153, 'View', 'View researchers.index', 'User performed View operation on researchers', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:54:46', '2025-03-06 01:54:46'),
-(826, 153, 'View', 'View researchers.index', 'User performed View operation on researchers', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:54:55', '2025-03-06 01:54:55'),
-(827, 153, 'View', 'View langswitch', 'User performed View operation on lang/th', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:54:59', '2025-03-06 01:54:59'),
-(828, 153, 'View', 'View researchers.index', 'User performed View operation on researchers', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:54:59', '2025-03-06 01:54:59'),
-(829, 153, 'View', 'View detail', 'User performed View operation on detail/eyJpdiI6InNqcVV5QkFBY3hyQTloWUZybTI3cFE9PSIsInZhbHVlIjoidnc4bDZsbGR3eWt3VER0anJVYWFxQT09IiwibWFjIjoiNzA4MGViN2ZhNDlhMjZmNjgxZGI5YzBiYzJmYzc5ZjhjMDcyNDYyYmVjY2Q4ZjcwYjM5ZTNkYTYwOTFhMmVjNyIsInRhZyI6IiJ9', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:55:03', '2025-03-06 01:55:03'),
-(830, 153, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:55:49', '2025-03-06 01:55:49'),
-(831, 153, 'View', 'View researchGroups.show', 'User performed View operation on researchGroups/3', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 01:55:52', '2025-03-06 01:55:52'),
-(832, 153, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:05:14', '2025-03-06 02:05:14'),
-(833, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:05:25', '2025-03-06 02:05:25'),
-(834, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"B1R3uiBu9VXk5DZA9ZosJhK38Ci52hvxw90Iy2pz\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:05:25', '2025-03-06 02:05:25'),
-(835, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:05:26', '2025-03-06 02:05:26'),
-(836, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:05:49', '2025-03-06 02:05:49'),
-(837, 1, 'View', 'View users.create', 'User performed View operation on users/create', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:05:51', '2025-03-06 02:05:51'),
-(838, 1, 'View', 'View generated::EIuaf5ARnVLiQdIX', 'User performed View operation on ajax-get-subcat', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:06:56', '2025-03-06 02:06:56'),
-(839, 1, 'Submit', 'Submit users.store', 'User performed Submit operation on users with data: {\"_token\":\"B1R3uiBu9VXk5DZA9ZosJhK38Ci52hvxw90Iy2pz\",\"fname_th\":\"วันเฉลิม\",\"lname_th\":\"นัดดา\",\"fname_en\":\"Wanchaloem\",\"lname_en\":\"Nadda\",\"email\":\"wannad@kku.ac.th\",\"roles\":[\"teacher\"],\"cat\":\"1\",\"sub_cat\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:07:12', '2025-03-06 02:07:12'),
-(840, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:07:13', '2025-03-06 02:07:13'),
-(841, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:07:24', '2025-03-06 02:07:24'),
-(842, 156, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:07:32', '2025-03-06 02:07:32'),
-(843, 156, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"PFRnTdqbouo4SMFXpmKLEUWZQJR86D54AI22DRPN\",\"username\":\"wannad@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:07:32', '2025-03-06 02:07:32'),
-(844, 156, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:07:33', '2025-03-06 02:07:33'),
-(845, 156, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:07:35', '2025-03-06 02:07:35'),
-(846, 156, 'Submit', 'Submit adminPictureUpdate', 'User performed Submit operation on change-profile-picture with data: {\"_token\":\"PFRnTdqbouo4SMFXpmKLEUWZQJR86D54AI22DRPN\",\"ijaboCropToolFile\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:08:05', '2025-03-06 02:08:05'),
-(847, 156, 'Update', 'Update profile', 'User performed update on profile with ID: 156 with details: {\"fname_en\":\"Wanchaloem\",\"lname_en\":\"Nadda\",\"email\":\"wannad@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"title_name_en\":\"Mr.\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:08:14', '2025-03-06 02:08:14'),
-(848, 156, 'Submit', 'Submit adminUpdateInfo', 'User performed Submit operation on update-profile-info with data: {\"title_name_en\":\"Mr.\",\"fname_en\":\"Wanchaloem\",\"lname_en\":\"Nadda\",\"fname_th\":\"วันเฉลิม\",\"lname_th\":\"นัดดา\",\"email\":\"wannad@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"academic_ranks_th\":\"อาจารย์\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:08:14', '2025-03-06 02:08:14'),
-(849, 156, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:08:16', '2025-03-06 02:08:16'),
-(850, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:08:19', '2025-03-06 02:08:19'),
-(851, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"2dKJr2YCLlRrJoDXvuPzYPVii25JpETfaYduoeei\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:08:19', '2025-03-06 02:08:19'),
-(852, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:08:20', '2025-03-06 02:08:20'),
-(853, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:08:58', '2025-03-06 02:08:58'),
-(854, 1, 'View', 'View users.create', 'User performed View operation on users/create', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:09:20', '2025-03-06 02:09:20'),
-(855, 1, 'View', 'View generated::EIuaf5ARnVLiQdIX', 'User performed View operation on ajax-get-subcat', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:13', '2025-03-06 02:10:13'),
-(856, 1, 'Submit', 'Submit users.store', 'User performed Submit operation on users with data: {\"_token\":\"2dKJr2YCLlRrJoDXvuPzYPVii25JpETfaYduoeei\",\"fname_th\":\"จักรกฤษณ์\",\"lname_th\":\"แก้วโยธา\",\"fname_en\":\"Jakkrit\",\"lname_en\":\"Kaewyotha\",\"email\":\"jakkritk@kku.ac.th\",\"roles\":[\"teacher\"],\"cat\":\"1\",\"sub_cat\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:21', '2025-03-06 02:10:21'),
-(857, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:22', '2025-03-06 02:10:22'),
-(858, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:28', '2025-03-06 02:10:28'),
-(859, 157, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:34', '2025-03-06 02:10:34'),
-(860, 157, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"6cltgRpIoBGiu5hhZNhaa8mXK1BukECSU7ilECpk\",\"username\":\"jakkritk@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:34', '2025-03-06 02:10:34'),
-(861, 157, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:34', '2025-03-06 02:10:34'),
-(862, 157, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:36', '2025-03-06 02:10:36'),
-(863, 157, 'Submit', 'Submit adminPictureUpdate', 'User performed Submit operation on change-profile-picture with data: {\"_token\":\"6cltgRpIoBGiu5hhZNhaa8mXK1BukECSU7ilECpk\",\"ijaboCropToolFile\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:49', '2025-03-06 02:10:49'),
-(864, 157, 'Update', 'Update profile', 'User performed update on profile with ID: 157 with details: {\"fname_en\":\"Jakkrit\",\"lname_en\":\"Kaewyotha\",\"email\":\"jakkritk@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"title_name_en\":\"Mr.\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:56', '2025-03-06 02:10:56'),
-(865, 157, 'Submit', 'Submit adminUpdateInfo', 'User performed Submit operation on update-profile-info with data: {\"title_name_en\":\"Mr.\",\"fname_en\":\"Jakkrit\",\"lname_en\":\"Kaewyotha\",\"fname_th\":\"จักรกฤษณ์\",\"lname_th\":\"แก้วโยธา\",\"email\":\"jakkritk@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"academic_ranks_th\":\"อาจารย์\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:10:56', '2025-03-06 02:10:56'),
-(866, 157, 'Update', 'Update profile', 'User performed update on profile with ID: 157 with details: {\"fname_en\":\"Jakkrit\",\"lname_en\":\"Kaewyotha\",\"email\":\"jakkritk@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"title_name_en\":\"Mr.\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:11:14', '2025-03-06 02:11:14'),
-(867, 157, 'Submit', 'Submit adminUpdateInfo', 'User performed Submit operation on update-profile-info with data: {\"title_name_en\":\"Mr.\",\"fname_en\":\"Jakkrit\",\"lname_en\":\"Kaewyotha\",\"fname_th\":\"จักรกฤษณ์\",\"lname_th\":\"แก้วโยธา\",\"email\":\"jakkritk@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"academic_ranks_th\":\"อาจารย์\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:11:14', '2025-03-06 02:11:14'),
-(868, 157, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:11:18', '2025-03-06 02:11:18'),
-(869, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:11:21', '2025-03-06 02:11:21'),
-(870, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"Das68t3QSYpCtma0dmWfK5wFarH8IbcOnYSjzN78\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:11:21', '2025-03-06 02:11:21'),
-(871, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:11:22', '2025-03-06 02:11:22'),
-(872, 1, 'View', 'View researchers.index', 'User performed View operation on researchers', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:11:36', '2025-03-06 02:11:36'),
-(873, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:11:59', '2025-03-06 02:11:59'),
-(874, 1, 'View', 'View users.create', 'User performed View operation on users/create', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:12:01', '2025-03-06 02:12:01'),
-(875, 1, 'View', 'View generated::EIuaf5ARnVLiQdIX', 'User performed View operation on ajax-get-subcat', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:06', '2025-03-06 02:13:06'),
-(876, 1, 'Submit', 'Submit users.store', 'User performed Submit operation on users with data: {\"_token\":\"Das68t3QSYpCtma0dmWfK5wFarH8IbcOnYSjzN78\",\"fname_th\":\"พบพร\",\"lname_th\":\"ด่านวิรุทัย\",\"fname_en\":\"Pobporn\",\"lname_en\":\"Danvirutai\",\"email\":\"pobda@kku.ac.th\",\"roles\":[\"teacher\"],\"cat\":\"1\",\"sub_cat\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:12', '2025-03-06 02:13:12'),
-(877, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:12', '2025-03-06 02:13:12'),
-(878, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:21', '2025-03-06 02:13:21'),
-(879, 158, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:29', '2025-03-06 02:13:29'),
-(880, 158, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"dGYaVnRK49AgNqGZUQmqrUcyfk8dehI548OgHqU6\",\"username\":\"pobda@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:29', '2025-03-06 02:13:29'),
-(881, 158, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:29', '2025-03-06 02:13:29'),
-(882, 158, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:34', '2025-03-06 02:13:34'),
-(883, 158, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:50', '2025-03-06 02:13:50'),
-(884, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:53', '2025-03-06 02:13:53'),
-(885, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"lxtptnAuebcBSmOEspKNzYkZfTuFPZYgybtdPygq\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:53', '2025-03-06 02:13:53'),
-(886, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:13:53', '2025-03-06 02:13:53'),
-(887, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:14:01', '2025-03-06 02:14:01'),
-(888, 1, 'View', 'View users.show', 'User performed View operation on users/1', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:14:03', '2025-03-06 02:14:03'),
-(889, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:14:04', '2025-03-06 02:14:04'),
-(890, 1, 'View', 'View users.show', 'User performed View operation on users/2', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:14:06', '2025-03-06 02:14:06'),
-(891, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:14:14', '2025-03-06 02:14:14'),
-(892, 1, 'View', 'View users.show', 'User performed View operation on users/2', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:14:17', '2025-03-06 02:14:17'),
-(893, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:14:20', '2025-03-06 02:14:20'),
-(894, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:15:19', '2025-03-06 02:15:19'),
-(895, 158, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:15:25', '2025-03-06 02:15:25'),
-(896, 158, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"YLBmkJ8FeyI5fyP9Z1TfUTHmbwVfHjzufgvdkVKC\",\"username\":\"pobda@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:15:25', '2025-03-06 02:15:25'),
-(897, 158, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:15:25', '2025-03-06 02:15:25'),
-(898, 158, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:15:29', '2025-03-06 02:15:29'),
-(899, 158, 'View', 'View detail', 'User performed View operation on detail/eyJpdiI6Ik1UUW5yMkhITU1SS2JYVzBjK0EzSmc9PSIsInZhbHVlIjoiZXdHMWVxTnJxeER4OGdpeUFVY0JQUT09IiwibWFjIjoiMjU1ODg4ZTQ5NGExOWE4NDU5YzdjYTVjY2ZkMjg3N2YwMDc5Yjc4Y2RjOGI0ODg1ZTg0M2M1MjYzYjI4MjY0NiIsInRhZyI6IiJ9', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:15:49', '2025-03-06 02:15:49'),
-(900, 158, 'Submit', 'Submit adminPictureUpdate', 'User performed Submit operation on change-profile-picture with data: {\"_token\":\"YLBmkJ8FeyI5fyP9Z1TfUTHmbwVfHjzufgvdkVKC\",\"ijaboCropToolFile\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:16:55', '2025-03-06 02:16:55'),
-(901, 158, 'Update', 'Update profile', 'User performed update on profile with ID: 158 with details: {\"fname_en\":\"Pobporn\",\"lname_en\":\"Danvirutai\",\"email\":\"pobda@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"title_name_en\":\"Mr.\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:17:04', '2025-03-06 02:17:04'),
-(902, 158, 'Submit', 'Submit adminUpdateInfo', 'User performed Submit operation on update-profile-info with data: {\"title_name_en\":\"Mr.\",\"fname_en\":\"Pobporn\",\"lname_en\":\"Danvirutai\",\"fname_th\":\"พบพร\",\"lname_th\":\"ด่านวิรุทัย\",\"email\":\"pobda@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"academic_ranks_th\":\"อาจารย์\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:17:04', '2025-03-06 02:17:04'),
-(903, 158, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:17:07', '2025-03-06 02:17:07'),
-(904, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:17:10', '2025-03-06 02:17:10'),
-(905, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"vCQKyg1vxcdAtRC4mYliJ8zBGAlDH575f0fkwCiC\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:17:10', '2025-03-06 02:17:10'),
-(906, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:17:11', '2025-03-06 02:17:11'),
-(907, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:17:16', '2025-03-06 02:17:16'),
-(908, 1, 'View', 'View users.show', 'User performed View operation on users/2', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:17:18', '2025-03-06 02:17:18'),
-(909, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:17:40', '2025-03-06 02:17:40'),
-(910, 1, 'View', 'View users.show', 'User performed View operation on users/1', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:17:49', '2025-03-06 02:17:49'),
-(911, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:18:11', '2025-03-06 02:18:11'),
-(912, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:18:23', '2025-03-06 02:18:23'),
-(913, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:21:46', '2025-03-06 02:21:46'),
-(914, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:21:47', '2025-03-06 02:21:47'),
-(915, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:21:54', '2025-03-06 02:21:54'),
-(916, 1, 'View', 'View users.show', 'User performed View operation on users/6', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:22:06', '2025-03-06 02:22:06'),
-(917, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:22:08', '2025-03-06 02:22:08'),
-(918, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:22:42', '2025-03-06 02:22:42'),
-(919, 1, 'View', 'View users.create', 'User performed View operation on users/create', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:22:44', '2025-03-06 02:22:44'),
-(920, 1, 'View', 'View generated::EIuaf5ARnVLiQdIX', 'User performed View operation on ajax-get-subcat', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:23:44', '2025-03-06 02:23:44'),
-(921, 1, 'Submit', 'Submit users.store', 'User performed Submit operation on users with data: {\"_token\":\"vCQKyg1vxcdAtRC4mYliJ8zBGAlDH575f0fkwCiC\",\"fname_th\":\"ไอศูรย์\",\"lname_th\":\"กาญจนสุรัตน์\",\"fname_en\":\"Isoon\",\"lname_en\":\"Kanjanasurat\",\"email\":\"isoonkan@kku.ac.th\",\"roles\":[\"teacher\"],\"cat\":\"1\",\"sub_cat\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:23:51', '2025-03-06 02:23:51'),
-(922, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:23:52', '2025-03-06 02:23:52'),
-(923, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:23:59', '2025-03-06 02:23:59'),
-(924, 159, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:07', '2025-03-06 02:24:07'),
-(925, 159, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"pOkqpEdDf9391XXo8ZE5e6x4DRMwJtzRYSgtaMXZ\",\"username\":\"isoonkan@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:07', '2025-03-06 02:24:07'),
-(926, 159, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:07', '2025-03-06 02:24:07'),
-(927, 159, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:09', '2025-03-06 02:24:09'),
-(928, 159, 'Submit', 'Submit adminPictureUpdate', 'User performed Submit operation on change-profile-picture with data: {\"_token\":\"pOkqpEdDf9391XXo8ZE5e6x4DRMwJtzRYSgtaMXZ\",\"ijaboCropToolFile\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:30', '2025-03-06 02:24:30'),
-(929, 159, 'Update', 'Update profile', 'User performed update on profile with ID: 159 with details: {\"fname_en\":\"Isoon\",\"lname_en\":\"Kanjanasurat\",\"email\":\"isoonkan@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"title_name_en\":\"Mr.\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:39', '2025-03-06 02:24:39'),
-(930, 159, 'Submit', 'Submit adminUpdateInfo', 'User performed Submit operation on update-profile-info with data: {\"title_name_en\":\"Mr.\",\"fname_en\":\"Isoon\",\"lname_en\":\"Kanjanasurat\",\"fname_th\":\"ไอศูรย์\",\"lname_th\":\"กาญจนสุรัตน์\",\"email\":\"isoonkan@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"academic_ranks_th\":\"อาจารย์\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:39', '2025-03-06 02:24:39'),
-(931, 159, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:45', '2025-03-06 02:24:45'),
-(932, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:57', '2025-03-06 02:24:57'),
-(933, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"WHZgTxPckUgdl4oaMzCjq7KnH6RkObKpSMqhTBYX\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:57', '2025-03-06 02:24:57'),
-(934, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:24:58', '2025-03-06 02:24:58'),
-(935, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:25:18', '2025-03-06 02:25:18'),
-(936, 1, 'View', 'View users.create', 'User performed View operation on users/create', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:25:22', '2025-03-06 02:25:22'),
-(937, 1, 'View', 'View generated::EIuaf5ARnVLiQdIX', 'User performed View operation on ajax-get-subcat', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:26:18', '2025-03-06 02:26:18'),
-(938, 1, 'Submit', 'Submit users.store', 'User performed Submit operation on users with data: {\"_token\":\"WHZgTxPckUgdl4oaMzCjq7KnH6RkObKpSMqhTBYX\",\"fname_th\":\"พงษ์ศธร\",\"lname_th\":\"จันทร์ยอย\",\"fname_en\":\"Pongsathon\",\"lname_en\":\"Janyoi\",\"email\":\"pongsathon@kku.ac.th\",\"roles\":[\"teacher\"],\"cat\":\"1\",\"sub_cat\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:26:23', '2025-03-06 02:26:23'),
-(939, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:26:24', '2025-03-06 02:26:24'),
-(940, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:26:36', '2025-03-06 02:26:36'),
-(941, 160, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:26:45', '2025-03-06 02:26:45'),
-(942, 160, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"1amhmSRaBMIAKMRIxjTV5QmlvhjQgF39d5LlZgkr\",\"username\":\"pongsathon@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:26:45', '2025-03-06 02:26:45'),
-(943, 160, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:26:46', '2025-03-06 02:26:46'),
-(944, 160, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:26:53', '2025-03-06 02:26:53'),
-(945, 160, 'Submit', 'Submit adminPictureUpdate', 'User performed Submit operation on change-profile-picture with data: {\"_token\":\"1amhmSRaBMIAKMRIxjTV5QmlvhjQgF39d5LlZgkr\",\"ijaboCropToolFile\":\"1\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:27:11', '2025-03-06 02:27:11'),
-(946, 160, 'Update', 'Update profile', 'User performed update on profile with ID: 160 with details: {\"fname_en\":\"Pongsathon\",\"lname_en\":\"Janyoi\",\"email\":\"pongsathon@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"title_name_en\":\"Mr.\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:27:19', '2025-03-06 02:27:19'),
-(947, 160, 'Submit', 'Submit adminUpdateInfo', 'User performed Submit operation on update-profile-info with data: {\"title_name_en\":\"Mr.\",\"fname_en\":\"Pongsathon\",\"lname_en\":\"Janyoi\",\"fname_th\":\"พงษ์ศธร\",\"lname_th\":\"จันทร์ยอย\",\"email\":\"pongsathon@kku.ac.th\",\"academic_ranks_en\":\"Lecturer\",\"academic_ranks_th\":\"อาจารย์\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:27:19', '2025-03-06 02:27:19'),
-(948, 160, 'View', 'View researchers.index', 'User performed View operation on researchers', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:27:25', '2025-03-06 02:27:25'),
-(949, 160, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:48:17', '2025-03-06 02:48:17'),
-(950, 160, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:48:21', '2025-03-06 02:48:21'),
-(951, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:48:24', '2025-03-06 02:48:24'),
-(952, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"h9kcTVL2vUWmKgDPwd9fIIHECrThEiqLtuXMbdL8\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:48:24', '2025-03-06 02:48:24'),
-(953, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:48:25', '2025-03-06 02:48:25'),
-(954, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:49:37', '2025-03-06 02:49:37'),
-(955, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:49:44', '2025-03-06 02:49:44'),
-(956, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:52:56', '2025-03-06 02:52:56'),
-(957, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:53:06', '2025-03-06 02:53:06'),
-(958, 1, 'View', 'View users.index', 'User performed View operation on users', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:57:30', '2025-03-06 02:57:30'),
-(959, 1, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:57:44', '2025-03-06 02:57:44'),
-(960, 1, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:58:02', '2025-03-06 02:58:02'),
-(961, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:58:35', '2025-03-06 02:58:35'),
-(962, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:58:54', '2025-03-06 02:58:54'),
-(963, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 02:59:27', '2025-03-06 02:59:27'),
-(964, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:00:58', '2025-03-06 03:00:58'),
-(965, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:02:36', '2025-03-06 03:02:36'),
-(966, 1, 'Login', 'Login', 'User logged in successfully', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 03:03:05', '2025-03-06 03:03:05'),
-(967, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"nvGWKn6XpKB00j061MrjJfzusqICjjjdp42DBsdX\",\"username\":\"admin@gmail.com\"}', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 03:03:05', '2025-03-06 03:03:05'),
-(968, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 03:03:05', '2025-03-06 03:03:05'),
-(969, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 03:05:32', '2025-03-06 03:05:32'),
-(970, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 03:05:41', '2025-03-06 03:05:41'),
-(971, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 03:05:57', '2025-03-06 03:05:57'),
-(972, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 03:06:07', '2025-03-06 03:06:07'),
-(973, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:06:26', '2025-03-06 03:06:26'),
-(974, 153, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:06:44', '2025-03-06 03:06:44'),
-(975, 153, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"u9dF7ku6cWjVI9XiGMuY6DlcsJ3x0g8fGAmGFYfP\",\"username\":\"putklang_w@kku.ac.th\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:06:44', '2025-03-06 03:06:44'),
-(976, 153, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:06:44', '2025-03-06 03:06:44'),
-(977, 153, 'View', 'View profile', 'User performed View operation on profile', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:06:50', '2025-03-06 03:06:50'),
-(978, 153, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:06:59', '2025-03-06 03:06:59'),
-(979, 153, 'View', 'View researchGroups.edit', 'User performed View operation on researchGroups/3/edit', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:07:04', '2025-03-06 03:07:04'),
-(980, 153, 'View', 'View researchGroups.index', 'User performed View operation on researchGroups', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:07:30', '2025-03-06 03:07:30'),
-(981, 153, 'Logout', 'Logout', 'User logged out of the system', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:08:01', '2025-03-06 03:08:01'),
-(982, 1, 'Login', 'Login', 'User logged in successfully', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:11:13', '2025-03-06 03:11:13'),
-(983, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"9gKyk28oPGhb52rGdXBnhAuM8TDpWpkgqYo8y5l4\",\"username\":\"admin@gmail.com\"}', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:11:13', '2025-03-06 03:11:13'),
-(984, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:11:13', '2025-03-06 03:11:13'),
-(985, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:24:26', '2025-03-06 03:24:26'),
-(986, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:24:26', '2025-03-06 03:24:26'),
-(987, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:24:31', '2025-03-06 03:24:31'),
-(988, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:24:34', '2025-03-06 03:24:34'),
-(989, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:25:11', '2025-03-06 03:25:11'),
-(990, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:25:37', '2025-03-06 03:25:37'),
-(991, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:38:23', '2025-03-06 03:38:23'),
-(992, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:39:45', '2025-03-06 03:39:45'),
-(993, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:39:48', '2025-03-06 03:39:48'),
-(994, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:39:50', '2025-03-06 03:39:50'),
-(995, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:39:52', '2025-03-06 03:39:52'),
-(996, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:40:08', '2025-03-06 03:40:08'),
-(997, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:40:12', '2025-03-06 03:40:12'),
-(998, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:40:28', '2025-03-06 03:40:28'),
-(999, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:40:31', '2025-03-06 03:40:31'),
-(1000, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:40:35', '2025-03-06 03:40:35'),
-(1001, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:40:42', '2025-03-06 03:40:42'),
-(1002, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:49:06', '2025-03-06 03:49:06'),
-(1003, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:49:11', '2025-03-06 03:49:11'),
-(1004, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:49:14', '2025-03-06 03:49:14'),
-(1005, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:49:17', '2025-03-06 03:49:17'),
-(1006, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:49:20', '2025-03-06 03:49:20'),
-(1007, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 03:49:22', '2025-03-06 03:49:22'),
-(1008, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:07:04', '2025-03-06 04:07:04'),
-(1009, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:07:12', '2025-03-06 04:07:12'),
-(1010, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:07:16', '2025-03-06 04:07:16'),
-(1011, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:19:53', '2025-03-06 04:19:53'),
-(1012, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:20:02', '2025-03-06 04:20:02'),
-(1013, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:21:40', '2025-03-06 04:21:40'),
-(1014, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:21:41', '2025-03-06 04:21:41'),
-(1015, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:21:46', '2025-03-06 04:21:46'),
-(1016, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:21:46', '2025-03-06 04:21:46'),
-(1017, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:22:07', '2025-03-06 04:22:07'),
-(1018, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:22:14', '2025-03-06 04:22:14'),
-(1019, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:22:18', '2025-03-06 04:22:18'),
-(1020, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:22:21', '2025-03-06 04:22:21'),
-(1021, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:22:25', '2025-03-06 04:22:25'),
-(1022, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:22:31', '2025-03-06 04:22:31'),
-(1023, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:22:34', '2025-03-06 04:22:34'),
-(1024, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:22:47', '2025-03-06 04:22:47'),
-(1025, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:22:55', '2025-03-06 04:22:55'),
-(1026, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:22:59', '2025-03-06 04:22:59'),
-(1027, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:03', '2025-03-06 04:23:03'),
-(1028, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:07', '2025-03-06 04:23:07'),
-(1029, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:11', '2025-03-06 04:23:11'),
-(1030, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:15', '2025-03-06 04:23:15'),
-(1031, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:17', '2025-03-06 04:23:17'),
-(1032, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:26', '2025-03-06 04:23:26'),
-(1033, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:30', '2025-03-06 04:23:30'),
-(1034, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:33', '2025-03-06 04:23:33'),
-(1035, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:43', '2025-03-06 04:23:43'),
-(1036, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:46', '2025-03-06 04:23:46'),
-(1037, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:49', '2025-03-06 04:23:49'),
-(1038, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:53', '2025-03-06 04:23:53'),
-(1039, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 04:23:57', '2025-03-06 04:23:57'),
-(1040, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 04:27:43', '2025-03-06 04:27:43'),
-(1041, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 04:27:43', '2025-03-06 04:27:43'),
-(1042, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:04:02', '2025-03-06 05:04:02'),
-(1043, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:04:09', '2025-03-06 05:04:09'),
-(1044, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:04:16', '2025-03-06 05:04:16'),
-(1045, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:04:33', '2025-03-06 05:04:33'),
-(1046, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:09:57', '2025-03-06 05:09:57'),
-(1047, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:10:02', '2025-03-06 05:10:02'),
-(1048, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:10:42', '2025-03-06 05:10:42'),
-(1049, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:11:15', '2025-03-06 05:11:15'),
-(1050, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:11:17', '2025-03-06 05:11:17'),
-(1051, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:11:25', '2025-03-06 05:11:25'),
-(1052, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:11:34', '2025-03-06 05:11:34'),
-(1053, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:11:46', '2025-03-06 05:11:46'),
-(1054, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:11:56', '2025-03-06 05:11:56'),
-(1055, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:12:07', '2025-03-06 05:12:07'),
-(1056, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:12:19', '2025-03-06 05:12:19'),
-(1057, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:12:23', '2025-03-06 05:12:23'),
-(1058, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:12:28', '2025-03-06 05:12:28'),
-(1059, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:12:37', '2025-03-06 05:12:37'),
-(1060, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:13:11', '2025-03-06 05:13:11'),
-(1061, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:13:15', '2025-03-06 05:13:15'),
-(1062, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 05:13:20', '2025-03-06 05:13:20'),
-(1063, 1, 'View', 'View researchgroup', 'User performed View operation on researchgroup', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 05:13:26', '2025-03-06 05:13:26'),
-(1064, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 05:13:29', '2025-03-06 05:13:29'),
-(1065, 1, 'Logout', 'Logout', 'User logged out of the system', '202.28.118.83', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-06 05:13:30', '2025-03-06 05:13:30'),
-(1066, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:13:49', '2025-03-06 05:13:49'),
-(1067, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:13:57', '2025-03-06 05:13:57'),
-(1068, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:14:00', '2025-03-06 05:14:00'),
-(1069, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:14:04', '2025-03-06 05:14:04'),
-(1070, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:14:07', '2025-03-06 05:14:07'),
-(1071, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:14:29', '2025-03-06 05:14:29'),
-(1072, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:14:31', '2025-03-06 05:14:31'),
-(1073, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:14:38', '2025-03-06 05:14:38'),
-(1074, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:14:50', '2025-03-06 05:14:50'),
-(1075, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:15:03', '2025-03-06 05:15:03'),
-(1076, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:15:03', '2025-03-06 05:15:03'),
-(1077, 1, 'View', 'View admin.activities', 'User performed View operation on admin/activities', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:15:11', '2025-03-06 05:15:11'),
-(1078, 1, 'View', 'View home', 'User performed View operation on /', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:15:42', '2025-03-06 05:15:42'),
-(1079, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:16:27', '2025-03-06 05:16:27'),
-(1080, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:16:30', '2025-03-06 05:16:30'),
-(1081, 1, 'View', 'View admin.errors', 'User performed View operation on admin/errors', '202.28.119.32', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36', '2025-03-06 05:16:36', '2025-03-06 05:16:36'),
-(1082, 1, 'Login', 'Login', 'User logged in successfully', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:16:34', '2025-03-08 07:16:34'),
-(1083, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"WzkQWlP9XMZIuKYxkdONI2MNQxiLVjPFoLWEVFJV\",\"username\":\"admin@gmail.com\"}', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:16:34', '2025-03-08 07:16:34'),
-(1084, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:16:35', '2025-03-08 07:16:35'),
-(1085, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:16:44', '2025-03-08 07:16:44'),
-(1086, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:16:47', '2025-03-08 07:16:47'),
-(1087, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:16:49', '2025-03-08 07:16:49'),
-(1088, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:16:51', '2025-03-08 07:16:51'),
-(1089, 1, 'Logout', 'Logout', 'User logged out of the system', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:16:53', '2025-03-08 07:16:53'),
-(1090, 1, 'Login', 'Login', 'User logged in successfully', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:18:02', '2025-03-08 07:18:02'),
-(1091, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"74xdIlUKKZ5CZz450wfnjlZE7OeEv8OLuj9nMEfx\",\"username\":\"admin@gmail.com\"}', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:18:02', '2025-03-08 07:18:02'),
-(1092, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:18:02', '2025-03-08 07:18:02'),
-(1093, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:18:06', '2025-03-08 07:18:06'),
-(1094, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:20:23', '2025-03-08 07:20:23'),
-(1095, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:20:33', '2025-03-08 07:20:33'),
-(1096, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:20:36', '2025-03-08 07:20:36'),
-(1097, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:20:39', '2025-03-08 07:20:39'),
-(1098, 1, 'Logout', 'Logout', 'User logged out of the system', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:20:44', '2025-03-08 07:20:44'),
-(1099, 1, 'Login', 'Login', 'User logged in successfully', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:21:35', '2025-03-08 07:21:35'),
-(1100, 1, 'Submit', 'Submit generated::FaMlfKvygkIs74ZJ', 'User performed Submit operation on login with data: {\"_token\":\"tLsIi1hsbYsEHS9PxIijy3kxVY7HkVuHRMacOdts\",\"username\":\"admin@gmail.com\"}', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:21:36', '2025-03-08 07:21:36'),
-(1101, 1, 'View', 'View dashboard', 'User performed View operation on dashboard', '202.12.97.210', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', '2025-03-08 07:21:36', '2025-03-08 07:21:36');
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -2714,34 +2224,23 @@ INSERT INTO `education` (`id`, `uname`, `qua_name`, `level`, `user_id`, `year`, 
 --
 
 DROP TABLE IF EXISTS `error_logs`;
-CREATE TABLE IF NOT EXISTS `error_logs` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `error_logs` (
+  `id` bigint UNSIGNED NOT NULL,
   `level` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `message` text COLLATE utf8mb4_unicode_ci NOT NULL,
   `context` text COLLATE utf8mb4_unicode_ci,
   `file` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `line` int(11) DEFAULT NULL,
+  `line` int DEFAULT NULL,
   `ip_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
   `username` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `method` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `user_agent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `stack_trace` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `error_logs_user_id_foreign` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=981 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `error_logs`
---
-
-INSERT INTO `error_logs` (`id`, `level`, `message`, `context`, `file`, `line`, `ip_address`, `user_id`, `username`, `url`, `method`, `user_agent`, `stack_trace`, `created_at`, `updated_at`) VALUES
-(978, 'warning', 'mb_strtolower(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/projectsoften/public_html/vendor/laravel/framework/src/Illuminate/Support/Str.php on line 378', '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-03-08 07:18:02', '2025-03-08 07:18:02'),
-(979, 'warning', 'mb_strtolower(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/projectsoften/public_html/vendor/laravel/framework/src/Illuminate/Support/Str.php on line 378', '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-03-08 07:21:35', '2025-03-08 07:21:35'),
-(980, 'warning', 'mb_strwidth(): Passing null to parameter #1 ($string) of type string is deprecated in /home2/projectsoften/public_html/vendor/laravel/framework/src/Illuminate/Support/Str.php on line 363', '[]', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-03-08 20:45:55', '2025-03-08 20:45:55');
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -3038,7 +2537,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (34, '2024_03_03_000001_create_admin_activity_logs_table', 12),
 (35, '2024_03_03_000002_create_admin_error_logs_table', 12),
 (36, '2025_03_05_031055_add_additional_fields_to_error_logs_table', 13),
-(37, '2025_03_05_032446_add_action_type_to_activity_logs_table', 14);
+(37, '2025_03_05_032446_add_action_type_to_activity_logs_table', 14),
+(38, '2025_03_08_155517_create_security_events_table', 15);
 
 -- --------------------------------------------------------
 
@@ -4265,6 +3765,59 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 (24, 5),
 (29, 6),
 (31, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `security_events`
+--
+
+DROP TABLE IF EXISTS `security_events`;
+CREATE TABLE `security_events` (
+  `id` bigint UNSIGNED NOT NULL,
+  `event_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `icon_class` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `ip_address` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `details` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `threat_level` enum('low','medium','high') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'low',
+  `user_agent` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `location` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `request_details` json DEFAULT NULL,
+  `additional_data` json DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `security_events`
+--
+
+INSERT INTO `security_events` (`id`, `event_type`, `icon_class`, `user_id`, `ip_address`, `details`, `threat_level`, `user_agent`, `location`, `request_details`, `additional_data`, `created_at`, `updated_at`) VALUES
+(1, 'logout', 'mdi-logout', 1, '127.0.0.1', 'User logged out', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"logout_time\": \"2025-03-08 16:04:29\"}', NULL, '2025-03-08 16:04:29', '2025-03-08 16:04:29'),
+(2, 'logout', 'mdi-logout', 1, '127.0.0.1', 'User logged out', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"logout_time\": \"2025-03-08 16:07:08\"}', NULL, '2025-03-08 16:07:08', '2025-03-08 16:07:08'),
+(3, 'failed_login', 'mdi-alert-circle', NULL, '127.0.0.1', 'Failed login attempt - Invalid credentials', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_type\": \"email\", \"attempt_time\": \"2025-03-08 16:07:19\", \"attempt_number\": 1}', NULL, '2025-03-08 16:07:19', '2025-03-08 16:07:19'),
+(4, 'failed_login', 'mdi-alert-circle', NULL, '127.0.0.1', 'Failed login attempt - Invalid credentials', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_type\": \"email\", \"attempt_time\": \"2025-03-08 16:07:23\", \"attempt_number\": 2}', NULL, '2025-03-08 16:07:23', '2025-03-08 16:07:23'),
+(5, 'failed_login', 'mdi-alert-circle', NULL, '127.0.0.1', 'Failed login attempt - Invalid credentials', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_type\": \"email\", \"attempt_time\": \"2025-03-08 16:07:26\", \"attempt_number\": 3}', NULL, '2025-03-08 16:07:26', '2025-03-08 16:07:26'),
+(6, 'successful_login', 'mdi-check-circle', 1, '127.0.0.1', 'Successful login', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_time\": \"2025-03-08 16:07:28\", \"login_type\": \"email\"}', NULL, '2025-03-08 16:07:28', '2025-03-08 16:07:28'),
+(7, 'logout', 'mdi-logout', 1, '127.0.0.1', 'User logged out', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"logout_time\": \"2025-03-08 16:08:51\"}', NULL, '2025-03-08 16:08:51', '2025-03-08 16:08:51'),
+(8, 'failed_login', 'mdi-alert-circle', NULL, '127.0.0.1', 'Failed login attempt - Invalid credentials', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_type\": \"email\", \"attempt_time\": \"2025-03-08 16:09:00\", \"attempt_number\": 4}', NULL, '2025-03-08 16:09:00', '2025-03-08 16:09:00'),
+(9, 'failed_login', 'mdi-alert-circle', NULL, '127.0.0.1', 'Failed login attempt - Invalid credentials', 'medium', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_type\": \"email\", \"attempt_time\": \"2025-03-08 16:09:02\", \"attempt_number\": 5}', NULL, '2025-03-08 16:09:02', '2025-03-08 16:09:02'),
+(10, 'failed_login', 'mdi-alert-circle', NULL, '127.0.0.1', 'Failed login attempt - Invalid credentials', 'medium', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_type\": \"email\", \"attempt_time\": \"2025-03-08 16:09:05\", \"attempt_number\": 6}', NULL, '2025-03-08 16:09:05', '2025-03-08 16:09:05'),
+(11, 'failed_login', 'mdi-alert-circle', NULL, '127.0.0.1', 'Failed login attempt - Invalid credentials', 'medium', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_type\": \"email\", \"attempt_time\": \"2025-03-08 16:09:07\", \"attempt_number\": 7}', NULL, '2025-03-08 16:09:07', '2025-03-08 16:09:07'),
+(12, 'failed_login', 'mdi-alert-circle', NULL, '127.0.0.1', 'Failed login attempt - Invalid credentials', 'medium', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_type\": \"email\", \"attempt_time\": \"2025-03-08 16:09:10\", \"attempt_number\": 8}', NULL, '2025-03-08 16:09:10', '2025-03-08 16:09:10'),
+(13, 'failed_login', 'mdi-alert-circle', NULL, '127.0.0.1', 'Failed login attempt - Invalid credentials', 'high', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_type\": \"email\", \"attempt_time\": \"2025-03-08 16:09:12\", \"attempt_number\": 9}', NULL, '2025-03-08 16:09:12', '2025-03-08 16:09:12'),
+(14, 'failed_login', 'mdi-alert-circle', NULL, '127.0.0.1', 'Failed login attempt - Invalid credentials', 'high', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_type\": \"email\", \"attempt_time\": \"2025-03-08 16:09:14\", \"attempt_number\": 10}', NULL, '2025-03-08 16:09:14', '2025-03-08 16:09:14'),
+(15, 'account_locked', 'mdi-lock-alert', NULL, '127.0.0.1', 'Account temporarily locked due to too many login attempts', 'high', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"attempts\": 10, \"username\": \"admin@gmail.com\", \"lockout_time\": \"2025-03-08 16:09:18\"}', NULL, '2025-03-08 16:09:18', '2025-03-08 16:09:18'),
+(16, 'account_locked', 'mdi-lock-alert', NULL, '127.0.0.1', 'Account temporarily locked due to too many login attempts', 'high', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"attempts\": 10, \"username\": \"admin@gmail.com\", \"lockout_time\": \"2025-03-08 16:09:26\"}', NULL, '2025-03-08 16:09:26', '2025-03-08 16:09:26'),
+(17, 'account_locked', 'mdi-lock-alert', NULL, '127.0.0.1', 'Account temporarily locked due to too many login attempts', 'high', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"attempts\": 10, \"username\": \"admin@gmail.com\", \"lockout_time\": \"2025-03-08 16:10:43\"}', NULL, '2025-03-08 16:10:43', '2025-03-08 16:10:43'),
+(18, 'account_locked', 'mdi-lock-alert', NULL, '127.0.0.1', 'Account temporarily locked due to too many login attempts', 'high', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"attempts\": 10, \"username\": \"admin@gmail.com\", \"lockout_time\": \"2025-03-08 16:12:00\"}', NULL, '2025-03-08 16:12:00', '2025-03-08 16:12:00'),
+(19, 'successful_login', 'mdi-check-circle', 1, '127.0.0.1', 'Successful login', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_time\": \"2025-03-08 16:12:24\", \"login_type\": \"email\"}', NULL, '2025-03-08 16:12:24', '2025-03-08 16:12:24'),
+(20, 'logout', 'mdi-logout', 1, '127.0.0.1', 'User logged out', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"logout_time\": \"2025-03-08 16:20:19\"}', NULL, '2025-03-08 16:20:19', '2025-03-08 16:20:19'),
+(21, 'successful_login', 'mdi-check-circle', 1, '127.0.0.1', 'Successful login', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_time\": \"2025-03-08 16:20:26\", \"login_type\": \"email\"}', NULL, '2025-03-08 16:20:26', '2025-03-08 16:20:26'),
+(22, 'logout', 'mdi-logout', 1, '127.0.0.1', 'User logged out', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"logout_time\": \"2025-03-08 16:27:20\"}', NULL, '2025-03-08 16:27:20', '2025-03-08 16:27:20'),
+(23, 'successful_login', 'mdi-check-circle', 1, '127.0.0.1', 'Successful login', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"username\": \"admin@gmail.com\", \"login_time\": \"2025-03-08 16:27:28\", \"login_type\": \"email\"}', NULL, '2025-03-08 16:27:28', '2025-03-08 16:27:28'),
+(24, 'logout', 'mdi-logout', 1, '127.0.0.1', 'User logged out', 'low', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0', NULL, '{\"logout_time\": \"2025-03-08 16:28:18\"}', NULL, '2025-03-08 16:28:18', '2025-03-08 16:28:18');
 
 -- --------------------------------------------------------
 
@@ -5976,71 +5529,14 @@ INSERT INTO `user_papers` (`id`, `user_id`, `paper_id`, `author_type`) VALUES
 --
 
 DROP TABLE IF EXISTS `work_of_research_groups`;
-CREATE TABLE IF NOT EXISTS `work_of_research_groups` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `role` int(11) NOT NULL,
-  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `research_group_id` bigint(20) UNSIGNED NOT NULL,
-  `author_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `can_edit` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `work_of_research_groups_user_id_foreign` (`user_id`),
-  KEY `work_of_research_groups_research_group_id_foreign` (`research_group_id`),
-  KEY `work_of_research_groups_author_id_foreign` (`author_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=527 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `work_of_research_groups`
---
-
-INSERT INTO `work_of_research_groups` (`id`, `role`, `user_id`, `research_group_id`, `author_id`, `can_edit`) VALUES
-(480, 1, 153, 3, NULL, 1),
-(481, 2, 31, 3, NULL, 0),
-(482, 2, 15, 3, NULL, 0),
-(483, 2, 5, 3, NULL, 0),
-(484, 2, 23, 3, NULL, 0),
-(485, 2, 11, 3, NULL, 0),
-(486, 2, 30, 3, NULL, 0),
-(487, 2, 28, 3, NULL, 0),
-(488, 1, 9, 5, NULL, 1),
-(489, 2, 8, 5, NULL, 0),
-(490, 2, 6, 5, NULL, 0),
-(491, 2, 29, 5, NULL, 0),
-(492, 2, 33, 5, NULL, 0),
-(493, 2, 151, 5, NULL, 0),
-(494, 2, 152, 5, NULL, 0),
-(495, 1, 151, 23, NULL, 1),
-(496, 2, 152, 23, NULL, 0),
-(497, 2, 24, 23, NULL, 0),
-(498, 2, 154, 23, NULL, 0),
-(499, 1, 2, 22, NULL, 1),
-(500, 2, 18, 22, NULL, 0),
-(501, 2, 22, 22, NULL, 0),
-(502, 2, 14, 22, NULL, 0),
-(503, 2, 26, 22, NULL, 0),
-(504, 2, 17, 22, NULL, 0),
-(505, 2, 107, 22, NULL, 0),
-(506, 1, 3, 20, NULL, 1),
-(507, 2, 13, 20, NULL, 0),
-(508, 2, 24, 20, NULL, 0),
-(509, 2, 155, 20, NULL, 0),
-(510, 2, 154, 20, NULL, 0),
-(511, 2, 152, 20, NULL, 0),
-(512, 2, 151, 20, NULL, 0),
-(513, 1, 20, 24, NULL, 1),
-(514, 2, 21, 24, NULL, 0),
-(515, 2, 34, 24, NULL, 0),
-(516, 1, 10, 25, NULL, 1),
-(517, 2, 32, 25, NULL, 0),
-(518, 2, 6, 25, NULL, 0),
-(519, 1, 7, 8, NULL, 1),
-(520, 2, 25, 8, NULL, 0),
-(521, 2, 129, 8, NULL, 0),
-(522, 4, NULL, 8, 150, 0),
-(523, 4, NULL, 8, 709, 0),
-(524, 4, NULL, 8, 710, 0),
-(525, 1, 16, 9, NULL, 1),
-(526, 2, 46, 9, NULL, 0);
+CREATE TABLE `work_of_research_groups` (
+  `id` bigint UNSIGNED NOT NULL,
+  `role` int NOT NULL,
+  `user_id` bigint UNSIGNED DEFAULT NULL,
+  `research_group_id` bigint UNSIGNED NOT NULL,
+  `author_id` bigint UNSIGNED DEFAULT NULL,
+  `can_edit` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -6092,6 +5588,415 @@ INSERT INTO `work_of_research_projects` (`id`, `role`, `user_id`, `research_proj
 (96, 1, 34, 43),
 (97, 1, 7, 44),
 (98, 2, 9, 44);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `academicworks`
+--
+ALTER TABLE `academicworks`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `activity_logs_user_id_foreign` (`user_id`),
+  ADD KEY `activity_logs_action_type_index` (`action_type`);
+
+--
+-- Indexes for table `authors`
+--
+ALTER TABLE `authors`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `author_of_academicworks`
+--
+ALTER TABLE `author_of_academicworks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `author_of_academicworks_author_id_foreign` (`author_id`),
+  ADD KEY `author_of_academicworks_academicwork_id_foreign` (`academicwork_id`);
+
+--
+-- Indexes for table `author_of_papers`
+--
+ALTER TABLE `author_of_papers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `author_of_papers_author_id_foreign` (`author_id`),
+  ADD KEY `author_of_papers_paper_id_foreign` (`paper_id`);
+
+--
+-- Indexes for table `degrees`
+--
+ALTER TABLE `degrees`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `departments`
+--
+ALTER TABLE `departments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `education`
+--
+ALTER TABLE `education`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `education_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `error_logs`
+--
+ALTER TABLE `error_logs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `error_logs_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `expertises`
+--
+ALTER TABLE `expertises`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `expertises_user_id_foreign` (`user_id`);
+
+--
+-- Indexes for table `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `files`
+--
+ALTER TABLE `files`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `funds`
+--
+ALTER TABLE `funds`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fund_user_id` (`user_id`);
+
+--
+-- Indexes for table `migrations`
+--
+ALTER TABLE `migrations`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `model_has_permissions`
+--
+ALTER TABLE `model_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_permissions_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `model_has_roles`
+--
+ALTER TABLE `model_has_roles`
+  ADD PRIMARY KEY (`role_id`,`model_id`,`model_type`),
+  ADD KEY `model_has_roles_model_id_model_type_index` (`model_id`,`model_type`);
+
+--
+-- Indexes for table `outsiders`
+--
+ALTER TABLE `outsiders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `outsiders_work_of_project`
+--
+ALTER TABLE `outsiders_work_of_project`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `outsiders_work_of_project_outsider_id_foreign` (`outsider_id`),
+  ADD KEY `outsiders_work_of_project_research_project_id_foreign` (`research_project_id`);
+
+--
+-- Indexes for table `papers`
+--
+ALTER TABLE `papers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
+-- Indexes for table `permissions`
+--
+ALTER TABLE `permissions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `permissions_name_guard_name_unique` (`name`,`guard_name`);
+
+--
+-- Indexes for table `programs`
+--
+ALTER TABLE `programs`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `programs_degree_id_foreign` (`degree_id`),
+  ADD KEY `department_id` (`department_id`);
+
+--
+-- Indexes for table `research_groups`
+--
+ALTER TABLE `research_groups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `research_projects`
+--
+ALTER TABLE `research_projects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fund_id` (`fund_id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `roles_name_guard_name_unique` (`name`,`guard_name`);
+
+--
+-- Indexes for table `role_has_permissions`
+--
+ALTER TABLE `role_has_permissions`
+  ADD PRIMARY KEY (`permission_id`,`role_id`),
+  ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
+
+--
+-- Indexes for table `source_data`
+--
+ALTER TABLE `source_data`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `source_papers`
+--
+ALTER TABLE `source_papers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `source_papers_source_data_id_foreign` (`source_data_id`),
+  ADD KEY `source_papers_paper_id_foreign` (`paper_id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD UNIQUE KEY `username` (`username`),
+  ADD KEY `users_program_id_foreign` (`program_id`) USING BTREE;
+
+--
+-- Indexes for table `user_of_academicworks`
+--
+ALTER TABLE `user_of_academicworks`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_of_academicworks_user_id_foreign` (`user_id`),
+  ADD KEY `user_of_academicworks_academicwork_id_foreign` (`academicwork_id`);
+
+--
+-- Indexes for table `user_papers`
+--
+ALTER TABLE `user_papers`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_papers_user_id_foreign` (`user_id`) USING BTREE,
+  ADD KEY `user_papers_paper_id_foreign` (`paper_id`) USING BTREE;
+
+--
+-- Indexes for table `work_of_research_groups`
+--
+ALTER TABLE `work_of_research_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `work_of_research_groups_user_id_foreign` (`user_id`),
+  ADD KEY `work_of_research_groups_research_group_id_foreign` (`research_group_id`),
+  ADD KEY `work_of_research_groups_author_id_foreign` (`author_id`);
+
+--
+-- Indexes for table `work_of_research_projects`
+--
+ALTER TABLE `work_of_research_projects`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `work_of_research_projects_user_id_foreign` (`user_id`),
+  ADD KEY `work_of_research_projects_research_project_id_foreign` (`research_project_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `academicworks`
+--
+ALTER TABLE `academicworks`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+--
+-- AUTO_INCREMENT for table `activity_logs`
+--
+ALTER TABLE `activity_logs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=622;
+
+--
+-- AUTO_INCREMENT for table `authors`
+--
+ALTER TABLE `authors`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=709;
+
+--
+-- AUTO_INCREMENT for table `author_of_academicworks`
+--
+ALTER TABLE `author_of_academicworks`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=98;
+
+--
+-- AUTO_INCREMENT for table `author_of_papers`
+--
+ALTER TABLE `author_of_papers`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1128;
+
+--
+-- AUTO_INCREMENT for table `departments`
+--
+ALTER TABLE `departments`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `education`
+--
+ALTER TABLE `education`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
+
+--
+-- AUTO_INCREMENT for table `error_logs`
+--
+ALTER TABLE `error_logs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `expertises`
+--
+ALTER TABLE `expertises`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
+
+--
+-- AUTO_INCREMENT for table `failed_jobs`
+--
+ALTER TABLE `failed_jobs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `files`
+--
+ALTER TABLE `files`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `funds`
+--
+ALTER TABLE `funds`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `migrations`
+--
+ALTER TABLE `migrations`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+
+--
+-- AUTO_INCREMENT for table `outsiders`
+--
+ALTER TABLE `outsiders`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `outsiders_work_of_project`
+--
+ALTER TABLE `outsiders_work_of_project`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `papers`
+--
+ALTER TABLE `papers`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=586;
+
+--
+-- AUTO_INCREMENT for table `permissions`
+--
+ALTER TABLE `permissions`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+
+--
+-- AUTO_INCREMENT for table `programs`
+--
+ALTER TABLE `programs`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `research_groups`
+--
+ALTER TABLE `research_groups`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `research_projects`
+--
+ALTER TABLE `research_projects`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
+--
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `source_data`
+--
+ALTER TABLE `source_data`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `source_papers`
+--
+ALTER TABLE `source_papers`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3896;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
+
+--
+-- AUTO_INCREMENT for table `user_of_academicworks`
+--
+ALTER TABLE `user_of_academicworks`
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+
+--
+-- AUTO_INCREMENT for table `user_papers`
+--
+ALTER TABLE `user_papers`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=766;
+
+--
+-- AUTO_INCREMENT for table `work_of_research_groups`
+--
+ALTER TABLE `work_of_research_groups`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=480;
+
+--
+-- AUTO_INCREMENT for table `work_of_research_projects`
+--
+ALTER TABLE `work_of_research_projects`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
 
 --
 -- Constraints for dumped tables
@@ -6179,6 +6084,12 @@ ALTER TABLE `research_projects`
 ALTER TABLE `role_has_permissions`
   ADD CONSTRAINT `role_has_permissions_permission_id_foreign` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `role_has_permissions_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `security_events`
+--
+ALTER TABLE `security_events`
+  ADD CONSTRAINT `security_events_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL;
 
 --
 -- Constraints for table `source_papers`

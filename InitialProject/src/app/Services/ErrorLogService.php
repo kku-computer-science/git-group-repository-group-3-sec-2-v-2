@@ -47,10 +47,10 @@ class ErrorLogService
     /**
      * Log authentication errors (login failures)
      */
-    public static function logAuthError($message, $username)
+    public static function logAuthError($message, $username = null)
     {
         $context = [
-            'username' => $username,
+            'username' => $username ?? '',
             'url' => Request::fullUrl(),
             'method' => Request::method(),
             'user_agent' => Request::userAgent(),
@@ -59,13 +59,13 @@ class ErrorLogService
 
         ErrorLog::create([
             'level' => 'warning',
-            'message' => $message,
+            'message' => $message ?? 'Authentication error',
             'context' => json_encode($context, JSON_UNESCAPED_UNICODE),
             'file' => 'auth/login',
             'line' => 0,
             'stack_trace' => null,
             'ip_address' => Request::ip(),
-            'username' => $username,
+            'username' => $username ?? '',
             'url' => Request::fullUrl(),
             'method' => Request::method(),
             'user_agent' => Request::userAgent()
@@ -75,11 +75,11 @@ class ErrorLogService
     /**
      * Log form validation errors
      */
-    public static function logValidationError($errors, $formName)
+    public static function logValidationError($errors, $formName = null)
     {
         $context = [
-            'form' => $formName,
-            'errors' => $errors,
+            'form' => $formName ?? 'unknown_form',
+            'errors' => $errors ?? [],
             'input' => self::filterSensitiveData(Request::all()),
             'url' => Request::fullUrl(),
             'method' => Request::method(),
@@ -90,7 +90,7 @@ class ErrorLogService
 
         ErrorLog::create([
             'level' => 'notice',
-            'message' => "Validation failed for {$formName} form",
+            'message' => "Validation failed for " . ($formName ?? 'unknown') . " form",
             'context' => json_encode($context, JSON_UNESCAPED_UNICODE),
             'file' => Request::path(),
             'line' => 0,

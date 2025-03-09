@@ -116,6 +116,36 @@
     .bg-warning { background: #fb6340 !important; }
     .bg-danger { background: #f5365c !important; }
     .bg-purple { background: #8965e0 !important; }
+    
+    /* Pagination Styles */
+    .pagination {
+        justify-content: center;
+        margin: 0;
+    }
+    
+    .page-link {
+        color: #5e72e4;
+        border: 1px solid #dee2e6;
+        margin: 0 2px;
+    }
+    
+    .page-link:hover {
+        color: #233dd2;
+        background-color: #e9ecef;
+        border-color: #dee2e6;
+    }
+    
+    .page-item.active .page-link {
+        background-color: #5e72e4;
+        border-color: #5e72e4;
+    }
+    
+    .pagination-info {
+        color: #8898aa;
+        font-size: 0.875rem;
+        text-align: center;
+        margin-bottom: 10px;
+    }
 </style>
 
 @section('content')
@@ -320,7 +350,10 @@
                         <h6 class="card-subtitle">System</h6>
                         <h3 class="card-title">Error Logs</h3>
                     </div>
-                    <a href="{{ route('admin.errors') }}" class="btn btn-sm btn-primary">View All</a>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-white text-primary mr-3">Total: {{ $errorLogs->total() }}</span>
+                        <a href="{{ route('admin.errors') }}" class="btn btn-sm btn-primary">View All</a>
+                    </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
@@ -340,7 +373,7 @@
                                         {{ $error->level }}
                                     </span>
                                 </td>
-                                <td>{{ Str::limit($error->message, 40) }}</td>
+                                <td>{{ Str::limit($error->message ?? '', 40) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($error->created_at)->diffForHumans() }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
@@ -407,6 +440,14 @@
                         </tbody>
                     </table>
                 </div>
+                @if($errorLogs->hasPages())
+                <div class="p-4">
+                    <div class="pagination-info">
+                        Showing {{ $errorLogs->firstItem() }}-{{ $errorLogs->lastItem() }} of {{ $errorLogs->total() }} items
+                    </div>
+                    {{ $errorLogs->links() }}
+                </div>
+                @endif
             </div>
         </div>
     </div>

@@ -92,31 +92,30 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     </li> -->
                     <!-- <li class="nav-item dropdown d-none d-lg-block user-dropdown">
                         <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img class="img-xs rounded-circle" src="{{ Auth::user()->picture }}"
+                            <img class="img-xs rounded-circle" src="{{ Auth::user()->picture ?? asset('images/imag_user/no-image.png') }}"
                                 alt="User profile picture">
                         </a>
                     </li> -->
                     <!-- <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                             <div class="dropdown-header text-center">
-                                <img class="img-md rounded-circle" src="{{ Auth::user()->picture }}"
-                                    alt="Profile image">
-                                <p class="mb-1 mt-3 font-weight-semibold">{{ Auth::user()->name }}</p>
-                                <p class="fw-light text-muted mb-0"></p>
+                                <img class="img-md rounded-circle"
+                                    src="{{ Auth::user()->picture ?? asset('images/imag_user/no-image.png') }}" alt="Profile image">
+                                <p class="mb-1 mt-3 font-weight-semibold">{{ Auth::user()->fname_en ?? Auth::user()->fname_th ?? 'User' }} {{ Auth::user()->lname_en ?? Auth::user()->lname_th ?? '' }}</p>
+                                <p class="fw-light text-muted mb-0">{{ Auth::user()->email ?? '' }}</p>
                             </div>
-                            <a class="dropdown-item"><i
-                                    class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My
+                            <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My
                                 Profile <span class="badge badge-pill badge-danger">1</span></a>
-                            <a class="dropdown-item"><i
-                                    class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i>
+                            <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i>
                                 Messages</a>
                             <a class="dropdown-item"><i
-                                    class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i>
-                                Activity</a>
-                            <a class="dropdown-item"><i
-                                    class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
+                                    class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
+                            <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i>
                                 FAQ</a>
-                            <a class="dropdown-item"><i
-                                    class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a> -->
+                            <a class="dropdown-item"  href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                                          document.getElementById('logout-form').submit();">
+                            <i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+                        </div> -->
                     <li class="nav-item d-none d-sm-inline-block">
                         <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); 
                         document.getElementById ('logout-form').submit();"> {{ __('Logout') }} <i class="mdi mdi-logout"></i></a>
@@ -270,6 +269,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <span class="menu-title">Manage Expertise</span>
 
                         </a>
+                    </li>
+                    @endcan
+                    
+                    @can('role:admin')
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="collapse" href="#SecurityManagement" aria-expanded="false" aria-controls="SecurityManagement">
+                            <i class="menu-icon mdi mdi-shield-account"></i>
+                            <span class="menu-title">Security Management</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="SecurityManagement">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('admin.security.dashboard') ? 'active' : '' }}" href="{{ route('admin.security.dashboard') }}">
+                                        Security Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('admin.security.events') ? 'active' : '' }}" href="{{ route('admin.security.events') }}">
+                                        Security Events
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ request()->routeIs('admin.security.blocked-ips') ? 'active' : '' }}" href="{{ route('admin.security.blocked-ips') }}">
+                                        Blocked IPs
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
                     @endcan
                 </ul>

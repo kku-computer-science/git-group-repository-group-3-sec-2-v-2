@@ -17,6 +17,8 @@ class Kernel extends ConsoleKernel
         Commands\DemoCron::class,
         // \App\Console\Commands\FetchScopusData::class,
         Commands\ScopusFetchCommand::class,
+        Commands\TestSecuritySystem::class,
+        Commands\ManageBlockedIPs::class,
     ];
      
     /**

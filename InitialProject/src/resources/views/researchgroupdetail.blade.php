@@ -222,6 +222,7 @@
         </div>
 
         <!-- Postdoctoral Researcher -->
+        @if($rg->user->where('pivot.role', 3)->isNotEmpty())
         <h3 class="mt-5">Postdoctoral Researcher</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
             @foreach($rg->user as $r)
@@ -246,15 +247,16 @@
             @endif
             @endforeach
         </div>
+        @endif
 
         <!-- Students -->
+        @php
+        $uniqueStudents = $rg->user->unique('id')->filter(fn($user) => $user->hasRole('student'));
+        @endphp
+        
+        @if($uniqueStudents->isNotEmpty())
         <h3 class="mt-5">Students</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
-            @php
-            $uniqueStudents = $rg->user->unique('id')->filter(function($user) {
-            return $user->hasRole('student');
-            });
-            @endphp
 
             @foreach ($uniqueStudents as $user)
             <div class="col">
@@ -276,16 +278,18 @@
             </div>
             @endforeach
         </div>
+        @endif
 
         <!-- Visiting Scholars -->
+        @if($rg->visitingScholars->isNotEmpty())
         <h3 class="mt-5">Visiting Scholars</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
             @foreach($rg->visitingScholars as $scholar)
             <div class="col">
                 <div class="member-card">
                     <a class="profile-link">
-                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}" 
-                            alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}" 
+                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}"
+                            alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}"
                             class="center-image">
                     </a>
                     <div class="person-info">
@@ -297,6 +301,7 @@
             </div>
             @endforeach
         </div>
+        @endif
 
     </div> <!-- end research-rationale-box -->
 
