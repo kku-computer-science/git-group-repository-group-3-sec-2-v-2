@@ -250,14 +250,13 @@
         @endif
 
         <!-- Students -->
+        @php
+        $uniqueStudents = $rg->user->unique('id')->filter(fn($user) => $user->hasRole('student'));
+        @endphp
+        
         @if($uniqueStudents->isNotEmpty())
         <h3 class="mt-5">Students</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
-            @php
-            $uniqueStudents = $rg->user->unique('id')->filter(function($user) {
-            return $user->hasRole('student');
-            });
-            @endphp
 
             @foreach ($uniqueStudents as $user)
             <div class="col">
