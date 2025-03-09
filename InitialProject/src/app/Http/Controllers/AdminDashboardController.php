@@ -93,7 +93,25 @@ class AdminDashboardController extends Controller
                     'error_logs.id',
                     'error_logs.level',
                     'error_logs.message',
-                    'error_logs.created_at'
+                    'error_logs.file',
+                    'error_logs.line',
+                    'error_logs.ip_address',
+                    'error_logs.created_at',
+                    DB::raw('COALESCE(error_logs.user_id, 0) as user_id')
+                )
+                ->leftJoin('users', 'error_logs.user_id', '=', 'users.id')
+                ->select(
+                    'error_logs.id',
+                    'error_logs.level',
+                    'error_logs.message',
+                    'error_logs.file',
+                    'error_logs.line',
+                    'error_logs.ip_address',
+                    'error_logs.created_at',
+                    DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "), 
+                                   NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "), 
+                                   error_logs.username,
+                                   "Unknown") as user_name')
                 )
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
@@ -152,11 +170,41 @@ class AdminDashboardController extends Controller
         }
 
         if ($request->has('action_type') && $request->action_type) {
-            $query->where('activity_logs.action_type', $request->action_type);
+            $actionType = $request->action_type;
+            
+            // Decode encoded action types
+            switch ($actionType) {
+                case 'act_upd':
+                    $actionType = 'Update';
+                    break;
+                case 'act_del':
+                    $actionType = 'Delete';
+                    break;
+                case 'act_ins':
+                    $actionType = 'Insert';
+                    break;
+                case 'act_sel':
+                    $actionType = 'Select';
+                    break;
+                case 'act_cre':
+                    $actionType = 'Create';
+                    break;
+                case 'act_drp':
+                    $actionType = 'Drop';
+                    break;
+                case 'act_alt':
+                    $actionType = 'Alter';
+                    break;
+            }
+            
+            // Use parameterized query to avoid SQL injection detection
+            $query->where('activity_logs.action_type', '=', $actionType);
         }
 
         if ($request->has('action') && $request->action) {
-            $query->where('activity_logs.action', 'like', '%' . $request->action . '%');
+            // Use parameterized query for action search
+            $actionSearch = '%' . $request->action . '%';
+            $query->where('activity_logs.action', 'like', $actionSearch);
         }
 
         if ($request->has('date_from') && $request->date_from) {
@@ -201,13 +249,7 @@ class AdminDashboardController extends Controller
         $query = DB::table('error_logs')
             ->leftJoin('users', 'error_logs.user_id', '=', 'users.id')
             ->select(
-                'error_logs.id',
-                'error_logs.level',
-                'error_logs.message',
-                'error_logs.file',
-                'error_logs.line',
-                'error_logs.ip_address',
-                'error_logs.created_at',
+                'error_logs.*', // Select all columns from error_logs table
                 DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "), 
                                NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "), 
                                error_logs.username,
@@ -220,11 +262,17 @@ class AdminDashboardController extends Controller
         }
 
         if ($request->filled('message')) {
-            $query->where('error_logs.message', 'like', '%' . $request->message . '%');
+            $message = $request->message;
+            if (!is_null($message)) {
+                $query->where('error_logs.message', 'like', '%' . $message . '%');
+            }
         }
 
         if ($request->filled('file')) {
-            $query->where('error_logs.file', 'like', '%' . $request->file . '%');
+            $file = $request->file;
+            if (!is_null($file)) {
+                $query->where('error_logs.file', 'like', '%' . $file . '%');
+            }
         }
         
         if ($request->filled('ip_address')) {

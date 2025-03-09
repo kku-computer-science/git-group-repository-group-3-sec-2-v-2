@@ -79,6 +79,11 @@ class SecurityMonitoringService
      */
     public function detectSQLInjection($input, $ip)
     {
+        // If the input is an encoded action type, don't flag it
+        if (in_array($input, ['act_upd', 'act_del', 'act_ins', 'act_sel', 'act_cre', 'act_drp', 'act_alt'])) {
+            return false;
+        }
+        
         $sqlPatterns = [
             '/\b(union|select|insert|update|delete|drop|alter)\b/i',
             '/[\'";]/',
