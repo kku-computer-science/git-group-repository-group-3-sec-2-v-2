@@ -13,6 +13,8 @@
         margin: 0 !important;
         width: 100vw !important;
         max-width: 100% !important;
+        overflow-y: hidden;
+        overflow-x: hidden;
     }
 
     .blue-stripe {
