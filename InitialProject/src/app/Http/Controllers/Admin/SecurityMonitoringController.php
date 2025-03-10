@@ -21,86 +21,72 @@ class SecurityMonitoringController extends Controller
         }
         
         try {
-            \Log::info('Security monitoring: fetching failed logins data');
+            \Log::info('Security monitoring: fetching failed logins data for the last 24 hours');
             $labels = [];
             $values = [];
+            $aggregatedData = [];
             
-            // First try to get failed logins grouped by user
-            $userFailedLogins = DB::table('activity_logs')
-                ->leftJoin('users', 'activity_logs.user_id', '=', 'users.id')
-                ->where('activity_logs.action_type', 'failed_login')
-                ->where('activity_logs.created_at', '>=', Carbon::now()->subDay())
+            // Get all failed login attempts from the last 24 hours and aggregate in PHP
+            $failedLogins = DB::table('security_events')
+                ->leftJoin('users', 'security_events.user_id', '=', 'users.id')
+                ->where('security_events.event_type', 'failed_login')
+                ->where('security_events.created_at', '>=', Carbon::now()->subDay()) // Last 24 hours only
                 ->select(
+                    'security_events.id',
+                    'security_events.user_id',
+                    'security_events.request_details',
                     'users.email',
                     'users.fname_en',
-                    'users.lname_en',
-                    'activity_logs.description',
-                    DB::raw('COUNT(*) as count')
+                    'users.lname_en'
                 )
-                ->groupBy('users.id', 'users.email', 'users.fname_en', 'users.lname_en', 'activity_logs.description')
-                ->orderBy('count', 'desc')
-                ->limit(10)
                 ->get();
                 
-            \Log::info('Security monitoring: found ' . count($userFailedLogins) . ' user failed logins');
-
-            // Also get anonymous attempts (no user_id)
-            $anonymousFailedLogins = DB::table('activity_logs')
-                ->whereNull('user_id')
-                ->where('action_type', 'failed_login')
-                ->where('created_at', '>=', Carbon::now()->subDay())
-                ->select(
-                    'description',
-                    DB::raw('COUNT(*) as count')
-                )
-                ->groupBy('description')
-                ->orderBy('count', 'desc')
-                ->limit(5)
-                ->get();
-                
-            \Log::info('Security monitoring: found ' . count($anonymousFailedLogins) . ' anonymous failed logins');
+            \Log::info('Security monitoring: found ' . count($failedLogins) . ' failed login attempts in the last 24 hours');
             
-            // Process user-based failed logins
-            foreach ($userFailedLogins as $login) {
+            // Process all failed logins and aggregate by username/email
+            foreach ($failedLogins as $login) {
                 $userLabel = '';
+                $requestDetails = json_decode($login->request_details, true);
                 
-                // Use the most specific identifier available
-                if (!empty($login->fname_en) && !empty($login->lname_en)) {
-                    $userLabel = $login->fname_en . ' ' . $login->lname_en;
-                } elseif (!empty($login->email)) {
-                    $userLabel = $login->email;
-                } elseif (!empty($login->description)) {
-                    // Try to extract email/username from description
-                    preg_match('/email: ([^\s,]+)/', $login->description, $matches);
-                    if (!empty($matches[1])) {
-                        $userLabel = $matches[1];
+                // For registered users
+                if (!empty($login->user_id)) {
+                    // Use the most specific identifier available
+                    if (!empty($login->fname_en) && !empty($login->lname_en)) {
+                        $userLabel = $login->fname_en . ' ' . $login->lname_en;
+                    } elseif (!empty($login->email)) {
+                        $userLabel = $login->email;
+                    } elseif (!empty($requestDetails['username'])) {
+                        $userLabel = $requestDetails['username'];
                     } else {
-                        $userLabel = 'User #' . substr(md5($login->description), 0, 6);
+                        $userLabel = 'User #' . $login->user_id;
                     }
-                } else {
-                    $userLabel = 'Unknown User';
+                } 
+                // For anonymous users
+                else {
+                    if (!empty($requestDetails['username'])) {
+                        $userLabel = 'Failed: ' . $requestDetails['username'];
+                    } else {
+                        $userLabel = 'Anonymous User';
+                    }
                 }
                 
-                // Truncate long labels
-                $labels[] = strlen($userLabel) > 20 ? substr($userLabel, 0, 17) . '...' : $userLabel;
-                $values[] = (int) $login->count;
+                // Add to aggregated data
+                if (isset($aggregatedData[$userLabel])) {
+                    $aggregatedData[$userLabel]++;
+                } else {
+                    $aggregatedData[$userLabel] = 1;
+                }
             }
             
-            // Process anonymous login attempts
-            foreach ($anonymousFailedLogins as $login) {
-                $ipAddress = '';
-                
-                // Try to extract IP from description
-                if (!empty($login->description)) {
-                    preg_match('/IP: ([0-9\.]+)/', $login->description, $matches);
-                    if (!empty($matches[1])) {
-                        $ipAddress = $matches[1];
-                    }
-                }
-                
-                $label = !empty($ipAddress) ? 'Anonymous (' . $ipAddress . ')' : 'Anonymous User';
+            // Sort by count (highest first) and limit to top 15
+            arsort($aggregatedData);
+            $aggregatedData = array_slice($aggregatedData, 0, 15, true);
+            
+            // Convert to chart format
+            foreach ($aggregatedData as $label => $count) {
+                // Truncate long labels
                 $labels[] = strlen($label) > 20 ? substr($label, 0, 17) . '...' : $label;
-                $values[] = (int) $login->count;
+                $values[] = $count;
             }
             
             // If no data found, provide sample data

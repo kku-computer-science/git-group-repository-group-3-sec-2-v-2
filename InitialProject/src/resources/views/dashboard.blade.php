@@ -780,7 +780,7 @@
                     <!-- API & Request Monitoring -->
                     <div class="row mb-4">
                         <div class="col-12">
-                            <h5 class="mb-3">API & Request Monitoring</h5>
+                            <h5 class="mb-3">Blocked Requests</h5>
                         </div>
                         <div class="col-md-12">
                             <div class="security-dashboard-card">
