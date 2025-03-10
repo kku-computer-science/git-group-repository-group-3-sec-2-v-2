@@ -333,12 +333,6 @@
         margin-bottom: 20px;
     }
 
-    .gauge-container {
-        position: relative;
-        height: 200px;
-        margin-bottom: 20px;
-    }
-
     .security-dashboard-card {
         background: white;
         border-radius: 10px;
@@ -398,7 +392,241 @@
         border-radius: 5px;
         margin-bottom: 15px;
     }
+
+    /* Security Dashboard Styles */
+    .security-dashboard-card {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+        overflow: hidden;
+    }
+    
+    .security-dashboard-card .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #eee;
+        padding: 15px 20px;
+    }
+    
+    .security-dashboard-card .card-header h6 {
+        margin: 0;
+        font-weight: 600;
+        font-size: 16px;
+    }
+    
+    .security-dashboard-card .card-header .card-subtitle {
+        color: #6c757d;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+    
+    .security-dashboard-card .card-body {
+        padding: 20px;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        margin-bottom: 10px;
+    }
+    
+    .chart-loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.8);
+        z-index: 10;
+        font-size: 16px;
+    }
+    
+    .chart-loader i {
+        margin-right: 10px;
+        font-size: 24px;
+        color: #3f51b5;
+    }
+    
+    .security-stats .stat-card {
+        background: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .security-stat-card {
+        display: flex;
+        align-items: center;
+        background: #fff;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+    
+    .security-stat-card .stat-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 15px;
+        flex-shrink: 0;
+    }
+    
+    .security-stat-card .stat-icon i {
+        font-size: 24px;
+        color: #fff;
+    }
+    
+    .security-stat-card .stat-details {
+        flex-grow: 1;
+    }
+    
+    .security-stat-card .stat-value {
+        font-size: 24px;
+        font-weight: 600;
+        margin: 0;
+    }
+    
+    .security-stat-card .stat-label {
+        margin: 0;
+        color: #6c757d;
+        font-size: 14px;
+    }
+    
+    .search-filter-container {
+        margin-bottom: 20px;
+    }
+    
+    .security-table-container {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .bg-danger-light {
+        background-color: rgba(255, 99, 132, 0.1);
+    }
+    
+    .bg-warning-light {
+        background-color: rgba(255, 206, 86, 0.1);
+    }
+    
+    .bg-info-light {
+        background-color: rgba(54, 162, 235, 0.1);
+    }
+    
+    .bg-success-light {
+        background-color: rgba(75, 192, 192, 0.1);
+    }
+    
+    .security-icon {
+        margin-right: 5px;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 767px) {
+        .chart-container {
+            height: 250px;
+        }
+        
+        .security-stat-card {
+            padding: 10px;
+        }
+        
+        .security-stat-card .stat-icon {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .security-stat-card .stat-value {
+            font-size: 20px;
+        }
+    }
+
+    /* Additional styles for gauge charts */
+    .gauge-row {
+        margin-top: 20px;
+    }
+    
+    /* Override Chart.js styles if needed */
+    canvas#cpuGauge, canvas#memoryGauge, canvas#diskGauge {
+        transform: translateY(-40px); /* Adjust positioning to show semi-circle */
+    }
+    
+    /* Responsive styles for gauge charts */
+    @media (max-width: 767px) {
+        .gauge-container {
+            height: 150px;
+        }
+    }
+
+    /* Styles for security dashboard charts */
+    .security-dashboard-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .security-dashboard-card .card-header {
+        background-color: rgba(0, 0, 0, 0.03);
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .security-dashboard-card .card-body {
+        padding: 1.25rem;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+        min-height: 300px;
+    }
+    
+    .chart-loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: 1.2rem;
+        color: #6c757d;
+    }
+    
+    .chart-loader i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        display: block;
+    }
+    
+    /* Alert styles for chart errors */
+    .chart-container .alert {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        text-align: center;
+    }
 </style>
+
+<!-- Make sure Chart.js is loaded -->
+<script>
+    // Check if Chart.js is already loaded
+    if (typeof Chart === 'undefined') {
+        console.log('Chart.js not detected, loading it now...');
+        document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"><\/script>');
+    }
+</script>
 
 @section('content')
 <div class="dashboard-container">
@@ -435,93 +663,57 @@
                 </div>
                 
                 <div class="card-body">
-                    <!-- 1. Security Overview Section -->
-                    <div class="row mb-4">
-                        <div class="col-12">
-                            <h5 class="mb-3">Security Overview</h5>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="security-dashboard-card">
-                                <div class="card-header">
-                                    <h6 class="card-title">Total Security Alerts</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="security-number-display">
-                                        <div class="number">{{ $securityStats['total_monitoring'] ?? 0 }}</div>
-                                        <div class="label">Total alerts in the system</div>
+                    <!-- Security Stats -->
+                    <div class="security-stats mb-4">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="security-stat-card bg-danger-light">
+                                    <div class="stat-icon bg-danger">
+                                        <i class="mdi mdi-shield-alert"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 class="stat-value text-danger" data-stat-type="failed_logins">{{ $securityStats['failed_logins'] ?? 0 }}</h3>
+                                        <p class="stat-label">Failed Logins (24h)</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="security-dashboard-card">
-                                <div class="card-header">
-                                    <h6 class="card-title">Blocked IPs</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="security-number-display">
-                                        <div class="number">{{ $securityStats['suspicious_ips'] ?? 0 }}</div>
-                                        <div class="label">Currently blocked IP addresses</div>
+                            <div class="col-md-3">
+                                <div class="security-stat-card bg-warning-light">
+                                    <div class="stat-icon bg-warning">
+                                        <i class="mdi mdi-ip-network"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 class="stat-value text-warning" data-stat-type="suspicious_ips">{{ $securityStats['suspicious_ips'] ?? 0 }}</h3>
+                                        <p class="stat-label">Suspicious IPs</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="security-dashboard-card">
-                                <div class="card-header">
-                                    <h6 class="card-title">Suspicious Login Attempts</h6>
-                                </div>
-                                <div class="card-body">
-                                    <div class="security-number-display">
-                                        <div class="number">{{ $securityStats['failed_logins'] ?? 0 }}</div>
-                                        <div class="label">Failed login attempts (24h)</div>
+                            <div class="col-md-3">
+                                <div class="security-stat-card bg-info-light">
+                                    <div class="stat-icon bg-info">
+                                        <i class="mdi mdi-shield-check"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 class="stat-value text-info" data-stat-type="blocked_attempts">{{ $securityStats['blocked_attempts'] ?? 0 }}</h3>
+                                        <p class="stat-label">Blocked Attempts</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- 2. User Authentication Monitoring -->
-                    <div class="row mb-4">
-                        <div class="col-12">
-                            <h5 class="mb-3">User Authentication Monitoring</h5>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="security-dashboard-card">
-                                <div class="card-header">
-                                    <h6 class="card-title">Failed Logins (Brute Force Indicator)</h6>
-                                    <div class="card-subtitle">Failed login attempts per user</div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-container">
-                                        <canvas id="failedLoginsChart"></canvas>
+                            <div class="col-md-3">
+                                <div class="security-stat-card bg-success-light">
+                                    <div class="stat-icon bg-success">
+                                        <i class="mdi mdi-chart-line"></i>
+                                    </div>
+                                    <div class="stat-details">
+                                        <h3 class="stat-value text-success" data-stat-type="total_monitoring">{{ $securityStats['total_monitoring'] ?? 0 }}</h3>
+                                        <p class="stat-label">Monitored Events</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <!-- 3. API & Request Monitoring -->
-                    <div class="row mb-4">
-                        <div class="col-12">
-                            <h5 class="mb-3">API & Request Monitoring</h5>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="security-dashboard-card">
-                                <div class="card-header">
-                                    <h6 class="card-title">Blocked Requests (WAF Rules)</h6>
-                                    <div class="card-subtitle">Types of blocked requests</div>
-                                </div>
-                                <div class="card-body">
-                                    <div class="chart-container">
-                                        <canvas id="blockedRequestsChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 4. Incident & Threat Detection Logs -->
+                    <!-- Incident & Threat Detection Logs -->
                     <div class="row mb-4">
                         <div class="col-12">
                             <h5 class="mb-3">Incident & Threat Detection Logs</h5>
@@ -581,7 +773,6 @@
                                                     <td>
                                                         @if($event->user_id)
                                                             @php
-                                                                // Avoid querying the database inside a loop - this can cause memory issues
                                                                 $username = 'Unknown';
                                                                 if (isset($event->user)) {
                                                                     $user = $event->user;
@@ -607,7 +798,7 @@
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#securityModal{{ $event->id }}">
+                                                        <button type="button" class="btn btn-sm btn-info view-security-event-btn" data-event-id="{{ $event->id }}">
                                                             <i class="mdi mdi-information-outline"></i>
                                                         </button>
                                                         @if($event->threat_level === 'high' && !in_array($event->ip_address, Cache::get('blocked_ips', [])))
@@ -627,37 +818,65 @@
                         </div>
                     </div>
 
-                    <!-- 5. Performance Monitoring -->
-                    <div class="row">
+                    <!-- User Authentication Monitoring -->
+                    <div class="row mb-4">
                         <div class="col-12">
-                            <h5 class="mb-3">Performance Monitoring</h5>
+                            <h5 class="mb-3">User Authentication Monitoring</h5>
                         </div>
                         <div class="col-md-12">
                             <div class="security-dashboard-card">
                                 <div class="card-header">
-                                    <h6 class="card-title">Current System Load</h6>
-                                    <div class="card-subtitle">CPU, Memory, Disk Usage</div>
+                                    <h6 class="card-title">Failed Logins (Brute Force Indicator)</h6>
+                                    <div class="card-subtitle">Failed login attempts per user (Last 24 hours)</div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <div class="gauge-container">
-                                                <canvas id="cpuGauge"></canvas>
-                                                <div class="text-center mt-2">CPU Usage</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="gauge-container">
-                                                <canvas id="memoryGauge"></canvas>
-                                                <div class="text-center mt-2">Memory Usage</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-4">
-                                            <div class="gauge-container">
-                                                <canvas id="diskGauge"></canvas>
-                                                <div class="text-center mt-2">Disk Usage</div>
-                                            </div>
-                                        </div>
+                                    <div class="chart-container">
+                                        <canvas id="failedLoginsChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- API & Request Monitoring -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="mb-3">Blocked Requests</h5>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="security-dashboard-card">
+                                <div class="card-header">
+                                    <h6 class="card-title">Blocked Requests (WAF Rules)</h6>
+                                    <div class="card-subtitle">Types of blocked requests</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="blockedRequestsChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Events Overview -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="mb-3 d-flex justify-content-between align-items-center">
+                                Security Events Overview
+                                <button class="btn btn-sm btn-outline-primary refresh-security-events-btn">
+                                    <i class="mdi mdi-refresh mr-1"></i> Refresh
+                                </button>
+                            </h5>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="security-dashboard-card">
+                                <div class="card-header">
+                                    <h6 class="card-title">Security Events by Type</h6>
+                                    <div class="card-subtitle">Distribution of security events in the last 24 hours</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="securityEventsChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -670,6 +889,14 @@
 
     <!-- Admin Stats -->
     <div class="row">
+        <div class="col-12 mb-4">
+            <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">System Overview</h4>
+                <a href="{{ route('admin.system') }}" class="btn btn-primary btn-sm">
+                    <i class="mdi mdi-information-outline mr-1"></i> View All System Info
+                </a>
+            </div>
+        </div>
         <div class="col-xl-3 col-md-6">
             <div class="stat-card">
                 <div class="stat-icon bg-primary">
@@ -712,209 +939,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Security Monitoring Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <div class="content-card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-subtitle mb-2">Security</h6>
-                        <h3 class="card-title">Security Monitoring Dashboard</h3>
-                    </div>
-                    <div class="btn-group">
-                        <a href="{{ route('admin.security.events') }}" class="btn btn-primary btn-sm">
-                            <i class="mdi mdi-format-list-bulleted"></i> View Events
-                        </a>
-                        <a href="{{ route('admin.security.blocked-ips') }}" class="btn btn-danger btn-sm">
-                            <i class="mdi mdi-shield-lock"></i> Manage Blocked IPs
-                        </a>
-                        <button class="btn btn-secondary btn-sm" onclick="refreshSecurityData()">
-                            <i class="mdi mdi-refresh"></i> Refresh
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="card-body">
-                    <!-- Security Stats -->
-                    <div class="security-stats mb-4">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="security-stat-card bg-danger-light">
-                                    <div class="stat-icon bg-danger">
-                                        <i class="mdi mdi-shield-alert"></i>
-                                    </div>
-                                    <div class="stat-details">
-                                        <h3 class="stat-value text-danger">{{ $securityStats['failed_logins'] ?? 0 }}</h3>
-                                        <p class="stat-label">Failed Logins (24h)</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="security-stat-card bg-warning-light">
-                                    <div class="stat-icon bg-warning">
-                                        <i class="mdi mdi-ip-network"></i>
-                                    </div>
-                                    <div class="stat-details">
-                                        <h3 class="stat-value text-warning">{{ $securityStats['suspicious_ips'] ?? 0 }}</h3>
-                                        <p class="stat-label">Suspicious IPs</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="security-stat-card bg-info-light">
-                                    <div class="stat-icon bg-info">
-                                        <i class="mdi mdi-shield-check"></i>
-                                    </div>
-                                    <div class="stat-details">
-                                        <h3 class="stat-value text-info">{{ $securityStats['blocked_attempts'] ?? 0 }}</h3>
-                                        <p class="stat-label">Blocked Attempts</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="security-stat-card bg-success-light">
-                                    <div class="stat-icon bg-success">
-                                        <i class="mdi mdi-chart-line"></i>
-                                    </div>
-                                    <div class="stat-details">
-                                        <h3 class="stat-value text-success">{{ $securityStats['total_monitoring'] ?? 0 }}</h3>
-                                        <p class="stat-label">Monitored Events</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Recent Security Events -->
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Time</th>
-                                    <th>Event Type</th>
-                                    <th>User/IP</th>
-                                    <th>Details</th>
-                                    <th>Threat Level</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($securityEvents ?? [] as $event)
-                                <tr>
-                                    <td>{{ $event->created_at ? \Carbon\Carbon::parse($event->created_at)->diffForHumans() : 'N/A' }}</td>
-                                    <td>
-                                        <i class="mdi {{ $event->icon_class }} security-icon"></i>
-                                        {{ ucwords(str_replace('_', ' ', $event->event_type)) }}
-                                    </td>
-                                    <td>
-                                        @if($event->user_id)
-                                            @php
-                                                // Avoid querying the database inside a loop - this can cause memory issues
-                                                $username = 'Unknown';
-                                                if (isset($event->user)) {
-                                                    $user = $event->user;
-                                                    if ($user->fname_en && $user->lname_en) {
-                                                        $username = $user->fname_en . ' ' . $user->lname_en;
-                                                    } elseif ($user->fname_th && $user->lname_th) {
-                                                        $username = $user->fname_th . ' ' . $user->lname_th;
-                                                    } elseif ($user->email) {
-                                                        $username = $user->email;
-                                                    }
-                                                }
-                                            @endphp
-                                            {{ $username }}<br>
-                                            <small class="text-muted">{{ $event->ip_address }}</small>
-                                        @else
-                                            {{ $event->ip_address }}
-                                        @endif
-                                    </td>
-                                    <td>{{ Str::limit($event->details ?? 'No details available', 50) }}</td>
-                                    <td>
-                                        <span class="badge badge-{{ $event->threat_level === 'high' ? 'danger' : ($event->threat_level === 'medium' ? 'warning' : 'info') }}">
-                                            {{ ucfirst($event->threat_level) }}
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#securityModal{{ $event->id }}">
-                                            <i class="mdi mdi-information-outline"></i>
-                                        </button>
-                                        @if($event->threat_level === 'high' && !in_array($event->ip_address, Cache::get('blocked_ips', [])))
-                                        <button type="button" class="btn btn-sm btn-danger block-ip-btn" 
-                                                data-ip="{{ $event->ip_address }}">
-                                            <i class="mdi mdi-shield-lock"></i>
-                                        </button>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Add the security event modals after the table section -->
-    @foreach($securityEvents ?? [] as $event)
-    <div class="modal fade" id="securityModal{{ $event->id }}" tabindex="-1" role="dialog" aria-labelledby="securityModalLabel{{ $event->id }}" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="securityModalLabel{{ $event->id }}">Security Event Details</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <p><strong>Time:</strong> {{ $event->created_at ? \Carbon\Carbon::parse($event->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
-                            <p><strong>Event Type:</strong> {{ ucwords(str_replace('_', ' ', $event->event_type)) }}</p>
-                            <p><strong>IP Address:</strong> {{ $event->ip_address }}</p>
-                            <p><strong>User:</strong> 
-                                @php
-                                    // Avoid querying the database inside a loop - this can cause memory issues
-                                    $username = 'Unknown';
-                                    if (isset($event->user)) {
-                                        $user = $event->user;
-                                        if ($user->fname_en && $user->lname_en) {
-                                            $username = $user->fname_en . ' ' . $user->lname_en;
-                                        } elseif ($user->fname_th && $user->lname_th) {
-                                            $username = $user->fname_th . ' ' . $user->lname_th;
-                                        } elseif ($user->email) {
-                                            $username = $user->email;
-                                        }
-                                    }
-                                @endphp
-                                {{ $username }}
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <p><strong>Threat Level:</strong> 
-                                <span class="badge {{ $event->getThreatLevelClass() }}">
-                                    {{ $event->threat_level }}
-                                </span>
-                            </p>
-                            <p><strong>Details:</strong> {{ $event->details }}</p>
-                            <p><strong>User Agent:</strong> {{ $event->user_agent ?? 'Unknown' }}</p>
-                            <p><strong>Location:</strong> {{ $event->location ?? 'Unknown' }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    @if($event->threat_level === 'high' && !in_array($event->ip_address, Cache::get('blocked_ips', [])))
-                    <button type="button" class="btn btn-danger block-ip-btn" data-ip="{{ $event->ip_address }}">
-                        Block IP
-                    </button>
-                    @endif
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    @endforeach
 
     <!-- Activity & Error Logs -->
     <div class="row">
@@ -1006,7 +1030,7 @@
             <div class="content-card">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <div>
-                        <h6 class="card-subtitle">System</h6>
+                        <h6 class="card-subtitle mb-2">System</h6>
                         <h3 class="card-title">Error Logs</h3>
                     </div>
                     <div class="d-flex align-items-center">
@@ -1027,13 +1051,18 @@
                         <tbody>
                             @foreach($errorLogs as $error)
                             <tr>
-                                <td>{{ \Carbon\Carbon::parse($error->created_at ?? now())->format('Y-m-d H:i') }}</td>
+                                <td>{{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->diffForHumans() : 'N/A' }}</td>
                                 <td>
                                     <span class="badge {{ ($error->level ?? 'info') == 'error' ? 'bg-danger text-white' : (($error->level ?? 'info') == 'warning' ? 'bg-warning text-dark' : 'bg-info text-white') }}">
                                         {{ ucfirst($error->level ?? 'info') }}
                                     </span>
                                 </td>
-                                <td>{{ Str::limit($error->message ?? 'No message available', 40) }}</td>
+                                <td>
+                                    @php
+                                        $message = $error->message ?? 'No message available';
+                                    @endphp
+                                    {{ Str::limit($message, 30) }}
+                                </td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
                                         <i class="mdi mdi-information-outline"></i>
@@ -1057,7 +1086,7 @@
                                                                     {{ ucfirst($error->level ?? 'info') }}
                                                                 </span>
                                                             </p>
-                                                            <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($error->created_at ?? now())->format('Y-m-d H:i:s') }}</p>
+                                                            <p><strong>Time:</strong> {{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
                                                             <p><strong>File:</strong> {{ $error->file ?? 'Unknown' }}</p>
                                                             <p><strong>Line:</strong> {{ $error->line ?? 'Unknown' }}</p>
                                                             <p><strong>User:</strong> {{ $error->user_name ?? 'Unknown' }}</p>
@@ -1065,12 +1094,16 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <p><strong>Message:</strong></p>
-                                                            <div class="mb-3 bg-light border rounded p-3" style="word-break: break-word; max-height: 100px; overflow-y: auto;">
+                                                            <div class="mb-3 bg-light border rounded"
+                                                                style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px;
+                                                                        overflow-y: auto; text-align: left; padding: 1rem;">
                                                                 {{ $error->message ?? 'No message available' }}
                                                             </div>
                                                             
                                                             <p><strong>Stack Trace:</strong></p>
-                                                            <div class="bg-light border rounded p-3" style="font-size: 0.8rem; max-height: 200px; overflow-y: auto;">
+                                                            <div class="bg-light border rounded"
+                                                                style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 200px;
+                                                                        overflow-y: auto; text-align: left; padding: 1rem; font-size: 0.8rem;">
                                                                 <pre style="white-space: pre-wrap; margin-bottom: 0;">{{ $error->stack_trace ?? 'No stack trace available' }}</pre>
                                                             </div>
                                                         </div>
@@ -1194,7 +1227,13 @@
 <!-- Add JavaScript for Security Dashboard -->
 <script>
 $(document).ready(function() {
-    console.log('Dashboard initialized');
+    // Check if Chart.js is loaded
+    if (typeof Chart === 'undefined') {
+        $('.chart-container').each(function() {
+            $(this).html('<div class="alert alert-danger">Chart.js library not found. Please refresh the page or contact administrator.</div>');
+        });
+        return;
+    }
     
     // Add event handlers for security buttons
     $('.block-ip-btn').on('click', function() {
@@ -1204,13 +1243,112 @@ $(document).ready(function() {
 
     // Initialize security event table filters
     initSecurityEventFilters();
-    
-    // Initialize charts
     initSecurityCharts();
+    
+    // Add a click handler for the manual refresh button
+    $('.refresh-security-btn').on('click', function(e) {
+        e.preventDefault();
+        refreshSecurityCharts();
+    });
+    
+    // Add event handler for security events refresh button
+    $('.refresh-security-events-btn').on('click', function(e) {
+        e.preventDefault();
+        initSecurityEventsChart();
+    });
 });
 
-function refreshSecurityData() {
-    location.reload();
+function initSecurityCharts() {
+    initFailedLoginsChart();
+    initBlockedRequestsChart();
+    initSecurityEventsChart();
+    setInterval(refreshSecurityCharts, 300000);
+}
+
+function initFailedLoginsChart() {
+    var ctx = document.getElementById('failedLoginsChart');
+    if (!ctx) return;
+    
+    var container = $(ctx).parent();
+    container.find('.chart-loader').remove();
+    container.append('<div class="chart-loader"><i class="mdi mdi-loading mdi-spin"></i> Loading data...</div>');
+    
+    if (window.failedLoginsChart && typeof window.failedLoginsChart.destroy === 'function') {
+        window.failedLoginsChart.destroy();
+        window.failedLoginsChart = null;
+    }
+    
+    $.ajax({
+        url: '/admin/security/failed-logins-data',
+        type: 'GET',
+        success: function(response) {
+            container.find('.chart-loader').remove();
+            
+            if (!response || !response.data || !Array.isArray(response.data.labels) || !Array.isArray(response.data.values)) {
+                container.html('<div class="alert alert-warning">Could not load failed login data. Invalid format received.</div>');
+                return;
+            }
+            
+            var chartData = {
+                labels: response.data.labels.length > 0 ? response.data.labels : ['No failed login attempts'],
+                values: response.data.values.length > 0 ? response.data.values : [0]
+            };
+            
+            try {
+                window.failedLoginsChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            label: 'Failed Login Attempts',
+                            data: chartData.values,
+                            backgroundColor: 'rgba(255, 99, 132, 0.7)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Number of Failed Attempts'
+                                }
+                            },
+                            x: {
+                                ticks: {
+                                    maxRotation: 45,
+                                    minRotation: 45
+                                }
+                            }
+                        },
+                        plugins: {
+                            tooltip: {
+                                mode: 'index',
+                                intersect: false
+                            },
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+                
+                if (chartData.values.length === 1 && chartData.values[0] === 0) {
+                    container.append('<div class="alert alert-info mt-3">No failed login attempts detected in the last 24 hours.</div>');
+                }
+            } catch (e) {
+                container.html('<div class="alert alert-danger">Error creating chart: ' + e.message + '</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            container.find('.chart-loader').remove();
+            container.html('<div class="alert alert-danger">Failed to load login data: ' + error + '</div>');
+        }
+    });
 }
 
 function blockIP(ip) {
@@ -1311,75 +1449,6 @@ function filterSecurityEvents() {
     });
 }
 
-function initSecurityCharts() {
-    // Initialize all security monitoring charts
-    initFailedLoginsChart();
-    initBlockedRequestsChart();
-    initSystemLoadGauges();
-    
-    // Set up auto-refresh for charts
-    setInterval(function() {
-        refreshSecurityCharts();
-    }, 60000); // Refresh every minute
-}
-
-function initFailedLoginsChart() {
-    var ctx = document.getElementById('failedLoginsChart');
-    if (!ctx) return;
-    
-    // Fetch real data from the server
-    $.ajax({
-        url: '/admin/security/failed-logins-data',
-        type: 'GET',
-        success: function(response) {
-            var data = response.data || {
-                labels: ['Last 24h', 'Last 48h', 'Last 72h', 'Last Week'],
-                values: [15, 25, 40, 65]
-            };
-            
-            window.failedLoginsChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: data.labels,
-                    datasets: [{
-                        label: 'Failed Login Attempts',
-                        data: data.values,
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                        tension: 0.4,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Number of Attempts'
-                            }
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            mode: 'index',
-                            intersect: false
-                        },
-                        legend: {
-                            position: 'top'
-                        }
-                    }
-                }
-            });
-        },
-        error: function(xhr, status, error) {
-            console.error('Error fetching failed logins data:', error);
-        }
-    });
-}
-
 function initBlockedRequestsChart() {
     var ctx = document.getElementById('blockedRequestsChart');
     if (!ctx) return;
@@ -1426,68 +1495,6 @@ function initBlockedRequestsChart() {
     });
 }
 
-function initSystemLoadGauges() {
-    // Initialize system load gauges with real-time data
-    $.ajax({
-        url: '/admin/security/system-load-data',
-        type: 'GET',
-        success: function(response) {
-            var data = response.data || {
-                cpu: 45,
-                memory: 60,
-                disk: 75
-            };
-            
-            createGaugeChart('cpuGauge', 'CPU Usage', data.cpu, 'rgba(255, 99, 132, 1)');
-            createGaugeChart('memoryGauge', 'Memory Usage', data.memory, 'rgba(54, 162, 235, 1)');
-            createGaugeChart('diskGauge', 'Disk Usage', data.disk, 'rgba(75, 192, 192, 1)');
-        },
-        error: function(xhr, status, error) {
-            console.error('Error fetching system load data:', error);
-            // Initialize with default values if error occurs
-            createGaugeChart('cpuGauge', 'CPU Usage', 0, 'rgba(255, 99, 132, 1)');
-            createGaugeChart('memoryGauge', 'Memory Usage', 0, 'rgba(54, 162, 235, 1)');
-            createGaugeChart('diskGauge', 'Disk Usage', 0, 'rgba(75, 192, 192, 1)');
-        }
-    });
-}
-
-function refreshSecurityCharts() {
-    // Refresh all charts with new data
-    $.ajax({
-        url: '/admin/security/dashboard-data',
-        type: 'GET',
-        success: function(response) {
-            // Update failed logins chart
-            if (window.failedLoginsChart && response.failedLogins) {
-                window.failedLoginsChart.data.labels = response.failedLogins.labels;
-                window.failedLoginsChart.data.datasets[0].data = response.failedLogins.values;
-                window.failedLoginsChart.update();
-            }
-            
-            // Update blocked requests chart
-            if (window.blockedRequestsChart && response.blockedRequests) {
-                window.blockedRequestsChart.data.labels = response.blockedRequests.labels;
-                window.blockedRequestsChart.data.datasets[0].data = response.blockedRequests.values;
-                window.blockedRequestsChart.update();
-            }
-            
-            // Update system load gauges
-            if (response.systemLoad) {
-                createGaugeChart('cpuGauge', 'CPU Usage', response.systemLoad.cpu, 'rgba(255, 99, 132, 1)');
-                createGaugeChart('memoryGauge', 'Memory Usage', response.systemLoad.memory, 'rgba(54, 162, 235, 1)');
-                createGaugeChart('diskGauge', 'Disk Usage', response.systemLoad.disk, 'rgba(75, 192, 192, 1)');
-            }
-            
-            // Update security stats
-            updateSecurityStats(response.securityStats);
-        },
-        error: function(xhr, status, error) {
-            console.error('Error refreshing security dashboard:', error);
-        }
-    });
-}
-
 function updateSecurityStats(stats) {
     if (!stats) return;
     
@@ -1500,68 +1507,444 @@ function updateSecurityStats(stats) {
     });
 }
 
-function createGaugeChart(canvasId, label, value, color) {
-    var ctx = document.getElementById(canvasId);
-    if (!ctx) return;
-    
-    // Destroy existing chart if it exists
-    if (window[canvasId + 'Chart']) {
-        window[canvasId + 'Chart'].destroy();
-    }
-    
-    window[canvasId + 'Chart'] = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-            labels: [label, ''],
-            datasets: [{
-                data: [value, 100 - value],
-                backgroundColor: [color, 'rgba(200, 200, 200, 0.2)'],
-                borderWidth: 0
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            circumference: 180,
-            rotation: -90,
-            cutout: '75%',
-            plugins: {
-                legend: {
-                    display: false
-                },
-                tooltip: {
-                    enabled: false
-                }
-            }
-        },
-        plugins: [{
-            id: 'gaugeText',
-            afterDraw: function(chart) {
-                var width = chart.width;
-                var height = chart.height;
-                var ctx = chart.ctx;
-                
-                ctx.restore();
-                ctx.font = '1.5rem sans-serif';
-                ctx.textBaseline = 'middle';
-                ctx.textAlign = 'center';
-                
-                var text = Math.round(value) + '%';
-                var textX = width / 2;
-                var textY = height - (height / 4);
-                
-                ctx.fillStyle = color;
-                ctx.fillText(text, textX, textY);
-                ctx.save();
-            }
-        }]
-    });
-}
-
 // Initialize tooltips and popovers
 $(function () {
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();
 });
+
+// Update blocked requests chart with new data
+function updateBlockedRequestsChart(data) {
+    if (!window.blockedRequestsChart) {
+        initBlockedRequestsChart();
+        return;
+    }
+    
+    // Update chart data
+    window.blockedRequestsChart.data.labels = data.labels;
+    window.blockedRequestsChart.data.datasets[0].data = data.values;
+    window.blockedRequestsChart.update();
+}
+
+function refreshSecurityCharts() {
+    initFailedLoginsChart();
+    initBlockedRequestsChart();
+    initSecurityEventsChart();
+}
+
+function refreshSecurityData() {
+    // Show loading indicator
+    $('.chart-container').each(function() {
+        $(this).find('.chart-loader').remove();
+        $(this).append('<div class="chart-loader"><i class="mdi mdi-loading mdi-spin"></i> Loading data...</div>');
+    });
+    
+    console.log('Refreshing security dashboard data...');
+    
+    // Fetch all charts data at once
+    $.ajax({
+        url: '/admin/security/dashboard-data',
+        type: 'GET',
+        success: function(response) {
+            $('.chart-loader').remove();
+            console.log('Got dashboard data:', response);
+            
+            // Update security stats
+            if (response.securityStats) {
+                updateSecurityStats(response.securityStats);
+            }
+            
+            // Refresh all charts
+            refreshSecurityCharts();
+            
+            // Reinitialize modals after AJAX updates
+            setTimeout(function() {
+                setupSecurityEventModals();
+            }, 500);
+        },
+        error: function(xhr, status, error) {
+            $('.chart-loader').remove();
+            console.error('Error refreshing security data:', error);
+        }
+    });
+}
+
+function setupSecurityEventModals() {
+    // Initialize modals
+    if (typeof $.fn.modal === 'function') {
+        $('.security-event-modal').modal({
+            show: false
+        });
+    }
+    
+    // Add click handler for info buttons
+    $('.view-security-event-btn').off('click').on('click', function(e) {
+        e.preventDefault();
+        var eventId = $(this).data('event-id');
+        $('#securityModal' + eventId).modal('show');
+    });
+    
+    // Add click handler for close buttons
+    $('.close-modal-btn').off('click').on('click', function(e) {
+        e.preventDefault();
+        $(this).closest('.modal').modal('hide');
+    });
+    
+    // Also handle the X button and backdrop clicks
+    $('.modal .close').off('click').on('click', function(e) {
+        e.preventDefault();
+        $(this).closest('.modal').modal('hide');
+    });
+}
+
+$(document).ready(function() {
+    setupSecurityEventModals();
+});
+
+// Initialize security events chart
+function initSecurityEventsChart() {
+    $('#securityEventsChart').parent().find('.chart-loader').remove();
+    $('#securityEventsChart').parent().append('<div class="chart-loader"><i class="mdi mdi-loading mdi-spin"></i> Loading security events data...</div>');
+    
+    var useSampleData = false;
+    var baseUrl = $('meta[name="base-url"]').attr('content') || '';
+    var showAllData = true;
+    var endpoint = baseUrl + '/admin/security/events-by-type-data';
+    
+    if (showAllData) {
+        endpoint += '?all=1';
+    }
+    
+    $.ajax({
+        url: endpoint,
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        success: function(response) {
+            if (response.success) {
+                if (response.data.labels && response.data.labels.length > 0) {
+                    $('#securityEventsChart').parent().find('.chart-loader').remove();
+                    updateSecurityEventsChart(response.data);
+                } else {
+                    $('#securityEventsChart').parent().find('.chart-loader').remove();
+                    $('#securityEventsChart').parent().append('<div class="alert alert-info">No security events recorded in the last 24 hours.</div>');
+                    
+                    updateSecurityEventsChart({
+                        labels: ['No Security Events'],
+                        values: [0],
+                        colors: ['#6c757d']
+                    });
+                }
+            } else {
+                $('#securityEventsChart').parent().find('.chart-loader').remove();
+                $('#securityEventsChart').parent().append('<div class="alert alert-danger">Failed to load security events data.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            $('#securityEventsChart').parent().find('.chart-loader').remove();
+            $('#securityEventsChart').parent().append('<div class="alert alert-danger">Failed to load security events data. Error: ' + error + '</div>');
+        }
+    });
+}
+
+function updateSecurityEventsChart(data) {
+    var ctx = document.getElementById('securityEventsChart');
+    
+    if (!ctx) return;
+    
+    var chartContext = ctx.getContext('2d');
+    
+    if (window.securityEventsChart && typeof window.securityEventsChart.destroy === 'function') {
+        window.securityEventsChart.destroy();
+    } else if (window.securityEventsChart) {
+        window.securityEventsChart = null;
+    }
+    
+    var backgroundColors = data.colors || Array(data.values.length).fill('#007bff');
+    var borderColors = data.colors || Array(data.values.length).fill('#007bff');
+    
+    try {
+        var backgroundColorsWithOpacity = [];
+        
+        for (var i = 0; i < backgroundColors.length; i++) {
+            var color = backgroundColors[i];
+            if (typeof color === 'string') {
+                if (color.startsWith('#')) {
+                    backgroundColorsWithOpacity.push(hexToRgba(color, 0.7));
+                } else {
+                    backgroundColorsWithOpacity.push(color.replace(')', ', 0.7)').replace('rgb', 'rgba'));
+                }
+            } else {
+                backgroundColorsWithOpacity.push('#007bff80');
+            }
+        }
+        
+        if (!data.sorted) {
+            var pairs = [];
+            for (var i = 0; i < data.labels.length; i++) {
+                pairs.push({
+                    label: data.labels[i],
+                    value: data.values[i],
+                    color: backgroundColorsWithOpacity[i],
+                    borderColor: borderColors[i]
+                });
+            }
+            
+            pairs.sort(function(a, b) {
+                return b.value - a.value;
+            });
+            
+            var sortedLabels = [];
+            var sortedValues = [];
+            var sortedColors = [];
+            var sortedBorderColors = [];
+            
+            for (var i = 0; i < pairs.length; i++) {
+                sortedLabels.push(pairs[i].label);
+                sortedValues.push(pairs[i].value);
+                sortedColors.push(pairs[i].color);
+                sortedBorderColors.push(pairs[i].borderColor);
+            }
+            
+            data.labels = sortedLabels;
+            data.values = sortedValues;
+            backgroundColorsWithOpacity = sortedColors;
+            borderColors = sortedBorderColors;
+        }
+        
+        if (typeof Chart === 'undefined') {
+            throw new Error('Chart.js library not found');
+        }
+        
+        var useNewChartVersion = typeof Chart.defaults.global === 'undefined';
+        var chartType = useNewChartVersion ? 'bar' : 'horizontalBar';
+        var chartOptions = {};
+        
+        if (useNewChartVersion) {
+            chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Security Events by Type (Last 24 Hours)',
+                        font: {
+                            size: 16
+                        },
+                        color: '#212529'
+                    },
+                    tooltip: {
+                        enabled: true,
+                        mode: 'nearest',
+                        intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        callbacks: {
+                            label: function(context) {
+                                var value = context.raw || 0;
+                                return 'Count: ' + value + ' events';
+                            },
+                            title: function(tooltipItems) {
+                                return tooltipItems[0].label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            z: 1
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            precision: 0,
+                            color: '#6c757d',
+                            callback: function(value) {
+                                return value === 0 ? '0' : value;
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Events',
+                            color: '#6c757d'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6c757d'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                }
+            };
+        } else {
+            chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Security Events by Type (Last 24 Hours)',
+                    fontSize: 16,
+                    fontColor: '#212529'
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            zeroLineColor: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            precision: 0,
+                            fontColor: '#6c757d',
+                            callback: function(value) {
+                                return value === 0 ? '0' : value;
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Number of Events',
+                            fontColor: '#6c757d'
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            fontColor: '#6c757d'
+                        }
+                    }]
+                },
+                tooltips: {
+                    enabled: true,
+                    mode: 'nearest',
+                    intersect: false,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleFontColor: '#fff',
+                    bodyFontColor: '#fff',
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var value = tooltipItem.xLabel || 0;
+                            return 'Count: ' + value + ' events';
+                        },
+                        title: function(tooltipItems, data) {
+                            return tooltipItems[0].yLabel;
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                }
+            };
+        }
+        
+        window.securityEventsChart = new Chart(chartContext, {
+            type: chartType,
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Number of Events',
+                    data: data.values,
+                    backgroundColor: backgroundColorsWithOpacity,
+                    borderColor: borderColors,
+                    borderWidth: 1
+                }]
+            },
+            options: chartOptions
+        });
+        
+    } catch (e) {
+        $('#securityEventsChart').parent().find('.chart-loader').remove();
+        $('#securityEventsChart').parent().append('<div class="alert alert-danger">Error creating chart: ' + e.message + '</div>');
+    }
+}
+
+// Helper function to convert hex color to rgba
+function hexToRgba(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16);
+    var g = parseInt(hex.slice(3, 5), 16);
+    var b = parseInt(hex.slice(5, 7), 16);
+    return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
+}
 </script>
+
+<!-- Add these modals after the dashboard content -->
+@if(isset($securityEvents) && count($securityEvents) > 0)
+    @foreach($securityEvents as $event)
+    <div class="modal fade security-event-modal" id="securityModal{{ $event->id }}" tabindex="-1" role="dialog" aria-labelledby="securityModalLabel{{ $event->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="securityModalLabel{{ $event->id }}">Security Event Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Time:</strong> {{ $event->created_at ? \Carbon\Carbon::parse($event->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</p>
+                            <p><strong>Event Type:</strong> {{ ucwords(str_replace('_', ' ', $event->event_type)) }}</p>
+                            <p><strong>IP Address:</strong> {{ $event->ip_address }}</p>
+                            <p><strong>User:</strong> 
+                                @php
+                                    $username = 'Unknown';
+                                    if (isset($event->user)) {
+                                        $user = $event->user;
+                                        if ($user->fname_en && $user->lname_en) {
+                                            $username = $user->fname_en . ' ' . $user->lname_en;
+                                        } elseif ($user->fname_th && $user->lname_th) {
+                                            $username = $user->fname_th . ' ' . $user->lname_th;
+                                        } elseif ($user->email) {
+                                            $username = $user->email;
+                                        }
+                                    }
+                                @endphp
+                                {{ $username }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Threat Level:</strong> 
+                                <span class="badge badge-{{ $event->threat_level === 'high' ? 'danger' : ($event->threat_level === 'medium' ? 'warning' : 'info') }}">
+                                    {{ ucfirst($event->threat_level) }}
+                                </span>
+                            </p>
+                            <p><strong>Details:</strong> {{ $event->details }}</p>
+                            <p><strong>User Agent:</strong> {{ $event->user_agent ?? 'Unknown' }}</p>
+                            <p><strong>Location:</strong> {{ $event->location ?? 'Unknown' }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    @if($event->threat_level === 'high' && !in_array($event->ip_address, Cache::get('blocked_ips', [])))
+                    <button type="button" class="btn btn-danger block-ip-btn" data-ip="{{ $event->ip_address }}">
+                        Block IP
+                    </button>
+                    @endif
+                    <button type="button" class="btn btn-secondary close-modal-btn" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+@endif
 @endsection

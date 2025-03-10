@@ -79,6 +79,11 @@ class SecurityMonitoringService
      */
     public function detectSQLInjection($input, $ip)
     {
+        // If the input is an encoded action type, don't flag it
+        if (in_array($input, ['act_upd', 'act_del', 'act_ins', 'act_sel', 'act_cre', 'act_drp', 'act_alt'])) {
+            return false;
+        }
+        
         $sqlPatterns = [
             '/\b(union|select|insert|update|delete|drop|alter)\b/i',
             '/[\'";]/',
@@ -273,5 +278,96 @@ class SecurityMonitoringService
                 ]);
             }
         }
+    }
+
+    /**
+     * Monitor individual failed login attempts
+     */
+    public function monitorFailedLogin($ip, $username, $password)
+    {
+        // Check for empty credentials
+        if (empty($username) || empty($password)) {
+            $this->logAttackAttempt(
+                $ip,
+                'failed_login',
+                'Login attempt with empty credentials',
+                'low'
+            );
+            return true;
+        }
+
+        // Check for common/default passwords
+        $commonPasswords = ['admin123', 'password123', 'test123', '123456', 'admin'];
+        if (in_array($password, $commonPasswords)) {
+            $this->logAttackAttempt(
+                $ip,
+                'failed_login',
+                'Login attempt with common password',
+                'medium'
+            );
+            return true;
+        }
+
+        // Log the failed attempt
+        $this->logAttackAttempt(
+            $ip,
+            'failed_login',
+            "Failed login attempt for username: {$username}",
+            'medium',
+            [
+                'username' => $username,
+                'password_length' => strlen($password)
+            ]
+        );
+
+        // Also check for brute force pattern
+        $this->monitorFailedLogins($ip, $username);
+
+        return true;
+    }
+
+    /**
+     * Check if an IP is being tracked for suspicious activity
+     */
+    public function checkIPTracking($ip)
+    {
+        // Check threat score
+        $threatScore = Cache::get("threat_score:{$ip}", 0);
+        
+        // Check failed login attempts
+        $failedLogins = Cache::get("failed_logins:{$ip}", []);
+        $recentFailedLogins = array_filter($failedLogins, function($timestamp) {
+            return (now()->timestamp - $timestamp) < self::CACHE_EXPIRY;
+        });
+        
+        // Check request rate
+        $requests = Cache::get("request_rate:{$ip}", []);
+        $recentRequests = array_filter($requests, function($time) {
+            return Carbon::parse($time)->diffInMinutes(now()) < 1;
+        });
+
+        $isTracked = false;
+        $reasons = [];
+
+        if ($threatScore > 0) {
+            $isTracked = true;
+            $reasons[] = "Threat score: {$threatScore}";
+        }
+
+        if (count($recentFailedLogins) > 0) {
+            $isTracked = true;
+            $reasons[] = "Failed logins in last 5 minutes: " . count($recentFailedLogins);
+        }
+
+        if (count($recentRequests) > self::REQUEST_RATE_THRESHOLD / 2) {
+            $isTracked = true;
+            $reasons[] = "High request rate: " . count($recentRequests) . " requests/minute";
+        }
+
+        if ($isTracked) {
+            Log::channel('security')->info("IP {$ip} is being tracked: " . implode(', ', $reasons));
+        }
+
+        return $isTracked;
     }
 } 

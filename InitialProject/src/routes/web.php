@@ -220,10 +220,11 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::post('/security/blocked-ips/clear', [App\Http\Controllers\Admin\BlockedIPController::class, 'clear'])->name('admin.security.blocked-ips.clear');
 
     // Security Monitoring API Routes
-    Route::get('/security/failed-logins-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getFailedLoginsData']);
-    Route::get('/security/blocked-requests-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getBlockedRequestsData']);
-    Route::get('/security/system-load-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getSystemLoadData']);
-    Route::get('/security/dashboard-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getDashboardData']);
+    Route::get('/security/failed-logins-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getFailedLoginsData'])->name('admin.security.failed-logins-data');
+    Route::get('/security/blocked-requests-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getBlockedRequestsData'])->name('admin.security.blocked-requests-data');
+    Route::get('/security/system-load-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getSystemLoadData'])->name('admin.security.system-load-data');
+    Route::get('/security/dashboard-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getDashboardData'])->name('admin.security.dashboard-data');
+    Route::get('/security/events-by-type-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getSecurityEventsByTypeData'])->name('admin.security.events-by-type-data');
 
     // Test routes for logging
     Route::get('/test-activity', function() {
