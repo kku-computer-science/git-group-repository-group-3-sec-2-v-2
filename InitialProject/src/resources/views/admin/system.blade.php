@@ -6,7 +6,7 @@
 <div class="container">
     <!-- Section Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h4 class="text-primary">System Information</h4>
+        <h4 class="text-dark">System Information</h4>
         <a href="{{ route('dashboard') }}" class="btn btn-outline-primary">
             <i class="mdi mdi-arrow-left"></i> Back to Dashboard
         </a>
