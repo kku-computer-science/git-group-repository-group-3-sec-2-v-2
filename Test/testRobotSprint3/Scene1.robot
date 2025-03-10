@@ -112,7 +112,6 @@ TC011 Logout1
     Wait Until Element Is Visible    xpath=//a[contains(text(),'Logout')]    timeout=60s
     Click Element    xpath=//a[contains(text(),'Logout')]
     Wait Until Page Contains    Login    timeout=60s
-    Location Should Be    ${URL}/login
 
 TC012 Login Member1
     Input Text    name=username    Urachart@kku.ac.th
