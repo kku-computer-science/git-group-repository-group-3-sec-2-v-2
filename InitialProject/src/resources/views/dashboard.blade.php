@@ -565,7 +565,68 @@
             height: 150px;
         }
     }
+
+    /* Styles for security dashboard charts */
+    .security-dashboard-card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .security-dashboard-card .card-header {
+        background-color: rgba(0, 0, 0, 0.03);
+        padding: 1rem 1.25rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    
+    .security-dashboard-card .card-body {
+        padding: 1.25rem;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+        min-height: 300px;
+    }
+    
+    .chart-loader {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        font-size: 1.2rem;
+        color: #6c757d;
+    }
+    
+    .chart-loader i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        display: block;
+    }
+    
+    /* Alert styles for chart errors */
+    .chart-container .alert {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        text-align: center;
+    }
 </style>
+
+<!-- Make sure Chart.js is loaded -->
+<script>
+    // Check if Chart.js is already loaded
+    if (typeof Chart === 'undefined') {
+        console.log('Chart.js not detected, loading it now...');
+        document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"><\/script>');
+    }
+</script>
 
 @section('content')
 <div class="dashboard-container">
@@ -791,6 +852,31 @@
                                 <div class="card-body">
                                     <div class="chart-container">
                                         <canvas id="blockedRequestsChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Security Events Overview -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <h5 class="mb-3 d-flex justify-content-between align-items-center">
+                                Security Events Overview
+                                <button class="btn btn-sm btn-outline-primary refresh-security-events-btn">
+                                    <i class="mdi mdi-refresh mr-1"></i> Refresh
+                                </button>
+                            </h5>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="security-dashboard-card">
+                                <div class="card-header">
+                                    <h6 class="card-title">Security Events by Type</h6>
+                                    <div class="card-subtitle">Distribution of security events in the last 24 hours</div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="securityEventsChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -1141,7 +1227,13 @@
 <!-- Add JavaScript for Security Dashboard -->
 <script>
 $(document).ready(function() {
-    console.log('Dashboard initialized');
+    // Check if Chart.js is loaded
+    if (typeof Chart === 'undefined') {
+        $('.chart-container').each(function() {
+            $(this).html('<div class="alert alert-danger">Chart.js library not found. Please refresh the page or contact administrator.</div>');
+        });
+        return;
+    }
     
     // Add event handlers for security buttons
     $('.block-ip-btn').on('click', function() {
@@ -1151,9 +1243,6 @@ $(document).ready(function() {
 
     // Initialize security event table filters
     initSecurityEventFilters();
-    
-    // Initialize charts
-    console.log('Initializing security charts...');
     initSecurityCharts();
     
     // Add a click handler for the manual refresh button
@@ -1161,66 +1250,51 @@ $(document).ready(function() {
         e.preventDefault();
         refreshSecurityCharts();
     });
+    
+    // Add event handler for security events refresh button
+    $('.refresh-security-events-btn').on('click', function(e) {
+        e.preventDefault();
+        initSecurityEventsChart();
+    });
 });
 
 function initSecurityCharts() {
-    console.log('Starting chart initialization');
-    
-    // Initialize each chart with proper error handling
     initFailedLoginsChart();
     initBlockedRequestsChart();
-    
-    // Set up auto-refresh for charts
-    console.log('Setting up auto-refresh');
-    setInterval(refreshSecurityCharts, 300000); // Refresh every 5 minutes instead of every minute
-    
-    console.log('Chart initialization complete');
+    initSecurityEventsChart();
+    setInterval(refreshSecurityCharts, 300000);
 }
 
 function initFailedLoginsChart() {
-    console.log('Initializing failed logins chart');
-    
     var ctx = document.getElementById('failedLoginsChart');
-    if (!ctx) {
-        console.error('Failed logins chart canvas element not found!');
-        return;
-    }
+    if (!ctx) return;
     
-    // Show loading indicator
     var container = $(ctx).parent();
-    container.find('.chart-loader').remove(); // Remove any existing loaders
+    container.find('.chart-loader').remove();
     container.append('<div class="chart-loader"><i class="mdi mdi-loading mdi-spin"></i> Loading data...</div>');
     
-    // Clean up any existing chart to prevent memory leaks
     if (window.failedLoginsChart && typeof window.failedLoginsChart.destroy === 'function') {
         window.failedLoginsChart.destroy();
         window.failedLoginsChart = null;
     }
     
-    // Fetch real data from the server
     $.ajax({
         url: '/admin/security/failed-logins-data',
         type: 'GET',
         success: function(response) {
             container.find('.chart-loader').remove();
-            console.log('Got failed logins data:', response);
             
-            // Check if we have valid data
             if (!response || !response.data || !Array.isArray(response.data.labels) || !Array.isArray(response.data.values)) {
-                console.warn('Invalid or missing data format for failed logins chart:', response);
                 container.html('<div class="alert alert-warning">Could not load failed login data. Invalid format received.</div>');
                 return;
             }
             
-            // Use data from response or fallback
             var chartData = {
                 labels: response.data.labels.length > 0 ? response.data.labels : ['No failed login attempts'],
                 values: response.data.values.length > 0 ? response.data.values : [0]
             };
             
             try {
-                // Create the chart
-                console.log('Creating failed logins chart with data:', chartData);
                 window.failedLoginsChart = new Chart(ctx, {
                     type: 'bar',
                     data: {
@@ -1262,20 +1336,16 @@ function initFailedLoginsChart() {
                         }
                     }
                 });
-                console.log('Failed logins chart created successfully');
                 
-                // Add information message if no attempts found
                 if (chartData.values.length === 1 && chartData.values[0] === 0) {
                     container.append('<div class="alert alert-info mt-3">No failed login attempts detected in the last 24 hours.</div>');
                 }
             } catch (e) {
-                console.error('Error creating failed logins chart:', e);
                 container.html('<div class="alert alert-danger">Error creating chart: ' + e.message + '</div>');
             }
         },
         error: function(xhr, status, error) {
             container.find('.chart-loader').remove();
-            console.error('Error fetching failed logins data:', error);
             container.html('<div class="alert alert-danger">Failed to load login data: ' + error + '</div>');
         }
     });
@@ -1457,11 +1527,9 @@ function updateBlockedRequestsChart(data) {
 }
 
 function refreshSecurityCharts() {
-    console.log('Refreshing security charts');
-    
-    // Reinitialize each chart to ensure fresh data
     initFailedLoginsChart();
     initBlockedRequestsChart();
+    initSecurityEventsChart();
 }
 
 function refreshSecurityData() {
@@ -1532,6 +1600,291 @@ function setupSecurityEventModals() {
 $(document).ready(function() {
     setupSecurityEventModals();
 });
+
+// Initialize security events chart
+function initSecurityEventsChart() {
+    $('#securityEventsChart').parent().find('.chart-loader').remove();
+    $('#securityEventsChart').parent().append('<div class="chart-loader"><i class="mdi mdi-loading mdi-spin"></i> Loading security events data...</div>');
+    
+    var useSampleData = false;
+    var baseUrl = $('meta[name="base-url"]').attr('content') || '';
+    var showAllData = true;
+    var endpoint = baseUrl + '/admin/security/events-by-type-data';
+    
+    if (showAllData) {
+        endpoint += '?all=1';
+    }
+    
+    $.ajax({
+        url: endpoint,
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        success: function(response) {
+            if (response.success) {
+                if (response.data.labels && response.data.labels.length > 0) {
+                    $('#securityEventsChart').parent().find('.chart-loader').remove();
+                    updateSecurityEventsChart(response.data);
+                } else {
+                    $('#securityEventsChart').parent().find('.chart-loader').remove();
+                    $('#securityEventsChart').parent().append('<div class="alert alert-info">No security events recorded in the last 24 hours.</div>');
+                    
+                    updateSecurityEventsChart({
+                        labels: ['No Security Events'],
+                        values: [0],
+                        colors: ['#6c757d']
+                    });
+                }
+            } else {
+                $('#securityEventsChart').parent().find('.chart-loader').remove();
+                $('#securityEventsChart').parent().append('<div class="alert alert-danger">Failed to load security events data.</div>');
+            }
+        },
+        error: function(xhr, status, error) {
+            $('#securityEventsChart').parent().find('.chart-loader').remove();
+            $('#securityEventsChart').parent().append('<div class="alert alert-danger">Failed to load security events data. Error: ' + error + '</div>');
+        }
+    });
+}
+
+function updateSecurityEventsChart(data) {
+    var ctx = document.getElementById('securityEventsChart');
+    
+    if (!ctx) return;
+    
+    var chartContext = ctx.getContext('2d');
+    
+    if (window.securityEventsChart && typeof window.securityEventsChart.destroy === 'function') {
+        window.securityEventsChart.destroy();
+    } else if (window.securityEventsChart) {
+        window.securityEventsChart = null;
+    }
+    
+    var backgroundColors = data.colors || Array(data.values.length).fill('#007bff');
+    var borderColors = data.colors || Array(data.values.length).fill('#007bff');
+    
+    try {
+        var backgroundColorsWithOpacity = [];
+        
+        for (var i = 0; i < backgroundColors.length; i++) {
+            var color = backgroundColors[i];
+            if (typeof color === 'string') {
+                if (color.startsWith('#')) {
+                    backgroundColorsWithOpacity.push(hexToRgba(color, 0.7));
+                } else {
+                    backgroundColorsWithOpacity.push(color.replace(')', ', 0.7)').replace('rgb', 'rgba'));
+                }
+            } else {
+                backgroundColorsWithOpacity.push('#007bff80');
+            }
+        }
+        
+        if (!data.sorted) {
+            var pairs = [];
+            for (var i = 0; i < data.labels.length; i++) {
+                pairs.push({
+                    label: data.labels[i],
+                    value: data.values[i],
+                    color: backgroundColorsWithOpacity[i],
+                    borderColor: borderColors[i]
+                });
+            }
+            
+            pairs.sort(function(a, b) {
+                return b.value - a.value;
+            });
+            
+            var sortedLabels = [];
+            var sortedValues = [];
+            var sortedColors = [];
+            var sortedBorderColors = [];
+            
+            for (var i = 0; i < pairs.length; i++) {
+                sortedLabels.push(pairs[i].label);
+                sortedValues.push(pairs[i].value);
+                sortedColors.push(pairs[i].color);
+                sortedBorderColors.push(pairs[i].borderColor);
+            }
+            
+            data.labels = sortedLabels;
+            data.values = sortedValues;
+            backgroundColorsWithOpacity = sortedColors;
+            borderColors = sortedBorderColors;
+        }
+        
+        if (typeof Chart === 'undefined') {
+            throw new Error('Chart.js library not found');
+        }
+        
+        var useNewChartVersion = typeof Chart.defaults.global === 'undefined';
+        var chartType = useNewChartVersion ? 'bar' : 'horizontalBar';
+        var chartOptions = {};
+        
+        if (useNewChartVersion) {
+            chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                indexAxis: 'y',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Security Events by Type (Last 24 Hours)',
+                        font: {
+                            size: 16
+                        },
+                        color: '#212529'
+                    },
+                    tooltip: {
+                        enabled: true,
+                        mode: 'nearest',
+                        intersect: false,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: '#fff',
+                        bodyColor: '#fff',
+                        callbacks: {
+                            label: function(context) {
+                                var value = context.raw || 0;
+                                return 'Count: ' + value + ' events';
+                            },
+                            title: function(tooltipItems) {
+                                return tooltipItems[0].label;
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            z: 1
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            precision: 0,
+                            color: '#6c757d',
+                            callback: function(value) {
+                                return value === 0 ? '0' : value;
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Number of Events',
+                            color: '#6c757d'
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6c757d'
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                }
+            };
+        } else {
+            chartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                legend: {
+                    display: false
+                },
+                title: {
+                    display: true,
+                    text: 'Security Events by Type (Last 24 Hours)',
+                    fontSize: 16,
+                    fontColor: '#212529'
+                },
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            color: 'rgba(0, 0, 0, 0.05)',
+                            zeroLineColor: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                            precision: 0,
+                            fontColor: '#6c757d',
+                            callback: function(value) {
+                                return value === 0 ? '0' : value;
+                            }
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Number of Events',
+                            fontColor: '#6c757d'
+                        }
+                    }],
+                    yAxes: [{
+                        gridLines: {
+                            display: false
+                        },
+                        ticks: {
+                            fontColor: '#6c757d'
+                        }
+                    }]
+                },
+                tooltips: {
+                    enabled: true,
+                    mode: 'nearest',
+                    intersect: false,
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                    titleFontColor: '#fff',
+                    bodyFontColor: '#fff',
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var value = tooltipItem.xLabel || 0;
+                            return 'Count: ' + value + ' events';
+                        },
+                        title: function(tooltipItems, data) {
+                            return tooltipItems[0].yLabel;
+                        }
+                    }
+                },
+                animation: {
+                    duration: 1000,
+                    easing: 'easeOutQuart'
+                }
+            };
+        }
+        
+        window.securityEventsChart = new Chart(chartContext, {
+            type: chartType,
+            data: {
+                labels: data.labels,
+                datasets: [{
+                    label: 'Number of Events',
+                    data: data.values,
+                    backgroundColor: backgroundColorsWithOpacity,
+                    borderColor: borderColors,
+                    borderWidth: 1
+                }]
+            },
+            options: chartOptions
+        });
+        
+    } catch (e) {
+        $('#securityEventsChart').parent().find('.chart-loader').remove();
+        $('#securityEventsChart').parent().append('<div class="alert alert-danger">Error creating chart: ' + e.message + '</div>');
+    }
+}
+
+// Helper function to convert hex color to rgba
+function hexToRgba(hex, alpha) {
+    var r = parseInt(hex.slice(1, 3), 16);
+    var g = parseInt(hex.slice(3, 5), 16);
+    var b = parseInt(hex.slice(5, 7), 16);
+    return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
+}
 </script>
 
 <!-- Add these modals after the dashboard content -->

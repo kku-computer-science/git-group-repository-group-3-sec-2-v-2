@@ -224,6 +224,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/security/blocked-requests-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getBlockedRequestsData'])->name('admin.security.blocked-requests-data');
     Route::get('/security/system-load-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getSystemLoadData'])->name('admin.security.system-load-data');
     Route::get('/security/dashboard-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getDashboardData'])->name('admin.security.dashboard-data');
+    Route::get('/security/events-by-type-data', [App\Http\Controllers\Admin\SecurityMonitoringController::class, 'getSecurityEventsByTypeData'])->name('admin.security.events-by-type-data');
 
     // Test routes for logging
     Route::get('/test-activity', function() {

@@ -375,4 +375,195 @@ class SecurityMonitoringController extends Controller
             ->where('created_at', '>=', Carbon::now()->subDay())
             ->count();
     }
+
+    /**
+     * Get security events grouped by type for the chart
+     */
+    public function getSecurityEventsByTypeData(Request $request)
+    {
+        // Skip activity logging for chart data endpoints
+        if (class_exists(\App\Models\ActivityLog::class) && method_exists(\App\Models\ActivityLog::class, 'shouldLogRoute')) {
+            \App\Models\ActivityLog::shouldLogRoute(false);
+        }
+        
+        // ตั้งค่าเริ่มต้น - จะดึงข้อมูล 24 ชั่วโมงที่ผ่านมา หรือทั้งหมด
+        $fetchAllData = $request->has('all') && $request->input('all') === '1';
+        
+        try {
+            \Log::info('Security monitoring: fetching security events by type data', [
+                'fetch_all' => $fetchAllData ? 'Yes' : 'No (last 24 hours only)'
+            ]);
+            
+            // ดึงข้อมูลทั้งหมดเพื่อทดสอบว่ามีข้อมูลในตารางหรือไม่
+            $allEvents = DB::table('security_events')->count();
+            \Log::info('Total security_events in the table: ' . $allEvents);
+            
+            // ตรวจสอบเวลาล่าสุดและเก่าสุดในตารางเพื่อดู date range
+            $latestEvent = DB::table('security_events')->latest('created_at')->first();
+            $oldestEvent = DB::table('security_events')->oldest('created_at')->first();
+            
+            if ($latestEvent && $oldestEvent) {
+                \Log::info('Security events date range:', [
+                    'oldest' => $oldestEvent->created_at,
+                    'latest' => $latestEvent->created_at
+                ]);
+            }
+            
+            // สร้าง query builder
+            $query = DB::table('security_events');
+            
+            // ถ้าไม่ได้เรียกหาข้อมูลทั้งหมด ให้จำกัดเฉพาะ 24 ชั่วโมงที่ผ่านมา
+            if (!$fetchAllData) {
+                $query->where('created_at', '>=', Carbon::now()->subDay());
+            }
+            
+            // ดึงข้อมูลตาม query ที่สร้าง
+            $securityEvents = $query->select('event_type', 'threat_level', 'created_at')->get();
+                
+            // Debug: Log the raw query results
+            \Log::info('Security monitoring: raw security events data', [
+                'event_count' => count($securityEvents),
+                'sample' => count($securityEvents) > 0 ? json_encode($securityEvents->take(3)) : 'no data',
+                'time_filter' => $fetchAllData ? 'No filter (all data)' : Carbon::now()->subDay()->toDateTimeString(),
+                'unique_event_types' => $securityEvents->pluck('event_type')->unique()->values()->toArray()
+            ]);
+            
+            // ตรวจสอบว่ามีข้อมูลหรือไม่
+            if (count($securityEvents) == 0) {
+                \Log::warning('Security monitoring: no security events found in the database' . 
+                    ($fetchAllData ? '' : ' for the last 24 hours'));
+                
+                // สร้างข้อมูลตัวอย่างที่คล้ายคลึงกับข้อมูลจริง
+                return response()->json([
+                    'success' => true,
+                    'generated' => true,
+                    'message' => 'No data found, using sample data',
+                    'data' => [
+                        'labels' => [
+                            'SQL Injection', 
+                            'Failed Login', 
+                            'XSS Attack', 
+                            'IP Auto Blocked',
+                            'Successful Login',
+                            'DDoS Attempt',
+                            'Brute Force Attempt',
+                            'Logout'
+                        ],
+                        'values' => [4, 7, 3, 2, 1, 1, 1, 1],
+                        'colors' => [
+                            '#dc3545', // สีแดง - SQL Injection (high)
+                            '#fd7e14', // สีส้ม - Failed Login (medium)
+                            '#dc3545', // สีแดง - XSS Attack (high)
+                            '#dc3545', // สีแดง - IP Blocked (high)
+                            '#28a745', // สีเขียว - Successful Login (low)
+                            '#dc3545', // สีแดง - DDoS (high) 
+                            '#fd7e14', // สีส้ม - Brute Force (medium)
+                            '#28a745'  // สีเขียว - Logout (low)
+                        ]
+                    ]
+                ]);
+            }
+                
+            // สร้างข้อมูลที่ aggregate ด้วย PHP
+            $eventCounts = [];
+            $eventThreatLevels = [];
+            
+            foreach ($securityEvents as $event) {
+                $eventType = $event->event_type;
+                
+                if (!isset($eventCounts[$eventType])) {
+                    $eventCounts[$eventType] = 0;
+                    $eventThreatLevels[$eventType] = $event->threat_level;
+                }
+                
+                $eventCounts[$eventType]++;
+                
+                // ถ้าพบ threat_level ที่สูงกว่า ให้ใช้ค่านั้นแทน
+                if ($event->threat_level === 'high' || 
+                   ($event->threat_level === 'medium' && $eventThreatLevels[$eventType] === 'low')) {
+                    $eventThreatLevels[$eventType] = $event->threat_level;
+                }
+            }
+            
+            // Format data for the chart
+            $labels = [];
+            $values = [];
+            $colors = [];
+            
+            // Define color scheme based on threat level
+            $threatColors = [
+                'high' => '#dc3545',    // Red
+                'medium' => '#fd7e14',  // Orange
+                'low' => '#28a745'      // Green
+            ];
+            
+            // Map event types to user-friendly names
+            $eventTypeNames = [
+                'failed_login' => 'Failed Login',
+                'successful_login' => 'Login Success',
+                'logout' => 'Logout',
+                'sql_injection_attempt' => 'SQL Injection',
+                'xss_attempt' => 'XSS Attack',
+                'ddos_attempt' => 'DDoS Attack',
+                'brute_force_attempt' => 'Brute Force',
+                'ip_auto_blocked' => 'IP Blocked'
+            ];
+            
+            // เรียงข้อมูลตามจำนวนมากไปน้อย
+            arsort($eventCounts);
+            
+            foreach ($eventCounts as $eventType => $count) {
+                // Get user-friendly name or format the original
+                $eventName = $eventTypeNames[$eventType] ?? ucwords(str_replace('_', ' ', $eventType));
+                
+                $labels[] = $eventName;
+                $values[] = (int) $count;
+                $colors[] = $threatColors[$eventThreatLevels[$eventType]] ?? '#6c757d'; // Default: gray
+            }
+            
+            // Debug: Log the formatted data being sent to the chart
+            \Log::info('Security monitoring: sending formatted chart data', [
+                'labels' => $labels,
+                'values' => $values,
+                'colors_count' => count($colors)
+            ]);
+            
+            // If no data found, provide sample data
+            if (empty($labels)) {
+                \Log::info('Security monitoring: no security events data found, using sample data');
+                $labels = ['Sample SQL Injection', 'Sample XSS Attack', 'Sample Failed Login', 'Sample Brute Force', 'Sample IP Blocked'];
+                $values = [5, 4, 3, 2, 1];
+                $colors = ['#dc3545', '#fd7e14', '#28a745', '#dc3545', '#6c757d'];
+            }
+            
+            $responseData = [
+                'success' => true,
+                'data' => [
+                    'labels' => $labels,
+                    'values' => $values,
+                    'colors' => $colors
+                ]
+            ];
+            
+            return response()->json($responseData);
+            
+        } catch (\Exception $e) {
+            \Log::error('Failed to retrieve security events data: ' . $e->getMessage(), [
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            
+            // Return sample data in case of error
+            return response()->json([
+                'success' => false,
+                'error' => 'Database error occurred: ' . $e->getMessage(),
+                'data' => [
+                    'labels' => ['SQL Injection', 'XSS Attack', 'Failed Login', 'Brute Force', 'IP Blocked'],
+                    'values' => [5, 4, 3, 2, 1],
+                    'colors' => ['#dc3545', '#fd7e14', '#28a745', '#dc3545', '#6c757d']
+                ]
+            ]);
+        }
+    }
 } 

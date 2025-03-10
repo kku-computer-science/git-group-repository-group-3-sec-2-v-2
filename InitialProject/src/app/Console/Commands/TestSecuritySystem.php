@@ -9,7 +9,7 @@ use App\Services\SecurityMonitoringService;
 
 class TestSecuritySystem extends Command
 {
-    protected $signature = 'security:test {feature? : The feature to test (ddos/sql/xss/brute)}';
+    protected $signature = 'security:test {feature? : The feature to test (ddos/sql/xss/brute/failed-login)}';
     protected $description = 'Test security monitoring features';
 
     protected $securityService;
@@ -27,7 +27,7 @@ class TestSecuritySystem extends Command
         if (!$feature) {
             $feature = $this->choice(
                 'Which security feature would you like to test?',
-                ['ddos', 'sql', 'xss', 'brute', 'all'],
+                ['ddos', 'sql', 'xss', 'brute', 'failed-login', 'all'],
                 4
             );
         }
@@ -48,11 +48,15 @@ class TestSecuritySystem extends Command
             case 'brute':
                 $this->testBruteForce();
                 break;
+            case 'failed-login':
+                $this->testFailedLogin();
+                break;
             case 'all':
                 $this->testDDoS();
                 $this->testSQLInjection();
                 $this->testXSS();
                 $this->testBruteForce();
+                $this->testFailedLogin();
                 break;
         }
     }
@@ -141,5 +145,73 @@ class TestSecuritySystem extends Command
         }
         
         $this->error("✗ Brute Force Protection: Failed to detect multiple login attempts");
+    }
+
+    protected function testFailedLogin()
+    {
+        $this->info("Testing Failed Login Detection...");
+        
+        $testCases = [
+            [
+                'ip' => '192.168.1.5',
+                'username' => 'admin@gmail.com',
+                'password' => 'wrong_password'
+            ],
+            [
+                'ip' => '192.168.1.5',
+                'username' => 'nonexistent@example.com',
+                'password' => 'test123'
+            ],
+            [
+                'ip' => '192.168.1.6',
+                'username' => 'test@example.com',
+                'password' => ''  // Empty password
+            ],
+            [
+                'ip' => '192.168.1.6',
+                'username' => '',  // Empty username
+                'password' => 'password123'
+            ],
+            [
+                'ip' => '192.168.1.7',
+                'username' => 'admin@example.com',
+                'password' => 'admin123'  // Common password
+            ]
+        ];
+
+        $detected = 0;
+        foreach ($testCases as $index => $test) {
+            $this->info("\nTest Case " . ($index + 1) . ":");
+            $this->info("IP: " . $test['ip']);
+            $this->info("Username: " . ($test['username'] ?: '[empty]'));
+            
+            $result = $this->securityService->monitorFailedLogin(
+                $test['ip'],
+                $test['username'],
+                $test['password']
+            );
+
+            if ($result) {
+                $this->info("✓ Failed Login detected and logged");
+                $detected++;
+            } else {
+                $this->error("✗ Failed to detect/log failed login attempt");
+            }
+
+            // Check if IP is being tracked for potential threats
+            $ipTracking = $this->securityService->checkIPTracking($test['ip']);
+            if ($ipTracking) {
+                $this->info("✓ IP is being tracked for suspicious activity");
+            }
+
+            // Add small delay between tests
+            sleep(1);
+        }
+
+        $this->info("\nFailed Login Detection Summary:");
+        $this->info("----------------------------------------");
+        $this->info("Total Test Cases: " . count($testCases));
+        $this->info("Detected: $detected");
+        $this->info("Detection Rate: " . round(($detected/count($testCases))*100) . "%");
     }
 } 
