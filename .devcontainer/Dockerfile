@@ -1,5 +1,5 @@
-# ใช้ Base Image PHP 8 พร้อม Apache
-FROM php:8.0-apache
+# ใช้ Base Image PHP 8.2 พร้อม Apache
+FROM php:8.2-apache
 
 # ติดตั้ง PHP Extensions และแพ็คเกจที่จำเป็น
 RUN apt-get update && apt-get install -y \

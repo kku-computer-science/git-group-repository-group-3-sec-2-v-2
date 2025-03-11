@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Education;
 use App\Models\User;
+use App\Traits\LogsUserActions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class EducationController extends Controller
 {
+    use LogsUserActions;
+    
     function updateEdInfo(Request $request)
     {
 
@@ -61,6 +64,25 @@ class EducationController extends Controller
                 'qua_name'=> $request->d_qua_name,
                 'year' => $request->d_year,
                 'level'=> 3
+            ]);
+            
+            // Log the education update action
+            $this->logUpdate('education', $id, [
+                'bachelor' => [
+                    'university' => $request->b_uname,
+                    'qualification' => $request->b_qua_name,
+                    'year' => $request->b_year
+                ],
+                'master' => [
+                    'university' => $request->m_uname,
+                    'qualification' => $request->m_qua_name,
+                    'year' => $request->m_year
+                ],
+                'doctorate' => [
+                    'university' => $request->d_uname,
+                    'qualification' => $request->d_qua_name,
+                    'year' => $request->d_year
+                ]
             ]);
 
             return response()->json(['status' => 1, 'msg' => 'Your profile info has been update successfuly.']);

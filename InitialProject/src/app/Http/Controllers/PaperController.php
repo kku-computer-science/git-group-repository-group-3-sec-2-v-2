@@ -18,9 +18,12 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\DB;
+use App\Traits\LogsUserActions;
 
 class PaperController extends Controller
 {
+    use LogsUserActions;
+
     /**
      * Display a listing of the resource.
      *
@@ -158,6 +161,16 @@ class PaperController extends Controller
             }
         }
 
+        // Log the paper creation
+        $this->logCreate('paper', $paper->id, [
+            'paper_name' => $paper->paper_name,
+            'paper_type' => $paper->paper_type,
+            'paper_sourcetitle' => $paper->paper_sourcetitle,
+            'paper_yearpub' => $paper->paper_yearpub,
+            'paper_volume' => $paper->paper_volume,
+            'paper_doi' => $paper->paper_doi
+        ]);
+
         return redirect()->route('papers.index')
             ->with('success', 'papers created successfully.');
     }
@@ -187,9 +200,32 @@ class PaperController extends Controller
 
         $paper = Paper::findOrFail($id);
 
-        // $userimg = User::where('id',$id)->first();
-
-        // dd($userId);
+        // Log this as a detailed "Call Paper" action
+        if (auth()->check()) {
+            $paperData = [
+                'paper_id' => $paper->id,
+                'paper_name' => $paper->paper_name,
+                'paper_type' => $paper->paper_type,
+                'paper_sourcetitle' => $paper->paper_sourcetitle ?? '',
+                'paper_year' => $paper->paper_yearpub ?? '',
+                'paper_doi' => $paper->paper_doi ?? '',
+                'search_params' => $request->query(),
+                'action_type' => 'Call Paper',
+                'referrer' => $request->headers->get('referer')
+            ];
+            
+            // Log with our activity logging trait
+            $this->logUserAction('call', 'paper', $paper->id, $paperData);
+            
+            // Also create a detailed activity log
+            \App\Models\ActivityLog::create([
+                'user_id' => auth()->id(),
+                'action' => 'Paper View',
+                'description' => 'Viewed: ' . $paper->paper_name . ' (ID: ' . $paper->id . ')',
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent()
+            ]);
+        }
 
         // ดึงรายชื่อผู้เขียนจาก author_of_papers
         $authors = DB::table('author_of_papers')
@@ -202,9 +238,7 @@ class PaperController extends Controller
                 DB::raw("NULL as picture"), // กรณีไม่มีฟิลด์ picture ใน authors
                 DB::raw("'author' as type")
             )
-
             ->union(
-
                 DB::table('user_papers')
                     ->join('users', 'user_papers.user_id', '=', 'users.id')
                     ->where('user_papers.paper_id', $id)
@@ -217,7 +251,6 @@ class PaperController extends Controller
                     )
             )
             ->get();
-
 
         return view('paperdetail', compact('userimg', 'paper', 'authors'));
     }
@@ -370,6 +403,17 @@ class PaperController extends Controller
                 $x++;
             }
         }
+
+        // Log the paper update
+        $this->logUpdate('paper', $paper->id, [
+            'paper_name' => $paper->paper_name,
+            'paper_type' => $paper->paper_type,
+            'paper_sourcetitle' => $paper->paper_sourcetitle,
+            'paper_yearpub' => $paper->paper_yearpub,
+            'paper_volume' => $paper->paper_volume,
+            'paper_doi' => $paper->paper_doi
+        ]);
+
         return redirect()->route('papers.index')
             ->with('success', 'papers updated successfully');
         //$paper->author()->detach();
@@ -381,7 +425,26 @@ class PaperController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id) {}
+    public function destroy($id)
+    {
+        $paper = Paper::find($id);
+        
+        if ($paper) {
+            // Get paper name before deletion for logging
+            $paperName = $paper->paper_name;
+            
+            // Delete the paper
+            $paper->delete();
+            
+            // Log the paper deletion
+            $this->logDelete('paper', $id, [
+                'paper_name' => $paperName
+            ]);
+        }
+        
+        return redirect()->route('papers.index')
+            ->with('success', 'paper deleted successfully');
+    }
 
     public function export(Request $request)
     {

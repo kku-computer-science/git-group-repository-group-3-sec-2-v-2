@@ -1,4 +1,8 @@
 @extends('layouts.layout')
+@php
+    use Illuminate\Support\Facades\DB;
+    use App\Models\Author;
+@endphp
 
 <style>
     .container-fluid {
@@ -13,6 +17,8 @@
         margin: 0 !important;
         width: 100vw !important;
         max-width: 100% !important;
+        overflow-y: hidden;
+        overflow-x: hidden;
     }
 
     .blue-stripe {
@@ -99,6 +105,18 @@
         margin: 5px 0;
     }
 
+    .person-info .email {
+        color: #0066cc;
+        font-size: 0.9rem;
+        font-weight: 400;
+        word-break: break-all;
+        text-decoration: none;
+    }
+
+    .person-info .email:hover {
+        text-decoration: underline;
+    }
+
     @media (max-width: 768px) {
         .blue-stripe h1 {
             font-size: 1.8rem;
@@ -125,7 +143,7 @@
     <h1>{{ $rg->{'group_name_'.app()->getLocale()} }}</h1>
 </div>
 
-<div class="container-fluid px-4">
+<div class="px-4">
 
     <!-- Research Rationale -->
     <div class="research-rationale-box">
@@ -172,6 +190,7 @@
                         @else
                         <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
                         @endif
+                        <a href="mailto:{{ $r->email }}" class="email">{{ $r->email }}</a>
                     </div>
                 </div>
             </div>
@@ -200,6 +219,7 @@
                         @else
                         <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
                         @endif
+                        <a href="mailto:{{ $r->email }}" class="email">{{ $r->email }}</a>
                     </div>
                 </div>
             </div>
@@ -207,8 +227,9 @@
             @endforeach
         </div>
 
-        <!-- Postdoctoral Researcher -->
-        <h3 class="mt-5">Postdoctoral Researcher</h3>
+        <!-- Postdoctoral Researcher (ภายใน) -->
+        @if($rg->user->where('pivot.role', 3)->isNotEmpty())
+        <h3 class="mt-5">Postdoctoral Researcher (Internal)</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
             @foreach($rg->user as $r)
             @if(isset($r->pivot) && $r->pivot->role == 3)
@@ -225,21 +246,76 @@
                         @else
                         <p>{{ $r->{'position_'.app()->getLocale()} }} {{ $r->{'fname_'.app()->getLocale()} }} {{ $r->{'lname_'.app()->getLocale()} }}</p>
                         @endif
+                        <a href="mailto:{{ $r->email }}" class="email">{{ $r->email }}</a>
                     </div>
                 </div>
             </div>
             @endif
             @endforeach
         </div>
+        @endif
+        
+        <!-- Postdoctoral Researcher (ภายนอก) -->
+        @php
+            $postdocExternal = [];
+            $extPostdocs = DB::table('work_of_research_groups')
+                ->where('research_group_id', $rg->id)
+                ->where('role', 3)
+                ->whereNull('user_id')
+                ->whereNotNull('author_id')
+                ->get();
+                
+            // ดึงข้อมูล author_id เพื่อหลีกเลี่ยงการซ้ำซ้อน
+            $processedAuthorIds = [];
+                
+            foreach($extPostdocs as $extPostdoc) {
+                // ข้ามถ้า author_id นี้ถูกประมวลผลไปแล้ว
+                if (in_array($extPostdoc->author_id, $processedAuthorIds)) {
+                    continue;
+                }
+                
+                $author = \App\Models\Author::find($extPostdoc->author_id);
+                if($author) {
+                    $postdocExternal[] = $author;
+                    $processedAuthorIds[] = $extPostdoc->author_id;
+                }
+            }
+        @endphp
+        
+        @if(count($postdocExternal) > 0)
+        <h3 class="mt-5">Postdoctoral Researcher (External)</h3>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
+            @foreach($postdocExternal as $scholar)
+            <div class="col">
+                <div class="member-card">
+                    <a class="profile-link">
+                        <img src="{{ $scholar->picture ? asset('images/imag_user/' . $scholar->picture) : asset('img/default-profile.png') }}"
+                            alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        @if(app()->getLocale() == 'en')
+                        <p>{{ $scholar->academic_ranks_en ? $scholar->academic_ranks_en . ' ' : '' }}{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        @else
+                        <p>{{ $scholar->academic_ranks_th ? $scholar->academic_ranks_th . ' ' : '' }}{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        @endif
+                        <p>{{ $scholar->belong_to }}</p>
+                        <a href="mailto:{{ $scholar->email }}" class="email">{{ $scholar->email }}</a>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @endif
 
         <!-- Students -->
+        @php
+        $uniqueStudents = $rg->user->unique('id')->filter(fn($user) => $user->hasRole('student'));
+        @endphp
+        
+        @if($uniqueStudents->isNotEmpty())
         <h3 class="mt-5">Students</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
-            @php
-            $uniqueStudents = $rg->user->unique('id')->filter(function($user) {
-            return $user->hasRole('student');
-            });
-            @endphp
 
             @foreach ($uniqueStudents as $user)
             <div class="col">
@@ -255,29 +331,50 @@
                             {{ $user->{'fname_'.app()->getLocale()} }}
                             {{ $user->{'lname_'.app()->getLocale()} }}
                         </p>
+                        <a href="mailto:{{ $user->email }}" class="email">{{ $user->email }}</a>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
+        @endif
 
         <!-- Visiting Scholars -->
+        @php
+            $visitingScholars = [];
+            foreach($rg->visitingScholars as $scholar) {
+                $pivotData = $rg->visitingScholars()->where('author_id', $scholar->id)->first()->pivot;
+                if ($pivotData->role == 4) {
+                    $visitingScholars[] = $scholar;
+                }
+            }
+        @endphp
+        
+        @if(count($visitingScholars) > 0)
         <h3 class="mt-5">Visiting Scholars</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
-            @foreach($rg->visitingScholars as $scholar)
+            @foreach($visitingScholars as $scholar)
             <div class="col">
                 <div class="member-card">
                     <a class="profile-link">
-                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}" alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}" class="center-image">
+                        <img src="{{ $scholar->picture ? asset('images/imag_user/' . $scholar->picture) : asset('img/default-profile.png') }}"
+                            alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}"
+                            class="center-image">
                     </a>
                     <div class="person-info">
-                        <p>{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        @if(app()->getLocale() == 'en')
+                        <p>{{ $scholar->academic_ranks_en ? $scholar->academic_ranks_en . ' ' : '' }}{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        @else
+                        <p>{{ $scholar->academic_ranks_th ? $scholar->academic_ranks_th . ' ' : '' }}{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        @endif
                         <p>{{ $scholar->belong_to }}</p>
+                        <a href="mailto:{{ $scholar->email }}" class="email">{{ $scholar->email }}</a>
                     </div>
                 </div>
             </div>
             @endforeach
         </div>
+        @endif
 
     </div> <!-- end research-rationale-box -->
 

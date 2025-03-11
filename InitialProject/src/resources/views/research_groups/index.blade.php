@@ -1,5 +1,8 @@
 @extends('dashboards.users.layouts.user-dash-layout')
 @section('content')
+@php
+    use Illuminate\Support\Facades\DB;
+@endphp
 <div class="container">
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
@@ -44,9 +47,68 @@
                             @endforeach
                         </td>
                         <td>
-                            @foreach($researchGroup->visitingScholars as $visiting)
-                                {{ $visiting->author_fname }} @if(!$loop->last), @endif
-                            @endforeach
+                            @php
+                                $visitingScholars = [];
+                                $postdocScholars = [];
+                                
+                                // แยก Postdoctoral ออกจาก Visiting Scholars
+                                foreach($researchGroup->visitingScholars as $visiting) {
+                                    $pivotData = $researchGroup->visitingScholars()->where('author_id', $visiting->id)->first()->pivot;
+                                    if ($pivotData->role == 4) {
+                                        $visitingScholars[] = $visiting;
+                                    } else if ($pivotData->role == 3) {
+                                        $postdocScholars[] = $visiting;
+                                    }
+                                }
+                                
+                                // ดึงข้อมูล Postdoctoral ภายนอกที่อาจตกหล่น
+                                $processedAuthorIds = array_map(function($scholar) {
+                                    return $scholar->id;
+                                }, $postdocScholars);
+                                
+                                // ล้างอาร์เรย์ postdocScholars เพื่อป้องกันการซ้ำซ้อน
+                                $postdocScholars = [];
+                                $uniqueAuthors = [];
+                                
+                                $extPostdocs = DB::table('work_of_research_groups')
+                                    ->where('research_group_id', $researchGroup->id)
+                                    ->where('role', 3)
+                                    ->whereNull('user_id')
+                                    ->whereNotNull('author_id')
+                                    ->get();
+                                    
+                                foreach($extPostdocs as $extPostdoc) {
+                                    // ข้ามหากมี author_id ซ้ำกัน
+                                    if (in_array($extPostdoc->author_id, $uniqueAuthors)) {
+                                        continue;
+                                    }
+                                    
+                                    $author = \App\Models\Author::find($extPostdoc->author_id);
+                                    if($author) {
+                                        $postdocScholars[] = $author;
+                                        $uniqueAuthors[] = $extPostdoc->author_id;
+                                    }
+                                }
+                            @endphp
+                            
+                            @if(count($visitingScholars) > 0)
+                                <strong>Visiting Scholars:</strong><br>
+                                @foreach($visitingScholars as $visiting)
+                                    {{ $visiting->author_fname }} @if(!$loop->last), @endif
+                                @endforeach
+                            @endif
+                            
+                            @if(count($postdocScholars) > 0)
+                                @if(count($visitingScholars) > 0)<br>@endif
+                                <strong>Postdoctoral (ภายนอก):</strong><br>
+                                @foreach($postdocScholars as $postdoc)
+                                    {{ $postdoc->author_fname }} @if(!$loop->last), @endif
+                                @endforeach
+                            @endif
+                            
+                            @if(count($visitingScholars) == 0 && count($postdocScholars) == 0)
+                                -
+                            @endif
                         </td>
                         <td>
                             @php

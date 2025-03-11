@@ -7,23 +7,167 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use App\Traits\LogsUserActions;
+use Illuminate\Support\Facades\DB;
+use App\Models\SecurityEvent;
+use App\Http\Controllers\Admin\SecurityController;
 
 class ProfileuserController extends Controller
 {
-    public function __construct()
+    use LogsUserActions;
+
+    protected $securityController;
+
+    public function __construct(SecurityController $securityController)
     {
         $this->middleware('auth');
+        $this->securityController = $securityController;
     }
 
-    function index()
+    public function index()
     {
+        $user = Auth::user();
+        $roles = $user->getRoleNames();
 
-        //return view('dashboards.admins.index');
-        $users = User::get();
-        $user = auth()->user();
-        //$user->givePermissionTo('readpaper');
-        //return view('home');
-        return view('dashboards.users.index', compact('users'));
+        // Initialize security data with empty values
+        $securityStats = [
+            'failed_logins' => 0,
+            'suspicious_ips' => 0,
+            'blocked_attempts' => 0,
+            'total_monitoring' => 0
+        ];
+        $securityEvents = collect([]);
+
+        // Get security data if user is admin
+        if ($user->hasRole('admin')) {
+            $securityStats = $this->securityController->getSecurityStats();
+            
+            // Optimize the query to reduce memory usage
+            $securityEvents = SecurityEvent::select('id', 'event_type', 'icon_class', 'user_id', 'ip_address', 'details', 'threat_level', 'created_at')
+                ->with(['user:id,fname_en,lname_en,fname_th,lname_th,email'])
+                ->orderBy('created_at', 'desc')
+                ->limit(10)
+                ->get();
+        }
+
+        // Get user activities (latest 10)
+        $userActivities = DB::table('activity_logs')
+            ->join('users', 'activity_logs.user_id', '=', 'users.id')
+            ->select('activity_logs.*', 
+                DB::raw("CASE 
+                    WHEN users.fname_en IS NULL OR users.fname_en = '' THEN CONCAT(users.fname_th, ' ', users.lname_th)
+                    ELSE CONCAT(users.fname_en, ' ', users.lname_en) 
+                END as user_name"))
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Get total count of user activities
+        $totalActivities = DB::table('activity_logs')->count();
+        
+        // Get error logs (last 10 entries)
+        $errorLogs = DB::table('error_logs')
+            ->orderBy('created_at', 'desc')
+            ->limit(10)
+            ->get();
+
+        // Get total count of error logs
+        $totalErrorLogs = DB::table('error_logs')->count();
+
+        // Get system information
+        $systemInfo = [
+            'php_version' => PHP_VERSION,
+            'laravel_version' => app()->version(),
+            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
+            'database_name' => env('DB_DATABASE'),
+            'total_users' => DB::table('users')->count(),
+            'total_papers' => DB::table('papers')->count(),
+            'disk_free_space' => $this->formatBytes(disk_free_space('/')),
+            'disk_total_space' => $this->formatBytes(disk_total_space('/')),
+        ];
+
+        // ข้อมูลพื้นฐานสำหรับทุก role
+        $data = [
+            'user' => $user,
+            'roles' => $roles,
+            'securityStats' => $securityStats,
+            'securityEvents' => $securityEvents,
+            'userActivities' => $userActivities,
+            'errorLogs' => $errorLogs,
+            'totalActivities' => $totalActivities,
+            'totalErrorLogs' => $totalErrorLogs,
+            'systemInfo' => $systemInfo
+        ];
+
+        // ถ้าเป็น admin ให้เพิ่มข้อมูล dashboard
+        if ($user->hasRole('admin')) {
+            // Get user activities (paginated)
+            $userActivities = DB::table('activity_logs')
+                ->join('users', 'activity_logs.user_id', '=', 'users.id')
+                ->select('activity_logs.*', 
+                    DB::raw("CASE 
+                        WHEN users.fname_en IS NULL OR users.fname_en = '' THEN CONCAT(users.fname_th, ' ', users.lname_th)
+                        ELSE CONCAT(users.fname_en, ' ', users.lname_en) 
+                    END as user_name"))
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+
+            // Get error logs (last 10 entries)
+            $errorLogs = DB::table('error_logs')
+                ->orderBy('created_at', 'desc')
+                ->limit(10)
+                ->get();
+
+            // Get system information
+            $systemInfo = [
+                'php_version' => PHP_VERSION,
+                'laravel_version' => app()->version(),
+                'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
+                'database_name' => env('DB_DATABASE'),
+                'total_users' => DB::table('users')->count(),
+                'total_papers' => DB::table('papers')->count(),
+                'disk_free_space' => $this->formatBytes(disk_free_space('/')),
+                'disk_total_space' => $this->formatBytes(disk_total_space('/')),
+            ];
+
+            $data['userActivities'] = $userActivities;
+            $data['errorLogs'] = $errorLogs;
+            $data['systemInfo'] = $systemInfo;
+        }
+
+        // ถ้าเป็น researcher ให้เพิ่มข้อมูลที่เกี่ยวข้อง
+        if ($user->hasRole('researcher')) {
+            $data['papers'] = DB::table('papers')
+                ->where('user_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->limit(10)
+                ->get();
+            
+            $data['research_projects'] = DB::table('research_projects')
+                ->where('user_id', $user->id)
+                ->orderBy('created_at', 'desc')
+                ->limit(10)
+                ->get();
+        }
+
+        // ถ้าเป็น student ให้เพิ่มข้อมูลที่เกี่ยวข้อง
+        if ($user->hasRole('student')) {
+            $data['courses'] = DB::table('courses')
+                ->join('user_courses', 'courses.id', '=', 'user_courses.course_id')
+                ->where('user_courses.user_id', $user->id)
+                ->select('courses.*')
+                ->get();
+        }
+
+        return view('dashboard', $data);
+    }
+
+    private function formatBytes($bytes, $precision = 2)
+    {
+        $units = ['B', 'KB', 'MB', 'GB', 'TB'];
+        $bytes = max($bytes, 0);
+        $pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+        $pow = min($pow, count($units) - 1);
+        return round($bytes / pow(1024, $pow), $precision) . ' ' . $units[$pow];
     }
 
     function profile()
@@ -130,6 +274,25 @@ class ProfileuserController extends Controller
         if (!$query) {
             return response()->json(['status' => 0, 'msg' => 'Something went wrong.']);
         }
+        
+        // Log profile update
+        SecurityEvent::create([
+            'event_type' => 'profile_updated',
+            'icon_class' => 'mdi-account-edit',
+            'user_id' => Auth::user()->id,
+            'ip_address' => request()->ip(),
+            'details' => 'Profile information updated',
+            'threat_level' => 'low',
+            'user_agent' => request()->userAgent(),
+            'request_details' => [
+                'updated_fields' => [
+                    'email' => $request->email,
+                    'name' => $request->fname_en . ' ' . $request->lname_en,
+                    'academic_ranks' => $request->academic_ranks_en
+                ],
+                'update_time' => now()->toDateTimeString()
+            ]
+        ]);
     
         return response()->json(['status' => 1, 'msg' => 'success']);
     }
@@ -142,12 +305,8 @@ class ProfileuserController extends Controller
         $file = $request->file('admin_image');
         $new_name = 'UIMG_' . date('Ymd') . uniqid() . '.jpg';
 
-        //dd(public_path());
         //Upload new image
         $upload = $file->move(public_path($path), $new_name);
-        //$filename = time() . '.' . $file->getClientOriginalExtension();
-        //$upload = $file->move('user/images', $filename);
-
 
         if (!$upload) {
             return response()->json(['status' => 0, 'msg' => 'Something went wrong, upload new picture failed.']);
@@ -164,9 +323,16 @@ class ProfileuserController extends Controller
             //Update DB
             $update = User::find(Auth::user()->id)->update(['picture' => $new_name]);
 
-            if (!$upload) {
+            if (!$update) {
                 return response()->json(['status' => 0, 'msg' => 'Something went wrong, updating picture in db failed.']);
             } else {
+                // Log the profile picture update
+                $this->logUpload('profile picture', Auth::user()->id, [
+                    'filename' => $new_name,
+                    'filesize' => $file->getSize(),
+                    'filetype' => $file->getMimeType()
+                ]);
+                
                 return response()->json(['status' => 1, 'msg' => 'Your profile picture has been updated successfully']);
             }
         }
@@ -180,6 +346,19 @@ class ProfileuserController extends Controller
             'oldpassword' => [
                 'required', function ($attribute, $value, $fail) {
                     if (!\Hash::check($value, Auth::user()->password)) {
+                        // Log failed password change attempt
+                        SecurityEvent::create([
+                            'event_type' => 'failed_password_change',
+                            'icon_class' => 'mdi-lock-alert',
+                            'user_id' => Auth::user()->id,
+                            'ip_address' => request()->ip(),
+                            'details' => 'Failed password change attempt - incorrect current password',
+                            'threat_level' => 'medium',
+                            'user_agent' => request()->userAgent(),
+                            'request_details' => [
+                                'attempt_time' => now()->toDateTimeString()
+                            ]
+                        ]);
                         return $fail(__('The current password is incorrect'));
                     }
                 },
@@ -208,6 +387,20 @@ class ProfileuserController extends Controller
             if (!$update) {
                 return response()->json(['status' => 0, 'msg' => 'Something went wrong, Failed to update password in db']);
             } else {
+                // Log successful password change
+                SecurityEvent::create([
+                    'event_type' => 'password_changed',
+                    'icon_class' => 'mdi-lock-check',
+                    'user_id' => Auth::user()->id,
+                    'ip_address' => request()->ip(),
+                    'details' => 'Password changed successfully',
+                    'threat_level' => 'low',
+                    'user_agent' => request()->userAgent(),
+                    'request_details' => [
+                        'change_time' => now()->toDateTimeString()
+                    ]
+                ]);
+                
                 return response()->json(['status' => 1, 'msg' => 'Your password has been changed successfully']);
             }
         }

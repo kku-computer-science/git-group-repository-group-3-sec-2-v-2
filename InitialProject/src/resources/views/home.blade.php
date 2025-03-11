@@ -271,10 +271,10 @@ accordionButtons.forEach(button => {
         }
 
         // Chart initialization
-        var year = <?php echo $year; ?>;
-        var paper_tci = <?php echo $paper_tci; ?>;
-        var paper_scopus = <?php echo $paper_scopus; ?>;
-        var paper_wos = <?php echo $paper_wos; ?>;
+        var year = <?php echo $year ?? '[]'; ?>;
+        var paper_tci = <?php echo $paper_tci ?? '[]'; ?>;
+        var paper_scopus = <?php echo $paper_scopus ?? '[]'; ?>;
+        var paper_wos = <?php echo $paper_wos ?? '[]'; ?>;
 
         var areaChartData = {
             labels: year,
@@ -357,9 +357,9 @@ accordionButtons.forEach(button => {
         });
 
         // Counter initialization
-        var paper_tci_all = <?php echo $paper_tci_numall; ?>;
-        var paper_scopus_all = <?php echo $paper_scopus_numall; ?>;
-        var paper_wos_all = <?php echo $paper_wos_numall; ?>;
+        var paper_tci_all = <?php echo $paper_tci_numall ?? 0; ?>;
+        var paper_scopus_all = <?php echo $paper_scopus_numall ?? 0; ?>;
+        var paper_wos_all = <?php echo $paper_wos_numall ?? 0; ?>;
         var sum = paper_wos_all + paper_tci_all + paper_scopus_all;
 
         function initializeCounter(elementId, value) {
@@ -385,12 +385,6 @@ accordionButtons.forEach(button => {
                 });
             }
         }
-
-        // Counter initialization
-        var paper_tci_all = <?php echo $paper_tci_numall ?? 0; ?>;
-        var paper_scopus_all = <?php echo $paper_scopus_numall ?? 0; ?>;
-        var paper_wos_all = <?php echo $paper_wos_numall ?? 0; ?>;
-        var sum = paper_wos_all + paper_tci_all + paper_scopus_all;
 
         // Initialize counters after a slight delay
         setTimeout(function() {
