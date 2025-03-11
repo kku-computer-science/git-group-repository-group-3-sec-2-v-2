@@ -158,10 +158,10 @@ TC015 Login Admin
     Wait Until Page Contains    Dashboard    timeout=30s
 
 TC016 Research Groups
-    Wait Until Page Contains Element    xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]    timeout=90s
+    Wait Until Page Contains Element    xpath=//span[@class='menu-title' and text()='Research Group']    timeout=90s
     Execute JavaScript               window.scrollTo(0, document.body.scrollHeight);
-    Wait Until Element Is Visible    xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]    timeout=30s
-    Click Element                    xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]
+    Wait Until Element Is Visible    xpath=//span[@class='menu-title' and text()='Research Group']    timeout=30s
+    Click Element                    xpath=//span[@class='menu-title' and text()='Research Group']
     Sleep    2s
     Wait Until Page Contains    Research Information Management System    timeout=60s
 
