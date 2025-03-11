@@ -2,8 +2,8 @@ deployment:
   tasks:
     - |
       # กำหนด paths
-      export PUBLICPATH="/home2/sesec2group3/public_html"
-      export SRCPATH="/home2/sesec2group3/public_html/repositories/git-group-repository-group-3-sec-2-v-2/InitialProject/src"
+      export PUBLICPATH="/home2/projectsoften/public_html"
+      export SRCPATH="/home2/projectsoften/public_html/repositories/git-group-repository-group-3-sec-2-v-2/InitialProject/src"
 
       # เริ่มต้น log
       echo "=== Deployment started at $(date) ===" > "$PUBLICPATH/deployment.log"

@@ -102,6 +102,22 @@
                         <td>{{ date('Y', strtotime($paper->created_at)) }}</td>
                     </tr>
                     <tr>
+                        <th class="text-right">ประเภทบทความ</th>
+                        <td>{{ $paper->paper_type }}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-right">คำสำคัญ</th>
+                        <td>
+                            @if(is_array($paper->keyword))
+                                @foreach($paper->keyword as $keyword)
+                                    {{ $keyword['$'] ?? '' }}@if(!$loop->last), @endif
+                                @endforeach
+                            @else
+                                {{ $paper->keyword }}
+                            @endif
+                        </td>
+                    </tr>
+                    <tr>
                         <th class="text-right">วารสารวิชาการ</th>
                         <td>{{ $paper->paper_sourcetitle }}</td>
                     </tr>
@@ -117,6 +133,20 @@
                         <th class="text-right">ผู้เผยแพร่</th>
                         <td>{{ $paper->publication }}</td>
                     </tr>
+                    @if($paper->paper_funder)
+                    <tr>
+                        <th class="text-right">แหล่งทุน</th>
+                        <td>
+                            @if(is_array($paper->paper_funder))
+                                @foreach($paper->paper_funder as $funder)
+                                    {{ $funder['$'] ?? '' }}@if(!$loop->last)<br><br>@endif
+                                @endforeach
+                            @else
+                                {{ $paper->paper_funder }}
+                            @endif
+                        </td>
+                    </tr>
+                    @endif
                     <tr>
                         <th class="text-right">คำอธิบาย</th>
                         <td class="text-justify text-dark">{{ $paper->abstract }}</td>

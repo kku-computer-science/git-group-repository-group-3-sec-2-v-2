@@ -40,13 +40,13 @@
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>หัวข้อการวิจัยหลัก (ภาษาไทย)</b></label>
                     <div class="col-sm-8">
-                        <input name="group_main_research_th" value="{{ $researchGroup->group_main_research_th }}" class="form-control" placeholder="หัวข้อการวิจัยหลัก (ภาษาไทย)">
+                        <textarea name="group_main_research_th" class="form-control" style="height:90px" placeholder="หัวข้อการวิจัยหลัก (ภาษาไทย)">{{ $researchGroup->group_main_research_th }}</textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label"><b>หัวข้อการวิจัยหลัก (English)</b></label>
                     <div class="col-sm-8">
-                        <input name="group_main_research_en" value="{{ $researchGroup->group_main_research_en }}" class="form-control" placeholder="Main research topic (English)">
+                        <textarea name="group_main_research_en" class="form-control" style="height:90px" placeholder="Main research topic (English)">{{ $researchGroup->group_main_research_en }}</textarea>
                     </div>
                 </div>
 
@@ -157,67 +157,123 @@
                 </div>
 
                 <!-- 4) นักวิจัยรับเชิญ (Visiting Scholars) -->
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label pt-4"><b>นักวิจัยรับเชิญ</b></label>
-                    <div class="col-sm-8">
-                        <div id="visitingContainer">
-                            @if($researchGroup->visitingScholars->isNotEmpty())
-                                @foreach($researchGroup->visitingScholars as $key => $scholar)
-                                    <div class="visiting-scholar-entry border p-3 mb-3">
-                                        <!-- บรรทัดแรก: รายชื่อ -->
-                                        <div class="form-group">
-                                            <label>รายชื่อ</label>
-                                            <select class="visiting-author-select form-control" name="visiting[{{ $key }}][author_id]">
-                                                <option value="">-- เลือกจากรายชื่อ --</option>
-                                                <option value="manual" @if(!$authors->contains('id', $scholar->id)) selected @endif>เพิ่มด้วยตัวเอง</option>
-                                                @foreach($authors as $author)
-                                                    <option value="{{ $author->id }}"
-                                                        @if($scholar->id == $author->id) selected @endif
-                                                        data-first_name="{{ $author->author_fname }}"
-                                                        data-last_name="{{ $author->author_lname }}"
-                                                        data-affiliation="{{ $author->belong_to }}">
-                                                        {{ $author->author_fname }} {{ $author->author_lname }} ({{ $author->belong_to }})
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <!-- บรรทัดที่สอง: ชื่อ และ นามสกุล -->
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label>ชื่อ</label>
-                                                <input type="text" name="visiting[{{ $key }}][first_name]" class="form-control visiting-first-name" placeholder="ชื่อ" value="{{ $scholar->author_fname }}">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label>นามสกุล</label>
-                                                <input type="text" name="visiting[{{ $key }}][last_name]" class="form-control visiting-last-name" placeholder="นามสกุล" value="{{ $scholar->author_lname }}">
-                                            </div>
-                                        </div>
-                                        <!-- บรรทัดที่สาม: สังกัด และ อัปโหลดรูป -->
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label>สังกัด</label>
-                                                <input type="text" name="visiting[{{ $key }}][affiliation]" class="form-control visiting-affiliation" placeholder="สังกัด" value="{{ $scholar->belong_to }}">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label>อัปโหลดรูป</label>
-                                                <input type="file" name="visiting[{{ $key }}][picture]" class="form-control" accept="image/*">
-                                                @if($scholar->picture)
-                                                    <div class="mt-2">
-                                                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}" alt="Visiting Scholar Image" width="80">
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-danger btn-sm remove-visiting">ลบ</button>
-                                    </div>
+<!-- ส่วนของ Visiting Scholars ใน Edit View -->
+<div class="form-group row">
+    <label class="col-sm-3 col-form-label pt-4"><b>นักวิจัยรับเชิญ</b></label>
+    <div class="col-sm-8">
+        <div id="visitingContainer">
+            @if($researchGroup->visitingScholars->isNotEmpty())
+                @foreach($researchGroup->visitingScholars as $key => $scholar)
+                    @php
+                        // ดึงข้อมูล pivot record (จากตาราง work_of_research_groups)
+                        // หากใน relationship ในโมเดลมีการกำหนด withPivot('id', 'role', 'can_edit') แล้ว
+                        $pivotData = $scholar->pivot ?? (object)['id' => null, 'role' => $scholar->pivot->role ?? 4, 'can_edit' => 0];
+                    @endphp
+                    <div class="visiting-scholar-entry border p-3 mb-3">
+                        <!-- Hidden fields for pivot tracking -->
+                        <input type="hidden" name="visiting[{{ $key }}][pivot_id]" value="{{ $pivotData->id ?? '' }}">
+                        <input type="hidden" name="visiting[{{ $key }}][existing_author_id]" value="{{ $scholar->id }}">
+                        <!-- บรรทัดแรก: รายชื่อ -->
+                        <div class="form-group">
+                            <label>รายชื่อ</label>
+                            <select class="visiting-author-select form-control" name="visiting[{{ $key }}][author_id]">
+                                <option value="">-- เลือกจากรายชื่อ --</option>
+                                <option value="manual" @if(!$authors->contains('id', $scholar->id)) selected @endif>เพิ่มด้วยตัวเอง</option>
+                                @foreach($authors as $author)
+                                    <option value="{{ $author->id }}"
+                                        @if($scholar->id == $author->id) selected @endif
+                                        data-first_name="{{ $author->author_fname }}"
+                                        data-last_name="{{ $author->author_lname }}"
+                                        data-affiliation="{{ $author->belong_to }}"
+                                        data-doctoral_degree="{{ $author->doctoral_degree }}"
+                                        data-academic_ranks_en="{{ $author->academic_ranks_en }}"
+                                        data-academic_ranks_th="{{ $author->academic_ranks_th }}">
+                                        {{ $author->author_fname }} {{ $author->author_lname }} ({{ $author->belong_to }})
+                                    </option>
                                 @endforeach
-                            @endif
+                            </select>
                         </div>
-                        <button type="button" id="add-btn-visiting" class="btn btn-success btn-sm mt-2">
-                            <i class="mdi mdi-plus"></i> เพิ่มนักวิจัยรับเชิญ
-                        </button>
+                        
+                        <!-- บรรทัด Role: เลือกประเภท -->
+                        <div class="form-group">
+                            <label>ประเภท</label>
+                            <select class="form-control" name="visiting[{{ $key }}][role]">
+                                <option value="4" {{ $pivotData->role == 4 ? 'selected' : '' }}>Visiting Scholar</option>
+                                <option value="3" {{ $pivotData->role == 3 ? 'selected' : '' }}>Postdoctoral</option>
+                            </select>
+                        </div>
+                        
+                        <!-- บรรทัดที่สอง: ชื่อ และ นามสกุล -->
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>ชื่อ</label>
+                                <input type="text" name="visiting[{{ $key }}][first_name]" class="form-control visiting-first-name" placeholder="ชื่อ" value="{{ $scholar->author_fname }}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>นามสกุล</label>
+                                <input type="text" name="visiting[{{ $key }}][last_name]" class="form-control visiting-last-name" placeholder="นามสกุล" value="{{ $scholar->author_lname }}">
+                            </div>
+                        </div>
+                        
+                        <!-- บรรทัดที่สาม: สังกัด และ อัปโหลดรูป -->
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>สังกัด</label>
+                                <input type="text" name="visiting[{{ $key }}][affiliation]" class="form-control visiting-affiliation" placeholder="สังกัด" value="{{ $scholar->belong_to }}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>อัปโหลดรูป</label>
+                                <input type="file" name="visiting[{{ $key }}][picture]" class="form-control" accept="image/*">
+                                @if($scholar->picture)
+                                    <div class="mt-2">
+                                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}" alt="Visiting Scholar Image" width="80">
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <!-- บรรทัดที่สี่: วุฒิการศึกษาและตำแหน่งทางวิชาการ -->
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>วุฒิการศึกษาระดับปริญญาเอก</label>
+                                <select name="visiting[{{ $key }}][doctoral_degree]" class="form-control">
+                                    <option value="0" {{ $scholar->doctoral_degree == 0 ? 'selected' : '' }}>ไม่มี</option>
+                                    <option value="1" {{ $scholar->doctoral_degree == 1 ? 'selected' : '' }}>มี</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>ตำแหน่งทางวิชาการ (EN)</label>
+                                <select name="visiting[{{ $key }}][academic_ranks_en]" class="form-control academic-ranks-en">
+                                    <option value="">-</option>
+                                    <option value="Professor" {{ $scholar->academic_ranks_en == 'Professor' ? 'selected' : '' }}>Professor</option>
+                                    <option value="Associate Professor" {{ $scholar->academic_ranks_en == 'Associate Professor' ? 'selected' : '' }}>Associate Professor</option>
+                                    <option value="Assistant Professor" {{ $scholar->academic_ranks_en == 'Assistant Professor' ? 'selected' : '' }}>Assistant Professor</option>
+                                    <option value="Lecturer" {{ $scholar->academic_ranks_en == 'Lecturer' ? 'selected' : '' }}>Lecturer</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>ตำแหน่งทางวิชาการ (TH)</label>
+                                <select name="visiting[{{ $key }}][academic_ranks_th]" class="form-control academic-ranks-th">
+                                    <option value="">-</option>
+                                    <option value="ศาสตราจารย์" {{ $scholar->academic_ranks_th == 'ศาสตราจารย์' ? 'selected' : '' }}>ศาสตราจารย์</option>
+                                    <option value="รองศาสตราจารย์" {{ $scholar->academic_ranks_th == 'รองศาสตราจารย์' ? 'selected' : '' }}>รองศาสตราจารย์</option>
+                                    <option value="ผู้ช่วยศาสตราจารย์" {{ $scholar->academic_ranks_th == 'ผู้ช่วยศาสตราจารย์' ? 'selected' : '' }}>ผู้ช่วยศาสตราจารย์</option>
+                                    <option value="อาจารย์" {{ $scholar->academic_ranks_th == 'อาจารย์' ? 'selected' : '' }}>อาจารย์</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-visiting">ลบ</button>
                     </div>
-                </div>
+                @endforeach
+            @endif
+        </div>
+        <button type="button" id="add-btn-visiting" class="btn btn-success btn-sm mt-2">
+            <i class="mdi mdi-plus"></i> เพิ่มนักวิจัยรับเชิญ
+        </button>
+    </div>
+</div>
+                            
+
 
                 <!-- ปุ่ม Submit / Back -->
                 <div class="form-group row mt-4">
@@ -402,16 +458,28 @@
             v++;
             var entryHtml = "";
             entryHtml += "<div class='visiting-scholar-entry border p-3 mb-3'>";
+            // บรรทัดแรก: รายชื่อ
             entryHtml += "<div class='form-group'>";
             entryHtml += "  <label>รายชื่อ</label>";
             entryHtml += "  <select class='visiting-author-select form-control' name='visiting[" + v + "][author_id]'>";
             entryHtml += "      <option value=''>-- เลือกจากรายชื่อ --</option>";
             entryHtml += "      <option value='manual'>เพิ่มด้วยตัวเอง</option>";
             @foreach($authors as $author)
-                entryHtml += "      <option value='{{ $author->id }}' data-first_name='{{ $author->author_fname }}' data-last_name='{{ $author->author_lname }}' data-affiliation='{{ $author->belong_to }}'>{{ $author->author_fname }} {{ $author->author_lname }} ({{ $author->belong_to }})</option>";
+                entryHtml += "      <option value='{{ $author->id }}' data-first_name='{{ $author->author_fname }}' data-last_name='{{ $author->author_lname }}' data-affiliation='{{ $author->belong_to }}' data-doctoral_degree='{{ $author->doctoral_degree }}' data-academic_ranks_en='{{ $author->academic_ranks_en }}' data-academic_ranks_th='{{ $author->academic_ranks_th }}'>{{ $author->author_fname }} {{ $author->author_lname }} ({{ $author->belong_to }})</option>";
             @endforeach
             entryHtml += "  </select>";
             entryHtml += "</div>";
+            
+            // บรรทัด Role: เลือกประเภท
+            entryHtml += "<div class='form-group'>";
+            entryHtml += "  <label>ประเภท</label>";
+            entryHtml += "  <select class='form-control' name='visiting[" + v + "][role]'>";
+            entryHtml += "      <option value='4'>Visiting Scholar</option>";
+            entryHtml += "      <option value='3'>Postdoctoral</option>";
+            entryHtml += "  </select>";
+            entryHtml += "</div>";
+            
+            // บรรทัดที่สอง: ชื่อและนามสกุล
             entryHtml += "<div class='form-row'>";
             entryHtml += "  <div class='form-group col-md-6'>";
             entryHtml += "    <label>ชื่อ</label>";
@@ -422,6 +490,8 @@
             entryHtml += "    <input type='text' name='visiting[" + v + "][last_name]' class='form-control visiting-last-name' placeholder='นามสกุล'>";
             entryHtml += "  </div>";
             entryHtml += "</div>";
+            
+            // บรรทัดที่สาม: สังกัดและอัปโหลดรูป
             entryHtml += "<div class='form-row'>";
             entryHtml += "  <div class='form-group col-md-6'>";
             entryHtml += "    <label>สังกัด</label>";
@@ -432,6 +502,38 @@
             entryHtml += "    <input type='file' name='visiting[" + v + "][picture]' class='form-control' accept='image/*'>";
             entryHtml += "  </div>";
             entryHtml += "</div>";
+            
+            // บรรทัดที่สี่: วุฒิการศึกษาและตำแหน่งทางวิชาการ
+            entryHtml += "<div class='form-row'>";
+            entryHtml += "  <div class='form-group col-md-4'>";
+            entryHtml += "    <label>วุฒิการศึกษาระดับปริญญาเอก</label>";
+            entryHtml += "    <select name='visiting[" + v + "][doctoral_degree]' class='form-control'>";
+            entryHtml += "      <option value='0'>ไม่มี</option>";
+            entryHtml += "      <option value='1'>มี</option>";
+            entryHtml += "    </select>";
+            entryHtml += "  </div>";
+            entryHtml += "  <div class='form-group col-md-4'>";
+            entryHtml += "    <label>ตำแหน่งทางวิชาการ (EN)</label>";
+            entryHtml += "    <select name='visiting[" + v + "][academic_ranks_en]' class='form-control academic-ranks-en'>";
+            entryHtml += "      <option value=''>-</option>";
+            entryHtml += "      <option value='Professor'>Professor</option>";
+            entryHtml += "      <option value='Associate Professor'>Associate Professor</option>";
+            entryHtml += "      <option value='Assistant Professor'>Assistant Professor</option>";
+            entryHtml += "      <option value='Lecturer'>Lecturer</option>";
+            entryHtml += "    </select>";
+            entryHtml += "  </div>";
+            entryHtml += "  <div class='form-group col-md-4'>";
+            entryHtml += "    <label>ตำแหน่งทางวิชาการ (TH)</label>";
+            entryHtml += "    <select name='visiting[" + v + "][academic_ranks_th]' class='form-control academic-ranks-th'>";
+            entryHtml += "      <option value=''>-</option>";
+            entryHtml += "      <option value='ศาสตราจารย์'>ศาสตราจารย์</option>";
+            entryHtml += "      <option value='รองศาสตราจารย์'>รองศาสตราจารย์</option>";
+            entryHtml += "      <option value='ผู้ช่วยศาสตราจารย์'>ผู้ช่วยศาสตราจารย์</option>";
+            entryHtml += "      <option value='อาจารย์'>อาจารย์</option>";
+            entryHtml += "    </select>";
+            entryHtml += "  </div>";
+            entryHtml += "</div>";
+            
             entryHtml += "<button type='button' class='btn btn-danger btn-sm remove-visiting'>ลบ</button>";
             entryHtml += "</div>";
 
@@ -441,6 +543,7 @@
                 allowClear: true,
             });
             updateVisitingOptions();
+            checkDoctoralForPostdoc();
         });
 
         $(document).on("change", ".visiting-author-select", function() {
@@ -448,16 +551,30 @@
             var selectedVal = $(this).val();
             var $entry = $(this).closest(".visiting-scholar-entry");
             if(selectedVal && selectedVal !== "manual"){
-                var firstName = $(this).find("option:selected").data("first_name");
-                var lastName = $(this).find("option:selected").data("last_name");
-                var affiliation = $(this).find("option:selected").data("affiliation");
-                $entry.find(".visiting-first-name").val(firstName).prop("readonly", false);
-                $entry.find(".visiting-last-name").val(lastName).prop("readonly", false);
-                $entry.find(".visiting-affiliation").val(affiliation).prop("readonly", false);
+                var $selectedOption = $(this).find("option:selected");
+                var firstName = $selectedOption.data("first_name");
+                var lastName = $selectedOption.data("last_name");
+                var affiliation = $selectedOption.data("affiliation");
+                var doctoralDegree = $selectedOption.data("doctoral_degree");
+                var academicRanksEn = $selectedOption.data("academic_ranks_en");
+                var academicRanksTh = $selectedOption.data("academic_ranks_th");
+                
+                $entry.find(".visiting-first-name").val(firstName);
+                $entry.find(".visiting-last-name").val(lastName);
+                $entry.find(".visiting-affiliation").val(affiliation);
+                $entry.find("select[name$='[doctoral_degree]']").val(doctoralDegree);
+                $entry.find("select[name$='[academic_ranks_en]']").val(academicRanksEn);
+                $entry.find("select[name$='[academic_ranks_th]']").val(academicRanksTh);
+                
+                // ตรวจสอบสิทธิ์การเลือก Postdoctoral
+                checkDoctoralForPostdoc();
             } else {
-                $entry.find(".visiting-first-name").val("").prop("readonly", false);
-                $entry.find(".visiting-last-name").val("").prop("readonly", false);
-                $entry.find(".visiting-affiliation").val("").prop("readonly", false);
+                $entry.find(".visiting-first-name").val("");
+                $entry.find(".visiting-last-name").val("");
+                $entry.find(".visiting-affiliation").val("");
+                $entry.find("select[name$='[doctoral_degree]']").val("0");
+                $entry.find("select[name$='[academic_ranks_en]']").val("");
+                $entry.find("select[name$='[academic_ranks_th]']").val("");
             }
         });
 
@@ -485,6 +602,115 @@
                 });
             });
         }
+
+        // การจับคู่ตำแหน่งทางวิชาการภาษาอังกฤษและภาษาไทย
+        $(document).on("change", ".academic-ranks-en", function() {
+            var value = $(this).val();
+            var $thSelect = $(this).closest('.form-row').find('.academic-ranks-th');
+            
+            // Map English ranks to Thai ranks
+            var rankMap = {
+                "": "",
+                "Professor": "ศาสตราจารย์",
+                "Associate Professor": "รองศาสตราจารย์",
+                "Assistant Professor": "ผู้ช่วยศาสตราจารย์",
+                "Lecturer": "อาจารย์"
+            };
+            
+            $thSelect.val(rankMap[value]);
+        });
+        
+        $(document).on("change", ".academic-ranks-th", function() {
+            var value = $(this).val();
+            var $enSelect = $(this).closest('.form-row').find('.academic-ranks-en');
+            
+            // Map Thai ranks to English ranks
+            var rankMap = {
+                "": "",
+                "ศาสตราจารย์": "Professor",
+                "รองศาสตราจารย์": "Associate Professor",
+                "ผู้ช่วยศาสตราจารย์": "Assistant Professor",
+                "อาจารย์": "Lecturer"
+            };
+            
+            $enSelect.val(rankMap[value]);
+        });
+
+        // ตรวจสอบวุฒิปริญญาเอกเพื่อกำหนดสิทธิ์การเลือก Postdoctoral
+        function checkDoctoralForPostdoc() {
+            $(".visiting-scholar-entry").each(function() {
+                var $entry = $(this);
+                var doctoralDegree = $entry.find("select[name$='[doctoral_degree]']").val();
+                var $roleSelect = $entry.find("select[name$='[role]']");
+                
+                // หากไม่มีวุฒิปริญญาเอก (0 หรือ ว่าง) ให้ปิดการเลือก Postdoctoral
+                if (doctoralDegree != "1") {
+                    // ถ้าเลือก Postdoctoral อยู่ ให้เปลี่ยนเป็น Visiting Scholar
+                    if ($roleSelect.val() == "3") {
+                        $roleSelect.val("4");
+                    }
+                    // ปิดการใช้งานตัวเลือก Postdoctoral
+                    $roleSelect.find("option[value='3']").prop("disabled", true);
+                } else {
+                    // เปิดการใช้งานตัวเลือก Postdoctoral
+                    $roleSelect.find("option[value='3']").prop("disabled", false);
+                }
+            });
+        }
+        
+        // เมื่อมีการเปลี่ยนแปลงวุฒิปริญญาเอก
+        $(document).on("change", "select[name$='[doctoral_degree]']", function() {
+            checkDoctoralForPostdoc();
+        });
+        
+        // ตรวจสอบเริ่มต้นหลังโหลดหน้า
+        $(document).ready(function() {
+            checkDoctoralForPostdoc();
+        });
+
+        // ฟังก์ชันสำหรับตรวจสอบและแสดงข้อมูล Postdoctoral
+        function updatePostdoctoralDisplay() {
+            $(".visiting-scholar-entry").each(function() {
+                var $entry = $(this);
+                var $roleSelect = $entry.find("select[name$='[role]']");
+                var $authorSelect = $entry.find(".visiting-author-select");
+                
+                // ดึงข้อมูลจาก author ที่เลือก
+                var selectedVal = $authorSelect.val();
+                if(selectedVal && selectedVal !== "manual") {
+                    var $selectedOption = $authorSelect.find("option:selected");
+                    var firstName = $selectedOption.data("first_name");
+                    var lastName = $selectedOption.data("last_name");
+                    var affiliation = $selectedOption.data("affiliation");
+                    var doctoralDegree = $selectedOption.data("doctoral_degree");
+                    var academicRanksEn = $selectedOption.data("academic_ranks_en");
+                    var academicRanksTh = $selectedOption.data("academic_ranks_th");
+                    
+                    // อัพเดทข้อมูลในฟอร์ม
+                    $entry.find(".visiting-first-name").val(firstName);
+                    $entry.find(".visiting-last-name").val(lastName);
+                    $entry.find(".visiting-affiliation").val(affiliation);
+                    $entry.find("select[name$='[doctoral_degree]']").val(doctoralDegree);
+                    $entry.find("select[name$='[academic_ranks_en]']").val(academicRanksEn);
+                    $entry.find("select[name$='[academic_ranks_th]']").val(academicRanksTh);
+                }
+            });
+        }
+
+        // เรียกใช้ฟังก์ชันเมื่อมีการเปลี่ยนแปลง role หรือ author
+        $(document).on("change", "select[name$='[role]']", function() {
+            var $entry = $(this).closest(".visiting-scholar-entry");
+            var $authorSelect = $entry.find(".visiting-author-select");
+            
+            // ถ้าเปลี่ยนเป็น Postdoctoral ให้ตรวจสอบข้อมูลใหม่
+            if($(this).val() == "3") {
+                updatePostdoctoralDisplay();
+            }
+        });
+        $(document).on("change", ".visiting-author-select", updatePostdoctoralDisplay);
+        
+        // เรียกใช้ฟังก์ชันครั้งแรกหลังโหลดหน้า
+        updatePostdoctoralDisplay();
     });
 </script>
 @stop
