@@ -1,0 +1,104 @@
+{
+    "name": "Assoc.Prof.Urachart Kokaew",
+    "affiliation": "Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Parallel KNN and neighborhood classification implementations on GPU for network intrusion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:qjMakFHDy7sC",
+            "authors": "P Kuttranont, K Boonprakob, C Phaudphut, S Permpol, ...",
+            "year": "2017"
+        },
+        {
+            "title": "A new deep learning model for the classification of poisonous and edible mushrooms based on improved AlexNet convolutional neural network",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:eQOLeE2rZwMC",
+            "authors": "W Ketwongsa, S Boonlue, U Kokaew",
+            "year": "2022"
+        },
+        {
+            "title": "Mobile animal tracking systems using light sensor for efficient power and cost saving motion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:u-x6o8ySG0sC",
+            "authors": "C So-In, C Phaudphut, S Tesana, N Weeramongkonlert, K Wijitsopon, ...",
+            "year": "2012"
+        },
+        {
+            "title": "Design computer-assisted learning in an online Augmented Reality environment based on Shneiderman's eight Golden Rules",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:9yKSN-GCB0IC",
+            "authors": "N Aottiwerch, U Kokaew",
+            "year": "2017"
+        },
+        {
+            "title": "The analysis of matching learners in pair programming using K-means",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:IjCSPb-OGe4C",
+            "authors": "N Aottiwerch, U Kokaew",
+            "year": "2018"
+        },
+        {
+            "title": "E-Learning Model to Identify the Learning Styles of Hearing-Impaired Students",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:ufrVoPGSRksC",
+            "authors": "T Luangrungruang, U Kokaew",
+            "year": "2022"
+        },
+        {
+            "title": "Applying universal design for learning in augmented reality education guidance for hearing impaired student",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:Y0pCki6q_DkC",
+            "authors": "T Luangrungruang, U Kokaew",
+            "year": "2018"
+        },
+        {
+            "title": "Adapting Fleming-type learning style classifications to deaf student behavior",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:WF5omc3nYNoC",
+            "authors": "T Luangrungruang, U Kokaew",
+            "year": "2022"
+        },
+        {
+            "title": "Optimization of culture conditions for xylanase production from cellulase-free xylanase-producing thermophilic fungus, Thermomyces dupontii KKU− CLD− E2− 3",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:W7OEmFMy1HYC",
+            "authors": "W Seemakram, S Boonrung, U Kokaew, T Aimi, S Boonlue",
+            "year": "2020"
+        },
+        {
+            "title": "Design and Development of an Integrated Online System Support for C/C++ Programming",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:u5HHmVD_uO8C",
+            "authors": "U Kokaew",
+            "year": "2015"
+        },
+        {
+            "title": "Brain Cancer Cell Detection Optimization Schemes Using Image Processing and Soft Computing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:2osOgNQ5qMEC",
+            "authors": "C Thammasakorn, C So-In, W Punjaruk, U Kokaew, B Waikham, ...",
+            "year": "2016"
+        },
+        {
+            "title": "E-Learning Model to Identify the Learning Styles of Hearing-Impaired Students. Sustainability 2022, 14, 13280",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:_FxGoFyzp5QC",
+            "authors": "T Luangrungruang, U Kokaew",
+            "year": "2022"
+        },
+        {
+            "title": "FILTERED BOOK FEATURES WITH ARTIFICIAL NEURAL NETWORK: A CASE STUDY OF THE BAN NONG SAENG SAMAKKEE BOOK OF THE AMSS++ SYSTEM OFFICE OF KHON KAEN PRIMARY EDUCATION AREA 5",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "S Khampong, U Kokaew",
+            "year": "2018"
+        },
+        {
+            "title": "Development of Learning Achievement System for Visual Programming Language",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:UeHWp8X0CEIC",
+            "authors": "U Kokaew,TJoochim,K Kubola, C Suphen",
+            "year": "2018"
+        },
+        {
+            "title": "Implementation of Code Studio to Thai Students for Promoting STEM education",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:YsMSGLbcyi4C",
+            "authors": "U Kokaew, N Aottiwerch",
+            "year": ""
+        },
+        {
+            "title": "Augmented Reality Enhanced Learning in Phylum/Division Basidiomycota",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eZGNz8cAAAAJ&citation_for_view=eZGNz8cAAAAJ:d1gkVwhDpl0C",
+            "authors": "U Kokaew, M Wattana, W Thamviset, S Faungfoo, N Aottiwech",
+            "year": ""
+        }
+    ]
+}
