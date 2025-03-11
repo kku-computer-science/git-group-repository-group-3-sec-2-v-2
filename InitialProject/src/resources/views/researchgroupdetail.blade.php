@@ -1,4 +1,8 @@
 @extends('layouts.layout')
+@php
+    use Illuminate\Support\Facades\DB;
+    use App\Models\Author;
+@endphp
 
 <style>
     .container-fluid {
@@ -221,9 +225,9 @@
             @endforeach
         </div>
 
-        <!-- Postdoctoral Researcher -->
+        <!-- Postdoctoral Researcher (ภายใน) -->
         @if($rg->user->where('pivot.role', 3)->isNotEmpty())
-        <h3 class="mt-5">Postdoctoral Researcher</h3>
+        <h3 class="mt-5">Postdoctoral Researcher (Internal)</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
             @foreach($rg->user as $r)
             @if(isset($r->pivot) && $r->pivot->role == 3)
@@ -245,6 +249,59 @@
                 </div>
             </div>
             @endif
+            @endforeach
+        </div>
+        @endif
+        
+        <!-- Postdoctoral Researcher (ภายนอก) -->
+        @php
+            $postdocExternal = [];
+            $extPostdocs = DB::table('work_of_research_groups')
+                ->where('research_group_id', $rg->id)
+                ->where('role', 3)
+                ->whereNull('user_id')
+                ->whereNotNull('author_id')
+                ->get();
+                
+            // ดึงข้อมูล author_id เพื่อหลีกเลี่ยงการซ้ำซ้อน
+            $processedAuthorIds = [];
+                
+            foreach($extPostdocs as $extPostdoc) {
+                // ข้ามถ้า author_id นี้ถูกประมวลผลไปแล้ว
+                if (in_array($extPostdoc->author_id, $processedAuthorIds)) {
+                    continue;
+                }
+                
+                $author = \App\Models\Author::find($extPostdoc->author_id);
+                if($author) {
+                    $postdocExternal[] = $author;
+                    $processedAuthorIds[] = $extPostdoc->author_id;
+                }
+            }
+        @endphp
+        
+        @if(count($postdocExternal) > 0)
+        <h3 class="mt-5">Postdoctoral Researcher (External)</h3>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
+            @foreach($postdocExternal as $scholar)
+            <div class="col">
+                <div class="member-card">
+                    <a class="profile-link">
+                        <img src="{{ $scholar->picture ? asset('images/imag_user/' . $scholar->picture) : asset('img/default-profile.png') }}"
+                            alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}"
+                            class="center-image">
+                    </a>
+                    <div class="person-info">
+                        @if(app()->getLocale() == 'en')
+                        <p>{{ $scholar->academic_ranks_en ? $scholar->academic_ranks_en . ' ' : '' }}{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        @else
+                        <p>{{ $scholar->academic_ranks_th ? $scholar->academic_ranks_th . ' ' : '' }}{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        @endif
+                        <p>{{ $scholar->belong_to }}</p>
+                        <a href="mailto:{{ $scholar->email }}" class="email">{{ $scholar->email }}</a>
+                    </div>
+                </div>
+            </div>
             @endforeach
         </div>
         @endif
@@ -281,19 +338,33 @@
         @endif
 
         <!-- Visiting Scholars -->
-        @if($rg->visitingScholars->isNotEmpty())
+        @php
+            $visitingScholars = [];
+            foreach($rg->visitingScholars as $scholar) {
+                $pivotData = $rg->visitingScholars()->where('author_id', $scholar->id)->first()->pivot;
+                if ($pivotData->role == 4) {
+                    $visitingScholars[] = $scholar;
+                }
+            }
+        @endphp
+        
+        @if(count($visitingScholars) > 0)
         <h3 class="mt-5">Visiting Scholars</h3>
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-4">
-            @foreach($rg->visitingScholars as $scholar)
+            @foreach($visitingScholars as $scholar)
             <div class="col">
                 <div class="member-card">
                     <a class="profile-link">
-                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}"
+                        <img src="{{ $scholar->picture ? asset('images/imag_user/' . $scholar->picture) : asset('img/default-profile.png') }}"
                             alt="{{ $scholar->author_fname }} {{ $scholar->author_lname }}"
                             class="center-image">
                     </a>
                     <div class="person-info">
-                        <p>{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        @if(app()->getLocale() == 'en')
+                        <p>{{ $scholar->academic_ranks_en ? $scholar->academic_ranks_en . ' ' : '' }}{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        @else
+                        <p>{{ $scholar->academic_ranks_th ? $scholar->academic_ranks_th . ' ' : '' }}{{ $scholar->author_fname }} {{ $scholar->author_lname }}</p>
+                        @endif
                         <p>{{ $scholar->belong_to }}</p>
                         <a href="mailto:{{ $scholar->email }}" class="email">{{ $scholar->email }}</a>
                     </div>
