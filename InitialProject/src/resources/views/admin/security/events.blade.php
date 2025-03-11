@@ -11,12 +11,17 @@ function getEventTypeColor($type) {
         case 'logout':
             return 'info';
         case 'sql_injection_attempt':
+            return 'danger';
         case 'xss_attempt':
+            return 'danger';
         case 'brute_force_attempt':
+            return 'danger';
         case 'ddos_attempt':
             return 'danger';
         case 'ip_auto_blocked':
             return 'dark';
+        case 'profile_updated':
+            return 'primary';
         default:
             return 'secondary';
     }
@@ -36,6 +41,8 @@ function getEventTypeClass($type) {
         case 'ddos_attempt':
         case 'ip_auto_blocked':
             return 'danger';
+        case 'profile_updated':
+            return 'primary';
         default:
             return 'secondary';
     }
@@ -52,6 +59,17 @@ function getThreatLevelIcon($level) {
         default:
             return 'mdi-help-circle';
     }
+}
+
+function formatUpdatedFields($fields) {
+    if (empty($fields)) return [];
+    
+    $formatted = [];
+    foreach ($fields as $key => $value) {
+        $label = ucwords(str_replace('_', ' ', $key));
+        $formatted[$label] = $value ?? 'Not set';
+    }
+    return $formatted;
 }
 @endphp
 
@@ -190,7 +208,9 @@ function getThreatLevelIcon($level) {
                                         {{ $event->ip_address }}
                                     @endif
                                 </td>
-                                <td>{{ Str::limit($event->details ?? 'No details available', 50) }}</td>
+                                <td>
+                                    <div class="details-cell">{{ $event->details }}</div>
+                                </td>
                                 <td>
                                     <span class="threat-level {{ $event->threat_level }}">
                                         {{ ucfirst($event->threat_level) }}
@@ -304,7 +324,7 @@ function getThreatLevelIcon($level) {
                                         <span class="detail-label">User Agent:</span>
                                         <span class="detail-value">
                                             <small class="text-muted">{{ $event->user_agent }}</small>
-                                        </span>
+                            </span>
                                     </div>
                                 </div>
                             </div>
@@ -319,57 +339,232 @@ function getThreatLevelIcon($level) {
                                 </h6>
                             </div>
                             
-                            @if(isset($event->request_details))
+                            @if($event->request_details)
                                 @php
                                     $requestDetails = is_string($event->request_details) ? json_decode($event->request_details, true) : $event->request_details;
                                 @endphp
                                 
-                                <!-- URL and Method -->
-                                <div class="detail-group mb-3">
-                                    <label class="text-muted mb-1">URL</label>
-                                    <div class="url-display p-2 bg-light rounded">
-                                        <span class="method-badge {{ strtolower($requestDetails['method'] ?? 'get') }}">
-                                            {{ $requestDetails['method'] ?? 'GET' }}
-                                        </span>
-                                        <span class="url-text">{{ $requestDetails['url'] ?? 'N/A' }}</span>
+                                @if($event->event_type === 'profile_updated' && isset($requestDetails['updated_fields']))
+                                <!-- Profile Update Information -->
+                                <div class="detail-card mb-3">
+                                    <div class="detail-card-header">
+                                        <i class="mdi mdi-account-edit text-primary"></i>
+                                        Profile Updates
+                                    </div>
+                                    <div class="detail-card-body">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Update Time:</span>
+                                            <span class="detail-value">{{ $requestDetails['update_time'] ?? 'N/A' }}</span>
+                                        </div>
+                                        
+                                        @if(isset($requestDetails['updated_fields']))
+                                            @php
+                                                $formattedFields = formatUpdatedFields($requestDetails['updated_fields']);
+                                            @endphp
+                                            <div class="detail-item">
+                                                <span class="detail-label">Changes:</span>
+                                                <span class="detail-value">
+                                                    <div class="updated-fields-list">
+                                                        @foreach($formattedFields as $field => $value)
+                                                            <div class="updated-field-item">
+                                                                <span class="field-name">{{ $field }}:</span>
+                                                                <span class="field-value">{{ is_null($value) ? 'null' : $value }}</span>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
-
-                                <!-- Headers -->
-                                <div class="detail-group mb-3">
-                                    <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <label class="text-muted mb-0">Headers</label>
+                                
+                                @elseif($event->event_type === 'successful_login' && isset($requestDetails['username']))
+                                <!-- Login Information -->
+                                <div class="detail-card mb-3">
+                                    <div class="detail-card-header">
+                                        <i class="mdi mdi-login text-success"></i>
+                                        Login Details
+                                    </div>
+                                    <div class="detail-card-body">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Username:</span>
+                                            <span class="detail-value">{{ $requestDetails['username'] ?? 'N/A' }}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Login Time:</span>
+                                            <span class="detail-value">{{ $requestDetails['login_time'] ?? 'N/A' }}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Login Type:</span>
+                                            <span class="detail-value">
+                                                <span class="badge badge-info">{{ $requestDetails['login_type'] ?? 'N/A' }}</span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                @elseif($event->event_type === 'logout' && isset($requestDetails['logout_time']))
+                                <!-- Logout Information -->
+                                <div class="detail-card mb-3">
+                                    <div class="detail-card-header">
+                                        <i class="mdi mdi-logout text-info"></i>
+                                        Logout Details
+                                    </div>
+                                    <div class="detail-card-body">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Logout Time:</span>
+                                            <span class="detail-value">{{ $requestDetails['logout_time'] ?? 'N/A' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                @elseif($event->event_type === 'ip_auto_blocked' && isset($requestDetails['block_reason']))
+                                <!-- IP Block Information -->
+                                <div class="detail-card mb-3">
+                                    <div class="detail-card-header">
+                                        <i class="mdi mdi-shield-lock text-dark"></i>
+                                        IP Block Details
+                                    </div>
+                                    <div class="detail-card-body">
+                                        <div class="detail-item">
+                                            <span class="detail-label">Block Reason:</span>
+                                            <span class="detail-value text-danger">{{ $requestDetails['block_reason'] ?? 'N/A' }}</span>
+                                        </div>
+                                        @if(isset($requestDetails['threat_score']))
+                                        <div class="detail-item">
+                                            <span class="detail-label">Threat Score:</span>
+                                            <span class="detail-value">
+                                                <div class="threat-score-badge {{ (int)$requestDetails['threat_score'] >= 8 ? 'high' : ((int)$requestDetails['threat_score'] >= 5 ? 'medium' : 'low') }}">
+                                                    {{ $requestDetails['threat_score'] }}/10
+                                                </div>
+                                            </span>
+                                        </div>
+                                        @endif
+                                        @if(isset($requestDetails['trigger_event']))
+                                        <div class="detail-item">
+                                            <span class="detail-label">Trigger Event:</span>
+                                            <span class="detail-value">
+                                                <span class="badge badge-danger">{{ str_replace('_', ' ', $requestDetails['trigger_event']) }}</span>
+                                            </span>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                
+                                @elseif(in_array($event->event_type, ['sql_injection_attempt', 'xss_attempt']) && isset($requestDetails['detected_pattern']))
+                                <!-- Attack Pattern Information -->
+                                <div class="detail-card mb-3">
+                                    <div class="detail-card-header">
+                                        <i class="mdi {{ $event->icon_class }} text-danger"></i>
+                                        Attack Pattern Details
+                                    </div>
+                                    <div class="detail-card-body">
+                                        <div class="detail-item">
+                                            <span class="detail-label">URL:</span>
+                                            <span class="detail-value url-display">{{ $requestDetails['url'] ?? 'N/A' }}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Method:</span>
+                                            <span class="detail-value">
+                                                <span class="method-badge {{ strtolower($requestDetails['method'] ?? 'get') }}">
+                                                    {{ $requestDetails['method'] ?? 'GET' }}
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Pattern:</span>
+                                            <span class="detail-value">
+                                                <div class="pattern-display p-2 bg-danger-light rounded">
+                                                    <i class="mdi mdi-alert-circle text-danger mr-1"></i>
+                                                    <code>{{ $requestDetails['detected_pattern'] }}</code>
+                                                </div>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                @elseif(in_array($event->event_type, ['brute_force_attempt', 'ddos_attempt', 'failed_login']))
+                                <!-- Attack Information -->
+                                <div class="detail-card mb-3">
+                                    <div class="detail-card-header">
+                                        <i class="mdi {{ $event->icon_class }} text-{{ getEventTypeColor($event->event_type) }}"></i>
+                                        {{ ucwords(str_replace('_', ' ', $event->event_type)) }} Details
+                                    </div>
+                                    <div class="detail-card-body">
+                                        <div class="detail-item">
+                                            <span class="detail-label">URL:</span>
+                                            <span class="detail-value url-display">{{ $requestDetails['url'] ?? 'N/A' }}</span>
+                                        </div>
+                                        <div class="detail-item">
+                                            <span class="detail-label">Method:</span>
+                                            <span class="detail-value">
+                                                <span class="method-badge {{ strtolower($requestDetails['method'] ?? 'get') }}">
+                                                    {{ $requestDetails['method'] ?? 'GET' }}
+                                                </span>
+                                            </span>
+                                        </div>
+                                        @if(isset($requestDetails['username']))
+                                        <div class="detail-item">
+                                            <span class="detail-label">Username:</span>
+                                            <span class="detail-value">{{ $requestDetails['username'] }}</span>
+                                        </div>
+                                        @endif
+                                        @if(isset($requestDetails['password_length']))
+                                        <div class="detail-item">
+                                            <span class="detail-label">Password Length:</span>
+                                            <span class="detail-value">{{ $requestDetails['password_length'] }} characters</span>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </div>
+                                @endif
+                                
+                                <!-- Headers Information (for all request types) -->
+                                @if(isset($requestDetails['headers']))
+                                <div class="detail-card mb-3">
+                                    <div class="detail-card-header d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="mdi mdi-format-header-pound text-secondary"></i>
+                                            Headers
+                                        </div>
                                         <button class="btn btn-sm btn-link p-0" type="button" data-toggle="collapse" 
                                                 data-target="#headersCollapse{{ $event->id }}">
                                             <i class="mdi mdi-chevron-down"></i>
                                         </button>
                                     </div>
                                     <div class="collapse" id="headersCollapse{{ $event->id }}">
-                                        <div class="headers-container bg-light rounded p-2">
-                                            @if(isset($requestDetails['headers']))
+                                        <div class="detail-card-body">
+                                            <div class="headers-container">
                                                 @foreach($requestDetails['headers'] as $header => $values)
                                                     <div class="header-item">
                                                         <span class="header-name">{{ $header }}:</span>
                                                         <span class="header-value">{{ is_array($values) ? implode(', ', $values) : $values }}</span>
                                                     </div>
                                                 @endforeach
-                                            @else
-                                                <p class="mb-0 text-muted">No headers available</p>
-                                            @endif
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Detected Pattern -->
-                                @if(isset($requestDetails['detected_pattern']))
-                                <div class="detail-group">
-                                    <label class="text-muted mb-1">Detected Pattern</label>
-                                    <div class="pattern-display p-2 bg-danger-light rounded">
-                                        <i class="mdi mdi-alert-circle text-danger mr-1"></i>
-                                        <code>{{ $requestDetails['detected_pattern'] }}</code>
+                                @endif
+                                
+                                <!-- Raw JSON Data (for all request types) -->
+                                <div class="detail-card">
+                                    <div class="detail-card-header d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <i class="mdi mdi-code-json text-secondary"></i>
+                                            Raw JSON Data
+                                        </div>
+                                        <button class="btn btn-sm btn-link p-0" type="button" data-toggle="collapse" 
+                                                data-target="#rawJsonCollapse{{ $event->id }}">
+                                            <i class="mdi mdi-chevron-down"></i>
+                                        </button>
+                                    </div>
+                                    <div class="collapse" id="rawJsonCollapse{{ $event->id }}">
+                                        <div class="detail-card-body">
+                                            <pre class="json-data">{{ json_encode($requestDetails, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
+                                        </div>
                                     </div>
                                 </div>
-                                @endif
                             @else
                                 <p class="text-muted">No request details available</p>
                             @endif
@@ -384,110 +579,16 @@ function getThreatLevelIcon($level) {
                                         <span>Additional Information</span>
                                     </h6>
                                 </div>
-
+                                
                                 @php
                                     $additionalData = is_string($event->additional_data) ? json_decode($event->additional_data, true) : $event->additional_data;
                                 @endphp
-
-                                @if(isset($additionalData['username']) || isset($additionalData['login_time']) || isset($additionalData['login_type']))
-                                <!-- Login Information -->
-                                <div class="detail-card mb-3">
-                                    <div class="detail-card-header">
-                                        <i class="mdi mdi-login text-primary"></i>
-                                        Login Details
-                                    </div>
-                                    <div class="detail-card-body">
-                                        @if(isset($additionalData['username']))
-                                            <div class="detail-item">
-                                                <span class="detail-label">Username:</span>
-                                                <span class="detail-value">{{ $additionalData['username'] }}</span>
-                                            </div>
-                                        @endif
-                                        @if(isset($additionalData['login_time']))
-                                            <div class="detail-item">
-                                                <span class="detail-label">Login Time:</span>
-                                                <span class="detail-value">{{ $additionalData['login_time'] }}</span>
-                                            </div>
-                                        @endif
-                                        @if(isset($additionalData['login_type']))
-                                            <div class="detail-item">
-                                                <span class="detail-label">Login Type:</span>
-                                                <span class="detail-value badge badge-info">{{ $additionalData['login_type'] }}</span>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                @endif
-
-                                @if(isset($additionalData['logout_time']))
-                                <!-- Logout Information -->
-                                <div class="detail-card mb-3">
-                                    <div class="detail-card-header">
-                                        <i class="mdi mdi-logout text-warning"></i>
-                                        Logout Details
-                                    </div>
-                                    <div class="detail-card-body">
-                                        <div class="detail-item">
-                                            <span class="detail-label">Logout Time:</span>
-                                            <span class="detail-value">{{ $additionalData['logout_time'] }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                @endif
-
-                                @if(isset($additionalData['block_reason']) || isset($additionalData['threat_score']) || isset($additionalData['trigger_event']))
-                                <!-- Security Information -->
-                                <div class="detail-card mb-3">
-                                    <div class="detail-card-header">
-                                        <i class="mdi mdi-shield-alert text-danger"></i>
-                                        Security Alert
-                                    </div>
-                                    <div class="detail-card-body">
-                                        @if(isset($additionalData['block_reason']))
-                                            <div class="detail-item">
-                                                <span class="detail-label">Block Reason:</span>
-                                                <span class="detail-value text-danger">{{ $additionalData['block_reason'] }}</span>
-                                            </div>
-                                        @endif
-                                        @if(isset($additionalData['threat_score']))
-                                            <div class="detail-item">
-                                                <span class="detail-label">Threat Score:</span>
-                                                <span class="detail-value">
-                                                    <div class="threat-score-badge {{ $additionalData['threat_score'] >= 8 ? 'high' : ($additionalData['threat_score'] >= 5 ? 'medium' : 'low') }}">
-                                                        {{ $additionalData['threat_score'] }}/10
-                                                    </div>
-                                                </span>
-                                            </div>
-                                        @endif
-                                        @if(isset($additionalData['trigger_event']))
-                                            <div class="detail-item">
-                                                <span class="detail-label">Trigger Event:</span>
-                                                <span class="detail-value badge badge-danger">{{ str_replace('_', ' ', $additionalData['trigger_event']) }}</span>
-                                            </div>
-                                        @endif
-                                    </div>
-                                </div>
-                                @endif
-
-                                <!-- Other/Unknown Data -->
-                                @php
-                                    $otherData = array_diff_key($additionalData, array_flip([
-                                        'username', 'login_time', 'login_type',
-                                        'logout_time',
-                                        'block_reason', 'threat_score', 'trigger_event'
-                                    ]));
-                                @endphp
-                                @if(!empty($otherData))
+                                
                                 <div class="detail-card">
-                                    <div class="detail-card-header">
-                                        <i class="mdi mdi-code-json text-secondary"></i>
-                                        Other Details
-                                    </div>
                                     <div class="detail-card-body">
-                                        <pre class="mb-0 other-data">{{ json_encode($otherData, JSON_PRETTY_PRINT) }}</pre>
+                                        <pre class="json-data">{{ json_encode($additionalData, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) }}</pre>
                                     </div>
                                 </div>
-                                @endif
                             </div>
                         </div>
                         @endif
@@ -535,6 +636,16 @@ $(document).ready(function() {
         var form = $('#filterForm');
         form.find('input, select').val('');
         form.submit();
+    });
+
+    // Format JSON data in modals
+    $('.json-data').each(function() {
+        try {
+            const jsonData = JSON.parse($(this).text());
+            $(this).html(JSON.stringify(jsonData, null, 2));
+        } catch (e) {
+            console.error('Error parsing JSON:', e);
+        }
     });
 });
 
@@ -659,8 +770,7 @@ function resetBlockButtons(buttons) {
 .method-badge.delete { background-color: #ffebee; color: #d32f2f; }
 
 .headers-container {
-    max-height: 200px;
-    overflow-y: auto;
+    max-height: none !important;
 }
 
 .header-item {
@@ -794,6 +904,8 @@ function resetBlockButtons(buttons) {
     font-family: monospace;
     margin: 0;
     white-space: pre-wrap;
+    max-height: none !important;
+    overflow: visible !important;
 }
 
 /* Event Details Section Styling */
@@ -907,6 +1019,174 @@ function resetBlockButtons(buttons) {
 .text-wrap {
     white-space: normal;
     word-break: break-word;
+}
+
+/* Profile Update Styling */
+.updated-fields-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+}
+
+.updated-field-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.updated-field-item:last-child {
+    border-bottom: none;
+}
+
+.field-name {
+    flex: 0 0 120px;
+    font-weight: 500;
+    color: #495057;
+    font-size: 0.875rem;
+}
+
+.field-value {
+    flex: 1;
+    color: #212529;
+    font-size: 0.875rem;
+    word-break: break-word;
+}
+
+.event-type-badge.primary {
+    background-color: rgba(13, 110, 253, 0.1);
+    color: #0d6efd;
+}
+
+/* Table Cell Styling */
+.details-cell {
+    max-width: 300px;
+    white-space: normal;
+    word-wrap: break-word;
+}
+
+/* JSON Display Styling */
+.json-data {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.875rem;
+    background-color: #f8f9fa;
+    border-radius: 0.375rem;
+    padding: 1rem;
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #212529;
+    border: 1px solid rgba(0,0,0,0.1);
+    overflow-x: auto;
+    max-height: none !important;
+}
+
+.json-data::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+}
+
+.json-data::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.json-data::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.json-data::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Update Modal Body Max Height */
+.modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Update Headers Container */
+.headers-container {
+    max-height: none !important;
+}
+
+/* Update Other Data Display */
+.other-data {
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+/* Update Field Value Display */
+.field-value {
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+/* URL Display */
+.url-display {
+    font-family: monospace;
+    word-break: break-all;
+    background-color: #f8f9fa;
+    padding: 0.375rem;
+    border-radius: 0.25rem;
+    display: inline-block;
+}
+
+/* Pattern Display */
+.pattern-display {
+    font-family: monospace;
+    word-break: break-all;
+}
+
+.bg-danger-light {
+    background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Headers Container */
+.headers-container {
+    max-height: none !important;
+}
+
+.header-item {
+    padding: 0.375rem 0;
+    font-family: monospace;
+    font-size: 0.875rem;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.header-item:last-child {
+    border-bottom: none;
+}
+
+.header-name {
+    color: #6c757d;
+    margin-right: 0.5rem;
+    font-weight: 500;
+}
+
+.header-value {
+    word-break: break-all;
 }
 </style>
 @endsection 
