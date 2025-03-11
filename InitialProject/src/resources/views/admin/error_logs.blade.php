@@ -7,20 +7,20 @@
 <style>
     .logs-container {
         padding: 20px;
-        background: #f8f9fe;
+        background: #eef2f7;
     }
 
     .content-card {
         background: white;
         border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         margin-bottom: 30px;
     }
 
     .content-card .card-header {
-        padding: 20px;
+        padding: 25px;
         border-bottom: 1px solid #e9ecef;
-        background: linear-gradient(87deg, #11cdef, #1171ef) !important;
+        background: linear-gradient(87deg, #172b4d, #1a174d) !important;
         border-radius: 15px 15px 0 0;
         color: white;
     }
@@ -43,20 +43,23 @@
     }
 
     .table th {
-        font-size: 0.875rem;
+        font-size: 0.9rem;
         font-weight: 600;
-        padding: 12px 20px;
-        color: #525f7f;
-        border-bottom: 1px solid #e9ecef;
-        background: #f6f9fc;
+        padding: 16px 20px;
+        color: #2d3748;
+        border-bottom: 2px solid #e9ecef;
+        background: #f8fafc;
+        letter-spacing: 0.3px;
     }
 
     .table td {
-        padding: 12px 20px;
+        padding: 16px 20px;
         vertical-align: middle;
         border-top: 1px solid #e9ecef;
-        color: #525f7f;
+        color: #4a5568;
         font-size: 0.875rem;
+        line-height: 1.6;
+        letter-spacing: 0.2px;
     }
 
     .table tr:hover {
@@ -64,17 +67,18 @@
     }
 
     .badge {
-        padding: 5px 10px;
+        padding: 6px 12px;
         font-size: 0.75rem;
         font-weight: 600;
-        border-radius: 5px;
+        border-radius: 6px;
+        letter-spacing: 0.3px;
     }
 
     .filter-form {
-        padding: 20px;
+        padding: 25px;
         background: white;
         border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         margin-bottom: 30px;
         border-left: 4px solid #5e72e4;
     }
@@ -135,14 +139,12 @@
     }
 
     .page-header {
-        background: linear-gradient(87deg, #5e72e4, #825ee4);
-        padding: 30px;
+        background: linear-gradient(87deg, #172b4d, #1a174d);
+        padding: 35px;
         border-radius: 15px;
         margin-bottom: 30px;
         color: white;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
     .page-title-container {
@@ -152,15 +154,19 @@
     .page-title {
         margin: 0;
         font-weight: 600;
+        font-size: 1.8rem;
+        letter-spacing: 0.5px;
     }
 
     .page-subtitle {
-        opacity: 0.8;
-        margin-bottom: 0;
+        opacity: 0.9;
+        margin: 8px 0 0 0;
+        font-size: 1rem;
+        letter-spacing: 0.3px;
     }
 
     .modal-header {
-        background: linear-gradient(87deg, #5e72e4, #825ee4);
+        background: linear-gradient(87deg, #172b4d, #1a174d);
         color: white;
         border-radius: 0.3rem 0.3rem 0 0;
     }
@@ -226,24 +232,31 @@
     }
 
     pre.error-details {
-        white-space: pre-wrap;
-        word-break: break-word;
-        background: #f8f9fa;
-        padding: 15px;
-        border-radius: 5px;
-        border: 1px solid #e9ecef;
-        font-size: 0.85rem;
-        max-height: 300px;
-        overflow-y: auto;
+        padding: 20px;
+        border-radius: 8px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        font-size: 0.9rem;
+        line-height: 1.6;
     }
 
     /* Style for JSON viewer */
     .json-explorer {
-        font-family: 'Courier New', monospace;
+        padding: 20px;
+        background: #f8fafc;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+    }
+    
+    .json-item {
+        margin-bottom: 15px;
+        line-height: 1.6;
     }
     
     .json-item strong {
+        color: #4a5568;
         font-weight: 600;
+        margin-right: 8px;
     }
     
     /* Hover effect for the details button */
@@ -262,11 +275,11 @@
 <div class="logs-container">
     <div class="page-header">
         <div class="page-title-container">
-            <h1 class="page-title">Error Logs</h1>
+            <h1 class="page-title  mb-3">Error Logs</h1>
             <p class="page-subtitle">Monitor system errors in detail</p>
         </div>
         <div>
-            <a href="{{ route('dashboard') }}" class="btn btn-light back-button">
+            <a href="{{ route('dashboard') }}" class="btn btn-dark back-button">
                 <i class="mdi mdi-arrow-left"></i> Back to Dashboard
             </a>
         </div>
@@ -359,13 +372,13 @@
                                 
                                 switch(strtolower($level)) {
                                     case 'error':
-                                        $badgeClass = 'bg-error';
+                                        $badgeClass = 'bg-danger';
                                         break;
                                     case 'warning':
                                         $badgeClass = 'bg-warning';
                                         break;
                                     case 'emergency':
-                                        $badgeClass = 'bg-emergency';
+                                        $badgeClass = 'bg-dark';
                                         break;
                                     case 'info':
                                     default:
@@ -407,7 +420,7 @@
                             
                             switch(strtolower($level)) {
                                 case 'error':
-                                    $badgeClass = 'bg-error';
+                                    $badgeClass = 'bg-danger';
                                     break;
                                 case 'warning':
                                     $badgeClass = 'bg-warning';
