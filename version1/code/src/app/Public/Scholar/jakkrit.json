@@ -1,0 +1,38 @@
+{
+    "name": "Jakkrit Kaewyotha",
+    "affiliation": "College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Advancing Facial Expression Recognition in Online Learning Education Using a Homogeneous Ensemble Convolutional Neural Network Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=hk7hj_gAAAAJ&citation_for_view=hk7hj_gAAAAJ:9yKSN-GCB0IC",
+            "authors": "R Lawpanom, W Songpan, J Kaewyotha",
+            "year": "2024"
+        },
+        {
+            "title": "A study on the optimization algorithm for solving the supermarket shopping path problem",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=hk7hj_gAAAAJ&citation_for_view=hk7hj_gAAAAJ:u5HHmVD_uO8C",
+            "authors": "J Kaewyotha, W Songpan",
+            "year": "2018"
+        },
+        {
+            "title": "Multi-objective design of profit volumes and closeness ratings using mbhs optimizing based on the prefixspan mining approach (Psma) for product layout in supermarkets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=hk7hj_gAAAAJ&citation_for_view=hk7hj_gAAAAJ:d1gkVwhDpl0C",
+            "authors": "J Kaewyotha, W Songpan",
+            "year": "2021"
+        },
+        {
+            "title": "Finding the critical path with loop structure for a basis path testing using genetic algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=hk7hj_gAAAAJ&citation_for_view=hk7hj_gAAAAJ:u-x6o8ySG0sC",
+            "authors": "J Kaewyotha, W Songpan",
+            "year": "2015"
+        },
+        {
+            "title": "AI-Driven Prompt Templates for User Acceptance Test Case Generation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=hk7hj_gAAAAJ&citation_for_view=hk7hj_gAAAAJ:2osOgNQ5qMEC",
+            "authors": "W Sisomboon, J Kaewyotha, P Dansakulcharoenkit, W Songpan",
+            "year": "2024"
+        }
+    ]
+}

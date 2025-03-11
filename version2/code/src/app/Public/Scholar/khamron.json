@@ -1,0 +1,128 @@
+{
+    "name": "Khamron Sunat, Ph.D.",
+    "affiliation": "Assistant Professor in Computer Science, College of Computing, Khon Kaen University, Thailand",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Robust extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:u5HHmVD_uO8C",
+            "authors": "P Horata, S Chiewchanwattana, K Sunat",
+            "year": "2013"
+        },
+        {
+            "title": "An improved grey wolf optimizer for training q-Gaussian Radial Basis Functional-link nets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:qUcmZB5y_30C",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2014"
+        },
+        {
+            "title": "Efficient algorithms based on the k-means and Chaotic League Championship Algorithm for numeric, categorical, and mixed-type data clustering",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:k_IJM867U9cC",
+            "authors": "T Wangchamhan, S Chiewchanwattana, K Sunat",
+            "year": "2017"
+        },
+        {
+            "title": "A new artificial intelligence approach using extreme learning machine as the potentially effective model to predict and analyze the diagnosis of anemia",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:cFHS6HbyZ2cC",
+            "authors": "DCE Saputra, K Sunat, T Ratnaningsih",
+            "year": "2023"
+        },
+        {
+            "title": "An advanced onlooker-ranking-based adaptive differential evolution to extract the parameters of solar cell models",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:BqipwSGYUEgC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana, S Kaiwinit",
+            "year": "2019"
+        },
+        {
+            "title": "Multilevel thresholding for satellite image segmentation with moth-flame based optimization",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:4JMBOYKVnBMC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2016"
+        },
+        {
+            "title": "Joint Opposite Selection (JOS): A premiere joint of selective leading opposition and dynamic opposite enhanced Harris’ hawks optimization for solving single-objective problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:ZHo1McVdvXMC",
+            "authors": "FY Arini, S Chiewchanwattana, C Soomlek, K Sunat",
+            "year": "2022"
+        },
+        {
+            "title": "Kernel extreme learning machine based on fuzzy set theory for multi-label classification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:hMod-77fHWUC",
+            "authors": "Y Kongsorot, P Horata, P Musikawan, K Sunat",
+            "year": "2019"
+        },
+        {
+            "title": "A discrimination analysis for unsupervised feature selection via optic diffraction principle",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:YsMSGLbcyi4C",
+            "authors": "P Padungweang, C Lursinsap, K Sunat",
+            "year": "2012"
+        },
+        {
+            "title": "Comparative study of computational time that HOG-based features used for vehicle detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:JV2RwH3_ST0C",
+            "authors": "N Laopracha, K Sunat",
+            "year": "2018"
+        },
+        {
+            "title": "Omfo: A new opposition-based moth-flame optimization algorithm for solving unconstrained optimization problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:blknAaTinKkC",
+            "authors": "W Apinantanakon, K Sunat",
+            "year": "2018"
+        },
+        {
+            "title": "Enhancing modified cuckoo search by using Mantegna Lévy flights and chaotic sequences",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:5nxA0vEk-isC",
+            "authors": "P Nasa-ngium, K Sunat, S Chiewchanwattana",
+            "year": "2013"
+        },
+        {
+            "title": "A novel feature selection in vehicle detection through the selection of dominant patterns of histograms of oriented gradients (DPHOG)",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:RGFaLdJalmkC",
+            "authors": "N Laopracha, K Sunat, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "Rr-cr-IJADE: An efficient differential evolution algorithm for multilevel image thresholding",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:maZDTaKrznsC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2017"
+        },
+        {
+            "title": "PFP-PCA: parallel fixed point PCA face recognition",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "K Rujirakul, C So-In, B Arnonkijpanich, K Sunat, S Poolsanguan",
+            "year": "2013"
+        },
+        {
+            "title": "The Differentiated Creative search (DCS): Leveraging Differentiated knowledge-acquisition and Creative realism to address complex optimization problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:abG-DnoFyZgC",
+            "authors": "P Duankhan, K Sunat, S Chiewchanwattana, P Nasa-ngium",
+            "year": "2024"
+        },
+        {
+            "title": "A global multilevel thresholding using differential evolution approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:3fE2CSJIrl8C",
+            "authors": "K Charansiriphaisan, S Chiewchanwattana, K Sunat",
+            "year": "2014"
+        },
+        {
+            "title": "Parallelized metaheuristic-ensemble of heterogeneous feedforward neural networks for regression problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:NaGl4SEjCO4C",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot, P Horata, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "A combination of shape and texture classifiers for a face verification system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:u-x6o8ySG0sC",
+            "authors": "S Srisuk, M Petrou, R Fooprateep, K Sunat, W Kurutach, P Chopaka",
+            "year": "2004"
+        },
+        {
+            "title": "A new shape matching measure for nonlinear distorted object recognition",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=eMdpRLEAAAAJ&citation_for_view=eMdpRLEAAAAJ:d1gkVwhDpl0C",
+            "authors": "S Srisuk, M Tamsri, R Fooprateepsiri, P Sookavatana, K Sunat",
+            "year": "2003"
+        }
+    ]
+}
