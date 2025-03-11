@@ -1,0 +1,128 @@
+{
+    "name": "Sirapat Chiewchanwattana, Ph.D.",
+    "affiliation": "Associate Professor in Computer Science, College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Robust extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:u5HHmVD_uO8C",
+            "authors": "P Horata, S Chiewchanwattana, K Sunat",
+            "year": "2013"
+        },
+        {
+            "title": "An improved grey wolf optimizer for training q-Gaussian Radial Basis Functional-link nets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:MXK_kJrjxJIC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2014"
+        },
+        {
+            "title": "Efficient algorithms based on the k-means and Chaotic League Championship Algorithm for numeric, categorical, and mixed-type data clustering",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:ZeXyd9-uunAC",
+            "authors": "T Wangchamhan, S Chiewchanwattana, K Sunat",
+            "year": "2017"
+        },
+        {
+            "title": "An advanced onlooker-ranking-based adaptive differential evolution to extract the parameters of solar cell models",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:hFOr9nPyWt4C",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana, S Kaiwinit",
+            "year": "2019"
+        },
+        {
+            "title": "Multilevel thresholding for satellite image segmentation with moth-flame based optimization",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:9ZlFYXVOiuMC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2016"
+        },
+        {
+            "title": "Joint Opposite Selection (JOS): A premiere joint of selective leading opposition and dynamic opposite enhanced Harris’ hawks optimization for solving single-objective problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:k_IJM867U9cC",
+            "authors": "FY Arini, S Chiewchanwattana, C Soomlek, K Sunat",
+            "year": "2022"
+        },
+        {
+            "title": "Enhancing modified cuckoo search by using Mantegna Lévy flights and chaotic sequences",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:roLk4NBRz8UC",
+            "authors": "P Nasa-ngium, K Sunat, S Chiewchanwattana",
+            "year": "2013"
+        },
+        {
+            "title": "Imputing incomplete time-series data based on varied-window similarity measure of data sequences",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:u-x6o8ySG0sC",
+            "authors": "S Chiewchanwattana, C Lursinsap, CHH Chu",
+            "year": "2007"
+        },
+        {
+            "title": "A novel feature selection in vehicle detection through the selection of dominant patterns of histograms of oriented gradients (DPHOG)",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:R3hNpaxXUhUC",
+            "authors": "N Laopracha, K Sunat, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "Rr-cr-IJADE: An efficient differential evolution algorithm for multilevel image thresholding",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:IWHjjKOFINEC",
+            "authors": "N Muangkote, K Sunat, S Chiewchanwattana",
+            "year": "2017"
+        },
+        {
+            "title": "The Differentiated Creative search (DCS): Leveraging Differentiated knowledge-acquisition and Creative realism to address complex optimization problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:YFjsv_pBGBYC",
+            "authors": "P Duankhan, K Sunat, S Chiewchanwattana, P Nasa-ngium",
+            "year": "2024"
+        },
+        {
+            "title": "A global multilevel thresholding using differential evolution approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:Y0pCki6q_DkC",
+            "authors": "K Charansiriphaisan, S Chiewchanwattana, K Sunat",
+            "year": "2014"
+        },
+        {
+            "title": "Parallelized metaheuristic-ensemble of heterogeneous feedforward neural networks for regression problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:e5wmG9Sq2KIC",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot, P Horata, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "Time-series data prediction based on reconstruction of missing samples and selective ensembling of FIR neural networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:_kc_bZDykSQC",
+            "authors": "S Chiewchanwattana, C Lursinsap, CHH Chu",
+            "year": "2002"
+        },
+        {
+            "title": "An asymmetric chaotic competitive swarm optimization algorithm for feature selection in high-dimensional data",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:r0BpntZqJG4C",
+            "authors": "S Pichai, K Sunat, S Chiewchanwattana",
+            "year": "2020"
+        },
+        {
+            "title": "A comparative study of improved artificial bee colony algorithms applied to multilevel image thresholding",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:zYLM7Y9cAGgC",
+            "authors": "K Charansiriphaisan, S Chiewchanwattana, K Sunat",
+            "year": "2013"
+        },
+        {
+            "title": "A comparative study of pseudo-inverse computing for the extreme learning machine classifier",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:W7OEmFMy1HYC",
+            "authors": "P Horata, S Chiewchanwattana, K Sunat",
+            "year": "2011"
+        },
+        {
+            "title": "An ontology framework for recommendation about a crime scene investigation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:ULOm3_A8WrAC",
+            "authors": "B Onnoom, S Chiewchanwattana, K Sunat, N Wichiennit",
+            "year": "2014"
+        },
+        {
+            "title": "Improved differential evolution via cuckoo search operator",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:2osOgNQ5qMEC",
+            "authors": "P Musigawan, S Chiewchanwattana, K Sunat",
+            "year": "2012"
+        },
+        {
+            "title": "Harmonic extreme learning machine for data clustering",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=TkbVWiMAAAAJ&citation_for_view=TkbVWiMAAAAJ:QIV2ME_5wuYC",
+            "authors": "S Boriratrit, S Chiewchanwattana, K Sunat, P Musikawan, P Horata",
+            "year": "2016"
+        }
+    ]
+}
