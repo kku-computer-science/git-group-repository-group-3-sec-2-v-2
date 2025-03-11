@@ -312,6 +312,16 @@
             @endforeach
             entryHtml += "  </select>";
             entryHtml += "</div>";
+            
+            // บรรทัด Role: เลือกประเภท
+            entryHtml += "<div class='form-group'>";
+            entryHtml += "  <label>ประเภท</label>";
+            entryHtml += "  <select class='form-control' name='visiting[" + v + "][role]'>";
+            entryHtml += "      <option value='4'>Visiting Scholar</option>";
+            entryHtml += "      <option value='3'>Postdoctoral</option>";
+            entryHtml += "  </select>";
+            entryHtml += "</div>";
+            
             // บรรทัดที่สอง: ชื่อและนามสกุล
             entryHtml += "<div class='form-row'>";
             entryHtml += "  <div class='form-group col-md-6'>";
@@ -334,11 +344,45 @@
             entryHtml += "    <input type='file' name='visiting[" + v + "][picture]' class='form-control' accept='image/*'>";
             entryHtml += "  </div>";
             entryHtml += "</div>";
+            
+            // บรรทัดที่สี่: วุฒิการศึกษาและตำแหน่งทางวิชาการ
+            entryHtml += "<div class='form-row'>";
+            entryHtml += "  <div class='form-group col-md-4'>";
+            entryHtml += "    <label>วุฒิการศึกษาระดับปริญญาเอก</label>";
+            entryHtml += "    <select name='visiting[" + v + "][doctoral_degree]' class='form-control' onchange='checkDoctoralForPostdoc()'>";
+            entryHtml += "      <option value='0'>ไม่มี</option>";
+            entryHtml += "      <option value='1'>มี</option>";
+            entryHtml += "    </select>";
+            entryHtml += "  </div>";
+            entryHtml += "  <div class='form-group col-md-4'>";
+            entryHtml += "    <label>ตำแหน่งทางวิชาการ (EN)</label>";
+            entryHtml += "    <select name='visiting[" + v + "][academic_ranks_en]' class='form-control academic-ranks-en'>";
+            entryHtml += "      <option value=''>-</option>";
+            entryHtml += "      <option value='Professor'>Professor</option>";
+            entryHtml += "      <option value='Associate Professor'>Associate Professor</option>";
+            entryHtml += "      <option value='Assistant Professor'>Assistant Professor</option>";
+            entryHtml += "      <option value='Lecturer'>Lecturer</option>";
+            entryHtml += "    </select>";
+            entryHtml += "  </div>";
+            entryHtml += "  <div class='form-group col-md-4'>";
+            entryHtml += "    <label>ตำแหน่งทางวิชาการ (TH)</label>";
+            entryHtml += "    <select name='visiting[" + v + "][academic_ranks_th]' class='form-control academic-ranks-th'>";
+            entryHtml += "      <option value=''>-</option>";
+            entryHtml += "      <option value='ศาสตราจารย์'>ศาสตราจารย์</option>";
+            entryHtml += "      <option value='รองศาสตราจารย์'>รองศาสตราจารย์</option>";
+            entryHtml += "      <option value='ผู้ช่วยศาสตราจารย์'>ผู้ช่วยศาสตราจารย์</option>";
+            entryHtml += "      <option value='อาจารย์'>อาจารย์</option>";
+            entryHtml += "    </select>";
+            entryHtml += "  </div>";
+            entryHtml += "</div>";
+            
             entryHtml += "<button type='button' class='btn btn-danger btn-sm remove-visiting'>ลบ</button>";
             entryHtml += "</div>";
 
             $("#visitingContainer").append(entryHtml);
-            updateVisitingOptions();
+            
+            // เรียกใช้ฟังก์ชันตรวจสอบวุฒิการศึกษาเพื่อควบคุมการเลือก Postdoctoral
+            checkDoctoralForPostdoc();
         });
 
         $(document).on("change", ".visiting-author-select", function() {
@@ -363,6 +407,66 @@
         $(document).on("click", ".remove-visiting", function() {
             $(this).closest(".visiting-scholar-entry").remove();
             updateVisitingOptions();
+        });
+
+        // การจับคู่ตำแหน่งทางวิชาการภาษาอังกฤษและภาษาไทย
+        $(document).on("change", ".academic-ranks-en", function() {
+            var value = $(this).val();
+            var $thSelect = $(this).closest('.form-row').find('.academic-ranks-th');
+            
+            // Map English ranks to Thai ranks
+            var rankMap = {
+                "": "",
+                "Professor": "ศาสตราจารย์",
+                "Associate Professor": "รองศาสตราจารย์",
+                "Assistant Professor": "ผู้ช่วยศาสตราจารย์",
+                "Lecturer": "อาจารย์"
+            };
+            
+            $thSelect.val(rankMap[value]);
+        });
+
+        $(document).on("change", ".academic-ranks-th", function() {
+            var value = $(this).val();
+            var $enSelect = $(this).closest('.form-row').find('.academic-ranks-en');
+            
+            // Map Thai ranks to English ranks
+            var rankMap = {
+                "": "",
+                "ศาสตราจารย์": "Professor",
+                "รองศาสตราจารย์": "Associate Professor",
+                "ผู้ช่วยศาสตราจารย์": "Assistant Professor",
+                "อาจารย์": "Lecturer"
+            };
+            
+            $enSelect.val(rankMap[value]);
+        });
+
+        // ตรวจสอบวุฒิปริญญาเอกเพื่อกำหนดสิทธิ์การเลือก Postdoctoral
+        function checkDoctoralForPostdoc() {
+            $(".visiting-scholar-entry").each(function() {
+                var $entry = $(this);
+                var doctoralDegree = $entry.find("select[name$='[doctoral_degree]']").val();
+                var $roleSelect = $entry.find("select[name$='[role]']");
+                
+                // หากไม่มีวุฒิปริญญาเอก (0 หรือ ว่าง) ให้ปิดการเลือก Postdoctoral
+                if (doctoralDegree != "1") {
+                    // ถ้าเลือก Postdoctoral อยู่ ให้เปลี่ยนเป็น Visiting Scholar
+                    if ($roleSelect.val() == "3") {
+                        $roleSelect.val("4");
+                    }
+                    // ปิดการใช้งานตัวเลือก Postdoctoral
+                    $roleSelect.find("option[value='3']").prop("disabled", true);
+                } else {
+                    // เปิดการใช้งานตัวเลือก Postdoctoral
+                    $roleSelect.find("option[value='3']").prop("disabled", false);
+                }
+            });
+        }
+
+        // เพิ่ม event listener สำหรับการเปลี่ยนแปลงวุฒิการศึกษา
+        $(document).on("change", "select[name$='[doctoral_degree]']", function() {
+            checkDoctoralForPostdoc();
         });
 
         function updateVisitingOptions() {

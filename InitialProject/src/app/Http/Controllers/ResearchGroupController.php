@@ -8,6 +8,7 @@ use App\Models\Fund;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ResearchGroupController extends Controller
 {
@@ -106,8 +107,8 @@ class ResearchGroupController extends Controller
             foreach ($request->moreFields as $member) {
                 if (isset($member['userid']) && !empty($member['userid'])) {
                     $membersPivot[$member['userid']] = [
-                        'role'     => 2,
-                        'can_edit' => $member['can_edit']
+                        'role' => $member['role'] ?? 2,
+                        'can_edit' => $member['can_edit'] ?? 0
                     ];
                 }
             }
@@ -164,7 +165,7 @@ class ResearchGroupController extends Controller
                     if ($updated) {
                         $author->save();
                     }
-                    $newVisiting[$author->id] = ['role' => 4, 'can_edit' => 0];
+                    $newVisiting[$author->id] = ['role' => $visiting['role'] ?? 4, 'can_edit' => 0];
                 } else {
                     return redirect()->back()->withErrors(['error' => 'First name and last name are required.']);
                 }
@@ -234,8 +235,8 @@ class ResearchGroupController extends Controller
             foreach ($request->moreFields as $member) {
                 if (isset($member['userid']) && !empty($member['userid'])) {
                     $membersPivot[$member['userid']] = [
-                        'role' => 2,
-                        'can_edit' => $member['can_edit']
+                        'role' => $member['role'] ?? 2,
+                        'can_edit' => $member['can_edit'] ?? 0
                     ];
                 }
             }
@@ -255,20 +256,27 @@ class ResearchGroupController extends Controller
                     $author = Author::find($visiting['author_id']) ?? new Author();
                     $author->author_fname = $visiting['first_name'];
                     $author->author_lname = $visiting['last_name'];
-                    $author->belong_to = $visiting['affiliation'] ?? '';
+                    $author->belong_to = $visiting['affiliation'] ?? null;
+                    $author->doctoral_degree = $visiting['doctoral_degree'] ?? null;
+                    $author->academic_ranks_en = $visiting['academic_ranks_en'] ?? null;
+                    $author->academic_ranks_th = $visiting['academic_ranks_th'] ?? null;
     
                     if ($request->hasFile("visiting.$key.picture")) {
                         $file = $request->file("visiting.$key.picture");
                         $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
                         if ($file->isValid() && in_array(strtolower($file->extension()), $allowedExtensions)) {
+                            $destinationPath = public_path('images/imag_user');
+                            if (!file_exists($destinationPath)) {
+                                mkdir($destinationPath, 0777, true);
+                            }
                             $filename = time() . '_' . uniqid() . '.' . $file->extension();
-                            $file->move(public_path('images/imag_user'), $filename);
+                            $file->move($destinationPath, $filename);
                             $author->picture = $filename;
                         }
                     }
                     
                     $author->save();
-                    $newVisiting[$author->id] = ['role' => 4, 'can_edit' => 0];
+                    $newVisiting[$author->id] = ['role' => $visiting['role'] ?? 4, 'can_edit' => 0];
                 } else {
                     return redirect()->back()->withErrors(['error' => 'First name and last name are required.']);
                 }
@@ -295,17 +303,72 @@ class ResearchGroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(ResearchGroup $researchGroup)
+    public function edit($id)
     {
-        // เช็ค Policy/permission
-        $this->authorize('update', $researchGroup);
-
-        // โหลดความสัมพันธ์ user ด้วย pivot
-        $researchGroup->load('user');
+        $researchGroup = ResearchGroup::with(['user', 'visitingScholars'])->findOrFail($id);
+        
+        // ตรวจสอบว่ามีข้อมูล visiting scholars ที่มี role=3 (Postdoctoral) แต่ไม่มีในข้อมูลที่ถูกโหลด
+        // เนื่องจากบางกรณี Postdoctoral ที่มี user_id=null อาจไม่ถูกดึงมาในความสัมพันธ์ visitingScholars
+        $missingPostdocs = DB::table('work_of_research_groups')
+            ->where('research_group_id', $id)
+            ->where('role', 3)
+            ->whereNull('user_id')
+            ->whereNotNull('author_id')
+            ->get();
+            
+        // ถ้ามีข้อมูลที่หายไป ให้เพิ่มเข้าไปใน $researchGroup->visitingScholars
+        if ($missingPostdocs->isNotEmpty()) {
+            $missingAuthorIds = $missingPostdocs->pluck('author_id')->toArray();
+            $missingAuthors = Author::whereIn('id', $missingAuthorIds)->get();
+            
+            // เพิ่มข้อมูล pivot สำหรับแต่ละ author ที่หายไป
+            foreach ($missingAuthors as $author) {
+                $pivotData = $missingPostdocs->firstWhere('author_id', $author->id);
+                
+                // สร้าง stdClass object เพื่อจำลอง Pivot model
+                $pivot = new \stdClass();
+                $pivot->role = $pivotData->role;
+                $pivot->can_edit = $pivotData->can_edit;
+                $pivot->user_id = null;
+                $pivot->research_group_id = $id;
+                $pivot->author_id = $author->id;
+                
+                // กำหนด pivot property ให้กับ author
+                $author->pivot = $pivot;
+                
+                // เพิ่ม author ที่หายไปเข้าสู่ collection ของ visitingScholars
+                $researchGroup->visitingScholars->push($author);
+            }
+        }
+        
         $users = User::all();
-        $authors = Author::all(); // ดึงข้อมูลนักวิจัยรับเชิญจากตาราง Author
+        $funds = Fund::all();
+        $authors = Author::all();
 
-        return view('research_groups.edit', compact('researchGroup', 'users', 'authors'));
+        // ดึงข้อมูล Postdoctoral จาก users และ authors
+        $postdoctoralUsers = $researchGroup->user()->wherePivot('role', 3)->get();
+        $postdoctoralAuthors = $researchGroup->visitingScholars()->wherePivot('role', 3)->get();
+
+        // รวมข้อมูล Postdoctoral จากทั้งสองแหล่ง
+        $postdoctorals = $postdoctoralUsers->map(function ($user) {
+            return [
+                'id' => $user->id,
+                'type' => 'user',
+                'first_name' => $user->fname_en,
+                'last_name' => $user->lname_en,
+                'affiliation' => $user->organization
+            ];
+        })->concat($postdoctoralAuthors->map(function ($author) {
+            return [
+                'id' => $author->id,
+                'type' => 'author',
+                'first_name' => $author->author_fname,
+                'last_name' => $author->author_lname,
+                'affiliation' => $author->belong_to
+            ];
+        }));
+
+        return view('research_groups.edit', compact('researchGroup', 'users', 'funds', 'authors', 'postdoctorals'));
     }
 
     /**
