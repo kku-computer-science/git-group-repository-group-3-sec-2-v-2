@@ -112,6 +112,15 @@ TC011 Logout1
     Wait Until Element Is Visible    xpath=//a[contains(text(),'Logout')]    timeout=60s
     Click Element    xpath=//a[contains(text(),'Logout')]
     Wait Until Page Contains    Login    timeout=60s
+    Location Should Be    ${URL}/
+
+Login Button
+    Wait Until Element Is Visible    xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']    timeout=30s
+    Scroll Element Into View    xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']
+    Click Element    xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']
+    Sleep    2s
+    Switch Window    NEW
+    Wait Until Element Is Visible    name=username    timeout=30s
 
 TC012 Login Member1
     Input Text    name=username    Urachart@kku.ac.th
@@ -132,7 +141,15 @@ TC014 Logout2
     Wait Until Element Is Visible    xpath=//a[contains(text(),'Logout')]    timeout=60s
     Click Element    xpath=//a[contains(text(),'Logout')]
     Wait Until Page Contains    Login    timeout=60s
-    Location Should Be    ${URL}/login
+    Location Should Be    ${URL}/
+
+Login Button
+    Wait Until Element Is Visible    xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']    timeout=30s
+    Scroll Element Into View    xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']
+    Click Element    xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']
+    Sleep    2s
+    Switch Window    NEW
+    Wait Until Element Is Visible    name=username    timeout=30s
 
 TC015 Login Admin
     Input Text    name=username    Admin@gmail.com
@@ -143,7 +160,6 @@ TC015 Login Admin
 TC016 Research Groups
     Wait Until Page Contains Element    xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]    timeout=90s
     Execute JavaScript               window.scrollTo(0, document.body.scrollHeight);
-    Scroll Element Into View         xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]
     Wait Until Element Is Visible    xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]    timeout=30s
     Click Element                    xpath=//a[@class='nav-link']/span[contains(@class,'menu-title') and contains(text(),'Research Group')]
     Sleep    2s
@@ -168,7 +184,15 @@ TC020 Logout3
     Wait Until Element Is Visible    xpath=//a[contains(text(),'Logout')]    timeout=60s
     Click Element    xpath=//a[contains(text(),'Logout')]
     Wait Until Page Contains    Login    timeout=60s
-    Location Should Be    ${URL}/login
+    Location Should Be    ${URL}/
+
+Login Button
+    Wait Until Element Is Visible    xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']    timeout=30s
+    Scroll Element Into View    xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']
+    Click Element    xpath=//a[contains(@class,'btn-solid-sm') and text()='Login']
+    Sleep    2s
+    Switch Window    NEW
+    Wait Until Element Is Visible    name=username    timeout=30s
 
 TC021 Login Member2
     Input Text    name=username    Urachart@kku.ac.th
