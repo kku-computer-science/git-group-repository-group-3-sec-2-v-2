@@ -486,8 +486,16 @@
                                             <div class="researcher-card">
                                                 <div class="d-flex align-items-start">
                                                     @if(isset($user->picture))
+                                                        @php
+                                                            $picturePath = $user->picture;
+                                                            // ถ้าเป็นแค่ชื่อไฟล์ (ไม่มี http หรือ /) ให้เพิ่ม path
+                                                            if (!str_contains($picturePath, '/') && !filter_var($picturePath, FILTER_VALIDATE_URL)) {
+                                                                $picturePath = 'images/imag_user/' . $picturePath;
+                                                            }
+                                                            \Log::debug('Modified picture path: ' . $picturePath);
+                                                        @endphp
                                                         <img class="researcher-image me-3"
-                                                            src="{{ $user->picture }}"
+                                                            src="{{ filter_var($picturePath, FILTER_VALIDATE_URL) ? $picturePath : asset($picturePath) }}"
                                                             alt="{{ $user->fname_en ?? $user->author_fname }}'s photo">
                                                     @else
                                                         <img class="researcher-image me-3"
