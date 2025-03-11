@@ -162,9 +162,8 @@ class SecurityController extends Controller
     public function events(Request $request)
     {
         // Optimize the base query to select only necessary fields
-        $query = SecurityEvent::select('id', 'event_type', 'icon_class', 'user_id', 'ip_address', 'details', 'threat_level', 'request_details', 'created_at')
-            ->with(['user:id,fname_en,lname_en,fname_th,lname_th,email'])
-            ->orderBy('created_at', 'desc');
+        $query = SecurityEvent::select('id', 'event_type', 'icon_class', 'user_id', 'ip_address', 'details', 'threat_level', 'request_details', 'created_at', 'additional_data')
+            ->with(['user:id,fname_en,lname_en,fname_th,lname_th,email']);
 
         // Apply filters
         if ($request->filled('event_type')) {
@@ -192,11 +191,14 @@ class SecurityController extends Controller
             });
         }
 
-        // Get distinct event types for filter dropdown - optimize by selecting only event_type
+        // Get distinct event types for filter dropdown
         $eventTypes = SecurityEvent::select('event_type')->distinct()->pluck('event_type');
 
-        // Paginate results with fewer records per page to reduce memory usage
-        $events = $query->paginate(15)->withQueryString();
+        // Paginate results and add username to each event
+        $events = $query->paginate(15)->through(function ($event) {
+            $event->username = $this->getUserDisplayName($event->user);
+            return $event;
+        })->withQueryString();
 
         return view('admin.security.events', compact('events', 'eventTypes'));
     }
