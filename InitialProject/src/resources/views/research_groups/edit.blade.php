@@ -157,114 +157,123 @@
                 </div>
 
                 <!-- 4) นักวิจัยรับเชิญ (Visiting Scholars) -->
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label pt-4"><b>นักวิจัยรับเชิญ</b></label>
-                    <div class="col-sm-8">
-                        <div id="visitingContainer">
-                            @if($researchGroup->visitingScholars->isNotEmpty())
-                                @foreach($researchGroup->visitingScholars as $key => $scholar)
-                                    @php
-                                        $pivotRecord = $researchGroup->visitingScholars()->where('author_id', $scholar->id)->first();
-                                        $pivotData = $pivotRecord ? $pivotRecord->pivot : (object)['role' => $scholar->pivot->role ?? 4, 'can_edit' => 0];
-                                    @endphp
-                                    <div class="visiting-scholar-entry border p-3 mb-3">
-                                        <!-- บรรทัดแรก: รายชื่อ -->
-                                        <div class="form-group">
-                                            <label>รายชื่อ</label>
-                                            <select class="visiting-author-select form-control" name="visiting[{{ $key }}][author_id]">
-                                                <option value="">-- เลือกจากรายชื่อ --</option>
-                                                <option value="manual" @if(!$authors->contains('id', $scholar->id)) selected @endif>เพิ่มด้วยตัวเอง</option>
-                                                @foreach($authors as $author)
-                                                    <option value="{{ $author->id }}"
-                                                        @if($scholar->id == $author->id) selected @endif
-                                                        data-first_name="{{ $author->author_fname }}"
-                                                        data-last_name="{{ $author->author_lname }}"
-                                                        data-affiliation="{{ $author->belong_to }}"
-                                                        data-doctoral_degree="{{ $author->doctoral_degree }}"
-                                                        data-academic_ranks_en="{{ $author->academic_ranks_en }}"
-                                                        data-academic_ranks_th="{{ $author->academic_ranks_th }}">
-                                                        {{ $author->author_fname }} {{ $author->author_lname }} ({{ $author->belong_to }})
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        
-                                        <!-- บรรทัด Role: เลือกประเภท -->
-                                        <div class="form-group">
-                                            <label>ประเภท</label>
-                                            <select class="form-control" name="visiting[{{ $key }}][role]">
-                                                <option value="4" {{ $pivotData->role == 4 ? 'selected' : '' }}>Visiting Scholar</option>
-                                                <option value="3" {{ $pivotData->role == 3 ? 'selected' : '' }}>Postdoctoral</option>
-                                            </select>
-                                        </div>
-                                        
-                                        <!-- บรรทัดที่สอง: ชื่อ และ นามสกุล -->
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label>ชื่อ</label>
-                                                <input type="text" name="visiting[{{ $key }}][first_name]" class="form-control visiting-first-name" placeholder="ชื่อ" value="{{ $scholar->author_fname }}">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label>นามสกุล</label>
-                                                <input type="text" name="visiting[{{ $key }}][last_name]" class="form-control visiting-last-name" placeholder="นามสกุล" value="{{ $scholar->author_lname }}">
-                                            </div>
-                                        </div>
-                                        <!-- บรรทัดที่สาม: สังกัด และ อัปโหลดรูป -->
-                                        <div class="form-row">
-                                            <div class="form-group col-md-6">
-                                                <label>สังกัด</label>
-                                                <input type="text" name="visiting[{{ $key }}][affiliation]" class="form-control visiting-affiliation" placeholder="สังกัด" value="{{ $scholar->belong_to }}">
-                                            </div>
-                                            <div class="form-group col-md-6">
-                                                <label>อัปโหลดรูป</label>
-                                                <input type="file" name="visiting[{{ $key }}][picture]" class="form-control" accept="image/*">
-                                                @if($scholar->picture)
-                                                    <div class="mt-2">
-                                                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}" alt="Visiting Scholar Image" width="80">
-                                                    </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <!-- บรรทัดที่สี่: วุฒิการศึกษาและตำแหน่งทางวิชาการ -->
-                                        <div class="form-row">
-                                            <div class="form-group col-md-4">
-                                                <label>วุฒิการศึกษาระดับปริญญาเอก</label>
-                                                <select name="visiting[{{ $key }}][doctoral_degree]" class="form-control">
-                                                    <option value="0" {{ $scholar->doctoral_degree == 0 ? 'selected' : '' }}>ไม่มี</option>
-                                                    <option value="1" {{ $scholar->doctoral_degree == 1 ? 'selected' : '' }}>มี</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label>ตำแหน่งทางวิชาการ (EN)</label>
-                                                <select name="visiting[{{ $key }}][academic_ranks_en]" class="form-control academic-ranks-en">
-                                                    <option value="">-</option>
-                                                    <option value="Professor" {{ $scholar->academic_ranks_en == 'Professor' ? 'selected' : '' }}>Professor</option>
-                                                    <option value="Associate Professor" {{ $scholar->academic_ranks_en == 'Associate Professor' ? 'selected' : '' }}>Associate Professor</option>
-                                                    <option value="Assistant Professor" {{ $scholar->academic_ranks_en == 'Assistant Professor' ? 'selected' : '' }}>Assistant Professor</option>
-                                                    <option value="Lecturer" {{ $scholar->academic_ranks_en == 'Lecturer' ? 'selected' : '' }}>Lecturer</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group col-md-4">
-                                                <label>ตำแหน่งทางวิชาการ (TH)</label>
-                                                <select name="visiting[{{ $key }}][academic_ranks_th]" class="form-control academic-ranks-th">
-                                                    <option value="">-</option>
-                                                    <option value="ศาสตราจารย์" {{ $scholar->academic_ranks_th == 'ศาสตราจารย์' ? 'selected' : '' }}>ศาสตราจารย์</option>
-                                                    <option value="รองศาสตราจารย์" {{ $scholar->academic_ranks_th == 'รองศาสตราจารย์' ? 'selected' : '' }}>รองศาสตราจารย์</option>
-                                                    <option value="ผู้ช่วยศาสตราจารย์" {{ $scholar->academic_ranks_th == 'ผู้ช่วยศาสตราจารย์' ? 'selected' : '' }}>ผู้ช่วยศาสตราจารย์</option>
-                                                    <option value="อาจารย์" {{ $scholar->academic_ranks_th == 'อาจารย์' ? 'selected' : '' }}>อาจารย์</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-danger btn-sm remove-visiting">ลบ</button>
-                                    </div>
+<!-- ส่วนของ Visiting Scholars ใน Edit View -->
+<div class="form-group row">
+    <label class="col-sm-3 col-form-label pt-4"><b>นักวิจัยรับเชิญ</b></label>
+    <div class="col-sm-8">
+        <div id="visitingContainer">
+            @if($researchGroup->visitingScholars->isNotEmpty())
+                @foreach($researchGroup->visitingScholars as $key => $scholar)
+                    @php
+                        // ดึงข้อมูล pivot record (จากตาราง work_of_research_groups)
+                        // หากใน relationship ในโมเดลมีการกำหนด withPivot('id', 'role', 'can_edit') แล้ว
+                        $pivotData = $scholar->pivot ?? (object)['id' => null, 'role' => $scholar->pivot->role ?? 4, 'can_edit' => 0];
+                    @endphp
+                    <div class="visiting-scholar-entry border p-3 mb-3">
+                        <!-- Hidden fields for pivot tracking -->
+                        <input type="hidden" name="visiting[{{ $key }}][pivot_id]" value="{{ $pivotData->id ?? '' }}">
+                        <input type="hidden" name="visiting[{{ $key }}][existing_author_id]" value="{{ $scholar->id }}">
+                        <!-- บรรทัดแรก: รายชื่อ -->
+                        <div class="form-group">
+                            <label>รายชื่อ</label>
+                            <select class="visiting-author-select form-control" name="visiting[{{ $key }}][author_id]">
+                                <option value="">-- เลือกจากรายชื่อ --</option>
+                                <option value="manual" @if(!$authors->contains('id', $scholar->id)) selected @endif>เพิ่มด้วยตัวเอง</option>
+                                @foreach($authors as $author)
+                                    <option value="{{ $author->id }}"
+                                        @if($scholar->id == $author->id) selected @endif
+                                        data-first_name="{{ $author->author_fname }}"
+                                        data-last_name="{{ $author->author_lname }}"
+                                        data-affiliation="{{ $author->belong_to }}"
+                                        data-doctoral_degree="{{ $author->doctoral_degree }}"
+                                        data-academic_ranks_en="{{ $author->academic_ranks_en }}"
+                                        data-academic_ranks_th="{{ $author->academic_ranks_th }}">
+                                        {{ $author->author_fname }} {{ $author->author_lname }} ({{ $author->belong_to }})
+                                    </option>
                                 @endforeach
-                            @endif
+                            </select>
                         </div>
-                        <button type="button" id="add-btn-visiting" class="btn btn-success btn-sm mt-2">
-                            <i class="mdi mdi-plus"></i> เพิ่มนักวิจัยรับเชิญ
-                        </button>
+                        
+                        <!-- บรรทัด Role: เลือกประเภท -->
+                        <div class="form-group">
+                            <label>ประเภท</label>
+                            <select class="form-control" name="visiting[{{ $key }}][role]">
+                                <option value="4" {{ $pivotData->role == 4 ? 'selected' : '' }}>Visiting Scholar</option>
+                                <option value="3" {{ $pivotData->role == 3 ? 'selected' : '' }}>Postdoctoral</option>
+                            </select>
+                        </div>
+                        
+                        <!-- บรรทัดที่สอง: ชื่อ และ นามสกุล -->
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>ชื่อ</label>
+                                <input type="text" name="visiting[{{ $key }}][first_name]" class="form-control visiting-first-name" placeholder="ชื่อ" value="{{ $scholar->author_fname }}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>นามสกุล</label>
+                                <input type="text" name="visiting[{{ $key }}][last_name]" class="form-control visiting-last-name" placeholder="นามสกุล" value="{{ $scholar->author_lname }}">
+                            </div>
+                        </div>
+                        
+                        <!-- บรรทัดที่สาม: สังกัด และ อัปโหลดรูป -->
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label>สังกัด</label>
+                                <input type="text" name="visiting[{{ $key }}][affiliation]" class="form-control visiting-affiliation" placeholder="สังกัด" value="{{ $scholar->belong_to }}">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label>อัปโหลดรูป</label>
+                                <input type="file" name="visiting[{{ $key }}][picture]" class="form-control" accept="image/*">
+                                @if($scholar->picture)
+                                    <div class="mt-2">
+                                        <img src="{{ asset('images/imag_user/' . $scholar->picture) }}" alt="Visiting Scholar Image" width="80">
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        
+                        <!-- บรรทัดที่สี่: วุฒิการศึกษาและตำแหน่งทางวิชาการ -->
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <label>วุฒิการศึกษาระดับปริญญาเอก</label>
+                                <select name="visiting[{{ $key }}][doctoral_degree]" class="form-control">
+                                    <option value="0" {{ $scholar->doctoral_degree == 0 ? 'selected' : '' }}>ไม่มี</option>
+                                    <option value="1" {{ $scholar->doctoral_degree == 1 ? 'selected' : '' }}>มี</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>ตำแหน่งทางวิชาการ (EN)</label>
+                                <select name="visiting[{{ $key }}][academic_ranks_en]" class="form-control academic-ranks-en">
+                                    <option value="">-</option>
+                                    <option value="Professor" {{ $scholar->academic_ranks_en == 'Professor' ? 'selected' : '' }}>Professor</option>
+                                    <option value="Associate Professor" {{ $scholar->academic_ranks_en == 'Associate Professor' ? 'selected' : '' }}>Associate Professor</option>
+                                    <option value="Assistant Professor" {{ $scholar->academic_ranks_en == 'Assistant Professor' ? 'selected' : '' }}>Assistant Professor</option>
+                                    <option value="Lecturer" {{ $scholar->academic_ranks_en == 'Lecturer' ? 'selected' : '' }}>Lecturer</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label>ตำแหน่งทางวิชาการ (TH)</label>
+                                <select name="visiting[{{ $key }}][academic_ranks_th]" class="form-control academic-ranks-th">
+                                    <option value="">-</option>
+                                    <option value="ศาสตราจารย์" {{ $scholar->academic_ranks_th == 'ศาสตราจารย์' ? 'selected' : '' }}>ศาสตราจารย์</option>
+                                    <option value="รองศาสตราจารย์" {{ $scholar->academic_ranks_th == 'รองศาสตราจารย์' ? 'selected' : '' }}>รองศาสตราจารย์</option>
+                                    <option value="ผู้ช่วยศาสตราจารย์" {{ $scholar->academic_ranks_th == 'ผู้ช่วยศาสตราจารย์' ? 'selected' : '' }}>ผู้ช่วยศาสตราจารย์</option>
+                                    <option value="อาจารย์" {{ $scholar->academic_ranks_th == 'อาจารย์' ? 'selected' : '' }}>อาจารย์</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm remove-visiting">ลบ</button>
                     </div>
-                </div>
+                @endforeach
+            @endif
+        </div>
+        <button type="button" id="add-btn-visiting" class="btn btn-success btn-sm mt-2">
+            <i class="mdi mdi-plus"></i> เพิ่มนักวิจัยรับเชิญ
+        </button>
+    </div>
+</div>
+                            
+
 
                 <!-- ปุ่ม Submit / Back -->
                 <div class="form-group row mt-4">

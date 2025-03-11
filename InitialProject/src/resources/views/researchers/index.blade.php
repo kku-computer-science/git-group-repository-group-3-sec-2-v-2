@@ -104,7 +104,6 @@
         white-space: nowrap;
         scrollbar-width: none;
         /* ซ่อน Scrollbar */
-        overflow-x: auto;
     }
 
     .category-wrapper::-webkit-scrollbar {
@@ -417,151 +416,176 @@
 
 <div class="container-fluid" style="padding-right: 0px;">
     <!-- Header Section -->
-    <div class="row mb-5" style=" height: 250px; background-color: #1075BB; display:flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px; box-sizing: border-box;">
+    <div class="row mb-5" style="height: 250px; background-color: #1075BB; display: flex; flex-direction: column; justify-content: center; align-items: center; margin-bottom: 20px; box-sizing: border-box;">
         <div class="col-lg-8 mx-auto text-center">
             <h1 class="display-4 fw-bold mb-4" style="color: white;">OUR RESEARCHERS</h1>
-            <form method="GET" action="{{ route('researchers.index') }}" class="search-form">
-                <div class="input-group input-group-lg position-relative">
-                    <input type="text" class="form-control border-2 shadow-none search-input"
-                        name="textsearch" value="{{ $search ?? '' }}"
-                        placeholder="Search researchers by name or interest..."
-                        aria-label="Search researchers">
-                    <button type="submit" class="search-button">
-                        <ion-icon name="search" size="large" class="search-icon"></ion-icon>
-                    </button>
+            <div class="row my-4">
+                <div class="col-lg-8 mx-auto">
+                    <div class="search-box bg-white p-3 p-md-4 rounded shadow-sm">
+                        <form action="{{ route('researchers.index') }}" method="GET" class="d-flex align-items-center">
+                            <div class="flex-grow-1 me-3">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary text-white"><i class="fas fa-search"></i></span>
+                                    <input type="text" class="form-control border-start-0" name="textsearch" 
+                                        value="{{ $search }}" placeholder="{{ __('Search researchers by name, expertise, or program...') }}" 
+                                        aria-label="Search researchers">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary px-4">{{ __('Search') }}</button>
+                        </form>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 
     @if(isset($noResults) && $noResults)
-    <!-- แสดงข้อความเมื่อไม่พบผลลัพธ์ -->
-    <div class="no-results-message">
-        <h3><ion-icon name="search-outline" class="me-2"></ion-icon> No Results Found</h3>
-        <p>Sorry, we couldn't find any researchers matching "{{ $search }}".</p>
-        <a href="{{ route('researchers.index') }}" class="btn btn-primary">
-            <ion-icon name="refresh-outline" class="me-1"></ion-icon> Clear Search
-        </a>
-    </div>
-    @else
-    <!-- Category Slider Section -->
-    <div class="category-container">
-        <button class="arrow" onclick="scrollCategoryLeft()">&#10094;</button>
-        <div class="category-wrapper" id="categoryWrapper">
-            @foreach($roleUsers as $roleId => $roleData)
-            <div class="category-item" onclick="scrollToCategory('category-{{ $roleId }}')" id="category-{{ $roleId }}">
-                {{ strtoupper($roleData['role_name']) }}
-            </div>
-            @endforeach
+        <!-- แสดงข้อความเมื่อไม่พบผลลัพธ์ -->
+        <div class="no-results-message">
+            <h3><ion-icon name="search-outline" class="me-2"></ion-icon> No Results Found</h3>
+            <p>Sorry, we couldn't find any researchers matching "{{ $search }}".</p>
+            <a href="{{ route('researchers.index') }}" class="btn btn-primary">
+                <ion-icon name="refresh-outline" class="me-1"></ion-icon> Clear Search
+            </a>
         </div>
-        <button class="arrow" onclick="scrollCategoryRight()">&#10095;</button>
-    </div>
-
-    <!-- Accordion Section -->
-    <div class="accordion custom-accordion" id="roleAccordion">
-        @foreach($roleUsers as $roleId => $roleData)
-        <div class="accordion-item border-0 rounded-4 overflow-hidden">
-            <h2 class="accordion-header" id="heading{{ $roleId }}">
-                <button class="accordion-button custom-accordion-btn d-flex justify-content-between align-items-center px-4 py-3 w-100"
-                    type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $roleId }}"
-                    aria-expanded="{{ in_array($roleId, $expandedRoleIds) ? 'true' : 'false' }}"
-                    aria-controls="collapse{{ $roleId }}"
-                    onclick="toggleAccordionIcon(this)">
-
-                    <div class="d-flex align-items-center">
-                        <span class="fw-bold text-white me-3">{{ strtoupper($roleData['role_name']) }}</span>
-                        <span class="badge bg-white text-dark fw-bold">{{ $roleData['users']->count() }}</span>
+    @else
+        <!-- Category Slider Section -->
+        <div class="category-container">
+            <button class="arrow" onclick="scrollCategoryLeft()">&#10094;</button>
+            <div class="category-wrapper" id="categoryWrapper">
+                @foreach($roleUsers as $roleId => $roleData)
+                    <div class="category-item" onclick="scrollToCategory('category-{{ $roleId }}')" id="category-{{ $roleId }}">
+                        {{ strtoupper($roleData['role_name']) }}
                     </div>
+                @endforeach
+            </div>
+            <button class="arrow" onclick="scrollCategoryRight()">&#10095;</button>
+        </div>
 
-                    <div class="accordion-arrow">
-                        <ion-icon name="chevron-down-outline"></ion-icon>
-                    </div>
-                </button>
-            </h2>
+        <!-- Accordion Section -->
+        <div class="accordion custom-accordion" id="roleAccordion">
+            @foreach($roleUsers as $roleId => $roleData)
+                <div class="accordion-item mb-4">
+                    <h2 class="accordion-header" id="heading{{ $roleId }}">
+                        <button class="accordion-button custom-accordion-btn {{ !in_array($roleId, $expandedRoleIds) ? 'collapsed' : '' }}"
+                            type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $roleId }}"
+                            aria-expanded="{{ in_array($roleId, $expandedRoleIds) ? 'true' : 'false' }}"
+                            aria-controls="collapse{{ $roleId }}">
+                            {{ strtoupper($roleData['role_name']) }}
+                            <span class="badge bg-light text-primary ms-2">{{ $roleData['users']->count() }}</span>
+                        </button>
+                    </h2>
+                    <div id="collapse{{ $roleId }}"
+                        class="accordion-collapse collapse {{ in_array($roleId, $expandedRoleIds) ? 'show' : '' }}"
+                        aria-labelledby="heading{{ $roleId }}">
+                        <div class="accordion-body">
+                            @if($roleData['users']->isNotEmpty())
+                                <div class="researcher-container">
+                                    @foreach($roleData['users'] as $user)
+                                        <div class="col-12 mb-4">
+                                            <div class="researcher-card">
+                                                <div class="d-flex align-items-start">
+                                                    @if(isset($user->picture))
+                                                        <img class="researcher-image me-3"
+                                                            src="{{ $user->picture }}"
+                                                            alt="{{ $user->fname_en ?? $user->author_fname }}'s photo">
+                                                    @else
+                                                        <img class="researcher-image me-3"
+                                                            src="{{ asset('img/default-profile.png') }}"
+                                                            alt="{{ $user->fname_en ?? $user->author_fname }}'s photo">
+                                                    @endif
 
-            <div id="collapse{{ $roleId }}"
-                class="accordion-collapse collapse {{ in_array($roleId, $expandedRoleIds) ? 'show' : '' }}"
-                aria-labelledby="heading{{ $roleId }}">
-                <div class="accordion-body p-4">
-                    <div class="container">
-                        @if($roleData['users']->count() > 0)
-                        <div class="row">
-                            @foreach($roleData['users'] as $user)
-                            <div class="col-md-6 mb-4"> <!-- 2 คอลัมน์ต่อแถว -->
-                                <a href="{{ route('detail', Crypt::encrypt($user->id)) }}" class="text-decoration-none">
-                                    <div class="researcher-card p-3 shadow-sm rounded-3 d-flex flex-column h-100">
-                                        <div class="d-flex align-items-start">
-                                            <img class="researcher-image me-3"
-                                                src="{{ $user->picture ?? asset('img/default-profile.png') }}"
-                                                alt="{{ $user->{'fname_'.app()->getLocale()} }}'s photo">
-
-                                            <div class="researcher-info flex-grow-1">
-                                                <span class="researcher-name d-block text-primary fw-bold">
-                                                    {{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}
-                                                </span>
-                                                <span class="researcher-position text-muted">{{ $user->position_en }}</span>
-                                                
-                                                @if($user->program)
-                                                <span class="researcher-program text-muted d-block">
-                                                    {{ $user->program->program_name_en }}
-                                                </span>
-                                                @endif
-
-                                                <a href="mailto:{{ $user->email }}" class="researcher-email d-block text-primary">
-                                                    <ion-icon name="mail-outline" class="align-middle me-1"></ion-icon>
-                                                    {{ $user->email }}
-                                                </a>
-
-                                                <div class="research-interests mt-2">
-                                                    <h6 class="fw-bold mb-2">Research Interests</h6>
-                                                    <div class="expertise-tags">
-                                                        @foreach($user->expertise->take(3) as $expertise)
-                                                        <span class="badge bg-light text-primary px-2 py-1">
-                                                            {{ $expertise->expert_name }}
+                                                    <div class="researcher-info flex-grow-1">
+                                                        <span class="researcher-name d-block text-primary fw-bold">
+                                                            @if(isset($user->fname_en))
+                                                                {{ $user->{'fname_'.app()->getLocale()} }} {{ $user->{'lname_'.app()->getLocale()} }}
+                                                            @else
+                                                                {{ $user->author_fname }} {{ $user->author_lname }}
+                                                            @endif
                                                         </span>
-                                                        @endforeach
+                                                        
+                                                        @if(isset($user->position_en))
+                                                            <span class="researcher-position text-muted">{{ $user->position_en }}</span>
+                                                        @endif
+                                                        
+                                                        @if($roleId === 'external' && isset($user->positions))
+                                                            <div class="researcher-positions mt-2">
+                                                                <strong>Positions:</strong>
+                                                                <ul class="mb-0 ps-3">
+                                                                    @foreach($user->positions as $position)
+                                                                        <li class="text-muted">
+                                                                            {{ $position['type'] }} - {{ $position['lab_name'] }}
+                                                                        </li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                        @endif
 
-                                                        @if($user->expertise->count() > 3)
-                                                        <!-- ซ่อน Research Interests ที่เกิน 3 หัวข้อ -->
-                                                        <div class="readmore-content d-none">
-                                                            @foreach($user->expertise->slice(3) as $expertise)
-                                                            <span class="badge bg-light text-primary px-2 py-1">
-                                                                {{ $expertise->expert_name }}
+                                                        @if(isset($user->program))
+                                                            <span class="researcher-program text-muted d-block">
+                                                                {{ $user->program->program_name_en }}
                                                             </span>
-                                                            @endforeach
-                                                        </div>
+                                                        @endif
 
-                                                        <!-- ปุ่มกด "More" -->
-                                                        <span class="readmore-toggle text-primary fw-bold" onclick="toggleReadmore(this)">
-                                                            +{{ $user->expertise->count() - 3 }} More
-                                                        </span>
+                                                        @if(isset($user->belong_to))
+                                                            <span class="researcher-program text-muted d-block">
+                                                                {{ $user->belong_to }}
+                                                            </span>
+                                                        @endif
+
+                                                        @if(isset($user->email))
+                                                            <a href="mailto:{{ $user->email }}" class="researcher-email d-block text-primary">
+                                                                <ion-icon name="mail-outline" class="align-middle me-1"></ion-icon>
+                                                                {{ $user->email }}
+                                                            </a>
+                                                        @endif
+
+                                                        @if(isset($user->expertise))
+                                                            <div class="research-interests mt-2">
+                                                                <h6 class="fw-bold mb-2">Research Interests</h6>
+                                                                <div class="expertise-tags">
+                                                                    @foreach($user->expertise->take(3) as $expertise)
+                                                                        <span class="badge bg-light text-primary px-2 py-1">
+                                                                            {{ $expertise->expert_name }}
+                                                                        </span>
+                                                                    @endforeach
+
+                                                                    @if($user->expertise->count() > 3)
+                                                                        <div class="readmore-content d-none">
+                                                                            @foreach($user->expertise->slice(3) as $expertise)
+                                                                                <span class="badge bg-light text-primary px-2 py-1">
+                                                                                    {{ $expertise->expert_name }}
+                                                                                </span>
+                                                                            @endforeach
+                                                                        </div>
+
+                                                                        <span class="readmore-toggle text-primary fw-bold" onclick="toggleReadmore(this)">
+                                                                            +{{ $user->expertise->count() - 3 }} More
+                                                                        </span>
+                                                                    @endif
+                                                                </div>
+                                                            </div>
                                                         @endif
                                                     </div>
                                                 </div>
-
                                             </div>
                                         </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="no-data-message text-center py-5">
+                                    <div class="mb-3">
+                                        <ion-icon name="alert-circle-outline" style="font-size: 3rem; color: #6c757d;"></ion-icon>
                                     </div>
-                                </a>
-                            </div>
-                            @endforeach
+                                    <h4 class="text-muted">ไม่มีข้อมูลนักวิจัยในหมวดหมู่นี้</h4>
+                                    <p class="text-muted">ขออภัย ไม่พบข้อมูลนักวิจัยในหมวดหมู่ {{ strtoupper($roleData['role_name']) }}</p>
+                                </div>
+                            @endif
                         </div>
-                        @else
-                        <!-- แสดงข้อความเมื่อไม่มีข้อมูลในหมวดหมู่นี้ -->
-                        <div class="no-data-message text-center py-5">
-                            <div class="mb-3">
-                                <ion-icon name="alert-circle-outline" style="font-size: 3rem; color: #6c757d;"></ion-icon>
-                            </div>
-                            <h4 class="text-muted">ไม่มีข้อมูลนักวิจัยในหมวดหมู่นี้</h4>
-                            <p class="text-muted">ขออภัย ไม่พบข้อมูลนักวิจัยในหมวดหมู่ {{ strtoupper($roleData['role_name']) }}</p>
-                        </div>
-                        @endif
                     </div>
                 </div>
-            </div>
+            @endforeach
         </div>
-        @endforeach
-    </div>
     @endif
 
 </div>
@@ -620,10 +644,10 @@
     }
 
     // กำหนดให้ปุ่มใช้ฟังก์ชันที่ถูกต้อง
-    document.querySelector(".arrow-left").addEventListener("click", scrollCategoryLeft);
-    document.querySelector(".arrow-right").addEventListener("click", scrollCategoryRight);
+    document.querySelector(".arrow-left")?.addEventListener("click", scrollCategoryLeft);
+    document.querySelector(".arrow-right")?.addEventListener("click", scrollCategoryRight);
 
-    //เลื่อนหน้าไปยัง Category ที่เลือก
+    // เลื่อนหน้าไปยัง Category ที่เลือก
     function scrollToCategory(id) {
         // ลบคลาส active จากทุก category-item
         document.querySelectorAll('.category-item').forEach(el => el.classList.remove('active'));
@@ -715,4 +739,4 @@
         }
     }
 </script>
-@stop
+@endsection

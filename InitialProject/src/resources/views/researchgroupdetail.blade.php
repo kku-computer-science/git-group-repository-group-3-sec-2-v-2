@@ -17,6 +17,8 @@
         margin: 0 !important;
         width: 100vw !important;
         max-width: 100% !important;
+        overflow-y: hidden;
+        overflow-x: hidden;
     }
 
     .blue-stripe {
@@ -141,7 +143,7 @@
     <h1>{{ $rg->{'group_name_'.app()->getLocale()} }}</h1>
 </div>
 
-<div class="container-fluid px-4">
+<div class="px-4">
 
     <!-- Research Rationale -->
     <div class="research-rationale-box">
