@@ -7,20 +7,21 @@
 <style>
     .logs-container {
         padding: 20px;
-        background: #f8f9fe;
+        background: #eef2f7;
     }
 
     .content-card {
         background: white;
         border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         margin-bottom: 30px;
     }
 
+    /* เปลี่ยนสี header ของ content card เป็นโทนสีที่อ่อนและสดใส */
     .content-card .card-header {
-        padding: 20px;
+        padding: 25px;
         border-bottom: 1px solid #e9ecef;
-        background: linear-gradient(87deg, #11cdef, #1171ef) !important;
+        background: linear-gradient(87deg, #5e72e4, #7aa7f9) !important;
         border-radius: 15px 15px 0 0;
         color: white;
     }
@@ -28,14 +29,17 @@
     .content-card .card-title {
         margin: 0;
         color: white;
-        font-size: 1.25rem;
+        font-size: 1.4rem;
         font-weight: 600;
+        letter-spacing: 0.3px;
     }
 
     .content-card .card-subtitle {
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 0.9rem;
         text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 4px;
     }
 
     .table {
@@ -43,38 +47,43 @@
     }
 
     .table th {
-        font-size: 0.875rem;
+        font-size: 0.9rem;
         font-weight: 600;
-        padding: 12px 20px;
-        color: #525f7f;
-        border-bottom: 1px solid #e9ecef;
-        background: #f6f9fc;
+        padding: 16px 20px;
+        color: #2d3748;
+        border-bottom: 2px solid #e9ecef;
+        background: #f8fafc;
+        letter-spacing: 0.3px;
     }
 
     .table td {
-        padding: 12px 20px;
+        padding: 16px 20px;
         vertical-align: middle;
         border-top: 1px solid #e9ecef;
-        color: #525f7f;
+        color: #4a5568;
         font-size: 0.875rem;
+        line-height: 1.6;
+        letter-spacing: 0.2px;
     }
 
     .table tr:hover {
-        background-color: #f8f9fa;
+        background-color: #f8fafc;
+        transition: background-color 0.2s ease;
     }
 
     .badge {
-        padding: 5px 10px;
+        padding: 6px 12px;
         font-size: 0.75rem;
         font-weight: 600;
-        border-radius: 5px;
+        border-radius: 6px;
+        letter-spacing: 0.3px;
     }
 
     .filter-form {
-        padding: 20px;
+        padding: 25px;
         background: white;
         border-radius: 15px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         margin-bottom: 30px;
         border-left: 4px solid #5e72e4;
     }
@@ -89,9 +98,10 @@
         border-color: #5e72e4;
     }
 
+    /* ปรับสี hover ให้คอนทราสต์ชัดเจน */
     .btn-primary:hover {
-        background-color: #324cdd;
-        border-color: #324cdd;
+        background-color: #4a66d0;
+        border-color: #4a66d0;
     }
 
     .btn-secondary {
@@ -115,16 +125,19 @@
     }
 
     .select2-container .select2-selection--single {
-        height: 38px !important;
-        border: 1px solid #ced4da !important;
+        height: 42px !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px;
     }
 
     .select2-container--default .select2-selection--single .select2-selection__rendered {
-        line-height: 38px !important;
+        line-height: 42px !important;
+        padding-left: 15px;
     }
 
     .select2-container--default .select2-selection--single .select2-selection__arrow {
-        height: 36px !important;
+        height: 40px !important;
+        right: 10px;
     }
 
     .form-control:focus,
@@ -133,15 +146,14 @@
         box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25) !important;
     }
 
+    /* เปลี่ยนสี page header เป็นโทนเดียวกับ card header */
     .page-header {
-        background: linear-gradient(87deg, #5e72e4, #825ee4);
-        padding: 30px;
+        background: linear-gradient(87deg, #5e72e4, #7aa7f9);
+        padding: 35px;
         border-radius: 15px;
         margin-bottom: 30px;
         color: white;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
     .page-title-container {
@@ -151,17 +163,21 @@
     .page-title {
         margin: 0;
         font-weight: 600;
+        font-size: 1.8rem;
+        letter-spacing: 0.5px;
     }
 
     .page-subtitle {
-        opacity: 0.8;
-        margin-bottom: 0;
+        opacity: 0.9;
+        margin: 8px 0 0 0;
+        font-size: 1rem;
+        letter-spacing: 0.3px;
     }
 
+    /* เปลี่ยนสี modal header ให้สอดคล้องกับ page header */
     .modal-header {
-        background: linear-gradient(87deg, #5e72e4, #825ee4);
-        color: white;
-        border-radius: 0.3rem 0.3rem 0 0;
+        background: linear-gradient(87deg, #5e72e4, #7aa7f9);
+        padding: 20px 25px;
     }
 
     .modal-title {
@@ -183,18 +199,38 @@
         margin-bottom: 1.5rem;
     }
 
-    .form-row {
-        margin-bottom: 1rem;
+    .form-group label {
+        font-weight: 500;
+        color: #2d3748;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+    }
+
+    .form-control {
+        padding: 10px 15px;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+        font-size: 0.9rem;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-weight: 500;
+        letter-spacing: 0.3px;
+        border-radius: 8px;
+        transition: all 0.2s ease;
     }
 
     .filter-buttons {
         margin-top: 1.5rem;
     }
 
-    .badge.bg-login {
-        background-color: #5e72e4 !important;
-        color: white !important;
-    }
+    .badge.bg-success { background-color: #0ca678 !important; }
+    .badge.bg-primary { background-color: #4c6ef5 !important; }
+    .badge.bg-danger { background-color: #e03131 !important; }
+    .badge.bg-info { background-color: #15aabf !important; }
+    .badge.bg-warning { background-color: #f08c00 !important; }
+    .badge.bg-login { background-color: #7950f2 !important; }
 
     .select2-container {
         width: 100% !important;
@@ -210,11 +246,11 @@
 <div class="logs-container">
     <div class="page-header">
         <div class="page-title-container">
-            <h1 class="page-title">Activity Logs</h1>
+            <h1 class="page-title mb-3">Activity Logs</h1>
             <p class="page-subtitle">Track all user activities in the system</p>
         </div>
         <div>
-            <a href="{{ route('dashboard') }}" class="btn btn-light back-button">
+            <a href="{{ route('dashboard') }}" class="btn btn-dark back-button">
                 <i class="mdi mdi-arrow-left"></i> Back to Dashboard
             </a>
         </div>
@@ -342,7 +378,7 @@
                                     $badgeClass = 'bg-info';
                                     break;
                                 case 'View':
-                                    $badgeClass = 'bg-light text-dark';
+                                    $badgeClass = 'bg-success text-dark';
                                     break;
                                 case 'Submit':
                                     $badgeClass = 'bg-warning text-dark';
