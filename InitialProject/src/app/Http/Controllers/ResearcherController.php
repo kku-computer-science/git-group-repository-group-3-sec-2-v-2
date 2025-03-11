@@ -6,6 +6,7 @@ use App\Models\Program;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\DB;
 
 class ResearcherController extends Controller
 {
@@ -74,6 +75,94 @@ class ResearcherController extends Controller
             $totalResearchers += $users->count();
         }
         
+        // ดึงข้อมูล Visiting Scholars และ Postdoctoral จากตาราง work_of_research_groups พร้อมข้อมูลกลุ่มวิจัย
+        $externalResearchers = DB::table('work_of_research_groups as wrg')
+            ->join('authors', 'wrg.author_id', '=', 'authors.id')
+            ->join('research_groups', 'wrg.research_group_id', '=', 'research_groups.id')
+            ->whereIn('wrg.role', [3, 4]) // ดึงทั้ง Postdoctoral (3) และ Visiting Scholar (4)
+            ->select(
+                'authors.*',
+                'wrg.role',
+                'research_groups.group_name_en as lab_name',
+                'research_groups.id as lab_id',
+                DB::raw("CASE 
+                    WHEN wrg.role = 3 THEN 'Postdoctoral'
+                    WHEN wrg.role = 4 THEN 'Visiting Scholar'
+                    END as researcher_type")
+            )
+            ->when($search, function($query) use ($search) {
+                $query->where(function($q) use ($search) {
+                    $q->where('authors.author_fname', 'LIKE', "%{$search}%")
+                      ->orWhere('authors.author_lname', 'LIKE', "%{$search}%")
+                      ->orWhere('authors.belong_to', 'LIKE', "%{$search}%")
+                      ->orWhere('research_groups.group_name_en', 'LIKE', "%{$search}%")
+                      ->orWhere('research_groups.group_name_th', 'LIKE', "%{$search}%");
+                });
+            })
+            ->get();
+
+        // รวมข้อมูลที่ซ้ำกันตามชื่อ
+        $externalResearchersCollection = collect();
+        
+        foreach ($externalResearchers as $researcher) {
+            $fullName = $researcher->author_fname . ' ' . $researcher->author_lname;
+            
+            // ตรวจสอบว่ามีนักวิจัยคนนี้ในคอลเลคชันแล้วหรือไม่
+            if ($externalResearchersCollection->has($fullName)) {
+                // ถ้ามีแล้ว ให้เพิ่มข้อมูลตำแหน่งและแล็บ
+                $existingResearcher = $externalResearchersCollection->get($fullName);
+                
+                // เพิ่มข้อมูลตำแหน่งและแล็บใหม่
+                if (!isset($existingResearcher->positions)) {
+                    $existingResearcher->positions = collect();
+                }
+                
+                // เพิ่มตำแหน่งและแล็บใหม่ ตรวจสอบไม่ให้ซ้ำกัน
+                $newPosition = [
+                    'type' => $researcher->researcher_type,
+                    'lab_name' => $researcher->lab_name,
+                    'lab_id' => $researcher->lab_id
+                ];
+                
+                // ตรวจสอบว่าตำแหน่งนี้มีอยู่แล้วหรือไม่
+                $positionExists = false;
+                foreach ($existingResearcher->positions as $position) {
+                    if ($position['type'] == $newPosition['type'] && $position['lab_name'] == $newPosition['lab_name']) {
+                        $positionExists = true;
+                        break;
+                    }
+                }
+                
+                // ถ้ายังไม่มี ให้เพิ่มเข้าไป
+                if (!$positionExists) {
+                    $existingResearcher->positions->push($newPosition);
+                }
+                
+                // อัพเดทข้อมูลในคอลเลคชัน
+                $externalResearchersCollection->put($fullName, $existingResearcher);
+            } else {
+                // ถ้ายังไม่มี ให้เพิ่มนักวิจัยใหม่
+                $researcher->positions = collect([
+                    [
+                        'type' => $researcher->researcher_type,
+                        'lab_name' => $researcher->lab_name,
+                        'lab_id' => $researcher->lab_id
+                    ]
+                ]);
+                
+                $externalResearchersCollection->put($fullName, $researcher);
+            }
+        }
+
+        // รวม External Researchers ทั้งหมดเข้าด้วยกัน
+        if ($externalResearchersCollection->isNotEmpty()) {
+            $roleUsers->put('external', [
+                'role_name' => 'External',
+                'users' => $externalResearchersCollection->values() // แปลงเป็น indexed array
+            ]);
+            $totalResearchers += $externalResearchersCollection->count();
+        }
+
         // เก็บ ID ของ Role ที่มีนักวิจัย (หลังกรองแล้ว) เพื่อให้ Accordion ขยายได้
         $expandedRoleIds = $roleUsers->filter(function ($item) {
             return $item['users']->isNotEmpty();
