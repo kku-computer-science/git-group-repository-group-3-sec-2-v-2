@@ -15,7 +15,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
         <!-- Font Awesome Icons -->
-  
+
 <
     <!-- plugins:css -->
     <link rel="stylesheet" href="{{asset('vendors/feather/feather.css')}}">
@@ -85,7 +85,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <a class="nav-link count-indicator" id="countDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="icon-bell"></i>
                             <span class="count"></span>
-                        </a>   
+                        </a>
                         </li>
                         <li class="nav-item dropdown d-none d-lg-block user-dropdown">
                             <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown"
@@ -115,7 +115,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                 <a class="dropdown-item"><i
                                         class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
                         <li class="nav-item d-none d-sm-inline-block">
-                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); 
+                            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
                                 document.getElementById ('logout-form').submit();"> {{ __('Logout') }}</a>
 
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
@@ -152,7 +152,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         href="{{ route('profile')}}">
                         <i class="menu-icon mdi mdi-account-circle-outline"></i>
                         <span class="menu-title">User Profile</span>
-                        
+
                     </a>
                 </li>
                 <li class="nav-item">
@@ -160,7 +160,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         href="{{ route('settings')}}">
                         <i class="menu-icon mdi mdi mdi-settings-outline"></i>
                         <span class="menu-title">Settings</span>
-                        
+
                     </a>
                 </li>
                 <li class="nav-item nav-category">Option</li>
@@ -175,7 +175,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" href="{{ route('researchProjects.index')}}">
                         <i class="menu-icon mdi mdi-book-outline"></i>
                         <span class="menu-title">Research Project</span>
-                        
+
                     </a>
                 </li>
                 @can('user-list')
@@ -183,7 +183,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" href="{{ route('users.index')}}">
                         <i class="menu-icon mdi mdi-account-multiple-outline"></i>
                         <span class="menu-title">Users</span>
-                        
+
                     </a>
                 </li>
                 @endcan
@@ -192,7 +192,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" href="{{ route('roles.index')}}">
                         <i class="menu-icon mdi mdi-chart-gantt"></i>
                         <span class="menu-title">Roles</span>
-                        
+
                     </a>
                 </li>
                 @endcan
@@ -201,7 +201,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" href="{{ route('permissions.index')}}">
                         <i class="menu-icon mdi mdi-checkbox-marked-circle-outline"></i>
                         <span class="menu-title">Permission</span>
-                        
+
                     </a>
                 </li>
                 @endcan
@@ -210,7 +210,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" href="{{ route('departments.index')}}">
                         <i class="menu-icon mdi mdi-animation-outline"></i>
                         <span class="menu-title">Departments</span>
-                        
+
                     </a>
                 </li>
                 @endcan
@@ -219,7 +219,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" href="{{ route('researchGroups.index')}}">
                         <i class="menu-icon mdi mdi-view-dashboard-outline"></i>
                         <span class="menu-title">Research Group</span>
-                        
+
                     </a>
                 </li>
                 @endcan
@@ -228,7 +228,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" href="{{ route('papers.index')}}">
                         <i class="menu-icon mdi mdi-book-open-page-variant"></i>
                         <span class="menu-title">Manage Paper</span>
-                        
+
                     </a>
                 </li>
                 @endcan
@@ -249,12 +249,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         rights
                         reserved.</span>
                 </div>
+                <div class="text-center">
+                    <span class="text-muted">v1.0.0</span>
+                </div>
             </footer>
         </div>
 
     </div>
     </div>
-    
+
 
     <!-- plugins:js -->
     <script src="{{asset('vendors/js/vendor.bundle.base.js')}}"></script>

@@ -47,7 +47,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 <body>
     <div class=" container-scroller sidebar-dark">
-        <!-- navbar ข้างบน 
+        <!-- navbar ข้างบน
     -->
         <nav class=" navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
             <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
@@ -117,7 +117,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                             <i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
                         </div> -->
                     <li class="nav-item d-none d-sm-inline-block">
-                        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); 
+                        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
                         document.getElementById ('logout-form').submit();"> {{ __('Logout') }} <i class="mdi mdi-logout"></i></a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                             @csrf
@@ -271,7 +271,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         </a>
                     </li>
                     @endcan
-                    
+
                     @can('role:admin')
                     <li class="nav-item">
                         <a class="nav-link" data-bs-toggle="collapse" href="#SecurityManagement" aria-expanded="false" aria-controls="SecurityManagement">
@@ -310,6 +310,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </div>
                 <footer class="footer">
                     <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                    </div>
+                    <div class="text-center">
+                        <span class="text-muted">v1.0.0</span>
                     </div>
                 </footer>
             </div>

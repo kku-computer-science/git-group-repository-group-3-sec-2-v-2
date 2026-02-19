@@ -149,6 +149,7 @@
         <div class="container">
             <div class="text-center">
                 <p class="mb-0">&copy; {{ date('Y') }} College of Computing, Khon Kaen University. All rights reserved.</p>
+                <p class="mb-0 text-muted">v1.0.0</p>
             </div>
         </div>
     </footer>
