@@ -17,31 +17,36 @@ class ErrorLogService
      */
     public static function logException(\Throwable $exception, $location = null)
     {
-        $context = [
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-            'url' => Request::fullUrl(),
-            'method' => Request::method(),
-            'input' => self::filterSensitiveData(Request::all()),
-            'user_agent' => Request::userAgent(),
-            'ip' => Request::ip(),
-            'user_id' => Auth::id(),
-            'location' => $location
-        ];
+        try {
+            $context = [
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+                'url' => Request::fullUrl(),
+                'method' => Request::method(),
+                'input' => self::filterSensitiveData(Request::all()),
+                'user_agent' => Request::userAgent(),
+                'ip' => Request::ip(),
+                'user_id' => Auth::id(),
+                'location' => $location
+            ];
 
-        ErrorLog::create([
-            'level' => 'error',
-            'message' => $exception->getMessage(),
-            'context' => json_encode($context, JSON_UNESCAPED_UNICODE),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-            'stack_trace' => $exception->getTraceAsString(),
-            'ip_address' => Request::ip(),
-            'user_id' => Auth::id(),
-            'url' => Request::fullUrl(),
-            'method' => Request::method(),
-            'user_agent' => Request::userAgent()
-        ]);
+            ErrorLog::create([
+                'level' => 'error',
+                'message' => $exception->getMessage(),
+                'context' => json_encode($context, JSON_UNESCAPED_UNICODE),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+                'stack_trace' => $exception->getTraceAsString(),
+                'ip_address' => Request::ip(),
+                'user_id' => Auth::id(),
+                'url' => Request::fullUrl(),
+                'method' => Request::method(),
+                'user_agent' => Request::userAgent()
+            ]);
+        } catch (\Throwable $e) {
+            // Silently fail if error_logs table is not fully migrated yet
+            // to prevent cascading failures during migrations
+        }
     }
 
     /**

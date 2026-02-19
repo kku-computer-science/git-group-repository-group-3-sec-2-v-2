@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class ModifyWorkOfResearchGroupsTable extends Migration
@@ -13,16 +14,17 @@ class ModifyWorkOfResearchGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::table('work_of_research_groups', function (Blueprint $table) {
-            $table->unsignedBigInteger('author_id')->nullable()->after('research_group_id');
-            $table->foreign('author_id')->references('id')->on('authors')
-                ->onUpdate('cascade')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id')->nullable()->change();
+        // Add author_id if not present
+        if (!Schema::hasColumn('work_of_research_groups', 'author_id')) {
+            Schema::table('work_of_research_groups', function (Blueprint $table) {
+                $table->unsignedBigInteger('author_id')->nullable()->after('research_group_id');
+                $table->foreign('author_id')->references('id')->on('authors')
+                    ->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
 
-            // เพิ่ม foreign key constraint กลับใหม่
-            $table->foreign('user_id')->references('id')->on('users')
-                ->onUpdate('cascade')->onDelete('cascade');
-        });
+        // Make user_id nullable using raw SQL (avoids doctrine/dbal dependency)
+        DB::statement('ALTER TABLE `work_of_research_groups` MODIFY `user_id` BIGINT UNSIGNED NULL');
     }
 
     /**

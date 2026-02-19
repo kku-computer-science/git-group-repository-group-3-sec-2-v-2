@@ -14,15 +14,24 @@ class AddAdditionalFieldsToErrorLogsTable extends Migration
     public function up()
     {
         Schema::table('error_logs', function (Blueprint $table) {
-            $table->string('ip_address')->nullable()->after('line');
-            $table->unsignedBigInteger('user_id')->nullable()->after('ip_address');
-            $table->string('username')->nullable()->after('user_id');
-            $table->string('url')->nullable()->after('username');
-            $table->string('method', 10)->nullable()->after('url');
-            $table->string('user_agent')->nullable()->after('method');
-            
-            // Add foreign key constraint
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+            if (!Schema::hasColumn('error_logs', 'ip_address')) {
+                $table->string('ip_address')->nullable()->after('line');
+            }
+            if (!Schema::hasColumn('error_logs', 'user_id')) {
+                $table->unsignedBigInteger('user_id')->nullable()->after('ip_address');
+            }
+            if (!Schema::hasColumn('error_logs', 'username')) {
+                $table->string('username')->nullable()->after('user_id');
+            }
+            if (!Schema::hasColumn('error_logs', 'url')) {
+                $table->string('url')->nullable()->after('username');
+            }
+            if (!Schema::hasColumn('error_logs', 'method')) {
+                $table->string('method', 10)->nullable()->after('url');
+            }
+            if (!Schema::hasColumn('error_logs', 'user_agent')) {
+                $table->string('user_agent')->nullable()->after('method');
+            }
         });
     }
 

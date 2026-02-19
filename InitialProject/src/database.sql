@@ -37,7 +37,8 @@ CREATE TABLE `academicworks` (
   `ac_refnumber` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ac_page` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -767,13 +768,14 @@ INSERT INTO `activity_logs` (`id`, `user_id`, `action_type`, `action`, `descript
 
 DROP TABLE IF EXISTS `authors`;
 CREATE TABLE `authors` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT,
   `author_fname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `author_lname` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `belong_to` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `picture` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -6385,12 +6387,6 @@ INSERT INTO `work_of_research_projects` (`id`, `role`, `user_id`, `research_proj
 --
 
 --
--- Indexes for table `academicworks`
---
-ALTER TABLE `academicworks`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `activity_logs`
 --
 ALTER TABLE `activity_logs`
@@ -6400,9 +6396,7 @@ ALTER TABLE `activity_logs`
 
 --
 -- Indexes for table `authors`
---
-ALTER TABLE `authors`
-  ADD PRIMARY KEY (`id`);
+-- (PRIMARY KEY already defined inline in CREATE TABLE)
 
 --
 -- Indexes for table `author_of_academicworks`
@@ -6643,8 +6637,7 @@ ALTER TABLE `activity_logs`
 --
 -- AUTO_INCREMENT for table `authors`
 --
-ALTER TABLE `authors`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=711;
+ALTER TABLE `authors` AUTO_INCREMENT=711;
 
 --
 -- AUTO_INCREMENT for table `author_of_academicworks`

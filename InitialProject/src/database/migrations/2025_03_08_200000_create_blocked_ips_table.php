@@ -13,18 +13,20 @@ class CreateBlockedIpsTable extends Migration
      */
     public function up()
     {
-        Schema::create('blocked_ips', function (Blueprint $table) {
-            $table->id();
-            $table->string('ip_address')->unique();
-            $table->text('reason')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->timestamp('expires_at')->nullable(); // Optional: for temporary blocks
-            $table->timestamps();
-            
-            // Add index for performance
-            $table->index('created_at');
-            $table->index('ip_address');
-        });
+        if (!Schema::hasTable('blocked_ips')) {
+            Schema::create('blocked_ips', function (Blueprint $table) {
+                $table->id();
+                $table->string('ip_address')->unique();
+                $table->text('reason')->nullable();
+                $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+                $table->timestamp('expires_at')->nullable(); // Optional: for temporary blocks
+                $table->timestamps();
+                
+                // Add index for performance
+                $table->index('created_at');
+                $table->index('ip_address');
+            });
+        }
     }
 
     /**

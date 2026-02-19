@@ -14,9 +14,15 @@ class AddAcademicFieldsToAuthorsTable extends Migration
     public function up()
     {
         Schema::table('authors', function (Blueprint $table) {
-            $table->boolean('doctoral_degree')->nullable()->comment('Has doctoral degree (0=No, 1=Yes)');
-            $table->string('academic_ranks_en')->nullable()->comment('Academic rank in English (Professor, Associate Professor, etc.)');
-            $table->string('academic_ranks_th')->nullable()->comment('Academic rank in Thai');
+            if (!Schema::hasColumn('authors', 'doctoral_degree')) {
+                $table->boolean('doctoral_degree')->nullable()->comment('Has doctoral degree (0=No, 1=Yes)');
+            }
+            if (!Schema::hasColumn('authors', 'academic_ranks_en')) {
+                $table->string('academic_ranks_en')->nullable()->comment('Academic rank in English (Professor, Associate Professor, etc.)');
+            }
+            if (!Schema::hasColumn('authors', 'academic_ranks_th')) {
+                $table->string('academic_ranks_th')->nullable()->comment('Academic rank in Thai');
+            }
         });
     }
 

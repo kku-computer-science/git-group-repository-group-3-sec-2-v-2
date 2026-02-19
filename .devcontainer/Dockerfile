@@ -5,7 +5,7 @@ FROM php:8.2-apache
 RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev \
     libonig-dev libxml2-dev libzip-dev \
-    zip unzip curl git \
+    zip unzip curl git default-mysql-client \
     && docker-php-ext-configure gd \
     && docker-php-ext-install -j$(nproc) gd mbstring exif pcntl bcmath mysqli pdo_mysql zip opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*

@@ -14,5 +14,5 @@
       ]
     }
   },
-  "postCreateCommand": "git config --global --add safe.directory /var/www/html && composer install"
+  "postCreateCommand": "bash ../../.devcontainer/post-create.sh"
 }

@@ -13,19 +13,21 @@ class AddAuthorIdToWorkOfResearchProjectsTable extends Migration
      */
     public function up()
     {
-        Schema::create('work_of_research_groups', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->integer('role');
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('research_group_id');
-            $table->boolean('can_edit')->default(false);
-            
-            // กำหนด foreign key
-            $table->foreign('user_id')->references('id')->on('users')
-                  ->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('research_group_id')->references('id')->on('research_groups')
-                  ->onUpdate('cascade')->onDelete('cascade');
-        });
+        if (!Schema::hasTable('work_of_research_groups')) {
+            Schema::create('work_of_research_groups', function (Blueprint $table) {
+                $table->bigIncrements('id');
+                $table->integer('role');
+                $table->unsignedBigInteger('user_id');
+                $table->unsignedBigInteger('research_group_id');
+                $table->boolean('can_edit')->default(false);
+                
+                // กำหนด foreign key
+                $table->foreign('user_id')->references('id')->on('users')
+                      ->onUpdate('cascade')->onDelete('cascade');
+                $table->foreign('research_group_id')->references('id')->on('research_groups')
+                      ->onUpdate('cascade')->onDelete('cascade');
+            });
+        }
     }
 
     /**

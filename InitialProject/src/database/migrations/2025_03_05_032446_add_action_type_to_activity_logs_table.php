@@ -13,12 +13,14 @@ class AddActionTypeToActivityLogsTable extends Migration
      */
     public function up()
     {
-        Schema::table('activity_logs', function (Blueprint $table) {
-            $table->string('action_type', 50)->nullable()->after('user_id');
-            
-            // Add index for better performance when filtering
-            $table->index('action_type');
-        });
+        if (!Schema::hasColumn('activity_logs', 'action_type')) {
+            Schema::table('activity_logs', function (Blueprint $table) {
+                $table->string('action_type', 50)->nullable()->after('user_id');
+                
+                // Add index for better performance when filtering
+                $table->index('action_type');
+            });
+        }
     }
 
     /**

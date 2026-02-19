@@ -13,9 +13,11 @@ class AddLinkToResearchGroupsTable extends Migration
      */
     public function up()
     {
-        Schema::table('research_groups', function (Blueprint $table) {
-            $table->string('link')->nullable()->after('group_image'); // เพิ่มคอลัมน์ link
-        });
+        if (!Schema::hasColumn('research_groups', 'link')) {
+            Schema::table('research_groups', function (Blueprint $table) {
+                $table->string('link')->nullable()->after('group_image'); // เพิ่มคอลัมน์ link
+            });
+        }
     }
     
     public function down()

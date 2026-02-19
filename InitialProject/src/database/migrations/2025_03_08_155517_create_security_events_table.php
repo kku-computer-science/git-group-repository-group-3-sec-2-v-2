@@ -13,20 +13,22 @@ class CreateSecurityEventsTable extends Migration
      */
     public function up(): void
     {
-        Schema::create('security_events', function (Blueprint $table) {
-            $table->id();
-            $table->string('event_type');
-            $table->string('icon_class')->nullable();
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
-            $table->string('ip_address');
-            $table->text('details');
-            $table->enum('threat_level', ['low', 'medium', 'high'])->default('low');
-            $table->string('user_agent')->nullable();
-            $table->string('location')->nullable();
-            $table->json('request_details')->nullable();
-            $table->json('additional_data')->nullable();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('security_events')) {
+            Schema::create('security_events', function (Blueprint $table) {
+                $table->id();
+                $table->string('event_type');
+                $table->string('icon_class')->nullable();
+                $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+                $table->string('ip_address');
+                $table->text('details');
+                $table->enum('threat_level', ['low', 'medium', 'high'])->default('low');
+                $table->string('user_agent')->nullable();
+                $table->string('location')->nullable();
+                $table->json('request_details')->nullable();
+                $table->json('additional_data')->nullable();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
