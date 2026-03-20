@@ -35,6 +35,15 @@ deployment:
       echo "Starting file copy..." >> "$PUBLICPATH/deployment.log"
       /bin/cp -rv "$SRCPATH/." "$PUBLICPATH/" >> "$PUBLICPATH/deployment.log" 2>&1 || echo "Copy failed with error: $?" >> "$PUBLICPATH/deployment.log"
 
+      # ย้าย assets จาก public/ ขึ้นมาที่ root เพื่อให้ browser เข้าถึงได้
+      echo "Moving public assets to root..." >> "$PUBLICPATH/deployment.log"
+      /bin/cp -rv "$PUBLICPATH/public/." "$PUBLICPATH/" >> "$PUBLICPATH/deployment.log" 2>&1
+
+      # แก้ index.php ให้หา vendor และ bootstrap จาก root แทน ../
+      echo "Patching index.php paths..." >> "$PUBLICPATH/deployment.log"
+      sed -i "s|require __DIR__\.'/../vendor/autoload.php'|require __DIR__.'/vendor/autoload.php'|" "$PUBLICPATH/index.php"
+      sed -i "s|require_once __DIR__\.'/../bootstrap/app.php'|require_once __DIR__.'/bootstrap/app.php'|" "$PUBLICPATH/index.php"
+
       # เช็คผลลัพธ์หลัง copy
       echo "Destination directory after copy:" >> "$PUBLICPATH/deployment.log"
       ls -la "$PUBLICPATH" >> "$PUBLICPATH/deployment.log"
