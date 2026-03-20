@@ -35,9 +35,11 @@ deployment:
       echo "Starting file copy..." >> "$PUBLICPATH/deployment.log"
       /bin/cp -rv "$SRCPATH/." "$PUBLICPATH/" >> "$PUBLICPATH/deployment.log" 2>&1 || echo "Copy failed with error: $?" >> "$PUBLICPATH/deployment.log"
 
-      # ย้าย assets จาก public/ ขึ้นมาที่ root เพื่อให้ browser เข้าถึงได้
+      # ย้าย assets จาก public/ ขึ้นมาที่ root เพื่อให้ browser เข้าถึงได้ (ใช้ mv เพื่อไม่เปลืองพื้นที่)
       echo "Moving public assets to root..." >> "$PUBLICPATH/deployment.log"
-      /bin/cp -rv "$PUBLICPATH/public/." "$PUBLICPATH/" >> "$PUBLICPATH/deployment.log" 2>&1
+      /bin/mv "$PUBLICPATH/public/"* "$PUBLICPATH/" >> "$PUBLICPATH/deployment.log" 2>&1
+      /bin/mv "$PUBLICPATH/public/".* "$PUBLICPATH/" >> "$PUBLICPATH/deployment.log" 2>/dev/null
+      /bin/rm -rf "$PUBLICPATH/public"
 
       # แก้ index.php ให้หา vendor และ bootstrap จาก root แทน ../
       echo "Patching index.php paths..." >> "$PUBLICPATH/deployment.log"
