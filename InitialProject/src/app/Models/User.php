@@ -100,7 +100,7 @@ class User extends Authenticatable
     }
 
     public function department() {
-        return $this->belongsTo(department::class);
+        return $this->belongsTo(Department::class);
     }
 
     public function expertise()
