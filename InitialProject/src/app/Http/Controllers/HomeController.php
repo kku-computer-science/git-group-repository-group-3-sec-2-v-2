@@ -75,16 +75,19 @@ class HomeController extends Controller
             // Handle the "Before" section
             $from = Carbon::now()->year - 16;
             $to = Carbon::now()->year - 6;
-            $papers = $this->getPapersData(null, [$from, $to]);
+            $papers = $this->getPapersData(null, [$from, $to], true);
         } else {
             // Handle regular years
-            $papers = $this->getPapersData($year);
+            $papers = [
+                'data' => $this->getPapersData($year),
+                'pagination' => null,
+            ];
         }
         
         return response()->json($papers);
     }
 
-    private function getPapersData($year = null, $range = null)
+    private function getPapersData($year = null, $range = null, $paginate = false)
     {
         $query = Paper::with([
             'teacher' => function ($query) {
@@ -103,8 +106,27 @@ class HomeController extends Controller
             $query->where('paper_yearpub', '=', $year);
         }
 
-        $papers = $query->orderBy('paper_yearpub', 'desc')->get()->toArray();
+        $query->orderBy('paper_yearpub', 'desc');
 
+        if ($paginate) {
+            $papers = $query->paginate(10);
+
+            return [
+                'data' => $this->formatPapers($papers->getCollection()->toArray()),
+                'pagination' => [
+                    'current_page' => $papers->currentPage(),
+                    'last_page' => $papers->lastPage(),
+                    'per_page' => $papers->perPage(),
+                    'total' => $papers->total(),
+                ],
+            ];
+        }
+
+        return $this->formatPapers($query->get()->toArray());
+    }
+
+    private function formatPapers(array $papers)
+    {
         return array_map(function ($tag) {
             $t = collect($tag['teacher']);
             $a = collect($tag['author']);

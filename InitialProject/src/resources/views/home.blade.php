@@ -38,6 +38,10 @@
         margin-bottom: 0;
         text-align: center;
     }
+
+    .papers-pagination .btn-group {
+        gap: 6px;
+    }
 </style>
 
 @section('content')
@@ -174,65 +178,147 @@
         });
 
         // Accordion handlers
+        const beforeYear = @json(array_key_last($papers));
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+        const loadingYears = new Set();
 
-const accordionButtons = document.querySelectorAll('.accordion-button');
+        function renderLoadingState() {
+            return `
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>`;
+        }
 
-accordionButtons.forEach(button => {
-    let isLoading = false;
-    
-    button.addEventListener('click', async function() {
-        const year = this.getAttribute('data-year');
-        const contentDiv = document.getElementById(`papers-${year}`);
-        
-        if (isLoading) return;
-        
-        if (!contentDiv.getAttribute('data-loaded')) {
-            isLoading = true;
+        function renderPagination(year, pagination) {
+            if (!pagination || pagination.last_page <= 1) {
+                return '';
+            }
+
+            const start = ((pagination.current_page - 1) * pagination.per_page) + 1;
+            const end = Math.min(pagination.current_page * pagination.per_page, pagination.total);
+            const pages = [];
+
+            pages.push(1);
+
+            for (let page = pagination.current_page - 1; page <= pagination.current_page + 1; page += 1) {
+                if (page > 1 && page < pagination.last_page) {
+                    pages.push(page);
+                }
+            }
+
+            if (pagination.last_page > 1) {
+                pages.push(pagination.last_page);
+            }
+
+            const visiblePages = [...new Set(pages)].sort((a, b) => a - b);
+            let buttons = `
+                <button class="btn btn-outline-secondary btn-sm pagination-button"
+                    data-year="${year}"
+                    data-page="${pagination.current_page - 1}"
+                    ${pagination.current_page === 1 ? 'disabled' : ''}>
+                    Previous
+                </button>
+            `;
+
+            visiblePages.forEach((page, index) => {
+                const previousPage = visiblePages[index - 1];
+
+                if (index > 0 && page - previousPage > 1) {
+                    buttons += '<span class="btn btn-sm btn-light disabled">...</span>';
+                }
+
+                buttons += `
+                    <button class="btn btn-sm ${page === pagination.current_page ? 'btn-primary' : 'btn-outline-primary'} pagination-button"
+                        data-year="${year}"
+                        data-page="${page}"
+                        ${page === pagination.current_page ? 'disabled' : ''}>
+                        ${page}
+                    </button>
+                `;
+            });
+
+            buttons += `
+                <button class="btn btn-outline-secondary btn-sm pagination-button"
+                    data-year="${year}"
+                    data-page="${pagination.current_page + 1}"
+                    ${pagination.current_page === pagination.last_page ? 'disabled' : ''}>
+                    Next
+                </button>
+            `;
+
+            return `
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-3 papers-pagination">
+                    <small class="text-muted mb-2 mb-md-0">
+                        Showing ${start}-${end} of ${pagination.total} items
+                    </small>
+                    <div class="btn-group flex-wrap" role="group" aria-label="Paper pagination">
+                        ${buttons}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderPapers(year, papers, pagination = null) {
+            if (!papers || papers.length === 0) {
+                const message = String(year) === String(beforeYear)
+                    ? `ไม่พบข้อมูลก่อนปี ${year}`
+                    : `ไม่พบข้อมูลในปี ${year}`;
+
+                return `
+                    <div class="alert alert-info text-center">
+                        <i class="fa fa-info-circle me-2"></i>
+                        ${message}
+                    </div>`;
+            }
+
+            const startIndex = pagination ? ((pagination.current_page - 1) * pagination.per_page) : 0;
+            let html = '';
+
+            papers.forEach((paper, index) => {
+                html += `
+                    <div class="row mt-2 mb-3 border-bottom">
+                        <div class="col-sm-1">
+                            <h6>[${startIndex + index + 1}]</h6>
+                        </div>
+                        <div class="col-sm-11">
+                            <p class="hidden">
+                                ${paper.paper_name ? `<b>${paper.paper_name}</b>` : '<b>ไม่มีชื่อบทความ</b>'}
+                                ${paper.author ? `(<link>${paper.author}</link>)` : ''}
+                                ${paper.paper_sourcetitle ? paper.paper_sourcetitle : ''}
+                                ${paper.paper_volume ? ', ' + paper.paper_volume : ''}
+                                ${paper.paper_yearpub ? ', ' + paper.paper_yearpub : ''}.
+                                ${paper.paper_url ? `<a href="${paper.paper_url}" target="_blank">[url]</a>` : ''}
+                                ${paper.paper_doi ? `<a href="https://doi.org/${paper.paper_doi}" target="_blank">[doi]</a>` : ''}
+                                <button style="padding: 0;" class="btn btn-link open_modal" value="${paper.id}">[อ้างอิง]</button>
+                            </p>
+                        </div>
+                    </div>
+                `;
+            });
+
+            return html + renderPagination(year, pagination);
+        }
+
+        async function loadPapers(year, page = 1) {
+            const contentDiv = document.getElementById(`papers-${year}`);
+
+            if (!contentDiv || loadingYears.has(year)) {
+                return;
+            }
+
+            loadingYears.add(year);
+            contentDiv.innerHTML = renderLoadingState();
+
             try {
-                const response = await fetch(`/papers_2/${year}`);
-                const data = await response.json();
-                
-                let html = '';
-                
-                // ตรวจสอบว่ามีข้อมูลหรือไม่
-                if (!data || data.length === 0) {
-                    html = `
-                        <div class="alert alert-info text-center">
-                            <i class="fa fa-info-circle me-2"></i>
-                            ไม่พบข้อมูลในปี ${year}
-                        </div>`;
-                } else {
-                    data.forEach((paper, index) => {
-                        html += `
-                            <div class="row mt-2 mb-3 border-bottom">
-                                <div class="col-sm-1">
-                                    <h6>[${index + 1}]</h6>
-                                </div>
-                                <div class="col-sm-11">
-                                    <p class="hidden">
-                                        ${paper.paper_name ? `<b>${paper.paper_name}</b>` : '<b>ไม่มีชื่อบทความ</b>'}
-                                        ${paper.author ? `(<link>${paper.author}</link>)` : ''}
-                                        ${paper.paper_sourcetitle ? paper.paper_sourcetitle : ''}
-                                        ${paper.paper_volume ? ', ' + paper.paper_volume : ''}
-                                        ${paper.paper_yearpub ? ', ' + paper.paper_yearpub : ''}.
-                                        ${paper.paper_url ? `<a href="${paper.paper_url}" target="_blank">[url]</a>` : ''}
-                                        ${paper.paper_doi ? `<a href="https://doi.org/${paper.paper_doi}" target="_blank">[doi]</a>` : ''}
-                                        <button style="padding: 0;" class="btn btn-link open_modal" value="${paper.id}">[อ้างอิง]</button>
-                                    </p>
-                                </div>
-                            </div>
-                        `;
-                    });
-                }
-                
-                contentDiv.innerHTML = html;
+                const response = await fetch(`/papers_2/${year}?page=${page}`);
+                const result = await response.json();
+                const papers = Array.isArray(result) ? result : (result.data || []);
+                const pagination = Array.isArray(result) ? null : result.pagination;
+
+                contentDiv.innerHTML = renderPapers(year, papers, pagination);
                 contentDiv.setAttribute('data-loaded', 'true');
-                
-                // ถ้ามีข้อมูล จึงเริ่มต้น modal handlers
-                if (data && data.length > 0) {
-                    initializeModalHandlers();
-                }
-                
             } catch (error) {
                 contentDiv.innerHTML = `
                     <div class="alert alert-danger text-center">
@@ -241,34 +327,55 @@ accordionButtons.forEach(button => {
                     </div>`;
                 console.error('Error:', error);
             } finally {
-                isLoading = false;
+                loadingYears.delete(year);
             }
         }
-    });
-});
 
-        function initializeModalHandlers() {
-            document.querySelectorAll('.open_modal').forEach(button => {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const tourId = this.value;
-                    const nameDiv = document.getElementById('name');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const year = this.getAttribute('data-year');
+                const contentDiv = document.getElementById(`papers-${year}`);
 
-                    nameDiv.innerHTML = '';
-
-                    fetch(`/bib/${tourId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            nameDiv.innerHTML = data;
-                            modalInstance.show();
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            nameDiv.innerHTML = '<div class="alert alert-danger">Error loading citation</div>';
-                        });
-                });
+                if (!contentDiv.getAttribute('data-loaded')) {
+                    loadPapers(year);
+                }
             });
-        }
+        });
+
+        document.addEventListener('click', function(e) {
+            const modalButton = e.target.closest('.open_modal');
+            if (modalButton) {
+                e.preventDefault();
+                const tourId = modalButton.value;
+                const nameDiv = document.getElementById('name');
+
+                nameDiv.innerHTML = '';
+
+                fetch(`/bib/${tourId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        nameDiv.innerHTML = data;
+                        modalInstance.show();
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        nameDiv.innerHTML = '<div class="alert alert-danger">Error loading citation</div>';
+                    });
+
+                return;
+            }
+
+            const paginationButton = e.target.closest('.pagination-button');
+            if (!paginationButton || paginationButton.disabled) {
+                return;
+            }
+
+            e.preventDefault();
+            loadPapers(
+                paginationButton.getAttribute('data-year'),
+                paginationButton.getAttribute('data-page')
+            );
+        });
 
         // Chart initialization
         var year = <?php echo $year ?? '[]'; ?>;
