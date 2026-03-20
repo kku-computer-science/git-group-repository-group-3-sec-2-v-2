@@ -1,4 +1,6 @@
-@extends('layouts.app')
+@extends('dashboards.admins.layouts.admin-dash-layout')
+
+@section('title', 'User Activities')
 
 @section('content')
 <div class="container-fluid">

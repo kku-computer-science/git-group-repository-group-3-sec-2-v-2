@@ -1,7 +1,8 @@
-@extends('dashboards.users.layouts.user-dash-layout')
+@extends('dashboards.admins.layouts.admin-dash-layout')
 
 @section('title', 'Admin Dashboard')
 
+@push('styles')
 <style>
     .dashboard-container {
         padding: 20px;
@@ -147,6 +148,7 @@
         margin-bottom: 10px;
     }
 </style>
+@endpush
 
 @section('content')
 <div class="dashboard-container">
