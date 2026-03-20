@@ -40,7 +40,7 @@ Colors:
         /* body {
             background-color: #E5E5E5;
         } */
-        root {
+        :root {
             --primary-color: #2563eb;
             --primary-hover: #1d4ed8;
             --bg-light: #f8fafc;
