@@ -24,8 +24,7 @@ deployment:
                   "$PUBLICPATH/resources" \
                   "$PUBLICPATH/routes" \
                   "$PUBLICPATH/storage" \
-                  "$PUBLICPATH/tests" \
-                  "$PUBLICPATH/vendor"
+                  "$PUBLICPATH/tests"
       /bin/rm -f "$PUBLICPATH/artisan" \
                  "$PUBLICPATH/composer.json" \
                  "$PUBLICPATH/composer.lock" \
@@ -39,10 +38,6 @@ deployment:
       # เช็คผลลัพธ์หลัง copy
       echo "Destination directory after copy:" >> "$PUBLICPATH/deployment.log"
       ls -la "$PUBLICPATH" >> "$PUBLICPATH/deployment.log"
-
-      echo "Installing Composer dependencies..." >> "$PUBLICPATH/deployment.log"
-      cd "$PUBLICPATH"
-      composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev >> "$PUBLICPATH/deployment.log" 2>&1
 
       # ตั้งค่าสิทธิ์
       echo "Setting permissions..." >> "$PUBLICPATH/deployment.log"
