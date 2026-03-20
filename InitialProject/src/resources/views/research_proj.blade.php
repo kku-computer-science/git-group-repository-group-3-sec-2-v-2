@@ -27,7 +27,7 @@
             <tbody>
                 @foreach($resp as $i => $re)
                 <tr>
-                    <td style="vertical-align: top;text-align: left;">{{$i+1}}</td>
+                    <td style="vertical-align: top;text-align: left;">{{ $resp->firstItem() + $i }}</td>
                     <td style="vertical-align: top;text-align: left;">{{($re->project_year)+543}}</td>
                     <td style="vertical-align: top;text-align: left;">
                         {{$re->project_name}}
@@ -131,6 +131,7 @@
             </tbody>
         </table>
     </div>
+    @include('partials.pagination', ['paginator' => $resp])
 
 </div>
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
@@ -144,6 +145,9 @@
 
         var table1 = $('#example1').DataTable({
             responsive: true,
+            paging: false,
+            info: false,
+            searching: false
         });
     });
 </script>

@@ -18,25 +18,21 @@ class PatentController extends Controller
     public function index()
     {
         $id = auth()->user()->id;
-        //$papers=User::find($id)->paper()->latest()->paginate(5);
-
-        //$papers = Paper::with('teacher')->get();
-        /*$user = User::find($id);
-        $papers = $user->paper()->get();
-        return response()->json($papers);*/
         if (auth()->user()->hasRole('admin') or auth()->user()->hasRole('staff')) {
-            // $patents = Paper::whereHas('source', function ($query) {
-            //     return $query->where('source_data_id', '=', 5);
-            // })->paginate(10);
-            $patents = Academicwork::where('ac_type', '!=', 'book')->get();
+            $patents = Academicwork::with('user')
+                ->where('ac_type', '!=', 'book')
+                ->orderBy('ac_year', 'desc')
+                ->paginate(10)
+                ->withQueryString();
         } else {
-            $patents = Academicwork::with('user')->where('ac_type', '!=', 'book')->whereHas('user', function ($query) use ($id) {
-                $query->where('users.id', '=', $id);
-
-                //})
-                // ->whereHas('source', function ($query) {
-                //     return $query->where('source_data_id', '=', 5);
-            })->paginate(10);
+            $patents = Academicwork::with('user')
+                ->where('ac_type', '!=', 'book')
+                ->whereHas('user', function ($query) use ($id) {
+                    $query->where('users.id', '=', $id);
+                })
+                ->orderBy('ac_year', 'desc')
+                ->paginate(10)
+                ->withQueryString();
         }
         return view('patents.index', compact('patents'));
     }

@@ -26,17 +26,16 @@ class ResearchGroupController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $query = ResearchGroup::with('user', 'visitingScholars')->orderBy('group_name_en');
+
         if ($user->hasAnyRole(['admin', 'staff'])) {
-            $researchGroups = ResearchGroup::with('user')->orderBy('group_name_en')->get();
         } else {
-            // คนทั่วไป เห็นเฉพาะกลุ่มที่ตัวเองอยู่
-            $researchGroups = ResearchGroup::whereHas('user', function ($q) use ($user) {
-                $q->where('user_id', $user->id);
-            })
-                ->with('user')
-                ->orderBy('group_name_en')
-                ->get();
+            $query->whereHas('user', function ($q) use ($user) {
+                $q->where('users.id', $user->id);
+            });
         }
+
+        $researchGroups = $query->paginate(10)->withQueryString();
 
         return view('research_groups.index', compact('researchGroups'));
     }

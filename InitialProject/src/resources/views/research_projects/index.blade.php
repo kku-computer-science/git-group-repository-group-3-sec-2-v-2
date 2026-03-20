@@ -32,7 +32,7 @@
                         <tbody>
                             @foreach ($researchProjects as $i=>$researchProject)
                             <tr>
-                                <td>{{ $i+1 }}</td>
+                                <td>{{ $researchProjects->firstItem() + $i }}</td>
                                 <td>{{ $researchProject->project_year }}</td>
                                 {{-- <td>{{ $researchProject->project_name }}</td> --}}
                                 <td>{{ Str::limit($researchProject->project_name,70) }}</td>
@@ -93,6 +93,7 @@
                 </table>
             <!-- </div> -->
             <br>
+            @include('partials.pagination', ['paginator' => $researchProjects])
             
         </div>
     </div>
@@ -107,6 +108,9 @@
     $(document).ready(function() {
         var table1 = $('#example1').DataTable({
             responsive: true,
+            paging: false,
+            info: false,
+            searching: false
         });
     });
 </script>

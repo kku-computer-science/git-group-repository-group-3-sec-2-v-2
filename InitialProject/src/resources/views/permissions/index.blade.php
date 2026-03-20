@@ -66,7 +66,7 @@
                 </table>
             </div>
             <div class="justify-content-center">
-                
+                @include('partials.pagination', ['paginator' => $data])
             </div>
         </div>
     </div>
@@ -79,6 +79,9 @@
     $(document).ready(function() {
         var table1 = $('#example1').DataTable({
             responsive: true,
+            paging: false,
+            info: false,
+            searching: false
         });
     });
 </script>

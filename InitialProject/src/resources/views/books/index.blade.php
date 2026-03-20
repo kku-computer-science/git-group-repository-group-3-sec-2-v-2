@@ -31,7 +31,7 @@
                         <tbody>
                             @foreach ($books as $i=>$paper)
                             <tr>
-                                <td>{{ $i+1 }}</td>
+                                <td>{{ $books->firstItem() + $i }}</td>
                                 <td>{{ Str::limit($paper->ac_name,50) }}</td>
                                 <td>{{ date('Y', strtotime($paper->ac_year))+543 }}</td>
                                 <td>{{ Str::limit($paper->ac_sourcetitle,50) }}</td>
@@ -66,6 +66,7 @@
                 </table>
             <!-- </div> -->
             <br>
+            @include('partials.pagination', ['paginator' => $books])
             
         </div>
     </div>
@@ -80,6 +81,9 @@
     $(document).ready(function() {
         var table1 = $('#example1').DataTable({
             responsive: true,
+            paging: false,
+            info: false,
+            searching: false
         });
     });
 </script>

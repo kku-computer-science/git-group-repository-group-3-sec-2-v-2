@@ -30,6 +30,10 @@
         padding: 10px 25px;
         font-weight: 500;
     }
+
+    .program-pagination {
+        margin-top: 1rem;
+    }
 </style>
 
 <div class="container mt-5">
@@ -86,6 +90,9 @@
             </a>
         </div>
         @endforeach
+    </div>
+    <div class="program-pagination">
+        @include('partials.pagination', ['paginator' => $users])
     </div>
     @endif
 

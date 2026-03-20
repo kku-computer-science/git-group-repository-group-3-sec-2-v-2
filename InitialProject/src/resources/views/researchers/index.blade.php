@@ -261,6 +261,10 @@
         /* กว้างเต็มหน้าจอ */
     }
 
+    .role-pagination {
+        margin-top: 1rem;
+    }
+
     /* การ์ดของแต่ละ Researcher */
     .researcher-card {
         display: flex;
@@ -274,6 +278,15 @@
         transition: all 0.3s ease-in-out;
         min-height: 220px;
         /* กำหนดความสูงขั้นต่ำให้เท่ากัน */
+    }
+
+    .researcher-card.is-clickable {
+        cursor: pointer;
+    }
+
+    .researcher-card.is-clickable:focus-visible {
+        outline: 3px solid rgba(44, 111, 168, 0.35);
+        outline-offset: 4px;
     }
 
     /* Hover Effect */
@@ -472,18 +485,21 @@
                             aria-expanded="{{ in_array($roleId, $expandedRoleIds) ? 'true' : 'false' }}"
                             aria-controls="collapse{{ $roleId }}">
                             {{ strtoupper($roleData['role_name']) }}
-                            <span class="badge bg-light text-primary ms-2">{{ $roleData['users']->count() }}</span>
+                            <span class="badge bg-light text-primary ms-2">{{ $roleData['total_users'] }}</span>
                         </button>
                     </h2>
                     <div id="collapse{{ $roleId }}"
                         class="accordion-collapse collapse {{ in_array($roleId, $expandedRoleIds) ? 'show' : '' }}"
                         aria-labelledby="heading{{ $roleId }}">
                         <div class="accordion-body">
-                            @if($roleData['users']->isNotEmpty())
+                            @if($roleData['total_users'] > 0)
                                 <div class="researcher-container">
                                     @foreach($roleData['users'] as $user)
                                         <div class="col-12 mb-4">
-                                            <div class="researcher-card">
+                                            <div class="researcher-card is-clickable"
+                                                role="link"
+                                                tabindex="0"
+                                                data-detail-url="{{ route('detail', Crypt::encrypt($user->id)) }}">
                                                 <div class="d-flex align-items-start">
                                                     @if(isset($user->picture))
                                                         @php
@@ -579,6 +595,9 @@
                                             </div>
                                         </div>
                                     @endforeach
+                                </div>
+                                <div class="role-pagination">
+                                    @include('partials.pagination', ['paginator' => $roleData['users']])
                                 </div>
                             @else
                                 <div class="no-data-message text-center py-5">
@@ -746,5 +765,36 @@
             }
         }
     }
+
+    document.querySelectorAll('.researcher-card[data-detail-url]').forEach((card) => {
+        const openDetail = () => {
+            const url = card.dataset.detailUrl;
+
+            if (url) {
+                window.location.href = url;
+            }
+        };
+
+        card.addEventListener('click', (event) => {
+            if (event.target.closest('a, button, input, textarea, select, label, .readmore-toggle')) {
+                return;
+            }
+
+            openDetail();
+        });
+
+        card.addEventListener('keydown', (event) => {
+            if (event.key !== 'Enter' && event.key !== ' ') {
+                return;
+            }
+
+            if (event.target.closest('a, button, input, textarea, select, label, .readmore-toggle')) {
+                return;
+            }
+
+            event.preventDefault();
+            openDetail();
+        });
+    });
 </script>
 @endsection

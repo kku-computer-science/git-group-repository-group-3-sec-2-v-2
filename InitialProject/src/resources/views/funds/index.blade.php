@@ -32,7 +32,7 @@
                         @foreach ($funds as $i=>$fund)
                         <tr>
 
-                            <td>{{ $i+1 }}</td>
+                            <td>{{ $funds->firstItem() + $i }}</td>
                             <td>{{ Str::limit($fund->fund_name,80) }}</td>
                             <td>{{ $fund->fund_type }}</td>
                             <td>{{ $fund->fund_level }}</td>
@@ -68,6 +68,7 @@
                     </tbody>
                 </table>
             </div>
+            @include('partials.pagination', ['paginator' => $funds])
         </div>
     </div>
 
@@ -79,7 +80,10 @@
 <script>
     $(document).ready(function() {
         var table = $('#example1').DataTable({
-            fixedHeader: true
+            fixedHeader: true,
+            paging: false,
+            info: false,
+            searching: false
         });
     });
 </script>

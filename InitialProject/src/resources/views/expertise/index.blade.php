@@ -49,7 +49,7 @@
                 <tbody>
                     @foreach ($experts as $i => $expert)
                     <tr id="expert_id_{{ $expert->id }}">
-                        <td>{{ $i+1 }}</td>
+                        <td>{{ $experts->firstItem() + $i }}</td>
                         @if(Auth::user()->hasRole('admin'))
                         <td>{{ $expert->user->fname_en }} {{ $expert->user->lname_en }}</td>
                         @endif
@@ -79,6 +79,7 @@
                     @endforeach
                 </tbody>
             </table>
+            @include('partials.pagination', ['paginator' => $experts])
         </div>
     </div>
 </div>
@@ -125,7 +126,10 @@
             ],
             rowGroup: {
                 dataSrc: 1
-            }
+            },
+            paging: false,
+            info: false,
+            searching: false
         });
     });
 </script>

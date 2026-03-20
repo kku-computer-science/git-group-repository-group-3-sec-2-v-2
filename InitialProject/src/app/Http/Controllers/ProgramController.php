@@ -27,10 +27,9 @@ class ProgramController extends Controller
 
     public function index()
     {
-        $programs = Program::all();
+        $programs = Program::with('degree', 'department')->orderBy('program_name_en')->paginate(10)->withQueryString();
         $degree = Degree::all();
         $department = Department::all();
-        //return $programs;
         return view('programs.index', compact('programs', 'degree', 'department'));
     }
 

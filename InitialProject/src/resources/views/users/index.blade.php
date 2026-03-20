@@ -125,7 +125,7 @@
                     <tbody>
                         @foreach ($data as $key => $user)
                         <tr>
-                            <td>{{ $key++ }}</td>
+                            <td>{{ $data->firstItem() + $key }}</td>
                             <td>{{ $user->fname_en }} {{ $user->lname_en }} </td>
                             <td>{{ Str::limit($user->program->program_name_en,20) }}</td>
                             <td>{{ $user->email }}</td>
@@ -165,8 +165,8 @@
                         @endforeach
                     </tbody>
                 </table>
-                
             </div>
+            @include('partials.pagination', ['paginator' => $data])
         </div>
     </div>
 </div>
@@ -177,7 +177,10 @@
 <script>
     $(document).ready(function() {
         var table = $('#example1').DataTable({
-            fixedHeader: true
+            fixedHeader: true,
+            paging: false,
+            info: false,
+            searching: false
         });
     });
 </script>

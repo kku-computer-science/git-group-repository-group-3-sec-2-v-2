@@ -32,26 +32,18 @@ class PaperController extends Controller
     public function index()
     {
         $id = auth()->user()->id;
-        //$papers=User::find($id)->paper()->latest()->paginate(5);
+        $query = Paper::with('teacher', 'author')->orderBy('paper_yearpub', 'desc');
 
-        //$papers = Paper::with('teacher')->get();
-        /*$user = User::find($id);
-        $papers = $user->paper()->get();
-        return response()->json($papers);*/
         if (auth()->user()->hasRole('admin') or auth()->user()->hasRole('staff')) {
-            $papers = Paper::with('teacher', 'author')->orderBy('paper_yearpub', 'desc')->get();
         } else {
-            $papers = Paper::with('teacher', 'author')->whereHas('teacher', function ($query) use ($id) {
+            $query->whereHas('teacher', function ($query) use ($id) {
                 $query->where('users.id', '=', $id);
-            })->orderBy('paper_yearpub', 'desc')->get();
+            });
         }
 
-        // $papers = Paper::with('teacher','author')->whereHas('teacher', function($query) use($id) {
-        //     $query->where('users.id', '=', $id);
-        //  })->paginate(10);
-        //return $papers;
-        //return response()->json($papers);
-    return view('papers.index', compact('papers'));
+        $papers = $query->paginate(10)->withQueryString();
+
+        return view('papers.index', compact('papers'));
     }
 
     /**

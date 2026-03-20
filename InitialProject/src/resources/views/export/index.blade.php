@@ -122,10 +122,9 @@ $(document).ready(function() {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $i=1 ?>
                         @foreach ($data as $key => $user)
                         <tr>
-                            <td>{{ $i++ }}</td>
+                            <td>{{ $data->firstItem() + $key }}</td>
                             <td>{{ $user->fname_en }} {{ $user->lname_en }} </td>
                             <td>{{ $user->program->program_name_en }}</td>
                             <td>{{ $user->email }}</td>
@@ -155,6 +154,7 @@ $(document).ready(function() {
                 </table>
 
             </div>
+            @include('partials.pagination', ['paginator' => $data])
         </div>
     </div>
 </div>
@@ -166,6 +166,9 @@ $(document).ready(function() {
     $(document).ready(function() {
         var table1 = $('#example1').DataTable({
             responsive: true,
+            paging: false,
+            info: false,
+            searching: false
         });
     });
 </script>

@@ -42,9 +42,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($papers->sortByDesc('paper_yearpub') as $i => $paper)
+                    @foreach ($papers as $i => $paper)
                     <tr>
-                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $papers->firstItem() + $i }}</td>
                         <td>{{ Str::limit($paper->paper_name, 50) }}</td>
                         <td>{{ Str::limit($paper->paper_type, 50) }}</td>
                         <td>{{ $paper->paper_yearpub }}</td>
@@ -79,6 +79,7 @@
                 </tbody>
             </table>
             <br>
+            @include('partials.pagination', ['paginator' => $papers])
         </div>
     </div>
 </div>
@@ -145,6 +146,9 @@
     $(document).ready(function() {
         $('#example1').DataTable({
             responsive: true,
+            paging: false,
+            info: false,
+            searching: false
         });
     });
 

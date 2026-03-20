@@ -20,24 +20,20 @@ class ResearchProjectController extends Controller
      */
     public function index()
     {
-
         $id = auth()->user()->id;
-        if (auth()->user()->HasRole('admin')) {
-            $researchProjects = ResearchProject::with('User')->get();
-        } elseif (auth()->user()->HasRole('headproject')) {
-            $researchProjects = ResearchProject::with('User')->get();
-        } elseif (auth()->user()->HasRole('staff')) {
-            $researchProjects = ResearchProject::with('User')->get();
-        } else {
-            $researchProjects = User::find($id)->researchProject()->get();
-            //$researchProjects=User::find($id)->researchProject()->latest()->paginate(5);
+        $query = ResearchProject::with('user')->orderBy('project_year', 'desc');
 
-            //$researchProjects = ResearchProject::with('User')->latest()->paginate(5);
+        if (
+            !auth()->user()->HasRole('admin') &&
+            !auth()->user()->HasRole('headproject') &&
+            !auth()->user()->HasRole('staff')
+        ) {
+            $query->whereHas('user', function ($query) use ($id) {
+                $query->where('users.id', '=', $id);
+            });
         }
-        //dd($id);
-        //$researchProjects = ResearchProject::latest()->paginate(5);
-        //$researchProjects = ResearchProject::with('User')->latest()->paginate(5);
-        //return $researchProjects;
+
+        $researchProjects = $query->paginate(10)->withQueryString();
 
         return view('research_projects.index', compact('researchProjects'));
     }

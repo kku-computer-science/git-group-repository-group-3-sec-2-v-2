@@ -30,7 +30,7 @@
                 <tbody>
                     @foreach ($researchGroups as $i => $researchGroup)
                     <tr>
-                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $researchGroups->firstItem() + $i }}</td>
                         <td>{{ Str::limit($researchGroup->group_name_th, 50) }}</td>
                         <td>
                             @foreach($researchGroup->user as $user)
@@ -155,6 +155,7 @@
                     @endforeach
                 </tbody>
             </table>
+            @include('partials.pagination', ['paginator' => $researchGroups])
         </div>
     </div>
 </div>
@@ -171,6 +172,9 @@
 $(document).ready(function() {
     $('#example1').DataTable({
         responsive: true,
+        paging: false,
+        info: false,
+        searching: false
     });
 });
 

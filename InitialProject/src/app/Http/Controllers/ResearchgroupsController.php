@@ -28,11 +28,9 @@ class ResearchgroupsController extends Controller
             });
         }
         
-        // เรียงตามชื่อกลุ่มตามภาษาที่ใช้งาน
-        $resg = $query->orderBy('group_name_'.$locale)->get();
+        $resg = $query->orderBy('group_name_'.$locale)->paginate(9)->withQueryString();
         
-        // ตรวจสอบว่ามีการค้นหาและไม่พบผลลัพธ์
-        $noResults = !empty($search) && $resg->isEmpty();
+        $noResults = !empty($search) && $resg->total() === 0;
         
         return view('research_g', compact('resg', 'search', 'noResults'));
     }

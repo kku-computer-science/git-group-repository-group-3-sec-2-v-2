@@ -18,25 +18,20 @@ class FundController extends Controller
      */
     public function index()
     {
-        //$funds = Fund::latest()->paginate(5);
         $id = auth()->user()->id;
-        if( auth()->user()->HasRole('admin') ){
-            $funds = Fund::with('User')->get();
+        $query = Fund::with('user')->latest();
+
+        if (
+            !auth()->user()->HasRole('admin') &&
+            !auth()->user()->HasRole('headproject') &&
+            !auth()->user()->HasRole('staff')
+        ) {
+            $query->whereHas('user', function ($query) use ($id) {
+                $query->where('users.id', '=', $id);
+            });
         }
-        elseif( auth()->user()->HasRole('headproject') ){
-            $funds = Fund::with('User')->get();
-            
-        }
-        elseif( auth()->user()->HasRole('staff') ){
-            $funds = Fund::with('User')->get();
-            
-        }
-        else{
-            $funds=User::find($id)->fund()->get();
-            //$researchProjects=User::find($id)->researchProject()->latest()->paginate(5);
-            
-            //$researchProjects = ResearchProject::with('User')->latest()->paginate(5);
-        }
+
+        $funds = $query->paginate(10)->withQueryString();
 
         return view('funds.index',compact('funds'));
     }

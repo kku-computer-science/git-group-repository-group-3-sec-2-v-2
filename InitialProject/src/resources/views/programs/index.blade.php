@@ -45,7 +45,7 @@
                 <tbody>
                     @foreach ($programs as $i => $program)
                     <tr id="program_id_{{ $program->id }}">
-                        <td>{{ $i+1 }}</td>
+                        <td>{{ $programs->firstItem() + $i }}</td>
                         <td>{{ $program->program_name_th }}</td>
                         <!-- <td>{{ $program->program_name_en }}</td> -->
                         <td>{{ $program->degree->degree_name_en}}</td>
@@ -71,6 +71,7 @@
                     @endforeach
                 </tbody>
             </table>
+            @include('partials.pagination', ['paginator' => $programs])
         </div>
     </div>
 </div>
@@ -143,6 +144,9 @@
     $(document).ready(function() {
         var table1 = $('#example1').DataTable({
             responsive: true,
+            paging: false,
+            info: false,
+            searching: false
         });
     });
 </script>

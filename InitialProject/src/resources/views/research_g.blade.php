@@ -188,9 +188,13 @@
         margin-bottom: 20px;
     }
     
-    .no-results-message .btn {
+.no-results-message .btn {
         padding: 10px 25px;
         font-weight: 500;
+    }
+
+    .pagination-wrapper {
+        margin-top: 2rem;
     }
 </style>
 
@@ -245,6 +249,9 @@
             </div>
         </div>
         @endforeach
+    </div>
+    <div class="pagination-wrapper">
+        @include('partials.pagination', ['paginator' => $resg])
     </div>
 </div>
 @endif

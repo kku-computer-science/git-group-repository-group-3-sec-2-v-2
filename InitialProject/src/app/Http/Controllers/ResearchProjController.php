@@ -8,8 +8,7 @@ class ResearchProjController extends Controller
 {
     public function index()
     {
-        $resp = ResearchProject::with('User','Fund')->orderBy('project_year', 'desc')->get();
-        //AcademicworkController.phpreturn $resp;
+        $resp = ResearchProject::with('user', 'fund')->orderBy('project_year', 'desc')->paginate(10)->withQueryString();
         return view('research_proj',compact('resp'));
     }
 }
