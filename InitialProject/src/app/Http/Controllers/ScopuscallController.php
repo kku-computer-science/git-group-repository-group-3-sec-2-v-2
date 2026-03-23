@@ -47,14 +47,8 @@ class ScopuscallController extends Controller
             $incompletePapers = [];
 
             // ---------------------------------------------------------------------
-            //                           Fetch Logic Selection
+            //                           1. Scopus API Fetch
             // ---------------------------------------------------------------------
-            if (!empty($user->orcid)) {
-                $this->fetchFromOpenAlexByOrcid($user, $completePapers, $incompletePapers);
-            } else {
-                // ---------------------------------------------------------------------
-                //                           Scopus API Section
-                // ---------------------------------------------------------------------
             // Build the search query using the first letter of the user's first name and their last name.
             $firstLetter = substr($user->fname_en, 0, 1);
             $lname = $user->lname_en;
@@ -100,10 +94,17 @@ class ScopuscallController extends Controller
                         continue; // Skip if title is not present.
                     }
 
-                    // Check if the paper already exists in the database.
                     $existingPaper = Paper::where('paper_name', $scopusPaperName)->first();
                     if ($existingPaper) {
-                        // Skip if the paper already exists (we only insert new papers).
+                        $paper_citation = $item['citedby-count'] ?? 0;
+                        if ($paper_citation > $existingPaper->paper_citation) {
+                           $existingPaper->paper_citation = $paper_citation;
+                           $existingPaper->save();
+                        }
+                        
+                        $exists = $existingPaper->teacher()->where('user_id', $user->id)->exists();
+                        if (!$exists) $existingPaper->teacher()->attach($user->id, ['author_type' => 2]);
+                        
                         continue;
                     }
 
@@ -444,7 +445,14 @@ class ScopuscallController extends Controller
                     );
                 }
             }
-            } // END OF ELSE BLOCK FOR SCOPUS LOGIC
+            }
+
+            // ---------------------------------------------------------------------
+            //                           2. OpenAlex API Fetch
+            // ---------------------------------------------------------------------
+            if (!empty($user->orcid)) {
+                $this->fetchFromOpenAlexByOrcid($user, $completePapers, $incompletePapers);
+            }
 
             // If no new paper was inserted, return with an info flash message.
             if (empty($completePapers) && empty($incompletePapers)) {
@@ -565,14 +573,8 @@ class ScopuscallController extends Controller
             $incompletePapers = [];
 
             // ---------------------------------------------------------------------
-            //                           Fetch Logic Selection
+            //                           1. Scopus API Section
             // ---------------------------------------------------------------------
-            if (!empty($user->orcid)) {
-                $this->fetchFromOpenAlexByOrcid($user, $completePapers, $incompletePapers);
-            } else {
-                // ---------------------------------------------------------------------
-                //                           Scopus API Section
-                // ---------------------------------------------------------------------
             $firstLetter = substr($user->fname_en, 0, 1);
             $lname = $user->lname_en;
             $searchQuery = "AUTHOR-NAME({$lname},{$firstLetter})";
@@ -601,7 +603,16 @@ class ScopuscallController extends Controller
 
                     // Check if the paper already exists
                     $existingPaper = Paper::where('paper_name', $scopusPaperName)->first();
-                    if ($existingPaper) continue;
+                    if ($existingPaper) {
+                        $paper_citation = $item['citedby-count'] ?? 0;
+                        if ($paper_citation > $existingPaper->paper_citation) {
+                           $existingPaper->paper_citation = $paper_citation;
+                           $existingPaper->save();
+                        }
+                        $exists = $existingPaper->teacher()->where('user_id', $user->id)->exists();
+                        if (!$exists) $existingPaper->teacher()->attach($user->id, ['author_type' => 2]);
+                        continue;
+                    }
 
                     $rawScopusId = $item['dc:identifier'] ?? '';
                     $scopusId = str_replace('SCOPUS_ID:', '', $rawScopusId);
@@ -845,7 +856,13 @@ class ScopuscallController extends Controller
                     if (!$exists) $paper->teacher()->attach($user->id, ['author_type' => 2]);
                 } catch (Exception $e) {}
             }
-            } // END OF ELSE BLOCK FOR SCOPUS LOGIC
+
+            // ---------------------------------------------------------------------
+            //                           2. OpenAlex API Fetch
+            // ---------------------------------------------------------------------
+            if (!empty($user->orcid)) {
+                $this->fetchFromOpenAlexByOrcid($user, $completePapers, $incompletePapers);
+            }
 
             if (!empty($completePapers) || !empty($incompletePapers)) {
                 $uniqueKey = $user->fname_en . ' ' . $user->lname_en;
@@ -886,10 +903,7 @@ class ScopuscallController extends Controller
                 $paperName = $work['title'] ?? null;
                 if (!$paperName) continue;
 
-                $existingPaper = Paper::whereRaw('LOWER(paper_name) = ?', [strtolower(trim($paperName))])->first();
-                if ($existingPaper) continue;
-
-                $paper_yearpub = $work['publication_year'] ?? null;
+                $existingPaper = Paper::whereRaw('LOWER(paper_name) = ?', [strtolower(trim($paperName))])->first();                $paper_yearpub = $work['publication_year'] ?? null;
                 $paper_citation = $work['cited_by_count'] ?? 0;
                 $paper_doi = !empty($work['doi']) ? str_replace('https://doi.org/', '', $work['doi']) : null;
 
@@ -919,6 +933,25 @@ class ScopuscallController extends Controller
                 }
 
                 $sourceTitle = $work['primary_location']['source']['display_name'] ?? null;
+
+                if ($existingPaper) {
+                    $isUpdated = false;
+                    if (empty($existingPaper->abstract) && !empty($abstract)) { $existingPaper->abstract = $abstract; $isUpdated = true; }
+                    if (empty($existingPaper->keyword) && !empty($keywords)) { $existingPaper->keyword = $keywords; $isUpdated = true; }
+                    if (empty($existingPaper->paper_doi) && !empty($paper_doi)) { $existingPaper->paper_doi = $paper_doi; $isUpdated = true; }
+                    if (empty($existingPaper->paper_yearpub) && !empty($paper_yearpub)) { $existingPaper->paper_yearpub = $paper_yearpub; $isUpdated = true; }
+                    if ($paper_citation > $existingPaper->paper_citation) { $existingPaper->paper_citation = $paper_citation; $isUpdated = true; }
+                    
+                    if ($isUpdated) {
+                        $existingPaper->save();
+                    }
+                    
+                    $exists = $existingPaper->teacher()->where('user_id', $user->id)->exists();
+                    if (!$exists) {
+                         $existingPaper->teacher()->attach($user->id, ['author_type' => 2]);
+                    }
+                    continue;
+                }
 
                 $paper = new Paper;
                 $paper->paper_name = $paperName;
@@ -984,14 +1017,172 @@ class ScopuscallController extends Controller
                                    $paper->author()->attach($existingAuthor->id, ['author_type' => $author_type]);
                                }
                            }
-                      }
-                 }
+                       }
+                  }
 
-                 $exists = $paper->teacher()->where('user_id', $user->id)->exists();
-                 if (!$exists) $paper->teacher()->attach($user->id, ['author_type' => 2]);
+                  $exists = $paper->teacher()->where('user_id', $user->id)->exists();
+                  if (!$exists) $paper->teacher()->attach($user->id, ['author_type' => 2]);
+             }
+         } catch (\Exception $e) {
+             ErrorLogService::logException($e, 'ScopuscallController@fetchFromOpenAlexByOrcid');
+         }
+     }
+
+    public function fetchByDoi(Request $request)
+    {
+        $request->validate([
+            'doi' => 'required|string'
+        ]);
+
+        $userId = \Illuminate\Support\Facades\Auth::id();
+        if (!$userId) {
+            return redirect()->back()->with('error', 'Unauthorized access.');
+        }
+        $user = User::find($userId);
+
+        ActivityLog::log($userId, 'DOI Import - Start', 'Initiated manual paper import via DOI: ' . $request->doi);
+
+        $doiId = trim($request->doi);
+        if (str_starts_with($doiId, 'https://doi.org/')) {
+            $doiId = str_replace('https://doi.org/', '', $doiId);
+        }
+
+        try {
+            $worksApiUrl = "https://api.openalex.org/works/https://doi.org/{$doiId}";
+            $worksRes = Http::withHeaders(['Accept' => 'application/json'])->get($worksApiUrl);
+
+            if (!$worksRes->successful()) {
+                ActivityLog::log($userId, 'DOI Import - Error', 'OpenAlex API failed or DOI not found: ' . $doiId);
+                return redirect()->back()->with('error', 'Paper not found in OpenAlex with DOI: ' . $doiId);
             }
+
+            $work = $worksRes->json();
+            $paperName = $work['title'] ?? null;
+            if (!$paperName) {
+                return redirect()->back()->with('error', 'Failed: Papers from API has no title.');
+            }
+
+            $existingPaper = Paper::whereRaw('LOWER(paper_name) = ?', [strtolower(trim($paperName))])->first();
+            $paper_yearpub = $work['publication_year'] ?? null;
+            $paper_citation = $work['cited_by_count'] ?? 0;
+            $paper_doi = $doiId;
+
+            $paper_type = 'Article';
+            if (isset($work['type'])) {
+                if (str_contains(strtolower($work['type']), 'book-chapter')) $paper_type = 'Book Chapter';
+                elseif (str_contains(strtolower($work['type']), 'conference')) $paper_type = 'Conference Proceeding';
+            }
+
+            $abstract = null;
+            if (isset($work['abstract_inverted_index'])) {
+                $words = [];
+                foreach ($work['abstract_inverted_index'] as $word => $positions) {
+                    foreach ($positions as $pos) $words[$pos] = $word;
+                }
+                ksort($words);
+                $abstract = implode(' ', $words);
+            }
+
+            $keywords = null;
+            if (!empty($work['concepts'])) {
+                $kwArray = [];
+                foreach ($work['concepts'] as $concept) {
+                    if (($concept['score'] ?? 0) > 0.3) $kwArray[] = $concept['display_name'];
+                }
+                if (!empty($kwArray)) $keywords = implode(', ', array_slice($kwArray, 0, 10));
+            }
+
+            $sourceTitle = $work['primary_location']['source']['display_name'] ?? null;
+
+            if ($existingPaper) {
+                $isUpdated = false;
+                if (empty($existingPaper->abstract) && !empty($abstract)) { $existingPaper->abstract = $abstract; $isUpdated = true; }
+                if (empty($existingPaper->keyword) && !empty($keywords)) { $existingPaper->keyword = $keywords; $isUpdated = true; }
+                if (empty($existingPaper->paper_doi) && !empty($paper_doi)) { $existingPaper->paper_doi = $paper_doi; $isUpdated = true; }
+                if (empty($existingPaper->paper_yearpub) && !empty($paper_yearpub)) { $existingPaper->paper_yearpub = $paper_yearpub; $isUpdated = true; }
+                if ($paper_citation > $existingPaper->paper_citation) { $existingPaper->paper_citation = $paper_citation; $isUpdated = true; }
+                
+                if ($isUpdated) {
+                    $existingPaper->save();
+                }
+                
+                $exists = $existingPaper->teacher()->where('user_id', $user->id)->exists();
+                if (!$exists) {
+                    $existingPaper->teacher()->attach($user->id, ['author_type' => 2]);
+                }
+                ActivityLog::log($userId, 'DOI Import - Success', 'Merged existing paper via DOI: ' . $paperName);
+                return redirect()->back()->with('success', 'Existing paper merged successfully: ' . $paperName);
+            }
+
+            $paper = new Paper;
+            $paper->paper_name = $paperName;
+            $paper->abstract = $abstract;
+            $paper->paper_type = $paper_type;
+            $paper->paper_sourcetitle = $sourceTitle;
+            $paper->keyword = $keywords;
+            $paper->paper_url = $work['id'];
+            $paper->paper_yearpub = $paper_yearpub;
+            $paper->paper_volume = $work['biblio']['volume'] ?? null;
+            $paper->paper_issue = $work['biblio']['issue'] ?? null;
+            $paper->paper_citation = $paper_citation;
+            $paper->paper_page = ($work['biblio']['first_page'] ?? '') . (($work['biblio']['first_page'] ?? false) && ($work['biblio']['last_page'] ?? false) ? '-' : '') . ($work['biblio']['last_page'] ?? '');
+            $paper->paper_doi = $paper_doi;
+            $paper->publication_status = 1;
+            $paper->save();
+
+            $source = Source_data::find(1);
+            if ($source) $paper->source()->sync([$source->id]);
+
+            foreach ($work['authorships'] ?? [] as $oaAuthor) {
+                $rawName = $oaAuthor['raw_author_name'] ?? $oaAuthor['author']['display_name'] ?? '';
+                $parts = explode(' ', trim($rawName));
+                $surname = array_pop($parts);
+                $givenName = implode(' ', $parts);
+
+                $posStr = $oaAuthor['author_position'] ?? 'middle';
+                $author_type = ($posStr === 'first') ? 1 : (($posStr === 'last') ? 3 : 2);
+
+                $isSameUser = stripos($rawName, $user->fname_en) !== false && stripos($rawName, $user->lname_en) !== false;
+
+                if ($isSameUser) {
+                    $paper->teacher()->attach($user->id, ['author_type' => $author_type]);
+                } else {
+                    $existingUser = User::whereRaw("LOWER(CONCAT(fname_en, ' ', lname_en)) = ?", [strtolower($rawName)])
+                        ->orWhere(function($q) use ($givenName, $surname) {
+                            $q->where('fname_en', 'LIKE', "%{$givenName}%")->where('lname_en', 'LIKE', "%{$surname}%");
+                        })->first();
+
+                    if ($existingUser) {
+                        $paper->teacher()->attach($existingUser->id, ['author_type' => $author_type]);
+                    } else {
+                        $existingAuthor = Author::whereRaw("LOWER(CONCAT(author_fname, ' ', author_lname)) = ?", [strtolower($rawName)])
+                            ->orWhere(function($q) use ($givenName, $surname) {
+                                $q->where('author_fname', 'LIKE', "%{$givenName}%")->where('author_lname', 'LIKE', "%{$surname}%");
+                            })->first();
+
+                        if (!$existingAuthor) {
+                            $newAuthor = new Author;
+                            $newAuthor->author_fname = $givenName ?: $rawName;
+                            $newAuthor->author_lname = $surname ?: '-';
+                            $newAuthor->save();
+                            $paper->author()->attach($newAuthor->id, ['author_type' => $author_type]);
+                        } else {
+                            $paper->author()->attach($existingAuthor->id, ['author_type' => $author_type]);
+                        }
+                    }
+                }
+            }
+
+            $exists = $paper->teacher()->where('user_id', $user->id)->exists();
+            if (!$exists) $paper->teacher()->attach($user->id, ['author_type' => 2]);
+
+            ActivityLog::log($userId, 'DOI Import - Success', 'Imported new paper via DOI: ' . $paperName);
+            return redirect()->back()->with('success', 'Paper imported successfully: ' . $paperName);
+
         } catch (\Exception $e) {
-            ErrorLogService::logException($e, 'ScopuscallController@fetchFromOpenAlexByOrcid');
+            ErrorLogService::logException($e, 'ScopuscallController@fetchByDoi');
+            ActivityLog::log($userId, 'DOI Import - Error', 'System Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error processing paper. Please try again or check logs.');
         }
     }
 }

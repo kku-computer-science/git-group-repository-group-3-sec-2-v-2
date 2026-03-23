@@ -40,8 +40,17 @@
             </a>
             @endif
 
-
-
+            <form action="{{ route('call.paper.doi') }}" method="POST" class="d-inline-block mb-3 ml-2" onsubmit="showLoading()">
+                @csrf
+                <div class="input-group input-group-sm">
+                    <input type="text" name="doi" class="form-control" placeholder="Enter DOI (e.g. 10.1000/xyz)" required style="max-width: 250px;">
+                    <div class="input-group-append">
+                        <button class="btn btn-info" type="submit">
+                            <i class="mdi mdi-download btn-icon-prepend"></i> Call by DOI
+                        </button>
+                    </div>
+                </div>
+            </form>
             <table id="example1" class="table table-striped">
                 <thead>
                     <tr>

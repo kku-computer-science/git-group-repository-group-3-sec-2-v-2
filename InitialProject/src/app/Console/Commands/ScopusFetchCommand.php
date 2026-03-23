@@ -46,14 +46,8 @@ class ScopusFetchCommand extends Command
             $incompletePapers = [];
 
             // ---------------------------------------------------------------------
-            //                           Fetch Logic Selection
+            //                           1. Scopus API Section
             // ---------------------------------------------------------------------
-            if (!empty($user->orcid)) {
-                $this->fetchFromOpenAlexByOrcid($user, $completePapers, $incompletePapers);
-            } else {
-                // ---------------------------------------------------------------------
-                //                           Scopus API Section
-                // ---------------------------------------------------------------------
 
             $firstLetter = substr($user->fname_en, 0, 1);
             $lname       = $user->lname_en;
@@ -82,7 +76,16 @@ class ScopusFetchCommand extends Command
                     if (!$scopusPaperName) continue;
 
                     $existingPaper = Paper::where('paper_name', $scopusPaperName)->first();
-                    if ($existingPaper) continue;
+                    if ($existingPaper) {
+                        $paper_citation = $item['citedby-count'] ?? 0;
+                        if ($paper_citation > $existingPaper->paper_citation) {
+                           $existingPaper->paper_citation = $paper_citation;
+                           $existingPaper->save();
+                        }
+                        $exists = $existingPaper->teacher()->where('user_id', $user->id)->exists();
+                        if (!$exists) $existingPaper->teacher()->attach($user->id, ['author_type' => 2]);
+                        continue;
+                    }
 
                     $rawScopusId = $item['dc:identifier'] ?? '';
                     $scopusId = str_replace('SCOPUS_ID:', '', $rawScopusId);
@@ -324,7 +327,13 @@ class ScopusFetchCommand extends Command
                     if (!$exists) $paper->teacher()->attach($user->id, ['author_type' => 2]);
                 } catch (\Exception $e) {}
             }
-            } // END OF ELSE BLOCK FOR SCOPUS LOGIC
+
+            // ---------------------------------------------------------------------
+            //                           2. OpenAlex API Fetch
+            // ---------------------------------------------------------------------
+            if (!empty($user->orcid)) {
+                $this->fetchFromOpenAlexByOrcid($user, $completePapers, $incompletePapers);
+            }
 
             $countInserted = count($completePapers) + count($incompletePapers);
             if ($countInserted > 0) {
@@ -363,7 +372,6 @@ class ScopusFetchCommand extends Command
                 if (!$paperName) continue;
 
                 $existingPaper = Paper::whereRaw('LOWER(paper_name) = ?', [strtolower(trim($paperName))])->first();
-                if ($existingPaper) continue;
 
                 $paper_yearpub = $work['publication_year'] ?? null;
                 $paper_citation = $work['cited_by_count'] ?? 0;
@@ -395,6 +403,25 @@ class ScopusFetchCommand extends Command
                 }
 
                 $sourceTitle = $work['primary_location']['source']['display_name'] ?? null;
+
+                if ($existingPaper) {
+                    $isUpdated = false;
+                    if (empty($existingPaper->abstract) && !empty($abstract)) { $existingPaper->abstract = $abstract; $isUpdated = true; }
+                    if (empty($existingPaper->keyword) && !empty($keywords)) { $existingPaper->keyword = $keywords; $isUpdated = true; }
+                    if (empty($existingPaper->paper_doi) && !empty($paper_doi)) { $existingPaper->paper_doi = $paper_doi; $isUpdated = true; }
+                    if (empty($existingPaper->paper_yearpub) && !empty($paper_yearpub)) { $existingPaper->paper_yearpub = $paper_yearpub; $isUpdated = true; }
+                    if ($paper_citation > $existingPaper->paper_citation) { $existingPaper->paper_citation = $paper_citation; $isUpdated = true; }
+                    
+                    if ($isUpdated) {
+                        $existingPaper->save();
+                    }
+                    
+                    $exists = $existingPaper->teacher()->where('user_id', $user->id)->exists();
+                    if (!$exists) {
+                         $existingPaper->teacher()->attach($user->id, ['author_type' => 2]);
+                    }
+                    continue;
+                }
 
                 $paper = new Paper;
                 $paper->paper_name = $paperName;

@@ -135,6 +135,7 @@ Route::get('bib/{id}', [BibtexController::class, 'getbib'])->name('bibtex');
 
     Route::get('/callscopus/{id}', [App\Http\Controllers\ScopuscallController::class, 'create'])->name('callscopus');
     Route::get('/callscopus-all', [App\Http\Controllers\ScopuscallController::class, 'callAll'])->name('callscopus.all');
+    Route::post('/call-paper-doi', [App\Http\Controllers\ScopuscallController::class, 'fetchByDoi'])->name('call.paper.doi');
 //Route::get('/showscopus', [App\Http\Controllers\ScopuscallController::class, 'index'])->name('showscopus');
 
 Route::group(['middleware' => ['isAdmin', 'auth', 'PreventBackHistory']], function () {
