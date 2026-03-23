@@ -47,8 +47,14 @@ class ScopuscallController extends Controller
             $incompletePapers = [];
 
             // ---------------------------------------------------------------------
-            //                           Scopus API Section
+            //                           Fetch Logic Selection
             // ---------------------------------------------------------------------
+            if (!empty($user->orcid)) {
+                $this->fetchFromOpenAlexByOrcid($user, $completePapers, $incompletePapers);
+            } else {
+                // ---------------------------------------------------------------------
+                //                           Scopus API Section
+                // ---------------------------------------------------------------------
             // Build the search query using the first letter of the user's first name and their last name.
             $firstLetter = substr($user->fname_en, 0, 1);
             $lname = $user->lname_en;
@@ -438,6 +444,7 @@ class ScopuscallController extends Controller
                     );
                 }
             }
+            } // END OF ELSE BLOCK FOR SCOPUS LOGIC
 
             // If no new paper was inserted, return with an info flash message.
             if (empty($completePapers) && empty($incompletePapers)) {
@@ -558,8 +565,14 @@ class ScopuscallController extends Controller
             $incompletePapers = [];
 
             // ---------------------------------------------------------------------
-            //                           Scopus API Section
+            //                           Fetch Logic Selection
             // ---------------------------------------------------------------------
+            if (!empty($user->orcid)) {
+                $this->fetchFromOpenAlexByOrcid($user, $completePapers, $incompletePapers);
+            } else {
+                // ---------------------------------------------------------------------
+                //                           Scopus API Section
+                // ---------------------------------------------------------------------
             $firstLetter = substr($user->fname_en, 0, 1);
             $lname = $user->lname_en;
             $searchQuery = "AUTHOR-NAME({$lname},{$firstLetter})";
@@ -832,6 +845,7 @@ class ScopuscallController extends Controller
                     if (!$exists) $paper->teacher()->attach($user->id, ['author_type' => 2]);
                 } catch (Exception $e) {}
             }
+            } // END OF ELSE BLOCK FOR SCOPUS LOGIC
 
             if (!empty($completePapers) || !empty($incompletePapers)) {
                 $uniqueKey = $user->fname_en . ' ' . $user->lname_en;
