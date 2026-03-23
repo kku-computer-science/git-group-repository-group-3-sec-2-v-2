@@ -72,6 +72,19 @@
                                 </div>
                             </div>
                             
+                            <!-- ORCID -->
+                            <div class="form-group row">
+                                <div class="col-sm-8 mb-3">
+                                    <label for="orcid" class="font-weight-bold">ORCID</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="fab fa-orcid"></i></span>
+                                        </div>
+                                        <input type="text" name="orcid" id="orcid" value="{{ $user->orcid }}" class="form-control" placeholder="0000-0000-0000-0000">
+                                    </div>
+                                </div>
+                            </div>
+                            
                             <!-- Password และ Confirm Password -->
                             <div class="form-group row">
                                 <div class="col-sm-6 mb-3">

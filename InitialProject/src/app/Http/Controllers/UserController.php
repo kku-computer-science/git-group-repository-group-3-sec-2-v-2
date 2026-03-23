@@ -33,10 +33,25 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = User::with('program')->orderBy('fname_en', 'desc')->paginate(15)->withQueryString();
-        return view('users.index', compact('data'));
+        $search = $request->input('search');
+
+        $query = User::with('program')->orderBy('fname_en', 'desc');
+
+        if (!empty($search)) {
+            $query->where(function($q) use ($search) {
+                $q->where('fname_en', 'LIKE', "%{$search}%")
+                  ->orWhere('lname_en', 'LIKE', "%{$search}%")
+                  ->orWhere('fname_th', 'LIKE', "%{$search}%")
+                  ->orWhere('lname_th', 'LIKE', "%{$search}%")
+                  ->orWhere('email', 'LIKE', "%{$search}%")
+                  ->orWhere('orcid', 'LIKE', "%{$search}%");
+            });
+        }
+
+        $data = $query->paginate(15)->withQueryString();
+        return view('users.index', compact('data', 'search'));
     }
 
     /**
@@ -96,6 +111,7 @@ class UserController extends Controller
             'lname_en'    => $request->lname_en,
             'fname_th'    => $request->fname_th,
             'lname_th'    => $request->lname_th,
+            'orcid'       => $request->orcid,
             'is_research' => $isTeacher ? 1 : ($request->has('is_research') ? 1 : 0), // ถ้าเป็น teacher ให้เป็น 1 เสมอ
         ]);
 

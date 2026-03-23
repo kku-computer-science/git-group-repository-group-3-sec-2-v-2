@@ -102,12 +102,16 @@
             <h4 class="card-title">Users</h4>
             <a class="btn btn-primary btn-icon-text btn-sm" href="{{ route('users.create')}}"><i class="ti-plus btn-icon-prepend icon-sm"></i>New User</a>
             <a class="btn btn-primary btn-icon-text btn-sm" href="{{ route('importfiles')}}"><i class="ti-download btn-icon-prepend icon-sm"></i>Import New User</a>
-            <!-- <div class="search-box">
-                <div class="input-group">
-                    <input type="text" id="search" class="form-control" placeholder="Search by Name">
-                    <span class="input-group-addon"><i class="material-icons">&#xE8B6;</i></span>
-                </div>
-            </div> -->
+            <div class="search-box">
+                <form action="{{ route('users.index') }}" method="GET" class="input-group">
+                    <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="ค้นหาชื่อ, อีเมล, ORCID...">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit" style="background: transparent; border: none; position: absolute; right: 5px; z-index: 100; margin-top: 5px;">
+                            <i class="material-icons">&#xE8B6;</i>
+                        </button>
+                    </div>
+                </form>
+            </div>
 
             <div class="table-responsive">
                 <table id="example1" class="table table-striped">
