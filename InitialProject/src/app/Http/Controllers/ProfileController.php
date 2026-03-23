@@ -16,7 +16,11 @@ class ProfileController extends Controller
         //$res=User::where('id',$id)->with('paper')->get();
         //User::with(['paper'])->where('id',$id)->get();
         //$paper = User::with(['paper','author'])->where('id',$id)->get();
-        $id = Crypt::decrypt($id);
+        try {
+            $id = Crypt::decrypt($id);
+        } catch (\Illuminate\Contracts\Encryption\DecryptException $e) {
+            abort(404);
+        }
         $res = User::where('id',$id)->first();
         $teachers = User::role('teacher')->get();
         
