@@ -31,6 +31,14 @@
             </a>
             @endif
 
+            {{-- Button to sync missing DOIs from OpenAlex --}}
+            @if(Auth::user()->hasRole('teacher') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('student'))
+            <a class="btn btn-info btn-icon-text btn-sm mb-3"
+               href="{{ route('openalex.sync') }}">
+               <i class="mdi mdi-sync btn-icon-prepend icon-sm"></i> Sync Data
+            </a>
+            @endif
+
             <table id="example1" class="table table-striped">
                 <thead>
                     <tr>
@@ -63,7 +71,7 @@
                                 </li>
                                 @endif
                                 {{-- Delete button (if needed, uncomment the following block) --}}
-                                {{-- 
+                                {{--
                                 @csrf
                                 @method('DELETE')
                                 <li class="list-inline-item">
