@@ -31,13 +31,7 @@
             </a>
             @endif
 
-            {{-- Button to sync missing DOIs from OpenAlex --}}
-            @if(Auth::user()->hasRole('teacher') || Auth::user()->hasRole('admin') || Auth::user()->hasRole('student'))
-            <a class="btn btn-info btn-icon-text btn-sm mb-3"
-               href="{{ route('openalex.sync') }}">
-               <i class="mdi mdi-sync btn-icon-prepend icon-sm"></i> Sync Data
-            </a>
-            @endif
+
 
             <table id="example1" class="table table-striped">
                 <thead>
@@ -93,7 +87,18 @@
 </div>
 
 {{-- Popup for Imported Papers (when new papers are inserted) --}}
-@if(session('insertedPapers'))
+@if(session('importMessage'))
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        swal({
+            title: 'Scopus & OpenAlex Import Result',
+            text: {!! json_encode(session('importMessage')) !!},
+            icon: 'success',
+            button: 'OK'
+        });
+    });
+</script>
+@elseif(session('insertedPapers'))
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         let inserted = @json(session('insertedPapers'));

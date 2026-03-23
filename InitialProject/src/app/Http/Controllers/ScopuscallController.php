@@ -42,8 +42,9 @@ class ScopuscallController extends Controller
                 'Initiated paper import from Scopus'
             );
 
-            // Create an array to store the names of newly inserted papers.
-            $insertedPapers = [];
+            // Create arrays to store the names of newly inserted papers.
+            $completePapers = [];
+            $incompletePapers = [];
 
             // ---------------------------------------------------------------------
             //                           Scopus API Section
@@ -167,6 +168,66 @@ class ScopuscallController extends Controller
                         $subtype = 'Article';
                     }
 
+                    // Retrieve DOI
+                    $paper_doi = $item['prism:doi'] ?? null;
+
+                    // --------------- OPENALEX INTEGRATION -----------------
+                    $openAlexAuthorships = null;
+                    if ($paper_doi) {
+                        try {
+                            $doiClean = trim($paper_doi);
+                            if (str_starts_with($doiClean, '10.')) {
+                                $openAlexUrl = "https://api.openalex.org/works/https://doi.org/{$doiClean}";
+                                $oaResponse = Http::withHeaders([
+                                    'Accept' => 'application/json',
+                                    'User-Agent' => 'mailto:admin@cpkkuhost.com' 
+                                ])->timeout(10)->get($openAlexUrl);
+
+                                if ($oaResponse->successful()) {
+                                    $oaData = $oaResponse->json();
+                                    
+                                    // 1. Process Abstract (Override Scopus if missing/present)
+                                    if (empty($abstract) && isset($oaData['abstract_inverted_index'])) {
+                                        $words = [];
+                                        foreach ($oaData['abstract_inverted_index'] as $word => $positions) {
+                                            foreach ($positions as $pos) {
+                                                $words[$pos] = $word;
+                                            }
+                                        }
+                                        ksort($words);
+                                        $abstract = implode(' ', $words);
+                                    }
+
+                                    // 2. Process Citations
+                                    $newCitations = $oaData['cited_by_count'] ?? 0;
+                                    $currentCitations = $item['citedby-count'] ?? 0;
+                                    $item['citedby-count'] = max($newCitations, $currentCitations);
+
+                                    // 3. Process Keywords
+                                    if (empty($item['author-keywords']) && !empty($oaData['concepts'])) {
+                                        $keywordsArray = [];
+                                        foreach ($oaData['concepts'] as $concept) {
+                                            if (($concept['score'] ?? 0) > 0.3) {
+                                                $keywordsArray[] = ['$' => $concept['display_name']];
+                                            }
+                                        }
+                                        if (!empty($keywordsArray)) {
+                                            $item['author-keywords'] = array_slice($keywordsArray, 0, 10);
+                                        }
+                                    }
+                                    
+                                    // 4. Capture Authorships to use later
+                                    if (!empty($oaData['authorships'])) {
+                                        $openAlexAuthorships = $oaData['authorships'];
+                                    }
+                                }
+                            }
+                        } catch (Exception $e) {
+                            // Silently fail OpenAlex fetch and proceed with Scopus data
+                        }
+                    }
+                    // ------------------------------------------------------
+
                     // Create a new Paper instance and save it.
                     $paper = new Paper;
                     $paper->paper_name        = $paper_name;
@@ -179,7 +240,7 @@ class ScopuscallController extends Controller
                     }
                     $paper->paper_sourcetitle = $subtypeDesc;
                     $paper->keyword           = !empty($item['author-keywords'])
-                                                ? json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE)
+                                                ? (is_array($item['author-keywords']) ? json_encode($item['author-keywords'], JSON_UNESCAPED_UNICODE) : $item['author-keywords'])
                                                 : null;
                     $paper->paper_url         = $paper_url;
                     $paper->publication       = $item['prism:publicationName'] ?? null;
@@ -188,10 +249,17 @@ class ScopuscallController extends Controller
                     $paper->paper_issue       = $item['prism:issueIdentifier'] ?? '-';
                     $paper->paper_citation    = $item['citedby-count'] ?? 0;
                     $paper->paper_page        = $item['prism:pageRange'] ?? '-';
-                    $paper->paper_doi         = $item['prism:doi'] ?? null;
+                    $paper->paper_doi         = $paper_doi;
                     $paper->paper_funder      = $paper_funder;
                     $paper->reference_number  = null;
                     $paper->save();
+
+                    // Categorize as complete or incomplete
+                    if (!empty($paper->abstract) && !empty($paper->keyword)) {
+                        $completePapers[] = $paper->paper_name;
+                    } else {
+                        $incompletePapers[] = $paper->paper_name;
+                    }
 
                     // Attach Source Data (assume id=1 represents Scopus).
                     $source = Source_data::find(1);
@@ -200,64 +268,62 @@ class ScopuscallController extends Controller
                     }
 
                     // Attach Authors.
-                    $authorsData = $detailData['bibrecord']['head']['author-group']['author']
-                        ?? $detailResponse->json('abstracts-retrieval-response.authors.author');
-                    if ($authorsData && !is_array($authorsData)) {
-                        $authorsData = [$authorsData];
-                    }
-                    if ($authorsData && is_array($authorsData)) {
-                        $totalAuthors = count($authorsData);
-                        $x = 1;
-                        foreach ($authorsData as $authorItem) {
-                            // Retrieve author's given name and surname.
-                            $givenName = $authorItem['ce:given-name']
-                                ?? ($authorItem['preferred-name']['ce:given-name'] ?? '');
-                            $surname   = $authorItem['ce:surname']
-                                ?? ($authorItem['preferred-name']['ce:surname'] ?? '');
+                    if ($openAlexAuthorships) {
+                        // USE OPENALEX AUTHORS
+                        foreach ($openAlexAuthorships as $oaAuthor) {
+                            $rawName = $oaAuthor['raw_author_name'] ?? $oaAuthor['author']['display_name'] ?? '';
+                            $parts = explode(' ', trim($rawName));
+                            $surname = array_pop($parts);
+                            $givenName = implode(' ', $parts);
 
-                            // Determine the author order: 1 = first, 2 = co-author, 3 = last.
-                            $author_type = ($x === 1) ? 1 : (($x === $totalAuthors) ? 3 : 2);
+                            $posStr = $oaAuthor['author_position'] ?? 'middle';
+                            $author_type = ($posStr === 'first') ? 1 : (($posStr === 'last') ? 3 : 2);
 
-                            // Updated condition: require all three conditions to match:
-                            // 1. Given name (case-insensitive) matches.
-                            // 2. Surname (case-insensitive) matches.
-                            // 3. The affiliation array contains at least one item with "Khon Kaen".
+                            // Match processing for Khon Kaen
                             $isSameUser = false;
-                            if (
-                                strcasecmp($givenName, $user->fname_en) === 0 &&
-                                strcasecmp($surname, $user->lname_en) === 0 &&
-                                strtolower(substr($givenName, 0, 1)) === strtolower(substr($user->fname_en, 0, 1))
-                            ) {
-                                if (!empty($authorItem['affiliation']) && is_array($authorItem['affiliation'])) {
-                                    foreach ($authorItem['affiliation'] as $aff) {
-                                        $affName = $aff['affiliation-name'] ?? '';
-                                        if (stripos($affName, 'Khon Kaen') !== false) {
-                                            $isSameUser = true;
-                                            break;
+                            
+                            // Check explicitly against current user
+                            if (stripos($rawName, $user->fname_en) !== false && stripos($rawName, $user->lname_en) !== false) {
+                                $isKKU = false;
+                                if (!empty($oaAuthor['institutions'])) {
+                                    foreach ($oaAuthor['institutions'] as $inst) {
+                                        if (stripos($inst['display_name'] ?? '', 'Khon Kaen') !== false) {
+                                            $isKKU = true; break;
                                         }
                                     }
                                 }
+                                if (!empty($oaAuthor['affiliations'])) {
+                                     foreach ($oaAuthor['affiliations'] as $aff) {
+                                        if (stripos($aff['raw_affiliation_string'] ?? '', 'Khon Kaen') !== false) {
+                                            $isKKU = true; break;
+                                        }
+                                    }
+                                }
+                                if ($isKKU) $isSameUser = true;
                             }
 
-                            // Attach relation based on the check.
                             if ($isSameUser) {
                                 $paper->teacher()->attach($user->id, ['author_type' => $author_type]);
                             } else {
-                                // Check in Users table.
-                                $existingUser = User::where('fname_en', $givenName)
-                                    ->where('lname_en', $surname)
-                                    ->first();
+                                $existingUser = User::whereRaw("LOWER(CONCAT(fname_en, ' ', lname_en)) = ?", [strtolower($rawName)])
+                                    ->orWhere(function($query) use ($givenName, $surname) {
+                                        $query->where('fname_en', 'LIKE', "%{$givenName}%")
+                                              ->where('lname_en', 'LIKE', "%{$surname}%");
+                                    })->first();
+
                                 if ($existingUser) {
                                     $paper->teacher()->attach($existingUser->id, ['author_type' => $author_type]);
                                 } else {
-                                    // Check in Authors table.
-                                    $existingAuthor = Author::where('author_fname', $givenName)
-                                        ->where('author_lname', $surname)
-                                        ->first();
+                                    $existingAuthor = Author::whereRaw("LOWER(CONCAT(author_fname, ' ', author_lname)) = ?", [strtolower($rawName)])
+                                        ->orWhere(function($query) use ($givenName, $surname) {
+                                            $query->where('author_fname', 'LIKE', "%{$givenName}%")
+                                                  ->where('author_lname', 'LIKE', "%{$surname}%");
+                                        })->first();
+
                                     if (!$existingAuthor) {
                                         $newAuthor = new Author;
-                                        $newAuthor->author_fname = $givenName;
-                                        $newAuthor->author_lname = $surname;
+                                        $newAuthor->author_fname = $givenName ?: $rawName;
+                                        $newAuthor->author_lname = $surname ?: '-';
                                         $newAuthor->save();
                                         $paper->author()->attach($newAuthor->id, ['author_type' => $author_type]);
                                     } else {
@@ -265,15 +331,81 @@ class ScopuscallController extends Controller
                                     }
                                 }
                             }
-                            $x++;
+                        }
+                    } else {
+                        // FALLBACK TO SCOPUS AUTHORS
+                        $authorsData = $detailData['bibrecord']['head']['author-group']['author']
+                            ?? $detailResponse->json('abstracts-retrieval-response.authors.author');
+                        if ($authorsData && !is_array($authorsData)) {
+                            $authorsData = [$authorsData];
+                        }
+                        if ($authorsData && is_array($authorsData)) {
+                            $totalAuthors = count($authorsData);
+                            $x = 1;
+                            foreach ($authorsData as $authorItem) {
+                                // Retrieve author's given name and surname.
+                                $givenName = $authorItem['ce:given-name']
+                                    ?? ($authorItem['preferred-name']['ce:given-name'] ?? '');
+                                $surname   = $authorItem['ce:surname']
+                                    ?? ($authorItem['preferred-name']['ce:surname'] ?? '');
+    
+                                // Determine the author order: 1 = first, 2 = co-author, 3 = last.
+                                $author_type = ($x === 1) ? 1 : (($x === $totalAuthors) ? 3 : 2);
+    
+                                // Updated condition: require all three conditions to match
+                                $isSameUser = false;
+                                if (
+                                    strcasecmp($givenName, $user->fname_en) === 0 &&
+                                    strcasecmp($surname, $user->lname_en) === 0 &&
+                                    strtolower(substr($givenName, 0, 1)) === strtolower(substr($user->fname_en, 0, 1))
+                                ) {
+                                    if (!empty($authorItem['affiliation']) && is_array($authorItem['affiliation'])) {
+                                        foreach ($authorItem['affiliation'] as $aff) {
+                                            $affName = $aff['affiliation-name'] ?? '';
+                                            if (stripos($affName, 'Khon Kaen') !== false) {
+                                                $isSameUser = true;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+    
+                                // Attach relation based on the check.
+                                if ($isSameUser) {
+                                    $paper->teacher()->attach($user->id, ['author_type' => $author_type]);
+                                } else {
+                                    // Check in Users table.
+                                    $existingUser = User::where('fname_en', $givenName)
+                                        ->where('lname_en', $surname)
+                                        ->first();
+                                    if ($existingUser) {
+                                        $paper->teacher()->attach($existingUser->id, ['author_type' => $author_type]);
+                                    } else {
+                                        // Check in Authors table.
+                                        $existingAuthor = Author::where('author_fname', $givenName)
+                                            ->where('author_lname', $surname)
+                                            ->first();
+                                        if (!$existingAuthor) {
+                                            $newAuthor = new Author;
+                                            $newAuthor->author_fname = $givenName;
+                                            $newAuthor->author_lname = $surname;
+                                            $newAuthor->save();
+                                            $paper->author()->attach($newAuthor->id, ['author_type' => $author_type]);
+                                        } else {
+                                            $paper->author()->attach($existingAuthor->id, ['author_type' => $author_type]);
+                                        }
+                                    }
+                                }
+                                $x++;
+                            }
                         }
                     }
 
-                    // Attach the user who performed the import.
-                    $paper->teacher()->attach($user->id);
-
-                    // Save the name of the inserted paper.
-                    $insertedPapers[] = $paper->paper_name;
+                    // Ensure user who performed import is attached (if not already)
+                    $exists = $paper->teacher()->where('user_id', $user->id)->exists();
+                    if (!$exists) {
+                        $paper->teacher()->attach($user->id, ['author_type' => 2]);
+                    }
                 } catch (Exception $e) {
                     // Log the error for this specific paper but continue processing others
                     $errorMessage = 'Error processing paper: ' . ($scopusPaperName ?? 'Unknown') . '. Error: ' . $e->getMessage();
@@ -287,7 +419,7 @@ class ScopuscallController extends Controller
             }
 
             // If no new paper was inserted, return with an info flash message.
-            if (empty($insertedPapers)) {
+            if (empty($completePapers) && empty($incompletePapers)) {
                 // Log that no papers were found/added
                 ActivityLog::log(
                     $userId,
@@ -297,14 +429,32 @@ class ScopuscallController extends Controller
                 return redirect()->back()->with('info', 'No changes were made.');
             }
 
+            // Build display message
+            $message = '';
+            if (count($completePapers) > 0) {
+                $message .= "✅ Complete Papers Added (" . count($completePapers) . "):\n";
+                foreach($completePapers as $p) {
+                    $message .= "  - " . $p . "\n";
+                }
+                $message .= "\n";
+            }
+            if (count($incompletePapers) > 0) {
+                $message .= "⚠️ Incomplete Papers Added (" . count($incompletePapers) . ") [Missing Data]:\n";
+                foreach($incompletePapers as $p) {
+                    $message .= "  - " . $p . "\n";
+                }
+            }
+
             // Log successful paper retrieval with count
+            $totalFound = count($completePapers) + count($incompletePapers);
             ActivityLog::log(
                 $userId,
-                'Scopus Import - Complete',
-                'Imported ' . count($insertedPapers) . ' papers'
+                'Scopus Import - Success',
+                "Successfully imported $totalFound papers.",
+                $user->client_ip ?? \Request::ip()
             );
 
-            return redirect()->back()->with('insertedPapers', $insertedPapers);
+            return redirect()->back()->with('importMessage', $message);
         } catch (Exception $e) {
             // Log the main error
             ErrorLogService::logException($e, 'ScopuscallController@create - Main');
