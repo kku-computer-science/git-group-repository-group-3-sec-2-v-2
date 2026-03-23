@@ -437,7 +437,7 @@ class ScopusFetchCommand extends Command
                       if ($isSameUser) {
                            $paper->teacher()->attach($user->id, ['author_type' => $author_type]);
                       } else {
-                           $existingUser = clone User::whereRaw("LOWER(CONCAT(fname_en, ' ', lname_en)) = ?", [strtolower($rawName)])
+                           $existingUser = User::whereRaw("LOWER(CONCAT(fname_en, ' ', lname_en)) = ?", [strtolower($rawName)])
                                ->orWhere(function($q) use ($givenName, $surname) {
                                   $q->where('fname_en', 'LIKE', "%{$givenName}%")->where('lname_en', 'LIKE', "%{$surname}%");
                                })->first();
@@ -445,13 +445,13 @@ class ScopusFetchCommand extends Command
                            if ($existingUser) {
                                $paper->teacher()->attach($existingUser->id, ['author_type' => $author_type]);
                            } else {
-                               $existingAuthor = clone Author::whereRaw("LOWER(CONCAT(author_fname, ' ', author_lname)) = ?", [strtolower($rawName)])
+                               $existingAuthor = Author::whereRaw("LOWER(CONCAT(author_fname, ' ', author_lname)) = ?", [strtolower($rawName)])
                                     ->orWhere(function($q) use ($givenName, $surname) {
                                         $q->where('author_fname', 'LIKE', "%{$givenName}%")->where('author_lname', 'LIKE', "%{$surname}%");
                                     })->first();
 
                                if (!$existingAuthor) {
-                                   $newAuthor = new clone Author;
+                                   $newAuthor = new Author;
                                    $newAuthor->author_fname = $givenName ?: $rawName;
                                    $newAuthor->author_lname = $surname ?: '-';
                                    $newAuthor->save();
