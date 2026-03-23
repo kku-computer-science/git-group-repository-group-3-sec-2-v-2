@@ -1433,31 +1433,259 @@ function initSecurityEventFilters() {
 }
 
 function filterSecurityEvents() {
+    var selectedDate = getActiveDashboardDateFilter();
     var keyword = ($('#securityEventSearch').val() || '').toLowerCase();
     var eventType = $('#securityEventTypeFilter').val();
     var threatLevel = $('#securityThreatLevelFilter').val();
-    var selectedDate = getActiveDashboardDateFilter();
-    var visibleRows = 0;
     
+    // If date filter is active, use server-side
+    if (selectedDate) {
+        var params = { date: selectedDate };
+        if (eventType) params.event_type = eventType;
+        if (threatLevel) params.threat_level = threatLevel;
+        
+        fetchAndRenderSecurityEvents(params, keyword);
+        return;
+    }
+    
+    // Otherwise, client-side filter on existing rows
+    var visibleRows = 0;
     $("#securityEventsTable tbody tr").each(function() {
         var rowEventType = $(this).data('event-type');
         var rowThreatLevel = $(this).data('threat-level');
-        var rowDate = $(this).data('created-date');
         var rowText = $(this).text().toLowerCase();
 
         var showRow = (!eventType || rowEventType === eventType) &&
             (!threatLevel || rowThreatLevel === threatLevel) &&
-            (!keyword || rowText.indexOf(keyword) > -1) &&
-            (!selectedDate || rowDate === selectedDate);
+            (!keyword || rowText.indexOf(keyword) > -1);
 
         $(this).toggle(showRow);
+        if (showRow) visibleRows += 1;
+    });
+
+    toggleDashboardTableEmptyState('#securityEventsTable', visibleRows, 'No security events match the current filters.');
+}
+
+function fetchAndRenderSecurityEvents(params, keyword) {
+    var $tbody = $('#securityEventsTable tbody');
+    $tbody.html('<tr><td colspan="5" class="text-center"><i class="mdi mdi-loading mdi-spin"></i> Loading...</td></tr>');
+    
+    $.ajax({
+        url: '/admin/dashboard/security-events-data',
+        data: params,
+        type: 'GET',
+        success: function(response) {
+            var rows = '';
+            var data = response.data || [];
+            
+            // Apply client-side keyword search if present
+            if (keyword) {
+                data = data.filter(function(e) {
+                    var text = (e.event_type + ' ' + e.ip_address + ' ' + e.details + ' ' + e.threat_level + ' ' + e.user_name).toLowerCase();
+                    return text.indexOf(keyword) > -1;
+                });
+            }
+            
+            if (data.length === 0) {
+                $tbody.html('<tr><td colspan="5" class="text-center text-muted">No security events found for this date.</td></tr>');
+                return;
+            }
+            
+            data.forEach(function(e) {
+                var statusClass = e.threat_level === 'high' ? 'danger' : (e.threat_level === 'medium' ? 'warning' : 'info');
+                rows += '<tr data-event-type="' + escapeHtml(e.event_type) + '" data-threat-level="' + escapeHtml(e.threat_level) + '" data-created-date="' + escapeHtml(e.created_date) + '">';
+                rows += '<td>' + escapeHtml(e.created_at_human) + '</td>';
+                rows += '<td><span class="badge badge-' + statusClass + '">' + escapeHtml(e.event_type) + '</span></td>';
+                rows += '<td>' + escapeHtml(e.ip_address || 'N/A') + '</td>';
+                rows += '<td>' + escapeHtml(truncateText(e.details, 50)) + '</td>';
+                rows += '<td><span class="badge badge-' + statusClass + '">' + capitalizeFirst(e.threat_level) + '</span></td>';
+                rows += '</tr>';
+            });
+            
+            $tbody.html(rows);
+        },
+        error: function() {
+            $tbody.html('<tr><td colspan="5" class="text-center text-danger">Error loading security events.</td></tr>');
+        }
+    });
+}
+
+function applyDashboardDateFilter() {
+    var selectedDate = getActiveDashboardDateFilter();
+    
+    if (selectedDate) {
+        // Server-side: fetch data via AJAX for all 3 tables
+        fetchActivities(selectedDate);
+        fetchErrors(selectedDate);
+        filterSecurityEvents();
+    } else {
+        // No date: reload page to get default data (latest 5), or re-fetch without date
+        fetchActivities('');
+        fetchErrors('');
+        filterSecurityEvents();
+    }
+    
+    updateDashboardDateFilterLabel();
+}
+
+function fetchActivities(date) {
+    var $tbody = $('#activityLogsTable tbody');
+    var $badge = $('#activityLogsTable').closest('.content-card').find('.badge');
+    
+    $tbody.html('<tr><td colspan="4" class="text-center"><i class="mdi mdi-loading mdi-spin"></i> Loading...</td></tr>');
+    
+    $.ajax({
+        url: '/admin/dashboard/activities-data',
+        data: date ? { date: date } : {},
+        type: 'GET',
+        success: function(response) {
+            var rows = '';
+            var data = response.data || [];
+            
+            if (data.length === 0) {
+                $tbody.html('<tr><td colspan="4" class="text-center text-muted">No activities found' + (date ? ' for ' + escapeHtml(date) : '') + '.</td></tr>');
+                $badge.text('Showing: 0 of ' + response.total);
+                return;
+            }
+            
+            data.forEach(function(a) {
+                rows += '<tr data-created-date="' + escapeHtml(a.created_date) + '">';
+                rows += '<td>' + escapeHtml(a.user_name) + '</td>';
+                rows += '<td>' + escapeHtml(truncateText(a.action, 30)) + '</td>';
+                rows += '<td>' + escapeHtml(a.created_at_human) + '</td>';
+                rows += '<td>';
+                rows += '<button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#ajaxActivityModal' + a.id + '">';
+                rows += '<i class="mdi mdi-information-outline"></i></button>';
+                rows += buildActivityModal(a);
+                rows += '</td>';
+                rows += '</tr>';
+            });
+            
+            $tbody.html(rows);
+            $badge.text('Showing: ' + response.showing + ' of ' + response.total);
+        },
+        error: function() {
+            $tbody.html('<tr><td colspan="4" class="text-center text-danger">Error loading activities.</td></tr>');
+        }
+    });
+}
+
+function fetchErrors(date) {
+    var $tbody = $('#errorLogsTable tbody');
+    var $badge = $('#errorLogsTable').closest('.content-card').find('.badge');
+    
+    $tbody.html('<tr><td colspan="4" class="text-center"><i class="mdi mdi-loading mdi-spin"></i> Loading...</td></tr>');
+    
+    $.ajax({
+        url: '/admin/dashboard/errors-data',
+        data: date ? { date: date } : {},
+        type: 'GET',
+        success: function(response) {
+            var rows = '';
+            var data = response.data || [];
+            
+            if (data.length === 0) {
+                $tbody.html('<tr><td colspan="4" class="text-center text-muted">No error logs found' + (date ? ' for ' + escapeHtml(date) : '') + '.</td></tr>');
+                $badge.text('Showing: 0 of ' + response.total);
+                return;
+            }
+            
+            data.forEach(function(e) {
+                var levelClass = e.level === 'error' ? 'bg-danger text-white' : (e.level === 'warning' ? 'bg-warning text-dark' : 'bg-info text-white');
+                rows += '<tr data-created-date="' + escapeHtml(e.created_date) + '">';
+                rows += '<td>' + escapeHtml(e.created_at_human) + '</td>';
+                rows += '<td><span class="badge ' + levelClass + '">' + capitalizeFirst(e.level) + '</span></td>';
+                rows += '<td>' + escapeHtml(truncateText(e.message, 30)) + '</td>';
+                rows += '<td>';
+                rows += '<button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#ajaxErrorModal' + e.id + '">';
+                rows += '<i class="mdi mdi-information-outline"></i></button>';
+                rows += buildErrorModal(e);
+                rows += '</td>';
+                rows += '</tr>';
+            });
+            
+            $tbody.html(rows);
+            $badge.text('Showing: ' + response.showing + ' of ' + response.total);
+        },
+        error: function() {
+            $tbody.html('<tr><td colspan="4" class="text-center text-danger">Error loading error logs.</td></tr>');
+        }
+    });
+}
+
+function buildActivityModal(a) {
+    return '<div class="modal fade" id="ajaxActivityModal' + a.id + '" tabindex="-1" role="dialog">' +
+        '<div class="modal-dialog modal-lg" role="document"><div class="modal-content">' +
+        '<div class="modal-header"><h5 class="modal-title">Activity Details</h5>' +
+        '<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button></div>' +
+        '<div class="modal-body"><div class="row">' +
+        '<div class="col-md-6">' +
+        '<p><strong>User:</strong> ' + escapeHtml(a.user_name) + '</p>' +
+        '<p><strong>Action:</strong> ' + escapeHtml(a.action) + '</p>' +
+        '<p><strong>Time:</strong> ' + escapeHtml(a.created_at_formatted) + '</p>' +
+        '<p><strong>IP Address:</strong> ' + escapeHtml(a.ip_address) + '</p>' +
+        '<p><strong>User Agent:</strong> ' + escapeHtml(a.user_agent) + '</p>' +
+        '</div><div class="col-md-6">' +
+        '<p><strong>Description:</strong></p>' +
+        '<div class="mb-3 bg-light border rounded" style="line-height:1.5;overflow-wrap:break-word;max-height:200px;overflow-y:auto;padding:1rem;">' +
+        escapeHtml(a.description || 'No description available') +
+        '</div></div></div></div>' +
+        '<div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>' +
+        '</div></div></div>';
+}
+
+function buildErrorModal(e) {
+    var levelClass = e.level === 'error' ? 'bg-danger text-white' : (e.level === 'warning' ? 'bg-warning text-dark' : 'bg-info text-white');
+    return '<div class="modal fade" id="ajaxErrorModal' + e.id + '" tabindex="-1" role="dialog">' +
+        '<div class="modal-dialog modal-lg" role="document"><div class="modal-content">' +
+        '<div class="modal-header"><h5 class="modal-title">Error Details</h5>' +
+        '<button type="button" class="close" data-dismiss="modal"><span>&times;</span></button></div>' +
+        '<div class="modal-body"><div class="row">' +
+        '<div class="col-md-6">' +
+        '<p><strong>Level:</strong> <span class="badge ' + levelClass + '">' + capitalizeFirst(e.level) + '</span></p>' +
+        '<p><strong>Time:</strong> ' + escapeHtml(e.created_at_formatted) + '</p>' +
+        '<p><strong>File:</strong> ' + escapeHtml(e.file || 'Unknown') + '</p>' +
+        '<p><strong>Line:</strong> ' + escapeHtml(String(e.line || 'Unknown')) + '</p>' +
+        '<p><strong>User:</strong> ' + escapeHtml(e.user_name) + '</p>' +
+        '</div><div class="col-md-6">' +
+        '<p><strong>Message:</strong></p>' +
+        '<div class="mb-3 bg-light border rounded" style="line-height:1.5;overflow-wrap:break-word;max-height:200px;overflow-y:auto;padding:1rem;">' +
+        escapeHtml(e.message || 'No message available') +
+        '</div></div></div></div>' +
+        '<div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button></div>' +
+        '</div></div></div>';
+}
+
+function truncateText(text, limit) {
+    if (!text) return '';
+    text = String(text);
+    if (text.length <= limit) return text;
+    return text.substring(0, limit) + '...';
+}
+
+function capitalizeFirst(str) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function filterDashboardTableByDate(tableSelector, emptyMessage) {
+    // Kept for backward compatibility but no longer primary — AJAX handles filtering
+    var selectedDate = getActiveDashboardDateFilter();
+    var visibleRows = 0;
+
+    $(tableSelector + ' tbody tr').each(function() {
+        var row = $(this);
+        var rowDate = row.data('created-date');
+        var showRow = !selectedDate || rowDate === selectedDate;
+
+        row.toggle(showRow);
 
         if (showRow) {
             visibleRows += 1;
         }
     });
 
-    toggleDashboardTableEmptyState('#securityEventsTable', visibleRows, 'No security events match the current filters.');
+    toggleDashboardTableEmptyState(tableSelector, visibleRows, emptyMessage);
 }
 
 function initDashboardNavbarTools() {
@@ -1513,32 +1741,6 @@ function applyDashboardGlobalSearch(query) {
     if (normalizedQuery && matches === 0) {
         $('.dashboard-container').prepend('<div id="dashboardSearchEmptyState" class="alert alert-info dashboard-search-empty">No dashboard sections matched "' + escapeHtml(query) + '".</div>');
     }
-}
-
-function applyDashboardDateFilter() {
-    filterSecurityEvents();
-    filterDashboardTableByDate('#activityLogsTable', 'No activities found for the selected date.');
-    filterDashboardTableByDate('#errorLogsTable', 'No error logs found for the selected date.');
-    updateDashboardDateFilterLabel();
-}
-
-function filterDashboardTableByDate(tableSelector, emptyMessage) {
-    var selectedDate = getActiveDashboardDateFilter();
-    var visibleRows = 0;
-
-    $(tableSelector + ' tbody tr').each(function() {
-        var row = $(this);
-        var rowDate = row.data('created-date');
-        var showRow = !selectedDate || rowDate === selectedDate;
-
-        row.toggle(showRow);
-
-        if (showRow) {
-            visibleRows += 1;
-        }
-    });
-
-    toggleDashboardTableEmptyState(tableSelector, visibleRows, emptyMessage);
 }
 
 function getActiveDashboardDateFilter() {

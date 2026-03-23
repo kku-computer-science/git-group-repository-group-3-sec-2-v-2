@@ -210,6 +210,9 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/activities', [App\Http\Controllers\AdminDashboardController::class, 'getUserActivities'])->name('admin.activities');
     Route::get('/errors', [App\Http\Controllers\AdminDashboardController::class, 'getErrorLogs'])->name('admin.errors');
     Route::get('/system', [App\Http\Controllers\AdminDashboardController::class, 'getSystemInfo'])->name('admin.system');
+    Route::get('/dashboard/activities-data', [App\Http\Controllers\AdminDashboardController::class, 'getDashboardActivities'])->name('admin.dashboard.activities-data');
+    Route::get('/dashboard/errors-data', [App\Http\Controllers\AdminDashboardController::class, 'getDashboardErrors'])->name('admin.dashboard.errors-data');
+    Route::get('/dashboard/security-events-data', [App\Http\Controllers\AdminDashboardController::class, 'getDashboardSecurityEvents'])->name('admin.dashboard.security-events-data');
     
     // Security Routes
     Route::get('/security/events', [App\Http\Controllers\Admin\SecurityController::class, 'events'])->name('admin.security.events');

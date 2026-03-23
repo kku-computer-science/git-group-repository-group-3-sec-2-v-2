@@ -154,6 +154,187 @@ class AdminDashboardController extends Controller
         ));
     }
 
+    /**
+     * AJAX endpoint: return activities filtered by date (JSON)
+     */
+    public function getDashboardActivities(Request $request)
+    {
+        $query = DB::table('activity_logs')
+            ->select(
+                'activity_logs.id',
+                'activity_logs.action_type',
+                'activity_logs.action',
+                'activity_logs.description',
+                'activity_logs.ip_address',
+                'activity_logs.user_agent',
+                'activity_logs.created_at',
+                'users.id as user_id',
+                DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "),
+                                NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "),
+                                users.email) as user_name')
+            )
+            ->leftJoin('users', 'activity_logs.user_id', '=', 'users.id');
+
+        if ($request->filled('date')) {
+            $query->whereDate('activity_logs.created_at', $request->date);
+            $limit = 50;
+        } else {
+            $limit = 5;
+        }
+
+        $activities = $query->orderBy('activity_logs.created_at', 'desc')
+            ->limit($limit)
+            ->get();
+
+        $total = $request->filled('date')
+            ? DB::table('activity_logs')->whereDate('created_at', $request->date)->count()
+            : DB::table('activity_logs')->count();
+
+        return response()->json([
+            'data' => $activities->map(function ($a) {
+                return [
+                    'id' => $a->id,
+                    'user_name' => $a->user_name ?? 'Unknown',
+                    'action' => $a->action ?? '',
+                    'action_type' => $a->action_type ?? '',
+                    'description' => $a->description ?? '',
+                    'ip_address' => $a->ip_address ?? 'N/A',
+                    'user_agent' => $a->user_agent ?? 'N/A',
+                    'created_at' => $a->created_at,
+                    'created_at_human' => Carbon::parse($a->created_at)->diffForHumans(),
+                    'created_at_formatted' => Carbon::parse($a->created_at)->format('Y-m-d H:i:s'),
+                    'created_date' => Carbon::parse($a->created_at)->format('Y-m-d'),
+                ];
+            }),
+            'total' => $total,
+            'showing' => $activities->count(),
+        ]);
+    }
+
+    /**
+     * AJAX endpoint: return error logs filtered by date (JSON)
+     */
+    public function getDashboardErrors(Request $request)
+    {
+        $query = DB::table('error_logs')
+            ->leftJoin('users', 'error_logs.user_id', '=', 'users.id')
+            ->select(
+                'error_logs.id',
+                'error_logs.level',
+                'error_logs.message',
+                'error_logs.file',
+                'error_logs.line',
+                'error_logs.ip_address',
+                'error_logs.created_at',
+                DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "),
+                               NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "),
+                               error_logs.username,
+                               "Unknown") as user_name')
+            );
+
+        if ($request->filled('date')) {
+            $query->whereDate('error_logs.created_at', $request->date);
+            $limit = 50;
+        } else {
+            $limit = 5;
+        }
+
+        $errors = $query->orderBy('error_logs.created_at', 'desc')
+            ->limit($limit)
+            ->get();
+
+        $total = $request->filled('date')
+            ? DB::table('error_logs')->whereDate('created_at', $request->date)->count()
+            : DB::table('error_logs')->count();
+
+        return response()->json([
+            'data' => $errors->map(function ($e) {
+                return [
+                    'id' => $e->id,
+                    'level' => $e->level ?? 'info',
+                    'message' => $e->message ?? '',
+                    'file' => $e->file ?? '',
+                    'line' => $e->line ?? '',
+                    'user_name' => $e->user_name ?? 'Unknown',
+                    'ip_address' => $e->ip_address ?? 'N/A',
+                    'created_at' => $e->created_at,
+                    'created_at_human' => Carbon::parse($e->created_at)->diffForHumans(),
+                    'created_at_formatted' => Carbon::parse($e->created_at)->format('Y-m-d H:i:s'),
+                    'created_date' => Carbon::parse($e->created_at)->format('Y-m-d'),
+                ];
+            }),
+            'total' => $total,
+            'showing' => $errors->count(),
+        ]);
+    }
+
+    /**
+     * AJAX endpoint: return security events filtered by date (JSON)
+     */
+    public function getDashboardSecurityEvents(Request $request)
+    {
+        $query = SecurityEvent::select(
+                'id', 'event_type', 'icon_class', 'user_id',
+                'ip_address', 'details', 'threat_level', 'created_at'
+            )
+            ->with(['user' => function($q) {
+                $q->select('id', 'fname_en', 'lname_en', 'fname_th', 'lname_th', 'email');
+            }]);
+
+        if ($request->filled('date')) {
+            $query->whereDate('created_at', $request->date);
+            $limit = 50;
+        } else {
+            $limit = 5;
+        }
+
+        if ($request->filled('event_type')) {
+            $query->where('event_type', $request->event_type);
+        }
+
+        if ($request->filled('threat_level')) {
+            $query->where('threat_level', $request->threat_level);
+        }
+
+        $events = $query->orderBy('created_at', 'desc')
+            ->limit($limit)
+            ->get();
+
+        $total = $request->filled('date')
+            ? SecurityEvent::whereDate('created_at', $request->date)->count()
+            : SecurityEvent::count();
+
+        return response()->json([
+            'data' => $events->map(function ($e) {
+                $userName = 'Unknown';
+                if ($e->user) {
+                    if ($e->user->fname_en && $e->user->lname_en) {
+                        $userName = $e->user->fname_en . ' ' . $e->user->lname_en;
+                    } elseif ($e->user->fname_th && $e->user->lname_th) {
+                        $userName = $e->user->fname_th . ' ' . $e->user->lname_th;
+                    } elseif ($e->user->email) {
+                        $userName = $e->user->email;
+                    }
+                }
+                return [
+                    'id' => $e->id,
+                    'event_type' => $e->event_type,
+                    'icon_class' => $e->icon_class,
+                    'user_id' => $e->user_id,
+                    'user_name' => $userName,
+                    'ip_address' => $e->ip_address,
+                    'details' => $e->details ?? 'No details available',
+                    'threat_level' => $e->threat_level,
+                    'created_at_human' => Carbon::parse($e->created_at)->diffForHumans(),
+                    'created_at_formatted' => Carbon::parse($e->created_at)->format('Y-m-d H:i:s'),
+                    'created_date' => Carbon::parse($e->created_at)->format('Y-m-d'),
+                ];
+            }),
+            'total' => $total,
+            'showing' => $events->count(),
+        ]);
+    }
+
     public function getUserActivities(Request $request)
     {
         $query = DB::table('activity_logs')
