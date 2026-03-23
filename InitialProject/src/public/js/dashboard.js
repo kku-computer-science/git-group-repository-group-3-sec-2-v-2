@@ -221,7 +221,6 @@
         format: 'yyyy-mm-dd',
         todayHighlight: true,
       });
-      $("#datepicker-popup").datepicker("setDate", "0");
     }
     if ($("#status-summary").length) {
       var statusSummaryChartCanvas = document.getElementById("status-summary").getContext('2d');;

@@ -129,7 +129,7 @@ class AdminDashboardController extends Controller
         // Get system info with caching
         try {
             $systemInfo = cache()->remember('system_info', 3600, function() {
-                return $this->getSystemInfo();
+                return $this->buildSystemInfo();
             });
         } catch (\Exception $e) {
             \Log::error('Error loading system info: ' . $e->getMessage());
@@ -305,6 +305,12 @@ class AdminDashboardController extends Controller
 
     public function getSystemInfo()
     {
+        $systemInfo = $this->buildSystemInfo();
+        return view('admin.system', compact('systemInfo'));
+    }
+
+    private function buildSystemInfo()
+    {
         // Get MySQL version
         try {
             $mysqlVersion = DB::select('SELECT VERSION() as version')[0]->version;
@@ -375,7 +381,7 @@ class AdminDashboardController extends Controller
             'max_file_uploads' => ini_get('max_file_uploads'),
         ];
 
-        $systemInfo = [
+        return [
             // Basic PHP and server info
             'php_version' => PHP_VERSION,
             'laravel_version' => app()->version(),
@@ -419,8 +425,6 @@ class AdminDashboardController extends Controller
             'upload_max_filesize' => $phpSettings['upload_max_filesize'],
             'max_file_uploads' => $phpSettings['max_file_uploads'],
         ];
-
-        return view('admin.system', compact('systemInfo'));
     }
 
     private function formatBytes($bytes, $precision = 2)

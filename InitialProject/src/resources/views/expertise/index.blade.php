@@ -49,7 +49,7 @@
                 <tbody>
                     @foreach ($experts as $i => $expert)
                     <tr id="expert_id_{{ $expert->id }}">
-                        <td>{{ ($experts->currentPage() - 1) * $experts->perPage() + $loop->iteration }}</td>
+                        <td>{{ $experts->firstItem() + $i }}</td>
                         @if(Auth::user()->hasRole('admin'))
                         <td>{{ $expert->user->fname_en }} {{ $expert->user->lname_en }}</td>
                         @endif

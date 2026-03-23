@@ -931,8 +931,8 @@
                     <i class="mdi mdi-harddisk"></i>
                 </div>
                 <div class="stat-title">Disk Usage</div>
-                <div class="stat-value">{{ $systemInfo['disk_free_space'] }}</div>
-                <div class="stat-subtitle">Free of {{ $systemInfo['disk_total_space'] }}</div>
+                <div class="stat-value">{{ $systemInfo['disk_free'] ?? 'N/A' }}</div>
+                <div class="stat-subtitle">Free of {{ $systemInfo['disk_total'] ?? 'N/A' }}</div>
             </div>
         </div>
 

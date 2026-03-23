@@ -189,8 +189,8 @@
                     <i class="mdi mdi-harddisk"></i>
                 </div>
                 <div class="stat-title">Disk Usage</div>
-                <div class="stat-value">{{ $systemInfo['disk_free_space'] }}</div>
-                <div class="stat-subtitle">Free of {{ $systemInfo['disk_total_space'] }}</div>
+                <div class="stat-value">{{ $systemInfo['disk_free'] ?? 'N/A' }}</div>
+                <div class="stat-subtitle">Free of {{ $systemInfo['disk_total'] ?? 'N/A' }}</div>
             </div>
         </div>
 
@@ -289,7 +289,7 @@
                             @foreach($userActivities as $activity)
                             <tr>
                                 <td>{{ $activity->user_name }}</td>
-                                <td>{{ safe_str_limit($activity->action, 30) }}</td>
+                                <td>{{ safe_str_limit($activity->action ?? '', 30) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($activity->created_at)->diffForHumans() }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#activityModal{{ $activity->id }}">
@@ -314,15 +314,15 @@
                                                             <p><strong>Time:</strong> {{ \Carbon\Carbon::parse($activity->created_at)->format('Y-m-d H:i:s') }}</p>
                                                         </div>
                                                         <div class="col-md-6">
-                                                            <p><strong>IP Address:</strong> {{ $activity->ip_address }}</p>
-                                                            <p><strong>User Agent:</strong> {{ safe_str_limit($activity->user_agent, 50) }}</p>
+                                                            <p><strong>IP Address:</strong> {{ $activity->ip_address ?? 'N/A' }}</p>
+                                                            <p><strong>User Agent:</strong> {{ safe_str_limit($activity->user_agent ?? '', 50) }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="row mt-3">
                                                         <div class="col-12">
                                                             <p><strong>Description:</strong></p>
                                                             <div class="p-3 bg-light rounded">
-                                                                {{ $activity->description }}
+                                                                {{ $activity->description ?? 'N/A' }}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -339,8 +339,8 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="p-3">
-                    {{ $userActivities->links() }}
+                <div class="p-3 text-center">
+                    <span class="text-muted">Showing latest {{ $userActivities->count() }} of {{ $totalActivities }} activities</span>
                 </div>
             </div>
         </div>
@@ -353,7 +353,7 @@
                         <h3 class="card-title">Error Logs</h3>
                     </div>
                     <div class="d-flex align-items-center">
-                        <span class="badge bg-white text-primary mr-3">Total: {{ $errorLogs->total() }}</span>
+                        <span class="badge bg-white text-primary mr-3">Total: {{ $totalErrorLogs }}</span>
                         <a href="{{ route('admin.errors') }}" class="btn btn-sm btn-primary">View All</a>
                     </div>
                 </div>
@@ -419,7 +419,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    @if($error->trace)
+                                                    @if(!empty($error->trace))
                                                     <div class="row mt-3">
                                                         <div class="col-12">
                                                             <p><strong>Stack Trace:</strong></p>
@@ -442,12 +442,11 @@
                         </tbody>
                     </table>
                 </div>
-                @if($errorLogs->hasPages())
+                @if($totalErrorLogs > $errorLogs->count())
                 <div class="p-4">
                     <div class="pagination-info">
-                        Showing {{ $errorLogs->firstItem() }}-{{ $errorLogs->lastItem() }} of {{ $errorLogs->total() }} items
+                        Showing latest {{ $errorLogs->count() }} of {{ $totalErrorLogs }} items
                     </div>
-                    {{ $errorLogs->links() }}
                 </div>
                 @endif
             </div>
