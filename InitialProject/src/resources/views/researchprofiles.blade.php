@@ -396,7 +396,7 @@
     <div class="card">
         <div class="row g-0">
             <div class="col-md-2">
-                <img class="card-image" src="{{$res->picture}}" alt="">
+                <img class="card-image" src="{{ $res->profile_picture_url ?? ($res->picture ?? asset('img/default-profile.png')) }}" alt="">
             </div>
             <div class="col-md-6" style="width:40%">
                 <div class="card-body" style="width:auto">
@@ -410,8 +410,13 @@
                         <!-- <h6 class="card-text1">Department of {{$res->program->program_name_en}}</h6> -->
                         <!-- <h6 class="card-text1">College of Computing</h6>
                     <h6 class="card-text1">Khon Kaen University</h6> -->
+                        @if(!empty($res->email))
                         <h6 class="card-text1">E-mail: {{$res->email}}</h6>
-                        @if($res->orcid)
+                        @endif
+                        @if(!empty($res->affiliation))
+                        <h6 class="card-text1">Affiliation: {{$res->affiliation}}</h6>
+                        @endif
+                        @if(!empty($res->orcid))
                         <h6 class="card-text1">ORCID: {{$res->orcid}}</h6>
                         @endif
                         <h6 class="card-title">{{ trans('message.education') }}</h6>
@@ -504,9 +509,11 @@
                 <button class="nav-link custom-tab-btn" id="patent-tab" data-bs-toggle="tab" data-bs-target="#patent" type="button" role="tab" aria-controls="patent" aria-selected="false">ผลงานวิชาการด้านอื่นๆ</button>
             </li>
         </ul>
+        @if($showExport)
         <a class="btn-export" href="{{ route('excel', ['id' => $res->id]) }}" target="_blank" aria-label="Export to Excel">
             <img src="https://cdn-icons-png.flaticon.com/512/3405/3405255.png" alt="Export Icon" class="icon-export" />
         </a>
+        @endif
     </div>
 
 
@@ -548,7 +555,7 @@
                         <!-- ทำให้ Paper Name เป็นลิงก์ไปยัง paperDetail.blade.php -->
                         <td style="width:90%;">
                             <div class="paper-content">
-                                <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                <a href="{{ route('paper.detail', array_filter(['id' => $paper->id, 'user_id' => $paperDetailUserId ?? null])) }}" class="paper-link">
                                     {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
                                 </a>
                                 <div class="paper-meta">
@@ -606,7 +613,7 @@
                         <td>{{ $paper->paper_yearpub }}</td>
                         <td style="width:90%;">
                             <div class="paper-content">
-                                <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                <a href="{{ route('paper.detail', array_filter(['id' => $paper->id, 'user_id' => $paperDetailUserId ?? null])) }}" class="paper-link">
                                     {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
                                 </a>
                                 <div class="paper-meta">
@@ -639,7 +646,7 @@
                         <td>{{ $paper->paper_yearpub }}</td>
                         <td style="width:90%;">
                             <div class="paper-content">
-                                <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                <a href="{{ route('paper.detail', array_filter(['id' => $paper->id, 'user_id' => $paperDetailUserId ?? null])) }}" class="paper-link">
                                     {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
                                 </a>
                                 <div class="paper-meta">
@@ -672,7 +679,7 @@
                         <td>{{ $paper->paper_yearpub }}</td>
                         <td style="width:90%;">
                             <div class="paper-content">
-                                <a href="{{ route('paper.detail', ['id' => $paper->id, 'user_id' => $res->id ?? 999]) }}" class="paper-link">
+                                <a href="{{ route('paper.detail', array_filter(['id' => $paper->id, 'user_id' => $paperDetailUserId ?? null])) }}" class="paper-link">
                                     {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
                                 </a>
                                 <div class="paper-meta">

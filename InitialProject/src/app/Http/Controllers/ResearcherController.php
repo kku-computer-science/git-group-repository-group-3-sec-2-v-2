@@ -26,7 +26,10 @@ class ResearcherController extends Controller
         $totalResearchers = 0;
         
         foreach ($roles as $role) {
-            $users = User::role($role->name)
+            $pageName = $role->name . '_page';
+            $currentPage = (int) $request->input($pageName, 1);
+            
+            $query = User::role($role->name)
                 ->where('is_research', 1)
                 ->with(['expertise', 'program'])
                 ->when($search, function ($q) use ($search, $locale) {
@@ -55,30 +58,19 @@ class ResearcherController extends Controller
                         'Lecturer')
                 ")
                 ->orderByRaw("IF(doctoral_degree = 'Ph.D.', 0, 1)")
-                ->orderBy('fname_'.$locale)
-                ->get();
+                ->orderBy('fname_'.$locale);
 
-            $pageName = $role->name . '_page';
-            $currentPage = (int) $request->input($pageName, 1);
-            $paginatedUsers = new LengthAwarePaginator(
-                $users->forPage($currentPage, $perPage)->values(),
-                $users->count(),
-                $perPage,
-                $currentPage,
-                [
-                    'path' => $request->url(),
-                    'pageName' => $pageName,
-                    'query' => $request->query(),
-                ]
-            );
+            $paginatedUsers = $query->paginate($perPage, ['*'], $pageName, $currentPage)->withQueryString();
+
+            $totalUsers = $paginatedUsers->total();
 
             $roleUsers->put($role->id, [
                 'role_name' => $role->name,
                 'users' => $paginatedUsers,
-                'total_users' => $users->count(),
+                'total_users' => $totalUsers,
             ]);
 
-            $totalResearchers += $users->count();
+            $totalResearchers += $totalUsers;
         }
         
         $externalResearchers = DB::table('work_of_research_groups as wrg')

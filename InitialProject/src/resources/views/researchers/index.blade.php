@@ -499,7 +499,7 @@
                                             <div class="researcher-card is-clickable"
                                                 role="link"
                                                 tabindex="0"
-                                                data-detail-url="{{ route('detail', Crypt::encrypt($user->id)) }}">
+                                                data-detail-url="{{ route('detail', Crypt::encrypt(['type' => $roleId === 'external' ? 'author' : 'user', 'id' => $user->id])) }}">
                                                 <div class="d-flex align-items-start">
                                                     @if(isset($user->picture))
                                                         @php

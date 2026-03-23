@@ -38,16 +38,19 @@ class HomeController extends Controller
 
     private function getYearlyPapers($years, $sourceDataId)
     {
-        $papers = [];
-        foreach ($years as $year) {
-            $count = Paper::whereHas('source', function ($query) use ($sourceDataId) {
+        $counts = Paper::whereHas('source', function ($query) use ($sourceDataId) {
                 return $query->where('source_data_id', '=', $sourceDataId);
             })
             ->whereIn('paper_type', ['Conference Proceeding', 'Journal'])
-            ->where('paper_yearpub', $year)
-            ->count();
-            
-            $papers[] = $count;
+            ->whereIn('paper_yearpub', $years)
+            ->select('paper_yearpub', DB::raw('count(*) as count'))
+            ->groupBy('paper_yearpub')
+            ->pluck('count', 'paper_yearpub')
+            ->toArray();
+
+        $papers = [];
+        foreach ($years as $year) {
+            $papers[] = $counts[$year] ?? 0;
         }
         return $papers;
     }
