@@ -80,6 +80,7 @@
 <script>
     $(document).ready(function() {
         var table = $('#example1').DataTable({
+            order: [],
             fixedHeader: true,
             paging: false,
             info: false,

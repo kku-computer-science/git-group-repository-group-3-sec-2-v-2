@@ -15,7 +15,7 @@ class ExportController extends Controller
     }
     public function index()
     {
-        $data = User::with('program')->role('teacher')->orderBy('fname_en')->paginate(15)->withQueryString();
+        $data = User::with('program')->role('teacher')->orderBy('fname_en', 'desc')->paginate(15)->withQueryString();
         return view('export.index', compact('data'));
     }
 }

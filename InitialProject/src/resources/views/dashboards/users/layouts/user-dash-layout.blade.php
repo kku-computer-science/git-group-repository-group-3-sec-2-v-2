@@ -70,17 +70,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </ul>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item d-none d-lg-block">
-                        <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker">
+                        <div id="datepicker-popup" class="input-group date datepicker navbar-date-picker" title="Filter dashboard tables by date">
                             <span class="input-group-addon input-group-prepend border-right">
                                 <span class="icon-calendar input-group-text calendar-icon"></span>
                             </span>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="navbarDateInput" placeholder="Filter by date">
                         </div>
                     </li>
                     <li class="nav-item">
                         <form class="search-form" action="#">
                             <i class="icon-search"></i>
-                            <input type="search" class="form-control" placeholder="Search Here" title="Search here">
+                            <input type="search" class="form-control" id="navbarGlobalSearch" placeholder="Search dashboard" title="Search dashboard">
                         </form>
                     </li>
                     <!-- <li class="nav-item dropdown">

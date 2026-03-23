@@ -215,7 +215,10 @@
     }
     if ($("#datepicker-popup").length) {
       $('#datepicker-popup').datepicker({
+        autoclose: true,
+        clearBtn: true,
         enableOnReadonly: true,
+        format: 'yyyy-mm-dd',
         todayHighlight: true,
       });
       $("#datepicker-popup").datepicker("setDate", "0");

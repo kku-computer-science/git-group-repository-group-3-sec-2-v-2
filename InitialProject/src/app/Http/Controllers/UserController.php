@@ -35,7 +35,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $data = User::with('program')->orderBy('fname_en')->paginate(15)->withQueryString();
+        $data = User::with('program')->orderBy('fname_en', 'desc')->paginate(15)->withQueryString();
         return view('users.index', compact('data'));
     }
 

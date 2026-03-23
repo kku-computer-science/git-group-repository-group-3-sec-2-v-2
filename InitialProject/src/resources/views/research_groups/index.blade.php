@@ -171,6 +171,7 @@
 <script>
 $(document).ready(function() {
     $('#example1').DataTable({
+        order: [],
         responsive: true,
         paging: false,
         info: false,

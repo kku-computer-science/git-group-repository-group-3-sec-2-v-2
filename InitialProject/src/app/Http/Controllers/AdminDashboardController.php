@@ -29,22 +29,22 @@ class AdminDashboardController extends Controller
         // Get security data if user is admin
         $securityStats = [];
         $securityEvents = collect([]);
-        
+
         if ($user->hasRole('admin')) {
             try {
                 $securityStats = cache()->remember('security_stats', 300, function() {
                     return $this->securityController->getSecurityStats();
                 });
-                
+
                 // Optimize security events query with specific fields and smaller limit
                 $securityEvents = SecurityEvent::select(
-                    'id', 
-                    'event_type', 
-                    'icon_class', 
-                    'user_id', 
-                    'ip_address', 
-                    'details', 
-                    'threat_level', 
+                    'id',
+                    'event_type',
+                    'icon_class',
+                    'user_id',
+                    'ip_address',
+                    'details',
+                    'threat_level',
                     'created_at'
                 )
                 ->with(['user' => function($query) {
@@ -73,8 +73,8 @@ class AdminDashboardController extends Controller
                     'activity_logs.action',
                     'activity_logs.created_at',
                     'users.id as user_id',
-                    DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "), 
-                                    NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "), 
+                    DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "),
+                                    NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "),
                                     users.email) as user_name')
                 )
                 ->leftJoin('users', 'activity_logs.user_id', '=', 'users.id')
@@ -108,8 +108,8 @@ class AdminDashboardController extends Controller
                     'error_logs.line',
                     'error_logs.ip_address',
                     'error_logs.created_at',
-                    DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "), 
-                                   NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "), 
+                    DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "),
+                                   NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "),
                                    error_logs.username,
                                    "Unknown") as user_name')
                 )
@@ -158,10 +158,10 @@ class AdminDashboardController extends Controller
     {
         $query = DB::table('activity_logs')
             ->join('users', 'activity_logs.user_id', '=', 'users.id')
-            ->select('activity_logs.*', 
-                DB::raw("CASE 
+            ->select('activity_logs.*',
+                DB::raw("CASE
                     WHEN users.fname_en IS NULL OR users.fname_en = '' THEN CONCAT(users.fname_th, ' ', users.lname_th)
-                    ELSE CONCAT(users.fname_en, ' ', users.lname_en) 
+                    ELSE CONCAT(users.fname_en, ' ', users.lname_en)
                 END as user_name"));
 
         // Apply filters
@@ -171,7 +171,7 @@ class AdminDashboardController extends Controller
 
         if ($request->has('action_type') && $request->action_type) {
             $actionType = $request->action_type;
-            
+
             // Decode encoded action types
             switch ($actionType) {
                 case 'act_upd':
@@ -196,7 +196,7 @@ class AdminDashboardController extends Controller
                     $actionType = 'Alter';
                     break;
             }
-            
+
             // Use parameterized query to avoid SQL injection detection
             $query->where('activity_logs.action_type', '=', $actionType);
         }
@@ -220,24 +220,24 @@ class AdminDashboardController extends Controller
             ->withQueryString();
 
         // Get all users for the filter dropdown
-        $users = User::select('id', 
-            DB::raw("CASE 
+        $users = User::select('id',
+            DB::raw("CASE
                 WHEN fname_en IS NULL OR fname_en = '' THEN fname_th
-                ELSE fname_en 
+                ELSE fname_en
             END as fname"),
-            DB::raw("CASE 
+            DB::raw("CASE
                 WHEN lname_en IS NULL OR lname_en = '' THEN lname_th
-                ELSE lname_en 
+                ELSE lname_en
             END as lname"))
             ->orderBy('fname')
             ->get();
-            
+
         // Get distinct action types for the filter dropdown
         $actionTypes = DB::table('activity_logs')
             ->select('action_type')
             ->whereNotNull('action_type')
             ->distinct()
-            ->orderBy('action_type')
+            ->orderBy('action_type', 'desc')
             ->pluck('action_type');
 
         return view('admin.activity_logs', compact('activities', 'users', 'actionTypes'));
@@ -250,8 +250,8 @@ class AdminDashboardController extends Controller
             ->leftJoin('users', 'error_logs.user_id', '=', 'users.id')
             ->select(
                 'error_logs.*', // Select all columns from error_logs table
-                DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "), 
-                               NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "), 
+                DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "),
+                               NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "),
                                error_logs.username,
                                "Unknown") as user_name')
             );
@@ -274,7 +274,7 @@ class AdminDashboardController extends Controller
                 $query->where('error_logs.file', 'like', '%' . $file . '%');
             }
         }
-        
+
         if ($request->filled('ip_address')) {
             $query->where('error_logs.ip_address', $request->ip_address);
         }
@@ -296,7 +296,7 @@ class AdminDashboardController extends Controller
         $errorLevels = DB::table('error_logs')
             ->select('level')
             ->distinct()
-            ->orderBy('level')
+            ->orderBy('level', 'desc')
             ->pluck('level');
 
         return view('admin.error_logs', compact('errors', 'errorLevels'))
@@ -318,7 +318,7 @@ class AdminDashboardController extends Controller
             ->orderBy('created_at', 'desc')
             ->limit(10)
             ->get();
-            
+
         // Convert created_at strings to Carbon objects
         $latestErrorLogs = $latestErrorLogs->map(function($log) {
             $log->created_at = \Carbon\Carbon::parse($log->created_at);
@@ -333,15 +333,15 @@ class AdminDashboardController extends Controller
                 'activity_logs.action_type',
                 'activity_logs.description',
                 'activity_logs.created_at',
-                DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "), 
-                     NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "), 
+                DB::raw('COALESCE(NULLIF(CONCAT(users.fname_en, " ", users.lname_en), " "),
+                     NULLIF(CONCAT(users.fname_th, " ", users.lname_th), " "),
                      users.username,
                      "Unknown") as user_name')
             )
             ->orderBy('activity_logs.created_at', 'desc')
             ->limit(10)
             ->get();
-            
+
         // Convert created_at strings to Carbon objects
         $latestActivityLogs = $latestActivityLogs->map(function($log) {
             $log->created_at = \Carbon\Carbon::parse($log->created_at);
@@ -384,11 +384,11 @@ class AdminDashboardController extends Controller
             'mysql_version' => $mysqlVersion,
             'operating_system' => php_uname(),
             'timezone' => config('app.timezone'),
-            
+
             // Counts
             'total_users' => DB::table('users')->count(),
             'total_papers' => DB::table('papers')->count(),
-            
+
             // Resource usage
             'disk_free' => $this->formatBytes($diskFree),
             'disk_total' => $this->formatBytes($diskTotal),
@@ -398,18 +398,18 @@ class AdminDashboardController extends Controller
             'memory_usage' => $this->formatBytes(memory_get_usage(true)),
             'memory_peak_usage' => $this->formatBytes(memory_get_peak_usage(true)),
             'server_uptime' => $uptime,
-            
+
             // Database info
             'database_size' => $this->getDatabaseSize(),
             'table_count' => $this->getTableCount(),
             'database_tables_count' => $this->getTableCount(), // For backward compatibility
-            
+
             // Logs info
             'activity_logs_count' => DB::table('activity_logs')->count(),
             'error_logs_count' => DB::table('error_logs')->count(),
             'latest_error_logs' => $latestErrorLogs,
             'latest_activity_logs' => $latestActivityLogs,
-            
+
             // PHP extensions and settings (both structured and flat for backward compatibility)
             'php_settings' => $phpSettings,
             'max_execution_time' => $phpSettings['max_execution_time'],
@@ -462,4 +462,4 @@ class AdminDashboardController extends Controller
         }
         return 'Unknown';
     }
-} 
+}

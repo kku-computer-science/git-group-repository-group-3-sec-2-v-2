@@ -107,6 +107,9 @@
 <script>
     $(document).ready(function() {
         var table1 = $('#example1').DataTable({
+            order: [
+                [1, 'desc']
+            ],
             responsive: true,
             paging: false,
             info: false,

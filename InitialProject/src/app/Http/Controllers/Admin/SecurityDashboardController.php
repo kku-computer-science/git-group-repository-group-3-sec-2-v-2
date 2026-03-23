@@ -85,7 +85,7 @@ class SecurityDashboardController extends Controller
                 // Get threat level distribution for chart
                 $threatLevelDistribution = SecurityEvent::select('threat_level', DB::raw('count(*) as count'))
                     ->groupBy('threat_level')
-                    ->orderBy('threat_level')
+                    ->orderBy('threat_level', 'desc')
                     ->get()
                     ->pluck('count', 'threat_level')
                     ->toArray();
@@ -266,7 +266,7 @@ class SecurityDashboardController extends Controller
                 $trafficByHour = SecurityEvent::select(DB::raw('HOUR(created_at) as hour'), DB::raw('count(*) as count'))
                     ->where('created_at', '>=', now()->subDay())
                     ->groupBy(DB::raw('HOUR(created_at)'))
-                    ->orderBy('hour')
+                    ->orderBy('hour', 'desc')
                     ->get()
                     ->pluck('count', 'hour')
                     ->toArray();

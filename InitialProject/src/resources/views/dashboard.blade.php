@@ -393,6 +393,14 @@
         margin-bottom: 15px;
     }
 
+    .dashboard-search-match {
+        box-shadow: 0 0 0 2px rgba(94, 114, 228, 0.25);
+    }
+
+    .dashboard-search-empty {
+        margin-bottom: 20px;
+    }
+
     /* Security Dashboard Styles */
     .security-dashboard-card {
         background: #fff;
@@ -722,7 +730,7 @@
                             <div class="security-dashboard-card">
                                 <div class="card-header">
                                     <h6 class="card-title">Latest Security Events</h6>
-                                    <div class="card-subtitle">Real-time security events</div>
+                                    <div class="card-subtitle">Real-time security events <span id="dashboardDateFilterLabel" class="text-primary d-none"></span></div>
                                 </div>
                                 <div class="card-body">
                                     <div class="search-filter-container">
@@ -764,7 +772,7 @@
                                             </thead>
                                             <tbody>
                                                 @foreach($securityEvents ?? [] as $event)
-                                                <tr data-event-type="{{ $event->event_type }}" data-threat-level="{{ $event->threat_level }}">
+                                                <tr data-created-date="{{ $event->created_at ? \Carbon\Carbon::parse($event->created_at)->format('Y-m-d') : '' }}" data-event-type="{{ $event->event_type }}" data-threat-level="{{ $event->threat_level }}">
                                                     <td>{{ $event->created_at ? \Carbon\Carbon::parse($event->created_at)->diffForHumans() : 'N/A' }}</td>
                                                     <td>
                                                         <i class="mdi {{ $event->icon_class }} security-icon"></i>
@@ -956,7 +964,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="activityLogsTable">
                         <thead>
                             <tr>
                                 <th>User</th>
@@ -967,7 +975,7 @@
                         </thead>
                         <tbody>
                             @foreach($userActivities as $activity)
-                            <tr>
+                            <tr data-created-date="{{ isset($activity->created_at) && $activity->created_at ? \Carbon\Carbon::parse($activity->created_at)->format('Y-m-d') : '' }}">
                                 <td>{{ $activity->user_name ?? 'Unknown' }}</td>
                                 <td>
                                     @php
@@ -1039,7 +1047,7 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="errorLogsTable">
                         <thead>
                             <tr>
                                 <th>Time</th>
@@ -1050,7 +1058,7 @@
                         </thead>
                         <tbody>
                             @foreach($errorLogs as $error)
-                            <tr>
+                            <tr data-created-date="{{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d') : '' }}">
                                 <td>{{ isset($error->created_at) && $error->created_at ? \Carbon\Carbon::parse($error->created_at)->diffForHumans() : 'N/A' }}</td>
                                 <td>
                                     <span class="badge {{ ($error->level ?? 'info') == 'error' ? 'bg-danger text-white' : (($error->level ?? 'info') == 'warning' ? 'bg-warning text-dark' : 'bg-info text-white') }}">
@@ -1244,6 +1252,7 @@ $(document).ready(function() {
     // Initialize security event table filters
     initSecurityEventFilters();
     initSecurityCharts();
+    initDashboardNavbarTools();
     
     // Add a click handler for the manual refresh button
     $('.refresh-security-btn').on('click', function(e) {
@@ -1408,12 +1417,8 @@ function resetButtons(buttons) {
 }
 
 function initSecurityEventFilters() {
-    // Search functionality
     $('#securityEventSearch').on('keyup', function() {
-        var value = $(this).val().toLowerCase();
-        $("#securityEventsTable tbody tr").filter(function() {
-            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
-        });
+        filterSecurityEvents();
     });
     
     // Event type filter
@@ -1428,25 +1433,161 @@ function initSecurityEventFilters() {
 }
 
 function filterSecurityEvents() {
+    var keyword = ($('#securityEventSearch').val() || '').toLowerCase();
     var eventType = $('#securityEventTypeFilter').val();
     var threatLevel = $('#securityThreatLevelFilter').val();
+    var selectedDate = getActiveDashboardDateFilter();
+    var visibleRows = 0;
     
     $("#securityEventsTable tbody tr").each(function() {
         var rowEventType = $(this).data('event-type');
         var rowThreatLevel = $(this).data('threat-level');
-        
-        var showRow = true;
-        
-        if (eventType && rowEventType !== eventType) {
-            showRow = false;
-        }
-        
-        if (threatLevel && rowThreatLevel !== threatLevel) {
-            showRow = false;
-        }
-        
+        var rowDate = $(this).data('created-date');
+        var rowText = $(this).text().toLowerCase();
+
+        var showRow = (!eventType || rowEventType === eventType) &&
+            (!threatLevel || rowThreatLevel === threatLevel) &&
+            (!keyword || rowText.indexOf(keyword) > -1) &&
+            (!selectedDate || rowDate === selectedDate);
+
         $(this).toggle(showRow);
+
+        if (showRow) {
+            visibleRows += 1;
+        }
     });
+
+    toggleDashboardTableEmptyState('#securityEventsTable', visibleRows, 'No security events match the current filters.');
+}
+
+function initDashboardNavbarTools() {
+    if (!$('.dashboard-container').length) {
+        return;
+    }
+
+    var navbarSearch = $('#navbarGlobalSearch');
+    var navbarDatePicker = $('#datepicker-popup');
+
+    if (navbarSearch.length) {
+        navbarSearch.on('input', function() {
+            applyDashboardGlobalSearch($(this).val());
+        });
+    }
+
+    if (navbarDatePicker.length) {
+        navbarDatePicker.data('filter-active', false);
+
+        navbarDatePicker.on('changeDate', function() {
+            navbarDatePicker.data('filter-active', true);
+            applyDashboardDateFilter();
+        });
+
+        navbarDatePicker.on('clearDate', function() {
+            navbarDatePicker.data('filter-active', false);
+            applyDashboardDateFilter();
+        });
+    }
+
+    updateDashboardDateFilterLabel();
+}
+
+function applyDashboardGlobalSearch(query) {
+    var normalizedQuery = (query || '').trim().toLowerCase();
+    var targets = $('.dashboard-container .content-card, .dashboard-container .stat-card, .dashboard-container .security-stat-card, .dashboard-container .security-dashboard-card');
+    var matches = 0;
+
+    $('#dashboardSearchEmptyState').remove();
+
+    targets.each(function() {
+        var target = $(this);
+        var isMatch = !normalizedQuery || target.text().toLowerCase().indexOf(normalizedQuery) > -1;
+
+        target.toggle(isMatch);
+        target.toggleClass('dashboard-search-match', !!normalizedQuery && isMatch);
+
+        if (isMatch) {
+            matches += 1;
+        }
+    });
+
+    if (normalizedQuery && matches === 0) {
+        $('.dashboard-container').prepend('<div id="dashboardSearchEmptyState" class="alert alert-info dashboard-search-empty">No dashboard sections matched "' + escapeHtml(query) + '".</div>');
+    }
+}
+
+function applyDashboardDateFilter() {
+    filterSecurityEvents();
+    filterDashboardTableByDate('#activityLogsTable', 'No activities found for the selected date.');
+    filterDashboardTableByDate('#errorLogsTable', 'No error logs found for the selected date.');
+    updateDashboardDateFilterLabel();
+}
+
+function filterDashboardTableByDate(tableSelector, emptyMessage) {
+    var selectedDate = getActiveDashboardDateFilter();
+    var visibleRows = 0;
+
+    $(tableSelector + ' tbody tr').each(function() {
+        var row = $(this);
+        var rowDate = row.data('created-date');
+        var showRow = !selectedDate || rowDate === selectedDate;
+
+        row.toggle(showRow);
+
+        if (showRow) {
+            visibleRows += 1;
+        }
+    });
+
+    toggleDashboardTableEmptyState(tableSelector, visibleRows, emptyMessage);
+}
+
+function getActiveDashboardDateFilter() {
+    var navbarDatePicker = $('#datepicker-popup');
+
+    if (!navbarDatePicker.length || navbarDatePicker.data('filter-active') !== true) {
+        return '';
+    }
+
+    return $('#navbarDateInput').val() || '';
+}
+
+function updateDashboardDateFilterLabel() {
+    var selectedDate = getActiveDashboardDateFilter();
+    var label = $('#dashboardDateFilterLabel');
+
+    if (!label.length) {
+        return;
+    }
+
+    if (!selectedDate) {
+        label.addClass('d-none').text('');
+        return;
+    }
+
+    label.removeClass('d-none').text('(Filtered by ' + selectedDate + ')');
+}
+
+function toggleDashboardTableEmptyState(tableSelector, visibleRows, emptyMessage) {
+    var table = $(tableSelector);
+    var container = table.closest('.table-responsive, .security-table-container');
+    var emptyStateId = tableSelector.replace('#', '') + '-empty-state';
+
+    $('#' + emptyStateId).remove();
+
+    if (visibleRows > 0) {
+        return;
+    }
+
+    container.append('<div id="' + emptyStateId + '" class="alert alert-info mt-3">' + emptyMessage + '</div>');
+}
+
+function escapeHtml(value) {
+    return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
 }
 
 function initBlockedRequestsChart() {
@@ -1606,14 +1747,8 @@ function initSecurityEventsChart() {
     $('#securityEventsChart').parent().find('.chart-loader').remove();
     $('#securityEventsChart').parent().append('<div class="chart-loader"><i class="mdi mdi-loading mdi-spin"></i> Loading security events data...</div>');
     
-    var useSampleData = false;
     var baseUrl = $('meta[name="base-url"]').attr('content') || '';
-    var showAllData = true;
     var endpoint = baseUrl + '/admin/security/events-by-type-data';
-    
-    if (showAllData) {
-        endpoint += '?all=1';
-    }
     
     $.ajax({
         url: endpoint,

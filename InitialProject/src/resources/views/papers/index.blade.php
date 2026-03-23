@@ -145,6 +145,9 @@
 <script>
     $(document).ready(function() {
         $('#example1').DataTable({
+            order: [
+                [3, 'desc']
+            ],
             responsive: true,
             paging: false,
             info: false,
