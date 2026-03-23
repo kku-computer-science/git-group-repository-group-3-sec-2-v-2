@@ -262,6 +262,7 @@ class ProfileuserController extends Controller
             'fname_th' => $request->fname_th,
             'lname_th' => $request->lname_th,
             'email' => $request->email,
+            'orcid' => $request->orcid,
             'academic_ranks_en' => $request->academic_ranks_en,
             'academic_ranks_th' => $request->academic_ranks_th,
             'position_en' => $pos_eng,

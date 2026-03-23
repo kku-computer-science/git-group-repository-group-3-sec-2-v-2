@@ -32,11 +32,16 @@ class Kernel extends ConsoleKernel
     {
         #$schedule->command('demo:cron')->cron('0 0 15 2,5,8,11 *')->timezone('Asia/Bangkok');
         // $schedule->command('demo:cron')->at('16:38')->timezone('Asia/Bangkok');
-        // $schedule->command('scopus:fetch')->dailyAt('02:00')->timezone('Asia/Bangkok'); // ทำงานทุกวันตอนตี 2
         //$schedule->command('demo:cron')->cron('58 15 20 2,4,8,11 *')->timezone('Asia/Bangkok');
         
         // Clean old logs every day at 01:00 AM
         $schedule->command('logs:clean-old --days=90')->dailyAt('01:00')->timezone('Asia/Bangkok');
+
+        // Fetch new papers every day at 02:00 AM
+        $schedule->command('scopus:fetch')->dailyAt('02:00')->timezone('Asia/Bangkok');
+
+        // Update citations for existing papers every day at 03:00 AM
+        $schedule->command('papers:update-citations')->dailyAt('03:00')->timezone('Asia/Bangkok');
     }
      
     /**

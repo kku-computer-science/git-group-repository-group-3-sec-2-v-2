@@ -174,6 +174,11 @@
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <div class="form-group">
+                                <label>ORCID</label>
+                                <input type="text" class="form-control" id="inputOrcid" placeholder="ORCID (e.g. 0000-0000-0000-0000)" value="{{ Auth::user()->orcid }}" name="orcid">
+                                <span class="text-danger error-text orcid_error"></span>
+                            </div>
                         </div>
                         @if(Auth::user()->hasRole('teacher'))
                         <div class="col-md-6">

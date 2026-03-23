@@ -411,6 +411,9 @@
                         <!-- <h6 class="card-text1">College of Computing</h6>
                     <h6 class="card-text1">Khon Kaen University</h6> -->
                         <h6 class="card-text1">E-mail: {{$res->email}}</h6>
+                        @if($res->orcid)
+                        <h6 class="card-text1">ORCID: {{$res->orcid}}</h6>
+                        @endif
                         <h6 class="card-title">{{ trans('message.education') }}</h6>
                         @foreach( $res->education as $edu)
                         <h6 class="card-text2 col-sm-10" style="line-height: 1.6;"> {{$edu->year}} {{$edu->qua_name}} <br> {{$edu->uname}}</h6>

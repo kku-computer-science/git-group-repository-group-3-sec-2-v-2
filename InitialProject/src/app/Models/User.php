@@ -36,8 +36,8 @@ class User extends Authenticatable
         'status',
         'program_id',
         'username',
-        'is_research'
-        
+        'is_research',
+        'orcid'
     ];
 
     
