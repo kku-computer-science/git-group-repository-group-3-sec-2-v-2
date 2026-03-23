@@ -859,4 +859,139 @@ class ScopuscallController extends Controller
         ActivityLog::log($adminId, 'Bulk Scopus Import - Success', 'Finished bulk import.', \Request::ip());
         return view('papers.import_summary', compact('summary'));
     }
+
+    private function fetchFromOpenAlexByOrcid(User $user, &$completePapers, &$incompletePapers)
+    {
+        try {
+            $orcidId = trim($user->orcid);
+            if (!str_starts_with($orcidId, 'https://orcid.org/')) {
+                $orcidId = 'https://orcid.org/' . $orcidId;
+            }
+
+            $authorRes = Http::withHeaders(['Accept' => 'application/json'])->get("https://api.openalex.org/authors/{$orcidId}");
+            if (!$authorRes->successful()) return;
+
+            $worksApiUrl = $authorRes->json('works_api_url');
+            if (!$worksApiUrl) return;
+
+            $worksApiUrl .= (str_contains($worksApiUrl, '?') ? '&' : '?') . 'per-page=200';
+            $worksRes = Http::withHeaders(['Accept' => 'application/json'])->get($worksApiUrl);
+
+            if (!$worksRes->successful()) return;
+
+            $works = $worksRes->json('results');
+            if (!$works || !is_array($works)) return;
+
+            foreach ($works as $work) {
+                $paperName = $work['title'] ?? null;
+                if (!$paperName) continue;
+
+                $existingPaper = Paper::whereRaw('LOWER(paper_name) = ?', [strtolower(trim($paperName))])->first();
+                if ($existingPaper) continue;
+
+                $paper_yearpub = $work['publication_year'] ?? null;
+                $paper_citation = $work['cited_by_count'] ?? 0;
+                $paper_doi = !empty($work['doi']) ? str_replace('https://doi.org/', '', $work['doi']) : null;
+
+                $paper_type = 'Article';
+                if (isset($work['type'])) {
+                   if (str_contains(strtolower($work['type']), 'book-chapter')) $paper_type = 'Book Chapter';
+                   elseif (str_contains(strtolower($work['type']), 'conference')) $paper_type = 'Conference Proceeding';
+                }
+
+                $abstract = null;
+                if (isset($work['abstract_inverted_index'])) {
+                    $words = [];
+                    foreach ($work['abstract_inverted_index'] as $word => $positions) {
+                        foreach ($positions as $pos) $words[$pos] = $word;
+                    }
+                    ksort($words);
+                    $abstract = implode(' ', $words);
+                }
+
+                $keywords = null;
+                if (!empty($work['concepts'])) {
+                     $kwArray = [];
+                     foreach ($work['concepts'] as $concept) {
+                         if (($concept['score'] ?? 0) > 0.3) $kwArray[] = $concept['display_name'];
+                     }
+                     if (!empty($kwArray)) $keywords = implode(', ', array_slice($kwArray, 0, 10));
+                }
+
+                $sourceTitle = $work['primary_location']['source']['display_name'] ?? null;
+
+                $paper = new Paper;
+                $paper->paper_name = $paperName;
+                $paper->abstract = $abstract;
+                $paper->paper_type = $paper_type;
+                $paper->paper_sourcetitle = $sourceTitle;
+                $paper->keyword = $keywords;
+                $paper->paper_url = $work['id'];
+                $paper->paper_yearpub = $paper_yearpub;
+                $paper->paper_volume = $work['biblio']['volume'] ?? null;
+                $paper->paper_issue = $work['biblio']['issue'] ?? null;
+                $paper->paper_citation = $paper_citation;
+                $paper->paper_page = ($work['biblio']['first_page'] ?? '') . (($work['biblio']['first_page'] ?? false) && ($work['biblio']['last_page'] ?? false) ? '-' : '') . ($work['biblio']['last_page'] ?? '');
+                $paper->paper_doi = $paper_doi;
+                $paper->publication_status = 1;
+                $paper->save();
+
+                $missingFields = [];
+                if (empty($paper->abstract)) $missingFields[] = 'Abstract';
+                if (empty($paper->keyword)) $missingFields[] = 'Keywords';
+                if (empty($paper->paper_doi)) $missingFields[] = 'DOI';
+
+                if (empty($missingFields)) rsort($completePapers);
+                else rsort($incompletePapers); // just mock adding since cronjob logs it differently
+
+                $source = Source_data::find(1);
+                if ($source) $paper->source()->sync([$source->id]);
+
+                 foreach ($work['authorships'] ?? [] as $oaAuthor) {
+                      $rawName = $oaAuthor['raw_author_name'] ?? $oaAuthor['author']['display_name'] ?? '';
+                      $parts = explode(' ', trim($rawName));
+                      $surname = array_pop($parts);
+                      $givenName = implode(' ', $parts);
+
+                      $posStr = $oaAuthor['author_position'] ?? 'middle';
+                      $author_type = ($posStr === 'first') ? 1 : (($posStr === 'last') ? 3 : 2);
+
+                      $isSameUser = stripos($rawName, $user->fname_en) !== false && stripos($rawName, $user->lname_en) !== false;
+
+                      if ($isSameUser) {
+                           $paper->teacher()->attach($user->id, ['author_type' => $author_type]);
+                      } else {
+                           $existingUser = User::whereRaw("LOWER(CONCAT(fname_en, ' ', lname_en)) = ?", [strtolower($rawName)])
+                               ->orWhere(function($q) use ($givenName, $surname) {
+                                  $q->where('fname_en', 'LIKE', "%{$givenName}%")->where('lname_en', 'LIKE', "%{$surname}%");
+                               })->first();
+
+                           if ($existingUser) {
+                               $paper->teacher()->attach($existingUser->id, ['author_type' => $author_type]);
+                           } else {
+                               $existingAuthor = Author::whereRaw("LOWER(CONCAT(author_fname, ' ', author_lname)) = ?", [strtolower($rawName)])
+                                    ->orWhere(function($q) use ($givenName, $surname) {
+                                        $q->where('author_fname', 'LIKE', "%{$givenName}%")->where('author_lname', 'LIKE', "%{$surname}%");
+                                    })->first();
+
+                               if (!$existingAuthor) {
+                                   $newAuthor = new Author;
+                                   $newAuthor->author_fname = $givenName ?: $rawName;
+                                   $newAuthor->author_lname = $surname ?: '-';
+                                   $newAuthor->save();
+                                   $paper->author()->attach($newAuthor->id, ['author_type' => $author_type]);
+                               } else {
+                                   $paper->author()->attach($existingAuthor->id, ['author_type' => $author_type]);
+                               }
+                           }
+                      }
+                 }
+
+                 $exists = $paper->teacher()->where('user_id', $user->id)->exists();
+                 if (!$exists) $paper->teacher()->attach($user->id, ['author_type' => 2]);
+            }
+        } catch (\Exception $e) {
+            ErrorLogService::logException($e, 'ScopuscallController@fetchFromOpenAlexByOrcid');
+        }
+    }
 }
