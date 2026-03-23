@@ -445,7 +445,6 @@ class ScopuscallController extends Controller
                     );
                 }
             }
-            }
 
             // ---------------------------------------------------------------------
             //                           2. OpenAlex API Fetch
