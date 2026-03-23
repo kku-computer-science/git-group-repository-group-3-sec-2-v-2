@@ -19,11 +19,11 @@ class ExpertiseController extends Controller
     {
         $id = auth()->user()->id;
         if (auth()->user()->hasRole('admin')) {
-            $experts = Expertise::all();
+            $experts = Expertise::with('user')->paginate(10)->withQueryString();
         } else {
             $experts = Expertise::with('user')->whereHas('user', function ($query) use ($id) {
                 $query->where('users.id', '=', $id);
-            })->paginate(10);
+            })->paginate(10)->withQueryString();
         }
 
         return view('expertise.index', compact('experts'));
