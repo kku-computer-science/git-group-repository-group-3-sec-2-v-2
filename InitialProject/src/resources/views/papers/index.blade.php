@@ -26,8 +26,17 @@
             @if(Auth::user()->hasRole('teacher'))
             {{-- Button to fetch Papers from Scopus (encrypted user id is passed) --}}
             <a class="btn btn-primary btn-icon-text btn-sm mb-3"
-               href="{{ route('callscopus', Crypt::encrypt(Auth::user()->id)) }}">
+               href="{{ route('callscopus', Crypt::encrypt(Auth::user()->id)) }}"
+               onclick="showLoading()">
                <i class="mdi mdi-refresh btn-icon-prepend icon-sm"></i> Call Paper
+            </a>
+            @endif
+
+            @if(Auth::user()->hasRole('admin'))
+            <a class="btn btn-warning btn-icon-text btn-sm mb-3"
+               href="{{ route('callscopus.all') }}"
+               onclick="showLoading()">
+               <i class="mdi mdi-account-multiple-outline btn-icon-prepend icon-sm"></i> Call All (Admin)
             </a>
             @endif
 
@@ -189,3 +198,15 @@
     });
 </script>
 @stop
+<script>
+    function showLoading() {
+        swal({
+            title: 'Fetching Data...',
+            text: 'System is querying Scopus & OpenAlex. Please wait...',
+            icon: 'info',
+            buttons: false,
+            closeOnClickOutside: false,
+            closeOnEsc: false
+        });
+    }
+</script>
