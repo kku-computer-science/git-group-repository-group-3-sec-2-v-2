@@ -241,7 +241,7 @@
                         <div class="overlay">
                             <h5 class="group-name">{{ $rg->{'group_name_'.app()->getLocale()} }}</h5>
                             <div class="group-description">
-                                {{ Str::limit($rg->{'group_desc_'.app()->getLocale()}, 150) }}
+                                {{ safe_str_limit($rg->{'group_desc_'.app()->getLocale()}, 150) }}
                             </div>
                         </div>
                     </div>

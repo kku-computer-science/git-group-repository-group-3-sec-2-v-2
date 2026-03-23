@@ -33,7 +33,7 @@
                             @foreach ($patents as $i=>$paper)
                             <tr>
                                 <td>{{ $patents->firstItem() + $i }}</td>
-                                <td>{{ Str::limit($paper->ac_name,50) }}</td>
+                                <td>{{ safe_str_limit($paper->ac_name, 50) }}</td>
                                 <td>{{ $paper->ac_type}}</td>
                                 <td>{{ $paper->ac_year}}</td>
                                 <td>{{ $paper->ac_refnumber,50 }}</td>

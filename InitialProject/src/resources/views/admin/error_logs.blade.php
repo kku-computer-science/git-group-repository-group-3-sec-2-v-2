@@ -388,8 +388,8 @@
                             @endphp
                             <span class="badge {{ $badgeClass }}">{{ htmlspecialchars(ucfirst($level ?? '')) }}</span>
                         </td>
-                        <td>{{ Str::limit(htmlspecialchars($error->file ?? ''), 30) }}</td>
-                        <td>{{ Str::limit(htmlspecialchars($error->message ?? ''), 50) }}</td>
+                        <td>{{ safe_str_limit(htmlspecialchars($error->file ?? ''), 30) }}</td>
+                        <td>{{ safe_str_limit(htmlspecialchars($error->message ?? ''), 50) }}</td>
                         <td>{{ htmlspecialchars($error->ip_address ?? 'Unknown') }}</td>
                         <td>{{ isset($error->created_at) ? \Carbon\Carbon::parse($error->created_at)->format('Y-m-d H:i:s') : 'N/A' }}</td>
                         <td>

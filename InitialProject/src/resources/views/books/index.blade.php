@@ -32,9 +32,9 @@
                             @foreach ($books as $i=>$paper)
                             <tr>
                                 <td>{{ $books->firstItem() + $i }}</td>
-                                <td>{{ Str::limit($paper->ac_name,50) }}</td>
+                                <td>{{ safe_str_limit($paper->ac_name, 50) }}</td>
                                 <td>{{ date('Y', strtotime($paper->ac_year))+543 }}</td>
-                                <td>{{ Str::limit($paper->ac_sourcetitle,50) }}</td>
+                                <td>{{ safe_str_limit($paper->ac_sourcetitle, 50) }}</td>
                                 <td>{{ $paper->ac_page}}</td>
                                 <td>
                                     <form action="{{ route('books.destroy',$paper->id) }}" method="POST">

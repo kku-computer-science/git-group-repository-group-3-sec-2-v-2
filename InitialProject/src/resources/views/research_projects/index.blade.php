@@ -35,7 +35,7 @@
                                 <td>{{ $researchProjects->firstItem() + $i }}</td>
                                 <td>{{ $researchProject->project_year }}</td>
                                 {{-- <td>{{ $researchProject->project_name }}</td> --}}
-                                <td>{{ Str::limit($researchProject->project_name,70) }}</td>
+                                <td>{{ safe_str_limit($researchProject->project_name, 70) }}</td>
                                 <td>
                                     @foreach($researchProject->user as $user)
                                     @if ( $user->pivot->role == 1)

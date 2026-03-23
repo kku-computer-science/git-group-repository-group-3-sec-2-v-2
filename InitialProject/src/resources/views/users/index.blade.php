@@ -127,7 +127,7 @@
                         <tr>
                             <td>{{ $data->firstItem() + $key }}</td>
                             <td>{{ $user->fname_en }} {{ $user->lname_en }} </td>
-                            <td>{{ Str::limit($user->program->program_name_en,20) }}</td>
+                            <td>{{ safe_str_limit(data_get($user, 'program.program_name_en'), 20) }}</td>
                             <td>{{ $user->email }}</td>
                             <td>
                                 @if(!empty($user->getRoleNames()))

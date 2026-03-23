@@ -45,8 +45,8 @@
                     @foreach ($papers as $i => $paper)
                     <tr>
                         <td>{{ $papers->firstItem() + $i }}</td>
-                        <td>{{ Str::limit($paper->paper_name, 50) }}</td>
-                        <td>{{ Str::limit($paper->paper_type, 50) }}</td>
+                        <td>{{ safe_str_limit($paper->paper_name, 50) }}</td>
+                        <td>{{ safe_str_limit($paper->paper_type, 50) }}</td>
                         <td>{{ $paper->paper_yearpub }}</td>
                         <td>
                             <form action="{{ route('papers.destroy', $paper->id) }}" method="POST">

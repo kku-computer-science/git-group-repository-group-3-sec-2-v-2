@@ -397,7 +397,7 @@
                             <span class="badge {{ $badgeClass }}">{{ htmlspecialchars($actionType ?? '') }}</span>
                         </td>
                         <td>{{ htmlspecialchars(str_replace($activity->action_type . ' ', '', $activity->action ?? '')) }}</td>
-                        <td>{{ Str::limit(htmlspecialchars($activity->description ?? ''), 40) }}</td>
+                        <td>{{ safe_str_limit(htmlspecialchars($activity->description ?? ''), 40) }}</td>
                         <td>{{ htmlspecialchars($activity->ip_address ?? '') }}</td>
                         <td>{{ isset($activity->created_at) ? \Carbon\Carbon::parse($activity->created_at)->format('Y-m-d H:i:s') : '' }}</td>
                         <td>
@@ -474,7 +474,7 @@ break;
                     </div>
                     <div class="col-md-6">
                         <p><strong>IP Address:</strong> {{ htmlspecialchars($activity->ip_address ?? '') }}</p>
-                        <p><strong>User Agent:</strong> {{ Str::limit(htmlspecialchars($activity->user_agent ?? ''), 100) }}</p>
+                        <p><strong>User Agent:</strong> {{ safe_str_limit(htmlspecialchars($activity->user_agent ?? ''), 100) }}</p>
                     </div>
                 </div>
                 <div class="row mt-3">

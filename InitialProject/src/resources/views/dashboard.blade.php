@@ -799,7 +799,7 @@
                                                             {{ $event->ip_address }}
                                                         @endif
                                                     </td>
-                                                    <td>{{ Str::limit($event->details ?? 'No details available', 50) }}</td>
+                                                    <td>{{ safe_str_limit($event->details ?? 'No details available', 50) }}</td>
                                                     <td>
                                                         <span class="badge badge-{{ $event->threat_level === 'high' ? 'danger' : ($event->threat_level === 'medium' ? 'warning' : 'info') }}">
                                                             {{ ucfirst($event->threat_level) }}
@@ -981,7 +981,7 @@
                                     @php
                                         $action = $activity->action ?? '';
                                     @endphp
-                                    {{ Str::limit($action, 30) }}
+                                    {{ safe_str_limit($action, 30) }}
                                 </td>
                                 <td>{{ isset($activity->created_at) && $activity->created_at ? \Carbon\Carbon::parse($activity->created_at)->diffForHumans() : 'N/A' }}</td>
                                 <td>
@@ -1069,7 +1069,7 @@
                                     @php
                                         $message = $error->message ?? 'No message available';
                                     @endphp
-                                    {{ Str::limit($message, 30) }}
+                                    {{ safe_str_limit($message, 30) }}
                                 </td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">

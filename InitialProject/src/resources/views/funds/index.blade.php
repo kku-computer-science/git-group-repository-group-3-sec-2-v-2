@@ -33,7 +33,7 @@
                         <tr>
 
                             <td>{{ $funds->firstItem() + $i }}</td>
-                            <td>{{ Str::limit($fund->fund_name,80) }}</td>
+                            <td>{{ safe_str_limit($fund->fund_name, 80) }}</td>
                             <td>{{ $fund->fund_type }}</td>
                             <td>{{ $fund->fund_level }}</td>
                             <!-- <td>{{ $fund->user->fname_en }} {{ $fund->user->lname_en }}</td> -->

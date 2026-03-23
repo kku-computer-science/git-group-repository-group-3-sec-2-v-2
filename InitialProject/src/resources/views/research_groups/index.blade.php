@@ -31,7 +31,7 @@
                     @foreach ($researchGroups as $i => $researchGroup)
                     <tr>
                         <td>{{ $researchGroups->firstItem() + $i }}</td>
-                        <td>{{ Str::limit($researchGroup->group_name_th, 50) }}</td>
+                        <td>{{ safe_str_limit($researchGroup->group_name_th, 50) }}</td>
                         <td>
                             @foreach($researchGroup->user as $user)
                                 @if ($user->pivot->role == 1)

@@ -289,7 +289,7 @@
                             @foreach($userActivities as $activity)
                             <tr>
                                 <td>{{ $activity->user_name }}</td>
-                                <td>{{ Str::limit($activity->action, 30) }}</td>
+                                <td>{{ safe_str_limit($activity->action, 30) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($activity->created_at)->diffForHumans() }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#activityModal{{ $activity->id }}">
@@ -315,7 +315,7 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <p><strong>IP Address:</strong> {{ $activity->ip_address }}</p>
-                                                            <p><strong>User Agent:</strong> {{ Str::limit($activity->user_agent, 50) }}</p>
+                                                            <p><strong>User Agent:</strong> {{ safe_str_limit($activity->user_agent, 50) }}</p>
                                                         </div>
                                                     </div>
                                                     <div class="row mt-3">
@@ -375,7 +375,7 @@
                                         {{ $error->level }}
                                     </span>
                                 </td>
-                                <td>{{ Str::limit($error->message ?? '', 40) }}</td>
+                                <td>{{ safe_str_limit($error->message ?? '', 40) }}</td>
                                 <td>{{ \Carbon\Carbon::parse($error->created_at)->diffForHumans() }}</td>
                                 <td>
                                     <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#errorModal{{ $error->id }}">
