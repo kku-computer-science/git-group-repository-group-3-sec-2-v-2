@@ -18,6 +18,10 @@ class ResearcherController extends Controller
         $locale = app()->getLocale();
         $perPage = 8;
 
+        // Server-side filter inputs
+        $selectedPositions = $request->input('positions', []);
+        $selectedPrograms = $request->input('programs', []);
+
         $roles = Role::whereIn('name', ['teacher', 'student'])
                 ->orderByRaw("CASE WHEN name = 'teacher' THEN 1 WHEN name = 'student' THEN 2 END")
                 ->get();
@@ -48,6 +52,12 @@ class ResearcherController extends Controller
                                });
                     });
                 })
+                ->when(!empty($selectedPositions), function ($q) use ($selectedPositions) {
+                    $q->whereIn('position_en', $selectedPositions);
+                })
+                ->when(!empty($selectedPrograms), function ($q) use ($selectedPrograms) {
+                    $q->whereIn('program_id', $selectedPrograms);
+                })
                 ->orderByRaw("
                     FIELD(position_en,
                         'Prof. Dr.',
@@ -73,6 +83,9 @@ class ResearcherController extends Controller
             $totalResearchers += $totalUsers;
         }
         
+        // Skip external researchers when position/program filters are active
+        // (they don't have academic positions or program associations)
+        if (empty($selectedPositions) && empty($selectedPrograms)) {
         $externalResearchers = DB::table('work_of_research_groups as wrg')
             ->join('authors', 'wrg.author_id', '=', 'authors.id')
             ->join('research_groups', 'wrg.research_group_id', '=', 'research_groups.id')
@@ -163,17 +176,18 @@ class ResearcherController extends Controller
             ]);
             $totalResearchers += $externalResearchersCollection->count();
         }
+        } // end external researchers filter check
 
         $expandedRoleIds = $roleUsers->filter(function ($item) {
             return $item['total_users'] > 0;
         })->keys()->toArray();
         
-        $noResults = !empty($search) && $totalResearchers === 0;
+        $noResults = $totalResearchers === 0 && (!empty($search) || !empty($selectedPositions) || !empty($selectedPrograms));
 
         // Programs list for sidebar filter
         $programs = Program::orderBy('program_name_en')->get(['id', 'program_name_en', 'program_name_th']);
     
-        return view('researchers.index', compact('roleUsers', 'search', 'expandedRoleIds', 'noResults', 'programs'));
+        return view('researchers.index', compact('roleUsers', 'search', 'expandedRoleIds', 'noResults', 'programs', 'selectedPositions', 'selectedPrograms'));
     }
 
     

@@ -29,9 +29,13 @@
 @if(isset($noResults) && $noResults)
 <div class="no-results-message">
     <h3><ion-icon name="search-outline" class="me-2"></ion-icon> No Results Found</h3>
+    @if(!empty($search))
     <p>Sorry, we couldn't find any researchers matching "{{ $search }}".</p>
+    @else
+    <p>No researchers match the selected filters.</p>
+    @endif
     <a href="{{ route('researchers.index') }}" class="btn btn-primary">
-        <ion-icon name="refresh-outline" class="me-1"></ion-icon> Clear Search
+        <ion-icon name="refresh-outline" class="me-1"></ion-icon> Clear All
     </a>
 </div>
 
@@ -80,7 +84,8 @@
                 <div class="rs-filter-body" id="filterProgram">
                     @foreach($programs as $program)
                     <label class="rs-check-label">
-                        <input type="checkbox" class="rs-program-filter" value="{{ $program->id }}">
+                        <input type="checkbox" class="rs-program-filter" value="{{ $program->id }}"
+                            {{ in_array((string)$program->id, $selectedPrograms ?? []) ? 'checked' : '' }}>
                         {{ $program->program_name_en }}
                     </label>
                     @endforeach
@@ -107,7 +112,8 @@
                     @endphp
                     @foreach($positions as $val => $label)
                     <label class="rs-check-label">
-                        <input type="checkbox" class="rs-position-filter" value="{{ $val }}">
+                        <input type="checkbox" class="rs-position-filter" value="{{ $val }}"
+                            {{ in_array($val, $selectedPositions ?? []) ? 'checked' : '' }}>
                         {{ $label }}
                     </label>
                     @endforeach
@@ -310,63 +316,54 @@
     };
 
     // ══════════════════════════════════════════════════════════════
-    // ── Unified filter system (role + program + position) ────────
+    // ── Filter system: server-side (position/program) + client (role)
     // ══════════════════════════════════════════════════════════════
 
-    function applyAllFilters() {
-        // ── 1. Gather active filter values ──
-        const roleChecked = [...document.querySelectorAll('.rs-role-filter:checked')]
-            .map(c => c.value);
-        const roleAll = roleChecked.includes('all') || roleChecked.length === 0;
+    // Helper: build URL with current filter state and navigate
+    function navigateWithFilters() {
+        const url = new URL(window.location.href);
 
-        const posChecked = [...document.querySelectorAll('.rs-position-filter:checked')]
-            .map(c => c.value.toLowerCase());
-        const posAll = posChecked.length === 0;
+        // Clear old server-side filter params
+        url.searchParams.delete('positions[]');
+        url.searchParams.delete('programs[]');
 
-        const progChecked = [...document.querySelectorAll('.rs-program-filter:checked')]
-            .map(c => c.value);
-        const progAll = progChecked.length === 0;
+        // Reset pagination when filters change
+        for (const key of [...url.searchParams.keys()]) {
+            if (key.endsWith('_page')) url.searchParams.delete(key);
+        }
 
-        // ── 2. Filter each role group ──
-        document.querySelectorAll('.rs-role-group').forEach(group => {
-            const groupRole = group.dataset.role;
-
-            // Check if this role group passes the role filter
-            const roleMatch = roleAll || roleChecked.includes(groupRole);
-
-            if (!roleMatch) {
-                // Entire group is hidden by role filter
-                group.style.display = 'none';
-                return;
-            }
-
-            // ── 3. Filter individual cards within visible groups ──
-            let visibleCards = 0;
-            group.querySelectorAll('.rs-card').forEach(card => {
-                let show = true;
-
-                // Position filter
-                if (!posAll) {
-                    const cardPos = (card.dataset.position || '').toLowerCase();
-                    show = posChecked.some(p => cardPos.includes(p));
-                }
-
-                // Program filter
-                if (show && !progAll) {
-                    const cardProg = card.dataset.program || '';
-                    show = progChecked.includes(cardProg);
-                }
-
-                card.style.display = show ? '' : 'none';
-                if (show) visibleCards++;
-            });
-
-            // Hide the role group entirely if no cards are visible
-            group.style.display = visibleCards > 0 ? '' : 'none';
+        // Collect checked position filters
+        document.querySelectorAll('.rs-position-filter:checked').forEach(cb => {
+            url.searchParams.append('positions[]', cb.value);
         });
+
+        // Collect checked program filters
+        document.querySelectorAll('.rs-program-filter:checked').forEach(cb => {
+            url.searchParams.append('programs[]', cb.value);
+        });
+
+        window.location.href = url.toString();
     }
 
-    // ── Role filter checkboxes ───────────────────────────────────
+    // ── Role filter (client-side — safe because each role is separately paginated) ──
+    function applyRoleFilter() {
+        const roleChecked = [...document.querySelectorAll('.rs-role-filter:checked')]
+            .map(c => c.value);
+        const showAll = roleChecked.includes('all') || roleChecked.length === 0;
+
+        document.querySelectorAll('.rs-role-group').forEach(group => {
+            group.style.display = (showAll || roleChecked.includes(group.dataset.role)) ? '' : 'none';
+        });
+
+        // Persist role selection in URL (without page reload) so it survives pagination
+        const url = new URL(window.location.href);
+        url.searchParams.delete('roles[]');
+        if (!showAll) {
+            roleChecked.filter(v => v !== 'all').forEach(v => url.searchParams.append('roles[]', v));
+        }
+        history.replaceState(null, '', url.toString());
+    }
+
     document.querySelectorAll('.rs-role-filter').forEach(cb => {
         cb.addEventListener('change', () => {
             if (cb.value === 'all' && cb.checked) {
@@ -374,35 +371,52 @@
                     .forEach(c => c.checked = false);
             } else if (cb.value !== 'all') {
                 document.querySelector('.rs-role-filter[value="all"]').checked = false;
-                // If none checked, re-check "All"
                 const anyChecked = document.querySelectorAll('.rs-role-filter:not([value="all"]):checked').length > 0;
                 if (!anyChecked) {
                     document.querySelector('.rs-role-filter[value="all"]').checked = true;
                 }
             }
-            applyAllFilters();
+            applyRoleFilter();
         });
     });
 
-    // ── Position filter checkboxes ────────────────────────────────
+    // Restore role filter state from URL on page load
+    (function restoreRoleFilter() {
+        const params = new URLSearchParams(window.location.search);
+        const savedRoles = params.getAll('roles[]');
+        if (savedRoles.length > 0) {
+            const allCb = document.querySelector('.rs-role-filter[value="all"]');
+            if (allCb) allCb.checked = false;
+            savedRoles.forEach(r => {
+                const cb = document.querySelector('.rs-role-filter[value="' + r + '"]');
+                if (cb) cb.checked = true;
+            });
+            applyRoleFilter();
+        }
+    })();
+
+    // ── Position filter (server-side via URL navigation) ──────────
     document.querySelectorAll('.rs-position-filter').forEach(cb => {
-        cb.addEventListener('change', applyAllFilters);
+        cb.addEventListener('change', navigateWithFilters);
     });
 
-    // ── Program filter checkboxes ─────────────────────────────────
+    // ── Program filter (server-side via URL navigation) ───────────
     document.querySelectorAll('.rs-program-filter').forEach(cb => {
-        cb.addEventListener('change', applyAllFilters);
+        cb.addEventListener('change', navigateWithFilters);
     });
 
     // ── Clear all filters ─────────────────────────────────────────
     document.getElementById('clearFilters')?.addEventListener('click', () => {
-        document.querySelectorAll('.rs-role-filter, .rs-position-filter, .rs-program-filter')
-            .forEach(c => c.checked = false);
-        const allCb = document.querySelector('.rs-role-filter[value="all"]');
-        if (allCb) allCb.checked = true;
-        // Reset visibility on all elements
-        document.querySelectorAll('.rs-card, .rs-role-group')
-            .forEach(el => el.style.display = '');
+        const url = new URL(window.location.href);
+        // Remove all filter & pagination params
+        url.searchParams.delete('positions[]');
+        url.searchParams.delete('programs[]');
+        url.searchParams.delete('roles[]');
+        for (const key of [...url.searchParams.keys()]) {
+            if (key.endsWith('_page')) url.searchParams.delete(key);
+        }
+        // Keep textsearch if present
+        window.location.href = url.toString();
     });
 })();
 </script>
