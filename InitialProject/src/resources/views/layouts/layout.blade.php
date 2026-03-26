@@ -9,13 +9,19 @@
     <base href="{{ \URL::to('/') }}">
     <link href="img/Newlogo.png" rel="shortcut icon" type="image/x-icon" />
 
-    <!-- CSS Files -->
+    <!-- Font Preload - High Priority -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400&family=Mitr:wght@200;300;400;500&family=Prompt:wght@100;300;400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- CSS Files - Critical Path CSS -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/load-more-button.css') }}" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+    <!-- CSS - Icons & UI Components -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap">
     <link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendors/ti-icons/css/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('vendors/typicons/typicons.css') }}">
@@ -24,19 +30,32 @@
 
     <!-- DataTable CSS -->
     <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/css/bootstrap.css" />
+        href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
     <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.css" />
-    <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.css" />
+        href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css" />
 
-    <!-- JS Files -->
-    <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
-    <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-    <!-- CSS styles for content-wrapper moved to style.css -->
+    <!-- Font Optimization - Prevent FOUC -->
+    <style>
+        @font-face {
+            font-family: 'Poppins-Regular';
+            font-display: swap;
+            src: url('{{ asset("fonts/poppins/Poppins-Regular.ttf") }}') format('truetype');
+        }
+        @font-face {
+            font-family: 'Poppins-Bold';
+            font-display: swap;
+            src: url('{{ asset("fonts/poppins/Poppins-Bold.ttf") }}') format('truetype');
+        }
+        body, html {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+    </style>
+
+    <!-- Deferred JS Files -->
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" defer></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js" defer></script>
 </head>
 
 <body>

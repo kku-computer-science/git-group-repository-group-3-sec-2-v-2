@@ -262,12 +262,10 @@
 
     </div>
 </div>
-<!-- <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.1/js/bootstrap.bundle.js"></script> -->
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap5.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.3/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap5.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
 <script>
@@ -301,10 +299,10 @@
         const profileId = '{{ $profileId }}';
         const profileType = '{{ $profileType }}';
         const userIdQuery = {!! isset($paperDetailUserId) ? "'?user_id=' + " . $paperDetailUserId : "''" !!};
-        
+
         const paperColumns = [
             { data: 'paper_yearpub', width: '10%' },
-            { 
+            {
                 data: null,
                 width: '80%',
                 render: function(data, type, row) {
@@ -329,7 +327,7 @@
             ajax: { url: `/profile/${profileId}/papers?type=${profileType}&source=all`, dataSrc: '' },
             columns: paperColumns
         });
-        
+
         let t2 = $('#example2').DataTable({
             ...tableConfig,
             ajax: { url: `/profile/${profileId}/papers?type=${profileType}&source=scopus`, dataSrc: '' },
@@ -356,8 +354,8 @@
                 { data: null, render: function (data, type, row, meta) { return meta.row + 1; } },
                 { data: 'ac_year', render: function(data) { return data ? parseInt(data.substring(0,4)) + 543 : ''; } },
                 { data: 'ac_name' },
-                { 
-                    data: null, 
+                {
+                    data: null,
                     render: function(data, type, row) {
                         let authors = [];
                         if (row.author) {
@@ -380,8 +378,8 @@
             columns: [
                 { data: null, render: function (data, type, row, meta) { return meta.row + 1; } },
                 { data: 'ac_name' },
-                { 
-                    data: null, 
+                {
+                    data: null,
                     render: function(data, type, row) {
                         let authors = [];
                         if (row.author) {
@@ -527,7 +525,7 @@
     async function myFunction() {
         var res = <?php echo $res; ?>;
         //var fname = res.fname_en;
-        //var fname = res.fname_en.substr(0, 1); 
+        //var fname = res.fname_en.substr(0, 1);
         //console.log(fname);
         //const response = await fetch('https://api.elsevier.com/content/search/scopus?query=AUTHOR-NAME('+ res.lname_en +','+fname+')%20&apikey=6ab3c2a01c29f0e36b00c8fa1d013f83&httpAccept=application%2Fjson');
         const response = await fetch('https://api.elsevier.com/content/search/author?query=authlast(' + res.lname_en +
@@ -588,19 +586,19 @@
         let sum = sumsco + sumtci + sumwos + sumbook + sumpatent;
 
         //$("#scopus").append('data-to="100"');
-        document.getElementById("all").innerHTML += `   
+        document.getElementById("all").innerHTML += `
                 <h2 class="timer count-title count-number" data-to="${sum}" data-speed="1500"></h2>
                 <p class="count-text ">SUMMARY</p>`
 
-        document.getElementById("scopus_sum").innerHTML += `   
+        document.getElementById("scopus_sum").innerHTML += `
                 <h2 class="timer count-title count-number" data-to="${sumsco}" data-speed="1500"></h2>
                 <p class="count-text">SCOPUS</p>`
 
-        document.getElementById("wos_sum").innerHTML += `    
+        document.getElementById("wos_sum").innerHTML += `
                 <h2 class="timer count-title count-number" data-to="${sumwos}" data-speed="1500"></h2>
                 <p class="count-text ">WOS</p>`
 
-        document.getElementById("tci_sum").innerHTML += `  
+        document.getElementById("tci_sum").innerHTML += `
                 <h2 class="timer count-title count-number" data-to="${sumtci}" data-speed="1500"></h2>
                 <p class="count-text ">TCI</p>`
 
@@ -712,7 +710,7 @@
     const myArray =  a.text.toString().split(" ");
     console.log(myArray)
     document.getElementById("authtd").innerHTML = "name :"+ myArray;
-    
+
 });
 </script> -->
 @endsection
