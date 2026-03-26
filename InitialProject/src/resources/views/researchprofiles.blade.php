@@ -13,31 +13,46 @@
 
 <style>
     .research-profile-page {
-        --rp-primary: #1d4ed8;
-        --rp-primary-dark: #1e3a8a;
-        --rp-accent: #0f766e;
+        --rp-primary: var(--primary-color, #2563eb);
+        --rp-primary-dark: var(--primary-hover, #1d4ed8);
+        --rp-accent: #0ea5e9;
         --rp-soft: #eff6ff;
         --rp-slate: #475569;
-        --rp-border: #dbe4f0;
+        --rp-border: #e2e8f0;
         --rp-surface: #ffffff;
         --rp-surface-muted: #f8fafc;
         color: #0f172a;
+        font-family: var(--body-font, 'Prompt', sans-serif);
     }
 
     .research-profile-page .profile-shell {
         display: flex;
         flex-direction: column;
-        gap: 1.5rem;
+        gap: 2rem;
+        margin-top: 1rem;
     }
 
     .research-profile-page .profile-hero {
-        background:
-            radial-gradient(circle at top right, rgba(29, 78, 216, 0.16), transparent 34%),
-            linear-gradient(135deg, #ffffff 0%, #f8fbff 58%, #eef5ff 100%);
-        border: 1px solid var(--rp-border);
-        border-radius: 28px;
-        box-shadow: 0 18px 50px rgba(15, 23, 42, 0.08);
-        padding: 2rem;
+        position: relative;
+        background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 50%, #e0efff 100%);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 32px;
+        box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.1), 
+                    inset 0 0 0 1px rgba(255,255,255,0.6);
+        padding: 2.5rem;
+        overflow: hidden;
+    }
+
+    .research-profile-page .profile-hero::before {
+        content: '';
+        position: absolute;
+        top: -20%;
+        right: -10%;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(37,99,235,0.06) 0%, rgba(255,255,255,0) 70%);
+        border-radius: 50%;
+        pointer-events: none;
     }
 
     .research-profile-page .profile-hero-grid {
@@ -54,17 +69,26 @@
     }
 
     .research-profile-page .profile-photo-wrap {
-        flex: 0 0 144px;
+        flex: 0 0 160px;
+        position: relative;
     }
 
     .research-profile-page .profile-photo {
-        width: 144px;
-        height: 144px;
+        width: 160px;
+        height: 160px;
         object-fit: cover;
-        border-radius: 32px;
-        border: 4px solid rgba(255, 255, 255, 0.92);
-        box-shadow: 0 18px 30px rgba(30, 58, 138, 0.16);
-        background: #e2e8f0;
+        border-radius: 50%;
+        border: 5px solid #ffffff;
+        box-shadow: 0 15px 35px rgba(29, 78, 216, 0.15),
+                    0 0 0 2px rgba(37, 99, 235, 0.1);
+        background: #f1f5f9;
+        position: relative;
+        z-index: 2;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .research-profile-page .profile-photo:hover {
+        transform: scale(1.05);
     }
 
     .research-profile-page .profile-copy {
@@ -74,52 +98,63 @@
     .research-profile-page .profile-kicker {
         display: inline-flex;
         align-items: center;
-        gap: 0.45rem;
-        padding: 0.45rem 0.85rem;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
         border-radius: 999px;
-        background: rgba(29, 78, 216, 0.1);
+        background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(14, 165, 233, 0.1));
         color: var(--rp-primary-dark);
-        font-size: 0.82rem;
+        font-size: 0.85rem;
         font-weight: 600;
-        letter-spacing: 0.03em;
+        letter-spacing: 0.05em;
         text-transform: uppercase;
+        margin-bottom: 0.5rem;
     }
 
     .research-profile-page .profile-name-th {
-        margin: 1rem 0 0.3rem;
-        font-size: clamp(1.5rem, 2vw, 2rem);
+        margin: 0.5rem 0 0.3rem;
+        font-size: clamp(1.8rem, 2.5vw, 2.25rem);
         font-weight: 700;
         line-height: 1.2;
         color: #0f172a;
+        letter-spacing: -0.02em;
     }
 
     .research-profile-page .profile-name-en {
         margin: 0;
-        font-size: clamp(1.1rem, 1.5vw, 1.35rem);
-        font-weight: 600;
-        color: #1e293b;
+        font-size: clamp(1.2rem, 1.5vw, 1.4rem);
+        font-weight: 500;
+        color: var(--rp-slate);
     }
 
     .research-profile-page .profile-rank {
-        margin: 0.45rem 0 0;
-        font-size: 0.96rem;
-        color: var(--rp-slate);
+        margin: 0.75rem 0 0;
+        font-size: 1rem;
+        font-weight: 500;
+        color: var(--rp-primary);
     }
 
     .research-profile-page .profile-links {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.75rem 1.25rem;
-        margin-top: 1rem;
+        gap: 0.85rem 1.5rem;
+        margin-top: 1.25rem;
+        padding-top: 1.25rem;
+        border-top: 1px dashed rgba(203, 213, 225, 0.8);
     }
 
     .research-profile-page .profile-link-item {
         display: inline-flex;
         align-items: center;
-        gap: 0.5rem;
+        gap: 0.6rem;
         color: var(--rp-slate);
-        font-size: 0.94rem;
+        font-size: 0.95rem;
         text-decoration: none;
+        transition: color 0.2s ease, transform 0.2s ease;
+    }
+    
+    .research-profile-page a.profile-link-item:hover {
+        color: var(--rp-primary);
+        transform: translateY(-1px);
     }
 
     .research-profile-page .profile-link-item strong {
@@ -135,17 +170,26 @@
     .research-profile-page .profile-chip-list {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.55rem;
-        margin-top: 1.1rem;
+        gap: 0.6rem;
+        margin-top: 1rem;
     }
 
     .research-profile-page .profile-chip {
-        padding: 0.45rem 0.8rem;
-        border-radius: 999px;
-        background: rgba(15, 118, 110, 0.1);
-        color: var(--rp-accent);
-        font-size: 0.84rem;
-        font-weight: 600;
+        padding: 0.35rem 0.85rem;
+        border-radius: 8px;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        color: var(--rp-slate);
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    
+    .research-profile-page .profile-chip:hover {
+        background: var(--rp-primary);
+        color: #fff;
+        border-color: var(--rp-primary);
+        transform: translateY(-1px);
     }
 
     .research-profile-page .profile-section-label {
@@ -309,77 +353,106 @@
     .research-profile-page .metric-card {
         position: relative;
         overflow: hidden;
-        border-radius: 22px;
+        border-radius: 24px;
         border: 1px solid var(--rp-border);
         background: #fff;
-        padding: 1.3rem 1.2rem;
-        box-shadow: 0 14px 30px rgba(15, 23, 42, 0.06);
+        padding: 1.75rem 1.5rem;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        text-align: center;
+    }
+
+    .research-profile-page .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 35px -5px rgba(37, 99, 235, 0.1);
+        border-color: rgba(37, 99, 235, 0.2);
     }
 
     .research-profile-page .metric-card::after {
         content: "";
         position: absolute;
-        inset: auto -10% -55% auto;
-        width: 110px;
-        height: 110px;
-        border-radius: 999px;
-        background: rgba(29, 78, 216, 0.07);
+        inset: auto -15% -40% auto;
+        width: 130px;
+        height: 130px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, rgba(37, 99, 235, 0) 70%);
+        transition: transform 0.3s ease;
+    }
+    
+    .research-profile-page .metric-card:hover::after {
+        transform: scale(1.1);
     }
 
     .research-profile-page .metric-value {
         position: relative;
         z-index: 1;
         margin: 0;
-        font-size: clamp(1.8rem, 3vw, 2.35rem);
-        font-weight: 700;
+        font-size: clamp(2rem, 3.5vw, 2.75rem);
+        font-weight: 800;
         line-height: 1;
-        color: #0f172a;
+        color: var(--rp-primary-dark);
+        background: linear-gradient(135deg, var(--rp-primary-dark), var(--rp-primary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
     .research-profile-page .metric-label {
         position: relative;
         z-index: 1;
-        margin: 0.45rem 0 0;
-        font-size: 0.78rem;
+        margin: 0.75rem 0 0;
+        font-size: 0.85rem;
         font-weight: 700;
-        letter-spacing: 0.14em;
+        letter-spacing: 0.1em;
         text-transform: uppercase;
-        color: #94a3b8;
+        color: var(--rp-slate);
     }
 
     .research-profile-page .profile-tabs-wrap.custom-tabs-wrap {
         padding: 0;
         background: transparent;
         gap: 1rem;
+        margin-top: 1rem;
     }
 
     .research-profile-page .custom-tabs-nav {
-        gap: 0.7rem;
+        gap: 0.75rem;
         padding-bottom: 0;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+    
+    .research-profile-page .custom-tabs-nav::-webkit-scrollbar {
+        display: none;
     }
 
     .research-profile-page .custom-tab-btn {
         min-width: auto;
-        padding: 0.78rem 1.15rem;
-        border-radius: 999px;
-        background: #e8eefb;
-        color: var(--rp-primary-dark);
-        font-size: 0.88rem;
-        font-weight: 700;
+        padding: 0.8rem 1.5rem;
+        border-radius: 12px;
+        background: var(--rp-surface);
+        border: 1px solid var(--rp-border);
+        color: var(--rp-slate);
+        font-size: 0.9rem;
+        font-weight: 600;
         letter-spacing: 0.02em;
-        box-shadow: none;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+        white-space: nowrap;
+        transition: all 0.2s ease;
     }
 
     .research-profile-page .custom-tab-btn:hover {
-        background: #dbe7ff;
-        color: var(--rp-primary-dark);
-        box-shadow: none;
+        background: var(--rp-surface-muted);
+        color: var(--rp-primary);
+        border-color: rgba(37, 99, 235, 0.3);
     }
 
     .research-profile-page .custom-tab-btn.active {
-        background: linear-gradient(135deg, var(--rp-primary-dark), var(--rp-primary));
+        background: var(--rp-primary);
         color: #fff;
-        box-shadow: 0 12px 22px rgba(29, 78, 216, 0.2);
+        border-color: var(--rp-primary);
+        box-shadow: 0 8px 15px -3px rgba(37, 99, 235, 0.25);
     }
 
     .research-profile-page .btn-export {
