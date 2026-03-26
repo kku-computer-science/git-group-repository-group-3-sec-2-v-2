@@ -95,47 +95,6 @@ class ProfileController extends Controller
 
         $teachers = collect();
 
-        $papers = Paper::with('teacher','author','source')->whereHas($paperRelation, function($query) use($profileId, $paperRelationTable) {
-            $query->where($paperRelationTable . '.id', '=', $profileId);
-        })->orderBy('paper_yearpub', 'desc')-> get();
-
-        $papers_scopus = $papers->filter(function ($paper) {
-            return $paper->source->contains('source_data_id', 1);
-        })->values();
-
-        $papers_wos = $papers->filter(function ($paper) {
-            return $paper->source->contains('source_data_id', 2);
-        })->values();
-        
-        $papers_tci = $papers->filter(function ($paper) {
-            return $paper->source->contains('source_data_id', 3);
-        })->values();
-
-        // $papers_tci = Paper::with('teacher','author')->whereHas('teacher', function($query) use($id) {
-        //     $query->where('users.id', '=', $id);
-        // })->whereHas('source', function($query) {
-        //     $query->where('source_data_id', '=', 3);
-        // })-> get();
-
-        // $book_chapter = Paper::with('teacher','author')->whereHas('teacher', function($query) use($id) {
-        //     $query->where('users.id', '=', $id);
-        // })->whereHas('source', function($query) {
-        //     $query->where('source_data_id', '=', 4);
-        // })-> get();
-
-        $book_chapter = Academicwork::with('user','author')->whereHas($academicworkRelation, function($query) use($profileId, $academicworkRelation) {
-            $table = $academicworkRelation === 'author' ? 'authors' : 'users';
-            $query->where($table . '.id', '=', $profileId);
-        })->where('ac_type', '=', 'book')->get();
-
-       
-
-        $patent = Academicwork::with('user','author')->whereHas($academicworkRelation, function($query) use($profileId, $academicworkRelation) {
-            $table = $academicworkRelation === 'author' ? 'authors' : 'users';
-            $query->where($table . '.id', '=', $profileId);
-        })->where('ac_type', '!=', 'book')->get();
-        //return $res;
-
         $year = range(Carbon::now()->year-5, Carbon::now()->year);
         
         $scopus_counts = Paper::whereHas('source', function ($query) {
@@ -198,9 +157,6 @@ class ProfileController extends Controller
             $paper_book_s[] = $book_counts[$value] ?? 0;
             $paper_patent_s[] = $patent_counts[$value] ?? 0;
         }
-        //return $paper_patent_s;
-        
-
 
     	return view('researchprofiles')->with('year',json_encode($year,JSON_NUMERIC_CHECK))
                 ->with('paper_tci',json_encode($paper_tci,JSON_NUMERIC_CHECK))
@@ -211,10 +167,61 @@ class ProfileController extends Controller
                 ->with('paper_wos_s',json_encode($paper_wos_s,JSON_NUMERIC_CHECK))
                 ->with('paper_book_s',json_encode($paper_book_s,JSON_NUMERIC_CHECK))
                 ->with('paper_patent_s',json_encode($paper_patent_s,JSON_NUMERIC_CHECK))
-                ->with(compact('res','teachers','papers','papers_tci','papers_scopus','papers_wos','book_chapter','patent', 'paperDetailUserId', 'showExport'));
+                ->with(compact('res','teachers', 'paperDetailUserId', 'profileId', 'profileType', 'showExport'));
+    }
 
+    public function getPapers(Request $request, $id)
+    {
+        $profileType = $request->query('type', 'user');
+        $source = $request->query('source', 'all');
+        
+        $paperRelation = $profileType === 'author' ? 'author' : 'teacher';
+        $paperRelationTable = $profileType === 'author' ? 'authors' : 'users';
 
-    //return view('researchprofiles',compact('res','papers','year','paper'))->with('year',json_encode($year,JSON_NUMERIC_CHECK))->with('paper',json_encode($paper,JSON_NUMERIC_CHECK));
+        $query = Paper::with(['teacher', 'author', 'source'])
+            ->whereHas($paperRelation, function($q) use($id, $paperRelationTable) {
+                $q->where($paperRelationTable . '.id', '=', $id);
+            });
 
+        if ($source !== 'all') {
+            $sourceDataId = match($source) {
+                'scopus' => 1,
+                'wos' => 2,
+                'tci' => 3,
+                default => null
+            };
+
+            if ($sourceDataId) {
+                $query->whereHas('source', function ($q) use ($sourceDataId) {
+                    $q->where('source_data_id', '=', $sourceDataId);
+                });
+            }
+        }
+
+        $papers = $query->orderBy('paper_yearpub', 'desc')->get();
+        return response()->json($papers);
+    }
+
+    public function getAcademicWorks(Request $request, $id)
+    {
+        $profileType = $request->query('type', 'user');
+        $workType = $request->query('work_type', 'book');
+        
+        $academicworkRelation = $profileType === 'author' ? 'author' : 'user';
+        $table = $profileType === 'author' ? 'authors' : 'users';
+
+        $query = Academicwork::with(['user', 'author'])
+            ->whereHas($academicworkRelation, function($q) use($id, $table) {
+                $q->where($table . '.id', '=', $id);
+            });
+
+        if ($workType === 'book') {
+            $query->where('ac_type', '=', 'book');
+        } else {
+            $query->where('ac_type', '!=', 'book');
+        }
+
+        $works = $query->orderBy('ac_year', 'desc')->get();
+        return response()->json($works);
     }
 }

@@ -960,8 +960,8 @@ Colors:
         
         .cardprofile .card {
             padding-top: 10px;
-            min-height: 290px;
-            height: 350px;
+            height: auto !important; /* override any old fixed height */
+            min-height: 220px;
             border: none;
             background-color: #fff;
             /* align-items: center; */
@@ -1909,3 +1909,713 @@ Colors:
             /* end of extra pages */
         }
         /* end of min-width 1200px */
+
+        /***********************************************/
+        /*   SYSTEM DESIGN — Shared across all pages  */
+        /***********************************************/
+
+        /* ── Design Tokens ──────────────────────────── */
+        :root {
+            --primary:       #1075BB;
+            --primary-dark:  #0c5f92;
+            --primary-light: #E8F5FE;
+            --primary-text:  #003e80;
+            --body-font:     'Prompt', 'Kanit', sans-serif;
+            --heading-font:  'Kanit', sans-serif;
+            --accent-teal:   #4ad1e5;
+            --border-radius-card: 12px;
+            --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ── Page Header Banner ─────────────────────── */
+        .page-header {
+            background-color: var(--primary);
+            padding: 60px 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #fff;
+            width: 100%;
+        }
+
+        .page-header h1 {
+            color: #fff;
+            font-family: var(--heading-font);
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin: 0 0 20px;
+            line-height: 1.2;
+        }
+
+        .page-header .search-form {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .page-header .search-input {
+            padding: 12px 50px 12px 20px !important;
+            background-color: white;
+            border-radius: 30px !important;
+            font-size: 16px !important;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            width: 100%;
+        }
+
+        .page-header .search-input:focus {
+            outline: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .page-header .search-btn {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            z-index: 3;
+            color: #555;
+        }
+
+        /* ── Stat / Count Cards ─────────────────────── */
+        .stat-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 10px;
+            border-radius: 12px;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+
+        .stat-card .stat-icon {
+            margin: 0 auto;
+            float: none;
+            display: table;
+            color: var(--accent-teal);
+            font-size: 2em;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0 0;
+            color: #666;
+            text-align: center;
+        }
+
+        .stat-card .stat-label {
+            font-size: 14px;
+            font-weight: 400;
+            margin: 5px 0 0;
+            text-align: center;
+            color: #555;
+            text-transform: uppercase;
+        }
+
+        /* Profile page compact stat cards */
+        .stat-card-sm {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 95px;
+            min-height: 60px;
+            border-radius: 20px;
+            background-color: var(--primary-light);
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 16px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
+            padding: 8px;
+        }
+
+        .stat-card-sm h2 {
+            font-size: 20px;
+            margin: 0;
+            color: var(--primary);
+        }
+
+        .stat-card-sm p {
+            font-size: 11px;
+            margin: 0;
+            text-transform: uppercase;
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* ── Researcher Cards ───────────────────────── */
+        .researcher-card {
+            border-radius: var(--border-radius-card);
+            box-shadow: var(--shadow-card);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            overflow: hidden;
+            border: none;
+        }
+
+        .researcher-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .researcher-card .card-img-wrap {
+            width: 100%;
+        }
+
+        .researcher-card .card-img-wrap img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: var(--border-radius-card);
+            border-bottom-left-radius: var(--border-radius-card);
+        }
+
+        .researcher-card .card-body .card-title {
+            font-family: var(--heading-font);
+            font-size: 15px;
+            font-weight: 600;
+            margin: 0;
+            color: #1a1a1a;
+        }
+
+        .researcher-card .card-body .card-position {
+            font-family: 'Mitr', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--primary);
+            margin: 4px 0;
+        }
+
+        .researcher-card .card-body .card-interest-label {
+            margin-top: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #888;
+            line-height: 1;
+        }
+
+        .researcher-card .card-body .expertise-list p {
+            font-family: 'Kanit', sans-serif;
+            font-size: 11px;
+            font-weight: 300;
+            color: #2b2b2b;
+            line-height: 1.4;
+            margin: 2px 0;
+        }
+
+        .researcher-card .card-body .expertise-list p::before {
+            content: '● ';
+            color: var(--primary);
+            font-size: 8px;
+        }
+
+        /* ── Profile / Research Profile Card ───────── */
+        .cardprofile .card {
+            border: none;
+            background-color: #fff;
+            filter: drop-shadow(2px 3px 4px rgba(0, 0, 0, 0.12));
+            border-radius: 8px;
+            /* removed fixed height — lets content grow */
+        }
+
+        /* ── Custom Pill Tabs ───────────────────────── */
+        .custom-tabs-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #ffffff;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .custom-tabs-nav {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            flex-wrap: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            padding-bottom: 4px;
+        }
+
+        .custom-tabs-nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        .custom-tab-btn {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 15px;
+            font-weight: bold;
+            border: none;
+            white-space: nowrap;
+            flex-shrink: 0;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            min-width: 90px;
+            text-align: center;
+        }
+
+        .custom-tab-btn:hover {
+            background-color: #d0ebfd;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            color: var(--primary-dark);
+        }
+
+        .custom-tab-btn.active {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* ── Publication Title Badge ────────────────── */
+        .title-pub {
+            background-color: var(--primary);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 17px;
+            text-align: center;
+            display: inline-block;
+            font-weight: bold;
+        }
+
+        /* ── Export Button ──────────────────────────── */
+        .btn-export {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--primary);
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s, box-shadow 0.2s;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+
+        .btn-export:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .icon-export {
+            width: 28px;
+            height: 28px;
+            filter: brightness(0) invert(1);
+        }
+
+        /* ── Member Cards (Research Group Detail) ───── */
+        .member-card {
+            width: 180px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .member-card img.center-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border: 1px solid #eaeaea;
+            border-radius: 4px;
+        }
+
+        .member-card .person-info p {
+            color: #333;
+            font-size: 1rem;
+            font-weight: 500;
+            margin: 6px 0 2px;
+            line-height: 1.3;
+        }
+
+        .member-card .person-info .email {
+            color: #0066cc;
+            font-size: 0.85rem;
+            word-break: break-all;
+            text-decoration: none;
+        }
+
+        .member-card .person-info .email:hover {
+            text-decoration: underline;
+        }
+
+        .head-lab-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary-text);
+            color: white;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 4px;
+        }
+
+        /* ── Accordion (publications) ───────────────── */
+        .mixpaper .accordion .accordion-item .accordion-header .accordion-button {
+            font-family: var(--heading-font);
+            font-size: 18px;
+            color: #fff;
+            background-color: var(--primary);
+        }
+
+        /* ── Page Section Title ─────────────────────── */
+        .page-section-title {
+            font-family: var(--heading-font);
+            font-weight: 600;
+            font-size: 20px;
+            text-transform: uppercase;
+            color: var(--primary);
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: 6px;
+            margin-bottom: 20px;
+        }
+
+        /* ── Report Charts ──────────────────────────── */
+        .report-chart-wrap {
+            width: 100%;
+            min-height: 250px;
+            position: relative;
+        }
+
+        /* ── Blue Stripe (research group detail) ────── */
+        .blue-stripe {
+            background-color: var(--primary);
+            padding: 60px 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .blue-stripe h1 {
+            color: #fff;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        .research-rationale-box {
+            background-color: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eaeaea;
+            border-radius: 6px;
+        }
+
+        .research-rationale-box h2 {
+            color: var(--primary-text);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        /* ── No Results Message ─────────────────────── */
+        .no-results-message {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            margin: 30px auto;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .no-results-message h3 { color: var(--primary); margin-bottom: 15px; }
+
+        /* ── Paper detail back button ───────────────── */
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 10px 22px;
+            border: none;
+            border-radius: 30px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin: 20px 0 10px;
+        }
+
+        .btn-back:hover {
+            transform: scale(1.03);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+            color: white;
+        }
+
+        /***********************************************
+         * MOBILE — Global Responsive Rules
+         ***********************************************/
+
+        /* ── max-width: 991px (tablets) ─────────────── */
+        @media (max-width: 991px) {
+            /* Navbar: ensure collapse works */
+            .navbar .navbar-collapse {
+                background-color: #fff;
+                padding: 10px 0;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+                border-top: 1px solid #e9e9e9;
+            }
+
+            .navbar .navbar-nav .nav-item {
+                border-right: none;
+                border-bottom: 1px solid rgba(18, 66, 106, 0.1);
+            }
+
+            .navbar .navbar-nav .nav-item:last-child {
+                border-bottom: none;
+            }
+        }
+
+        /* ── max-width: 767px (mobile landscape) ────── */
+        @media (max-width: 767px) {
+            /* Page header */
+            .page-header {
+                padding: 40px 16px;
+            }
+
+            .page-header h1 {
+                font-size: 1.6rem;
+            }
+
+            /* Blue stripe (rg detail) */
+            .blue-stripe {
+                padding: 36px 16px;
+            }
+
+            .blue-stripe h1 {
+                font-size: 1.6rem;
+            }
+
+            /* Profile card — stack vertically */
+            .cardprofile .card .row.g-0 {
+                flex-direction: column;
+            }
+
+            .cardprofile .card .card-image {
+                max-height: 200px;
+                width: auto;
+                margin: 16px auto 0;
+                display: block;
+            }
+
+            .cardprofile .card [class*="col-md"] {
+                width: 100% !important;
+            }
+
+            /* Researcher cards — 1 column on mobile */
+            .researchers-grid .col {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            /* Stat card row wraps */
+            .stats-row {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .stat-card-sm {
+                width: 80px;
+                min-height: 55px;
+            }
+
+            /* Chart containers */
+            .chart, .report-chart-wrap {
+                min-height: 220px;
+                width: 100% !important;
+            }
+
+            /* Research rationale box */
+            .research-rationale-box {
+                padding: 16px;
+            }
+
+            /* Member cards: narrower */
+            .member-card {
+                width: 140px;
+            }
+
+            /* Custom tabs — scroll horizontally, no wrap */
+            .custom-tabs-wrap {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+                padding: 10px;
+            }
+
+            .custom-tab-btn {
+                font-size: 13px;
+                padding: 6px 12px;
+                min-width: 70px;
+            }
+
+            /* Accordion */
+            .mixpaper h3 {
+                font-size: 18px;
+            }
+
+            /* Research proj/report table: force scroll */
+            .table-responsive {
+                -webkit-overflow-scrolling: touch;
+            }
+
+            /* Cards section spacer */
+            .card-2 {
+                padding-top: 2.5rem;
+                padding-bottom: 1rem;
+            }
+
+            .card-2 .title,
+            .page-section-title {
+                font-size: 18px;
+            }
+        }
+
+        /* ── max-width: 575px (phones) ───────────────── */
+        @media (max-width: 575px) {
+            /* Count section on home */
+            .count-section .col-6 {
+                margin-bottom: 10px;
+            }
+
+            .count-title {
+                font-size: 28px !important;
+            }
+
+            .count-text {
+                font-size: 13px !important;
+            }
+
+            /* Papers pagination */
+            .papers-pagination {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .papers-pagination .btn {
+                padding: 4px 8px;
+                font-size: 12px;
+            }
+
+            /* Page header */
+            .page-header h1 {
+                font-size: 1.3rem;
+            }
+
+            /* Researcher card image: smaller */
+            .researcher-card .card-img-wrap img {
+                height: 140px;
+            }
+
+            /* Profile card image */
+            .cardprofile .card .card-image {
+                max-height: 160px;
+            }
+
+            /* Paper detail image */
+            .paper-detail-img {
+                width: 140px;
+                height: 200px;
+            }
+
+            /* Export button smaller */
+            .btn-export {
+                width: 44px;
+                height: 44px;
+            }
+
+            .icon-export {
+                width: 22px;
+                height: 22px;
+            }
+
+            /* Report charts */
+            .report-chart-wrap {
+                min-height: 180px;
+            }
+
+            /* Member cards: smallest */
+            .member-card {
+                width: 120px;
+            }
+        }
+
+        /* ── Layout Wrappers (moved from layout.blade.php) ── */
+        .content-wrapper {
+            padding: 2rem 1rem;
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 1400px) {
+            .content-wrapper {
+                max-width: 1440px;
+                padding: 2.5rem 2rem;
+            }
+        }
+
+        @media (min-width: 1600px) {
+            .content-wrapper {
+                max-width: 1600px;
+                padding: 3rem 2rem;
+            }
+        }
+
+        /* Footer override */
+        .footer {
+            background-color: white;
+            padding: 2rem 0;
+            margin-top: 4rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        /* ── Home Page specifically (moved from home.blade.php) ── */
+        .count-title {
+            color: #666;
+            font-size: 40px;
+            font-weight: normal;
+            margin-top: 10px;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .papers-pagination .btn-group {
+            gap: 6px;
+        }
+
+        .count-section .col-6,
+        .count-section .col-lg-3 {
+            margin-bottom: 12px;
+        }
+
+        .carousel-item img {
+            height: auto;
+            object-fit: cover;
+        }

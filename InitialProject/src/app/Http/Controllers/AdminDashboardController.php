@@ -9,16 +9,20 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\SecurityEvent;
+use App\Models\ScheduledCommand;
 use App\Http\Controllers\Admin\SecurityController;
+use App\Services\ScheduledCommandService;
 
 class AdminDashboardController extends Controller
 {
     protected $securityController;
+    protected $scheduledCommandService;
 
-    public function __construct(SecurityController $securityController)
+    public function __construct(SecurityController $securityController, ScheduledCommandService $scheduledCommandService)
     {
         $this->middleware(['auth', 'role:admin']);
         $this->securityController = $securityController;
+        $this->scheduledCommandService = $scheduledCommandService;
     }
 
     public function index()
@@ -141,6 +145,11 @@ class AdminDashboardController extends Controller
             return DB::table('activity_logs')->count();
         });
 
+        $scheduledCommands = $this->scheduledCommandService->getCommandsForDashboard();
+        $recentCommandRuns = $this->scheduledCommandService->getRecentRuns(10);
+        $totalCommandRuns = $this->scheduledCommandService->getTotalRuns();
+        $scheduledCommandsManageable = $this->scheduledCommandService->canManageCommands();
+
         return view('dashboard', compact(
             'user',
             'roles',
@@ -150,8 +159,28 @@ class AdminDashboardController extends Controller
             'errorLogs',
             'systemInfo',
             'totalActivities',
-            'totalErrorLogs'
+            'totalErrorLogs',
+            'scheduledCommands',
+            'recentCommandRuns',
+            'totalCommandRuns',
+            'scheduledCommandsManageable'
         ));
+    }
+
+    public function updateScheduledCommand(Request $request, ScheduledCommand $scheduledCommand)
+    {
+        $validated = $request->validate([
+            'is_enabled' => 'required|boolean',
+        ]);
+
+        $scheduledCommand->update([
+            'is_enabled' => (bool) $validated['is_enabled'],
+        ]);
+
+        return redirect()->back()->with(
+            'scheduled_command_status',
+            $scheduledCommand->name . ' is now ' . ($scheduledCommand->is_enabled ? 'enabled' : 'disabled') . '.'
+        );
     }
 
     /**

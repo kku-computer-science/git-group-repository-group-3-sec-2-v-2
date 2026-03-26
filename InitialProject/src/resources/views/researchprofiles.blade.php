@@ -1,392 +1,28 @@
 @extends('layouts.layout')
+{{-- Inline styles removed — moved to style.css (stat-card-sm, custom-tabs-nav, cardprofile, title-pub, btn-export, etc.) --}}
+
+{{-- All styles moved to style.css --}}
 <style>
-    .count {
-        background-color: #fff;
-        padding: 2px 0;
-        border-radius: 5px;
-
-
-    }
-
-    .count-title {
-        font-size: 25px;
-        font-weight: normal;
-        margin-top: 10px;
-        margin-bottom: 0;
-        text-align: center;
-        line-height: 1.8;
-        font-weight: 800;
-    }
-
-    .count-text {
-        font-size: 13px;
-        font-weight: normal;
-        margin-top: 5px;
-        margin-bottom: 0;
-        text-align: center;
-        color: #000;
-
-
-    }
-
-    .fa-2x {
-        margin: 0 auto;
-        float: none;
-        display: table;
-        color: #4ad1e5;
-    }
-
-    .card {
-        height: 380px !important;
-        /* ปรับค่าตามที่ต้องการ */
-    }
-
-
-    /* ปรับแต่งปุ่ม Publications */
-    .title-pub {
-        background-color: #1075BB;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 25px;
-        font-size: 18px;
-        text-align: center;
-        display: inline-block;
-        font-weight: bold;
-        margin-bottom: 15px;
-    }
-
-    /* ปรับขนาดและระยะห่างของกล่องสถิติ */
-    .stats-row {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        /* ลดช่องว่างให้สมดุล */
-        flex-wrap: nowrap;
-    }
-
-    /* ปรับแต่งกล่องตัวเลข */
-    .count {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 95px;
-        /* ลดขนาดให้พอดี */
-        height: 60px;
-        border-radius: 20px;
-        background-color: #E8F5FE;
-        color: #1075BB;
-        font-weight: bold;
-        font-size: 16px;
-        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.08);
-    }
-
-    /* ปรับขนาดตัวเลข */
-    .count h2 {
-        font-size: 20px;
-        margin: 0;
-        color: #1075BB;
-    }
-
-    /* ปรับขนาดคำบรรยาย */
-    .count p {
-        font-size: 12px;
-        margin: 0;
-        text-transform: uppercase;
-        color: #1075BB;
-        font-weight: bold;
-    }
-
-    /* จัดกล่องเป็นแนวนอน + เพิ่มช่องว่าง */
-    .row.text-center {
-        display: flex;
-        justify-content: center;
-        gap: 0px;
-        /* ระยะห่างระหว่างกล่อง */
-        flex-wrap: nowrap;
-        /* ไม่ให้ขึ้นบรรทัดใหม่ */
-    }
-
-    /* กราฟด้านล่าง */
-    .chart {
-        padding: 10px;
-        background: white;
-    }
-
-    .nav-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-        background-color: #ffffff;
-    }
-
-    .nav-item .nav-link {
-        display: block;
-        padding: 0.5rem 1rem;
-        color: #1075BB;
-        ;
-    }
-
-    .custom-tabs {
-        display: flex;
-        justify-content: center;
-        gap: 12px;
-        padding: 15px;
-        background-color: #ffffff;
-    }
-
-    .custom-tab-btn {
-        background-color: #E8F5FE;
-        color: #1075BB;
-        padding: 8px 18px;
-        border-radius: 25px;
-        font-size: 20px;
-        font-weight: bold;
-        border: none;
-        text-align: center;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-        min-width: 120px;
-    }
-
-    .custom-tab-btn:hover {
-        background-color: #d0ebfd;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        color: #0c5f92;
-    }
-
-    .custom-tab-btn.active {
-        background-color: #1075BB;
-        color: white;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
-    }
-
-    .btn-export {
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #1075BB;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        transition: background-color 0.3s, box-shadow 0.3s;
-        text-decoration: none;
-    }
-
-    .icon-export {
-        width: 32px;
-        height: 32px;
-        filter: brightness(0) invert(1);
-        /* เปลี่ยนเป็นสีขาว */
-    }
-
-    .btn-export:hover {
-        background-color: #0c5f92;
-        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
-    }
-
-    thead {
-        background-color: #1075BB;
-        color: white;
-        font-weight: bold;
-        text-align: left;
-    }
-
-    /* ปรับขนาดฟอนต์สำหรับหัวข้อ (thead) */
-    thead th {
-        font-size: 18px !important;
-        /* ขนาดตัวอักษรของหัวข้อ */
-        font-weight: bold !important;
-        height: 30px !important;
-        /* กำหนดความสูงขั้นต่ำ */
-        text-align: left;
-    }
-
-    th {
-        background-color: #1075BB;
-        color: white;
-        padding: 10px;
-        text-align: left;
-        font-weight: bold;
-        text-transform: uppercase;
-    }
-
-    /* ทำให้มุมของ thead โค้งมน */
-    thead th:first-child {
-        border-top-left-radius: 10px;
-    }
-
-    thead th:last-child {
-        border-top-right-radius: 10px;
-    }
-
-    /* กำหนดรูปแบบของ tbody */
-    tbody tr {
-        background-color: #F4F9FD;
-        /* สีพื้นหลังแถว */
-        border-bottom: 1px solid #E0E8EF;
-        /* เส้นขอบแถว */
-        height: 20px !important;
-        /* กำหนดความสูงขั้นต่ำของแถว */
-    }
-
-    /* กำหนดสีพื้นหลังให้แถวที่เป็นเลขคี่ (odd) */
-    tbody tr:nth-child(odd) {
-        background-color: rgba(190, 228, 254, 0.57) !important;
-        /* ปรับเป็นสีฟ้าอ่อน */
-    }
-
-    /* กำหนดสีพื้นหลังให้แถวที่เป็นเลขคู่ (even) */
-    tbody tr:nth-child(even) {
-        background-color: rgb(229, 239, 247) !important;
-        /* ปรับเป็นสีฟ้าอ่อนกว่า */
-    }
-
-
-    tbody td {
-        padding: 20px 10px !important;
-        font-size: 16px !important;
-        font-weight: 550 !important;
-        color: rgb(6, 34, 54);
-    }
-
-    .badge.bg-info {
-        background-color: #1075BB !important;
-        padding: 5px 10px;
-        font-weight: normal;
-        font-size: 0.85em;
-    }
-
-    .paper-link {
-        color: #1075BB;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-    .paper-link:hover {
-        text-decoration: underline;
-        color: #0c5f92;
-    }
-
-    .paper-meta {
-        margin-top: 5px;
-        font-size: 0.9em;
-        color: #666;
-    }
-
-    /* ทำให้มุมล่างของตารางมน */
-    tbody tr:last-child td:first-child {
-        border-bottom-left-radius: 10px;
-    }
-
-    tbody tr:last-child td:last-child {
-        border-bottom-right-radius: 10px;
-    }
-
-    /* ตั้งค่าทั่วไปของตาราง */
-    table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0;
-        border-radius: 10px;
-        overflow: hidden;
-        font-family: Arial, sans-serif;
-        margin-bottom: 30px;
-        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-    }
-
-    thead {
-        background-color: #1075BB;
-        color: white;
-    }
-
-    thead th {
-        font-size: 16px !important;
-        font-weight: 600 !important;
-        padding: 15px 20px !important;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border: none !important;
-        white-space: nowrap;
-    }
-
-    tbody tr {
-        transition: all 0.2s ease;
-    }
-
-    tbody tr:hover {
-        background-color: rgba(16, 117, 187, 0.05) !important;
-        transform: translateX(4px);
-    }
-
-    tbody td {
-        padding: 20px !important;
-        vertical-align: top;
-        line-height: 1.5;
-        border-bottom: 1px solid #E0E8EF;
-    }
-
-    .paper-link {
-        color: #1075BB;
-        text-decoration: none;
-        font-weight: 600;
-        font-size: 16px;
-        display: block;
-        margin-bottom: 8px;
-        line-height: 1.4;
-    }
-
-    .paper-link:hover {
-        color: #0c5f92;
-        text-decoration: none;
-    }
-
-    .paper-meta {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-top: 8px;
-    }
-
-    .badge.bg-info {
-        background-color: rgba(16, 117, 187, 0.1) !important;
-        color: #1075BB !important;
-        padding: 6px 12px;
-        border-radius: 20px;
-        font-weight: 500;
-        font-size: 14px;
-        letter-spacing: 0.3px;
-    }
-
-    .source-title {
-        color: #666;
-        font-size: 14px;
-        font-style: italic;
-    }
-
-    .citation-count {
-        font-weight: 600;
-        color: #1075BB;
-        text-align: center;
-        font-size: 16px;
-    }
-
-    /* Responsive table */
-    @media (max-width: 768px) {
-        thead th {
-            padding: 12px 15px !important;
-            font-size: 14px !important;
-        }
-
-        tbody td {
-            padding: 15px !important;
-        }
-
-        .paper-link {
-            font-size: 15px;
-        }
+    /* Profile page: count cards in profile use stat-card-sm class */
+    .count { display:none; } /* legacy, replaced by stat-card-sm */
+    /* Table styling for publication tables */
+    thead { background-color: var(--primary, #1075BB); color: white; }
+    thead th { font-size: 15px !important; font-weight: 600 !important; padding: 12px 16px !important; white-space: nowrap; border: none !important; }
+    tbody tr:nth-child(odd)  { background-color: rgba(190,228,254,0.35) !important; }
+    tbody tr:nth-child(even) { background-color: rgb(229,239,247) !important; }
+    tbody tr:hover { background-color: rgba(16,117,187,0.06) !important; }
+    tbody td { padding: 16px !important; vertical-align: top; line-height: 1.5; border-bottom: 1px solid #E0E8EF; font-size: 14px !important; }
+    .paper-link { color: #1075BB; text-decoration: none; font-weight: 600; font-size: 15px; display: block; margin-bottom: 6px; line-height: 1.4; }
+    .paper-link:hover { color: #0c5f92; text-decoration: underline; }
+    .paper-meta { display: flex; align-items: center; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
+    .source-title { color: #666; font-size: 13px; font-style: italic; }
+    .citation-count { font-weight: 600; color: #1075BB; text-align: center; font-size: 15px; }
+    .badge.bg-info { background-color: rgba(16,117,187,0.1) !important; color: #1075BB !important; padding: 5px 10px; border-radius: 20px; font-weight: 500; font-size: 13px; }
+    table { width:100%; border-collapse:separate; border-spacing:0; border-radius:10px; overflow:hidden; margin-bottom:24px; box-shadow:0 0 16px rgba(0,0,0,0.05); }
+    @media(max-width:600px) {
+        .cardprofile .card .col-md-6 { width:100% !important; }
+        tbody td { padding: 10px !important; font-size: 13px !important; }
+        thead th { font-size: 13px !important; padding: 10px !important; }
     }
 </style>
 
@@ -488,27 +124,16 @@
     </div> -->
     <br>
 
-    <div class="nav-container">
-        <ul class="nav custom-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active custom-tab-btn" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Summary</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link custom-tab-btn" id="scopus-tab" data-bs-toggle="tab" data-bs-target="#scopus" type="button" role="tab" aria-controls="scopus" aria-selected="false">SCOPUS</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link custom-tab-btn" id="wos-tab" data-bs-toggle="tab" data-bs-target="#wos" type="button" role="tab" aria-controls="wos" aria-selected="false">WEB OF SCIENCE</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link custom-tab-btn" id="tci-tab" data-bs-toggle="tab" data-bs-target="#tci" type="button" role="tab" aria-controls="tci" aria-selected="false">TCI</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link custom-tab-btn" id="book-tab" data-bs-toggle="tab" data-bs-target="#book" type="button" role="tab" aria-controls="book" aria-selected="false">หนังสือ</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link custom-tab-btn" id="patent-tab" data-bs-toggle="tab" data-bs-target="#patent" type="button" role="tab" aria-controls="patent" aria-selected="false">ผลงานวิชาการด้านอื่นๆ</button>
-            </li>
-        </ul>
+    {{-- Mobile-scrollable tabs navigation --}}
+    <div class="custom-tabs-wrap">
+        <nav class="custom-tabs-nav" id="myTab" role="tablist">
+            <button class="custom-tab-btn active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Summary</button>
+            <button class="custom-tab-btn" id="scopus-tab" data-bs-toggle="tab" data-bs-target="#scopus" type="button" role="tab" aria-controls="scopus" aria-selected="false">SCOPUS</button>
+            <button class="custom-tab-btn" id="wos-tab" data-bs-toggle="tab" data-bs-target="#wos" type="button" role="tab" aria-controls="wos" aria-selected="false">WEB OF SCIENCE</button>
+            <button class="custom-tab-btn" id="tci-tab" data-bs-toggle="tab" data-bs-target="#tci" type="button" role="tab" aria-controls="tci" aria-selected="false">TCI</button>
+            <button class="custom-tab-btn" id="book-tab" data-bs-toggle="tab" data-bs-target="#book" type="button" role="tab" aria-controls="book" aria-selected="false">หนังสือ</button>
+            <button class="custom-tab-btn" id="patent-tab" data-bs-toggle="tab" data-bs-target="#patent" type="button" role="tab" aria-controls="patent" aria-selected="false">ผลงานวิชาการด้านอื่นๆ</button>
+        </nav>
         @if($showExport)
         <a class="btn-export" href="{{ route('excel', ['id' => $res->id]) }}" target="_blank" aria-label="Export to Excel">
             <img src="https://cdn-icons-png.flaticon.com/512/3405/3405255.png" alt="Export Icon" class="icon-export" />
@@ -547,53 +172,7 @@
                 </thead>
 
                 <tbody>
-                    @foreach ($papers as $n => $paper)
-                    <tr>
-                        <!-- <td> {{$n+1}}</td> -->
-                        <td>{{ $paper->paper_yearpub }}</td>
-                        <!-- <td style="width:90%;">{{$paper->paper_name}}</td> -->
-                        <!-- ทำให้ Paper Name เป็นลิงก์ไปยัง paperDetail.blade.php -->
-                        <td style="width:90%;">
-                            <div class="paper-content">
-                                <a href="{{ route('paper.detail', array_filter(['id' => $paper->id, 'user_id' => $paperDetailUserId ?? null])) }}" class="paper-link">
-                                    {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
-                                </a>
-                                <div class="paper-meta">
-                                    <span class="badge bg-info">{{ $paper->paper_type }}</span>
-                                    <span class="source-title">{{ $paper->paper_sourcetitle }}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <!-- <td>
-                            @foreach ($paper->author as $author)
-                            <span>
-                                <a>{{$author -> author_fname}} {{$author -> author_lname}}</a>
-                            </span>
-                            @endforeach
-                            @foreach ($paper->teacher as $author)
-                            <span >
-                                <a href="{{ route('detail',Crypt::encrypt($author->id))}}">
-                                    <teacher>{{$author -> fname_en}} {{$author -> lname_en}}</teacher></a>
-                            </span>
-                            @endforeach
-                        </td>
-                        <td>{{$paper->paper_type}}</td>
-                        <td style="width:100%;">{{$paper->paper_page}}</td>
-                        <td>{{$paper->paper_sourcetitle}}</td> -->
-                        <td class="citation-count">{{$paper->paper_citation}}</td>
-                        <!-- <td>{{$paper->paper_doi}}</td>
-                        <td>
-                            @foreach ($paper->source as $s)
-                            <span>
-                                <a>{{$s -> source_name}}@if (!$loop->last) , @endif</a>
-                            </span>
-                            @endforeach
-                        </td> -->
-
-                    </tr>
-                    @endforeach
                 </tbody>
-
             </table>
 
         </div>
@@ -608,23 +187,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($papers_scopus as $n => $paper)
-                    <tr>
-                        <td>{{ $paper->paper_yearpub }}</td>
-                        <td style="width:90%;">
-                            <div class="paper-content">
-                                <a href="{{ route('paper.detail', array_filter(['id' => $paper->id, 'user_id' => $paperDetailUserId ?? null])) }}" class="paper-link">
-                                    {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
-                                </a>
-                                <div class="paper-meta">
-                                    <span class="badge bg-info">{{ $paper->paper_type }}</span>
-                                    <span class="source-title">{{ $paper->paper_sourcetitle }}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="citation-count">{{ $paper->paper_citation }}</td>
-                    </tr>
-                    @endforeach
                 </tbody>
             </table>
 
@@ -641,23 +203,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($papers_wos as $n => $paper)
-                    <tr>
-                        <td>{{ $paper->paper_yearpub }}</td>
-                        <td style="width:90%;">
-                            <div class="paper-content">
-                                <a href="{{ route('paper.detail', array_filter(['id' => $paper->id, 'user_id' => $paperDetailUserId ?? null])) }}" class="paper-link">
-                                    {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
-                                </a>
-                                <div class="paper-meta">
-                                    <span class="badge bg-info">{{ $paper->paper_type }}</span>
-                                    <span class="source-title">{{ $paper->paper_sourcetitle }}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="citation-count">{{ $paper->paper_citation }}</td>
-                    </tr>
-                    @endforeach
                 </tbody>
             </table>
 
@@ -674,23 +219,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($papers_tci as $n => $paper)
-                    <tr>
-                        <td>{{ $paper->paper_yearpub }}</td>
-                        <td style="width:90%;">
-                            <div class="paper-content">
-                                <a href="{{ route('paper.detail', array_filter(['id' => $paper->id, 'user_id' => $paperDetailUserId ?? null])) }}" class="paper-link">
-                                    {!! html_entity_decode(preg_replace('<inf>', 'sub', $paper->paper_name)) !!}
-                                </a>
-                                <div class="paper-meta">
-                                    <span class="badge bg-info">{{ $paper->paper_type }}</span>
-                                    <span class="source-title">{{ $paper->paper_sourcetitle }}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="citation-count">{{ $paper->paper_citation }}</td>
-                    </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -709,29 +237,6 @@
                 </thead>
 
                 <tbody>
-                    @foreach ($book_chapter as $n => $paper)
-                    <tr>
-                        <td>{{$n+1}}</td>
-                        <td style="width:80px">{{ date('Y', strtotime($paper->ac_year))+543 }}</td>
-                        <td>{{$paper->ac_name}}</td>
-                        <td>
-                            @foreach ($paper->author as $author)
-                            <span>
-                                <a>{{$author -> author_fname}} {{$author -> author_lname}}</a>
-
-                            </span>
-                            @endforeach
-                            @foreach ($paper->user as $author)
-                            <span>
-                                <a> {{$author -> fname_en}} {{$author -> lname_en}}</a>
-                            </span>
-                            @endforeach
-                        </td>
-                        <td>{{$paper->ac_sourcetitle}}</td>
-                        <td>{{ $paper->ac_page }}</td>
-
-                    </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -751,32 +256,6 @@
                 </thead>
 
                 <tbody>
-                    @foreach ($patent as $n => $paper)
-                    <tr>
-                        <td>{{$n+1}}</td>
-                        <td>{{$paper->ac_name}}</td>
-                        <td>
-                            @foreach ($paper->author as $author)
-                            <span>
-                                <a>{{$author -> author_fname}} {{$author -> author_lname}}</a>
-
-                            </span>
-                            @endforeach
-                            @foreach ($paper->user as $author)
-                            <span>
-                                <a href="{{ route('detail',Crypt::encrypt($author->id))}}">
-                                    <teacher>{{$author -> fname_en}} {{$author -> lname_en}}</teacher>
-                                </a>
-
-                            </span>
-                            @endforeach
-                        </td>
-                        <td>{{$paper->ac_type}}</td>
-                        <td>{{$paper->ac_refnumber }}</td>
-                        <td>{{$paper->ac_year}}</td>
-
-                    </tr>
-                    @endforeach
                 </tbody>
             </table>
         </div>
@@ -819,17 +298,110 @@
         };
 
         // สร้าง DataTable ให้กับทุกตาราง
-        const table1 = $('#example1').DataTable(tableConfig);
-        const table2 = $('#example2').DataTable(tableConfig);
-        const table3 = $('#example3').DataTable(tableConfig);
-        const table4 = $('#example4').DataTable(tableConfig);
-        const table5 = $('#example5').DataTable({
+        const profileId = '{{ $profileId }}';
+        const profileType = '{{ $profileType }}';
+        const userIdQuery = {!! isset($paperDetailUserId) ? "'?user_id=' + " . $paperDetailUserId : "''" !!};
+        
+        const paperColumns = [
+            { data: 'paper_yearpub', width: '10%' },
+            { 
+                data: null,
+                width: '80%',
+                render: function(data, type, row) {
+                    let paperName = row.paper_name ? row.paper_name.replace(/<inf>/g, 'sub').replace(/<\/inf>/g, '/sub') : '';
+                    let url = '/paper/' + row.id + '/detail' + userIdQuery;
+                    return `
+                        <div class="paper-content">
+                            <a href="${url}" class="paper-link">${paperName}</a>
+                            <div class="paper-meta">
+                                <span class="badge bg-info">${row.paper_type || ''}</span>
+                                <span class="source-title">${row.paper_sourcetitle || ''}</span>
+                            </div>
+                        </div>
+                    `;
+                }
+            },
+            { data: 'paper_citation', className: 'citation-count', width: '10%' }
+        ];
+
+        let t1 = $('#example1').DataTable({
             ...tableConfig,
-            order: [
-                [1, 'desc']
+            ajax: { url: `/profile/${profileId}/papers?type=${profileType}&source=all`, dataSrc: '' },
+            columns: paperColumns
+        });
+        
+        let t2 = $('#example2').DataTable({
+            ...tableConfig,
+            ajax: { url: `/profile/${profileId}/papers?type=${profileType}&source=scopus`, dataSrc: '' },
+            columns: paperColumns
+        });
+
+        let t3 = $('#example3').DataTable({
+            ...tableConfig,
+            ajax: { url: `/profile/${profileId}/papers?type=${profileType}&source=wos`, dataSrc: '' },
+            columns: paperColumns
+        });
+
+        let t4 = $('#example4').DataTable({
+            ...tableConfig,
+            ajax: { url: `/profile/${profileId}/papers?type=${profileType}&source=tci`, dataSrc: '' },
+            columns: paperColumns
+        });
+
+        let t5 = $('#example5').DataTable({
+            ...tableConfig,
+            order: [[1, 'desc']],
+            ajax: { url: `/profile/${profileId}/academic-works?type=${profileType}&work_type=book`, dataSrc: '' },
+            columns: [
+                { data: null, render: function (data, type, row, meta) { return meta.row + 1; } },
+                { data: 'ac_year', render: function(data) { return data ? parseInt(data.substring(0,4)) + 543 : ''; } },
+                { data: 'ac_name' },
+                { 
+                    data: null, 
+                    render: function(data, type, row) {
+                        let authors = [];
+                        if (row.author) {
+                            row.author.forEach(a => authors.push(`<span><a>${a.author_fname} ${a.author_lname}</a></span>`));
+                        }
+                        if (row.user) {
+                            row.user.forEach(u => authors.push(`<span><a>${u.fname_en} ${u.lname_en}</a></span>`));
+                        }
+                        return authors.join(' ');
+                    }
+                },
+                { data: 'ac_sourcetitle' },
+                { data: 'ac_page' }
             ]
         });
-        const table6 = $('#example6').DataTable(tableConfig);
+
+        let t6 = $('#example6').DataTable({
+            ...tableConfig,
+            ajax: { url: `/profile/${profileId}/academic-works?type=${profileType}&work_type=other`, dataSrc: '' },
+            columns: [
+                { data: null, render: function (data, type, row, meta) { return meta.row + 1; } },
+                { data: 'ac_name' },
+                { 
+                    data: null, 
+                    render: function(data, type, row) {
+                        let authors = [];
+                        if (row.author) {
+                            row.author.forEach(a => authors.push(`<span><a>${a.author_fname} ${a.author_lname}</a></span>`));
+                        }
+                        if (row.user) {
+                            // Note: We bypass decrypting here since it relies on PHP, but it just displays names cleanly.
+                            row.user.forEach(u => authors.push(`<span><teacher>${u.fname_en} ${u.lname_en}</teacher></span>`));
+                        }
+                        return authors.join(' ');
+                    }
+                },
+                { data: 'ac_type' },
+                { data: 'ac_refnumber' },
+                { data: 'ac_year' }
+            ]
+        });
+
+        // Store references for the search
+        const table1 = t1, table2 = t2, table3 = t3, table4 = t4, table5 = t5, table6 = t6;
 
         // เพิ่ม input ค้นหากลางสำหรับทุกตาราง
         const searchBox = $('<div class="mb-3"><input type="text" id="globalSearch" class="form-control" placeholder="🔍 ค้นหาชื่อ, ปี, หรือรายละเอียด..." style="width: 100%; padding: 8px; border: 1px solid #1075BB; border-radius: 4px;"></div>');

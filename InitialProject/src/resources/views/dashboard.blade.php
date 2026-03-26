@@ -625,6 +625,40 @@
         width: 80%;
         text-align: center;
     }
+
+    .command-meta {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+
+    .command-schedule-pill {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: #eef2ff;
+        color: #364fc7;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .command-run-preview {
+        max-width: 360px;
+        white-space: normal;
+        word-break: break-word;
+        color: #6c757d;
+    }
+
+    .command-status-badge {
+        min-width: 88px;
+        text-align: center;
+    }
+
+    .command-inline-note {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
 </style>
 
 <!-- Make sure Chart.js is loaded -->
@@ -944,6 +978,186 @@
                 <div class="stat-title">System Info</div>
                 <div class="stat-value">Laravel {{ $systemInfo['laravel_version'] }}</div>
                 <div class="stat-subtitle">PHP {{ $systemInfo['php_version'] }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" id="scheduled-commands">
+        <div class="col-12">
+            @if(session('scheduled_command_status'))
+            <div class="alert alert-success">
+                {{ session('scheduled_command_status') }}
+            </div>
+            @endif
+
+            <div class="content-card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-subtitle mb-2">Automation</h6>
+                        <h3 class="card-title">Scheduled Commands</h3>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <span class="badge bg-white text-primary mr-3">
+                            Configured: {{ count($scheduledCommands ?? []) }}
+                        </span>
+                        <span class="badge bg-white text-primary">
+                            Runs logged: {{ $totalCommandRuns ?? 0 }}
+                        </span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if(empty($scheduledCommandsManageable))
+                    <div class="alert alert-warning mb-4">
+                        Run `php artisan migrate` before using command toggles and execution tracking.
+                    </div>
+                    @endif
+
+                    <div class="table-responsive mb-4">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Command</th>
+                                    <th>Schedule</th>
+                                    <th>Latest Result</th>
+                                    <th class="text-center">Enabled</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($scheduledCommands ?? [] as $scheduledCommand)
+                                @php
+                                    $latestRun = $scheduledCommand->latest_run ?? null;
+                                    $status = $latestRun->status ?? 'not-run';
+                                    $statusClass = $status === 'success'
+                                        ? 'bg-success text-white'
+                                        : ($status === 'failed'
+                                            ? 'bg-danger text-white'
+                                            : ($status === 'skipped'
+                                                ? 'bg-warning text-dark'
+                                                : 'bg-secondary text-white'));
+                                @endphp
+                                <tr>
+                                    <td>
+                                        <div class="font-weight-bold">{{ $scheduledCommand->name }}</div>
+                                        <div><code>{{ $scheduledCommand->command }}</code></div>
+                                        @if(!empty($scheduledCommand->description))
+                                        <div class="command-inline-note mt-1">{{ $scheduledCommand->description }}</div>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="command-meta">
+                                            <span class="command-schedule-pill">{{ $scheduledCommand->cron_expression }}</span>
+                                            <span class="text-muted">{{ $scheduledCommand->timezone ?? 'Asia/Bangkok' }}</span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="badge command-status-badge {{ $statusClass }}">
+                                            {{ ucfirst($status === 'not-run' ? 'pending' : $status) }}
+                                        </span>
+                                        @if($latestRun)
+                                        <div class="command-inline-note mt-2">
+                                            {{ optional($latestRun->started_at)->format('Y-m-d H:i:s') ?? 'N/A' }}
+                                            @if(!is_null($latestRun->exit_code))
+                                            | Exit {{ $latestRun->exit_code }}
+                                            @endif
+                                        </div>
+                                        <div class="command-run-preview mt-1">
+                                            {{ \Illuminate\Support\Str::limit($latestRun->error_message ?: ($latestRun->output ?: 'No output captured.'), 120) }}
+                                        </div>
+                                        @else
+                                        <div class="command-inline-note mt-2">No execution log yet.</div>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if($scheduledCommand->id)
+                                        <form method="POST" action="{{ route('admin.dashboard.scheduled-commands.update', $scheduledCommand->id) }}" class="command-toggle-form mb-0">
+                                            @csrf
+                                            <input type="hidden" name="is_enabled" value="0">
+                                            <div class="custom-control custom-switch d-inline-block text-left">
+                                                <input
+                                                    type="checkbox"
+                                                    class="custom-control-input command-toggle-input"
+                                                    id="commandSwitch{{ $scheduledCommand->id }}"
+                                                    name="is_enabled"
+                                                    value="1"
+                                                    {{ $scheduledCommand->is_enabled ? 'checked' : '' }}>
+                                                <label class="custom-control-label" for="commandSwitch{{ $scheduledCommand->id }}">
+                                                    {{ $scheduledCommand->is_enabled ? 'On' : 'Off' }}
+                                                </label>
+                                            </div>
+                                        </form>
+                                        @else
+                                        <span class="command-inline-note">Migration required</span>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">No scheduled commands configured.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Started At</th>
+                                    <th>Command</th>
+                                    <th>Status</th>
+                                    <th>Duration</th>
+                                    <th>Result</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($recentCommandRuns ?? [] as $run)
+                                @php
+                                    $durationSeconds = ($run->started_at && $run->finished_at)
+                                        ? $run->finished_at->diffInSeconds($run->started_at)
+                                        : null;
+                                    $runStatusClass = $run->status === 'success'
+                                        ? 'bg-success text-white'
+                                        : ($run->status === 'failed'
+                                            ? 'bg-danger text-white'
+                                            : ($run->status === 'skipped'
+                                                ? 'bg-warning text-dark'
+                                                : 'bg-secondary text-white'));
+                                @endphp
+                                <tr>
+                                    <td>{{ optional($run->started_at)->format('Y-m-d H:i:s') ?? 'N/A' }}</td>
+                                    <td>
+                                        <div class="font-weight-bold">{{ optional($run->scheduledCommand)->name ?? 'Unknown command' }}</div>
+                                        <div><code>{{ $run->executed_command }}</code></div>
+                                    </td>
+                                    <td>
+                                        <span class="badge command-status-badge {{ $runStatusClass }}">
+                                            {{ ucfirst($run->status) }}
+                                        </span>
+                                        @if(!is_null($run->exit_code))
+                                        <div class="command-inline-note mt-2">Exit {{ $run->exit_code }}</div>
+                                        @endif
+                                    </td>
+                                    <td>{{ is_null($durationSeconds) ? 'N/A' : $durationSeconds . 's' }}</td>
+                                    <td class="command-run-preview">
+                                        {{ \Illuminate\Support\Str::limit($run->error_message ?: ($run->output ?: 'No output captured.'), 100) }}
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-sm btn-info" data-toggle="modal" data-target="#commandRunModal{{ $run->id }}">
+                                            <i class="mdi mdi-information-outline"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="6" class="text-center text-muted">No command execution logs recorded yet.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -2222,6 +2436,13 @@ function hexToRgba(hex, alpha) {
     var b = parseInt(hex.slice(5, 7), 16);
     return 'rgba(' + r + ', ' + g + ', ' + b + ', ' + alpha + ')';
 }
+
+$('.command-toggle-input').on('change', function() {
+    var $input = $(this);
+    var $label = $input.closest('.custom-control').find('.custom-control-label');
+    $label.text($input.is(':checked') ? 'On' : 'Off');
+    $input.closest('form').trigger('submit');
+});
 </script>
 
 <!-- Add these modals after the dashboard content -->
@@ -2278,6 +2499,48 @@ function hexToRgba(hex, alpha) {
                     </button>
                     @endif
                     <button type="button" class="btn btn-secondary close-modal-btn" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
+@endif
+
+@if(isset($recentCommandRuns) && count($recentCommandRuns) > 0)
+    @foreach($recentCommandRuns as $run)
+    <div class="modal fade" id="commandRunModal{{ $run->id }}" tabindex="-1" role="dialog" aria-labelledby="commandRunModalLabel{{ $run->id }}" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="commandRunModalLabel{{ $run->id }}">Command Run Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Command:</strong> {{ optional($run->scheduledCommand)->name ?? 'Unknown command' }}</p>
+                            <p><strong>Executed:</strong> <code>{{ $run->executed_command }}</code></p>
+                            <p><strong>Status:</strong> {{ ucfirst($run->status) }}</p>
+                            <p><strong>Exit Code:</strong> {{ is_null($run->exit_code) ? 'N/A' : $run->exit_code }}</p>
+                            <p><strong>Started At:</strong> {{ optional($run->started_at)->format('Y-m-d H:i:s') ?? 'N/A' }}</p>
+                            <p><strong>Finished At:</strong> {{ optional($run->finished_at)->format('Y-m-d H:i:s') ?? 'N/A' }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Error:</strong></p>
+                            <div class="mb-3 bg-light border rounded" style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 140px; overflow-y: auto; text-align: left; padding: 1rem;">
+                                {{ $run->error_message ?: 'No error message' }}
+                            </div>
+                            <p><strong>Output:</strong></p>
+                            <div class="bg-light border rounded" style="line-height: 1.5; overflow-wrap: break-word; max-width: 100%; max-height: 220px; overflow-y: auto; text-align: left; padding: 1rem; font-size: 0.85rem;">
+                                <pre style="white-space: pre-wrap; margin-bottom: 0;">{{ $run->output ?: 'No output captured.' }}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

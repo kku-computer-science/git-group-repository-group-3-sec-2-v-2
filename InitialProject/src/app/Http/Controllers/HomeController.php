@@ -15,17 +15,16 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $years = range(Carbon::now()->year, Carbon::now()->year - 5);
-        $from = Carbon::now()->year - 16;
-        $to = Carbon::now()->year - 6;
-        
+        $years = range(Carbon::now()->year, Carbon::now()->year - 4);
+        $beforeYear = Carbon::now()->year - 5;
+
         // Only get years for accordion headers, not the actual data
         $papers = array_fill_keys($years, null);
-        $papers[$to] = null;
+        $papers[$beforeYear] = null;
 
         $year = range(Carbon::now()->year - 4, Carbon::now()->year);
         $num = $this->getnum();
-        
+
         return view('home', compact('papers'))
             ->with('year', json_encode($year, JSON_NUMERIC_CHECK))
             ->with('paper_tci', json_encode($this->getYearlyPapers($year, 3), JSON_NUMERIC_CHECK))
@@ -72,25 +71,22 @@ class HomeController extends Controller
         return compact('paper_scopus', 'paper_tci', 'paper_wos');
     }
 
-    public function getPapersByYear($year)
+    public function getPapersByYear($year)  
     {
-        if ($year == Carbon::now()->year - 6) {
-            // Handle the "Before" section
-            $from = Carbon::now()->year - 16;
-            $to = Carbon::now()->year - 6;
-            $papers = $this->getPapersData(null, [$from, $to], true);
+        $beforeYear = Carbon::now()->year - 5;
+
+        if ((int) $year === (int) $beforeYear) {
+            // Handle the "Before" section (<= boundary year)
+            $papers = $this->getPapersData(null, $beforeYear);
         } else {
             // Handle regular years
-            $papers = [
-                'data' => $this->getPapersData($year),
-                'pagination' => null,
-            ];
+            $papers = $this->getPapersData($year);
         }
-        
+
         return response()->json($papers);
     }
 
-    private function getPapersData($year = null, $range = null, $paginate = false)
+    private function getPapersData($year = null, $beforeYear = null)
     {
         $query = Paper::with([
             'teacher' => function ($query) {
@@ -103,29 +99,26 @@ class HomeController extends Controller
             }
         ]);
 
-        if ($range) {
-            $query->whereBetween('paper_yearpub', $range);
+        if ($beforeYear !== null) {
+            $query->whereNotNull('paper_yearpub')
+                ->where('paper_yearpub', '<=', $beforeYear);
         } else {
             $query->where('paper_yearpub', '=', $year);
         }
 
         $query->orderBy('paper_yearpub', 'desc');
 
-        if ($paginate) {
-            $papers = $query->paginate(10);
+        $papers = $query->paginate(10);
 
-            return [
-                'data' => $this->formatPapers($papers->getCollection()->toArray()),
-                'pagination' => [
-                    'current_page' => $papers->currentPage(),
-                    'last_page' => $papers->lastPage(),
-                    'per_page' => $papers->perPage(),
-                    'total' => $papers->total(),
-                ],
-            ];
-        }
-
-        return $this->formatPapers($query->get()->toArray());
+        return [
+            'data' => $this->formatPapers($papers->getCollection()->toArray()),
+            'pagination' => [
+                'current_page' => $papers->currentPage(),
+                'last_page' => $papers->lastPage(),
+                'per_page' => $papers->perPage(),
+                'total' => $papers->total(),
+            ],
+        ];
     }
 
     private function formatPapers(array $papers)
@@ -136,7 +129,7 @@ class HomeController extends Controller
             $aut = $t->concat($a);
             $aut = $aut->sortBy(['author_type', 'asc']);
             $sorted = $aut->implode('full_name', ', ');
-            
+
             return [
                 'id' => $tag['id'],
                 'author' => $sorted,
@@ -176,15 +169,15 @@ class HomeController extends Controller
 
         $key = "kku";
         $arr = array(
-            "type" => $type, 
-            "key" => "kku", 
-            "author" => $author, 
-            "title" => $title, 
-            "journal" => $journal, 
-            "volume" => $volume, 
-            "number" => $number, 
-            'year' => $year, 
-            'pages' => $page, 
+            "type" => $type,
+            "key" => "kku",
+            "author" => $author,
+            "title" => $title,
+            "journal" => $journal,
+            "volume" => $volume,
+            "number" => $number,
+            'year' => $year,
+            'pages' => $page,
             'ee' => $doi
         );
 

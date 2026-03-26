@@ -12,94 +12,44 @@ class ReportController extends Controller
 {
     public function index()
     {
-        //$papers = Paper::all()->orderBy, 'DESC');
-        $papers = [];
-        $year = range(Carbon::now()->year - 4, Carbon::now()->year);
-        $y = $year;
-        //$papers =Paper::orderBy('paper_yearpub', 'desc')->where('paper_yearpub', '=', 1)->get();
-        $years = range(Carbon::now()->year, Carbon::now()->year - 4);
-        foreach ($years as $key => $value) {
-            $papers[$value] = Paper::where('paper_yearpub', '=', $value)->orderBy('paper_yearpub', 'desc')->get();
-        }
+        $yearArr = range(Carbon::now()->year - 4, Carbon::now()->year);
+        $y = $yearArr;
 
-        //return response()->json($years);
-        //$year = range(Carbon::now()->year-5, Carbon::now()->year);
-        $paper_tci = [];
+        $getStats = function($sourceId) use ($yearArr) {
+            return Paper::whereHas('source', function ($q) use ($sourceId) { 
+                    $q->where('source_data_id', $sourceId); 
+                })
+                ->whereIn('paper_type', ['Conference Proceeding', 'Journal'])
+                ->whereIn('paper_yearpub', $yearArr)
+                ->select(DB::raw('paper_yearpub as year'), DB::raw('count(*) as count'), DB::raw('sum(paper_citation) as citations'))
+                ->groupBy('year')
+                ->get()
+                ->keyBy('year');
+        };
+
+        $scopus_stats = $getStats(1);
+        $wos_stats = $getStats(2);
+        $tci_stats = $getStats(3);
+
         $paper_scopus = [];
+        $paper_tci = [];
         $paper_wos = [];
-
-        foreach ($year as $key => $value) {
-            $paper_scopus[] = Paper::whereHas('source', function ($query) {
-                return $query->where('source_data_id', '=', 1);
-            })->whereIn('paper_type', ['Conference Proceeding', 'Journal'])
-                ->where(DB::raw('(paper_yearpub)'), $value)->count();
-        }
-        //return $paper_scopus;
-
-        foreach ($year as $key => $value) {
-            $paper_tci[] = Paper::whereHas('source', function ($query) {
-                return $query->where('source_data_id', '=', 3);
-            })->whereIn('paper_type', ['Conference Proceeding', 'Journal'])
-                ->where(DB::raw('(paper_yearpub)'), $value)->count();
-        }
-
-        foreach ($year as $key => $value) {
-            $paper_wos[] = Paper::whereHas('source', function ($query) {
-                return $query->where('source_data_id', '=', 2);
-            })->whereIn('paper_type', ['Conference Proceeding', 'Journal'])
-                ->where(DB::raw('(paper_yearpub)'), $value)->count();
-        }
-        //return $paper_tci;
-
-        // $paper_wos_cit= Paper::whereHas('source', function ($query) {
-        //     return $query->where('source_data_id', '=', 1);
-        // })->whereIn('paper_type', ['Conference Paper','Article'])->get();
         $paper_scopus_cit = [];
         $paper_tci_cit = [];
         $paper_wos_cit = [];
-        foreach ($year as $key => $value) {
-            $paper_scopus_cit[] = Paper::whereHas('source', function ($query) {
-                return $query->where('source_data_id', '=', 1);
-            })->whereIn('paper_type', ['Conference Proceeding', 'Journal'])
-                ->where('paper_yearpub', '=', $value)
-                ->sum('paper_citation');
+
+        foreach ($yearArr as $yearVal) {
+            $paper_scopus[] = $scopus_stats->has($yearVal) ? $scopus_stats[$yearVal]->count : 0;
+            $paper_scopus_cit[] = $scopus_stats->has($yearVal) ? (int)$scopus_stats[$yearVal]->citations : 0;
+
+            $paper_wos[] = $wos_stats->has($yearVal) ? $wos_stats[$yearVal]->count : 0;
+            $paper_wos_cit[] = $wos_stats->has($yearVal) ? (int)$wos_stats[$yearVal]->citations : 0;
+
+            $paper_tci[] = $tci_stats->has($yearVal) ? $tci_stats[$yearVal]->count : 0;
+            $paper_tci_cit[] = $tci_stats->has($yearVal) ? (int)$tci_stats[$yearVal]->citations : 0;
         }
-        foreach ($year as $key => $value) {
-            $paper_wos_cit[] = Paper::whereHas('source', function ($query) {
-                return $query->where('source_data_id', '=', 2);
-            })->whereIn('paper_type', ['Conference Proceeding', 'Journal'])
-                ->where('paper_yearpub', '=', $value)
-                ->sum('paper_citation');
-        }
-        foreach ($year as $key => $value) {
-            $paper_tci_cit[] = Paper::whereHas('source', function ($query) {
-                return $query->where('source_data_id', '=', 3);
-            })->whereIn('paper_type', ['Conference Proceeding', 'Journal'])
-                ->where('paper_yearpub', '=', $value)
-                ->sum('paper_citation');
-        }
-        //อาจารย์กี่คนที่ตีพิมพ์ในปีนั้น คิดเป็นกี่คน และกี่เรื่อว หาค่าเฉลี่ย
-        // $user_scopus = [];
-        // foreach ($year as $key => $value) {
-        //     $user = Paper::withCount('teacher')->whereHas('source', function ($query) {
-        //         return $query->where('source_data_id', '=', 1);
-        //     })->whereIn('paper_type', ['Conference Proceeding', 'Journal'])
-        //         ->where('paper_yearpub', '=', $value)->get();
-        //     foreach ($user as $key => $val) {
-        //         $new_data1 = array($value => $val['teacher_count']);
-        //         $user_scopus[] = $new_data1;
-        //     }
-        // }
 
-        // //$user_scopus=Array($user_scopus);
-        // return gettype($user_scopus);
-        
-
-       
-        //return $sumArray;
-
-
-        return view('report', compact('papers', 'y'))->with('year', json_encode($year, JSON_NUMERIC_CHECK))
+        return view('report', compact('y'))->with('year', json_encode($yearArr, JSON_NUMERIC_CHECK))
             ->with('paper_tci', json_encode($paper_tci, JSON_NUMERIC_CHECK))
             ->with('paper_scopus', json_encode($paper_scopus, JSON_NUMERIC_CHECK))
             ->with('paper_wos', json_encode($paper_wos, JSON_NUMERIC_CHECK))

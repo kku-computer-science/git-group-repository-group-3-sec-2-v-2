@@ -14,9 +14,7 @@ class ResearchGroupDetailController extends Controller
     public function request($id)
     {
         $researchGroup = ResearchGroup::with([
-            'user.paper' => function ($query) {
-                return $query->orderBy('paper_yearpub', 'DESC');
-            },
+            'user',
             'visitingScholars'
         ])->findOrFail($id);
 

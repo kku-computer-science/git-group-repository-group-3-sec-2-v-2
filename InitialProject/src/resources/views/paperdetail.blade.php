@@ -3,69 +3,13 @@
 @section('content')
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
-<style>
-    .back-container {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        margin-top: 20px;
-        /* ลดระยะห่างจากด้านบน */
-        margin-left: 20px;
-        /* เว้นระยะจากซ้าย */
-    }
+{{-- Styles moved to style.css (.btn-back, .paper-detail-img, h3 color) --}}
 
-    .btn-back {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: linear-gradient(135deg, #007bff, #0056b3);
-        color: white;
-        font-size: 18px;
-        font-weight: bold;
-        padding: 12px 24px;
-        border: none;
-        border-radius: 30px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        transition: all 0.3s ease-in-out;
-        cursor: pointer;
-        text-transform: uppercase;
-    }
+<div class="container pb-5">
 
-    .btn-back:hover {
-        background: linear-gradient(135deg, #0056b3, #007bff);
-        transform: scale(1.05);
-        box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
-    }
+    <button onclick="history.back()" class="btn-back">← ย้อนกลับ</button>
 
-    .btn-back:active {
-        transform: scale(0.95);
-    }
-
-    .card-image {
-        width: 200px;
-        /* กำหนดความกว้าง */
-        height: 300px;
-        /* กำหนดความสูง */
-        border-radius: 10px;
-        /* เพิ่มมุมโค้ง */
-        object-fit: cover;
-        /* ทำให้รูปเต็มกรอบโดยไม่เสียสัดส่วน */
-        display: block;
-        /* ป้องกัน margin ด้านล่างของ <img> */
-    }
-
-    h3 {
-        color: #1075BB;
-    }
-</style>
-
-<div class="container">
-
-    <button onclick="history.back()" class="btn-back">
-        ← ย้อนกลับ
-    </button>
-
-    <div class="row align-items-start" style="margin-top: 40px;">
+    <div class="row align-items-start mt-4 g-4">
         <!-- Image and Author Info -->
         <div class="col-md-3 text-center d-flex flex-column align-items-center">
             @if($userimg && $userimg->picture)

@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Services\ScheduledCommandService;
     
 class Kernel extends ConsoleKernel
 {
@@ -30,18 +31,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        #$schedule->command('demo:cron')->cron('0 0 15 2,5,8,11 *')->timezone('Asia/Bangkok');
-        // $schedule->command('demo:cron')->at('16:38')->timezone('Asia/Bangkok');
-        //$schedule->command('demo:cron')->cron('58 15 20 2,4,8,11 *')->timezone('Asia/Bangkok');
-        
-        // Clean old logs every day at 01:00 AM
-        $schedule->command('logs:clean-old --days=90')->dailyAt('01:00')->timezone('Asia/Bangkok');
+        $scheduledCommandService = app(ScheduledCommandService::class);
 
-        // Fetch new papers every day at 02:00 AM
-        $schedule->command('scopus:fetch')->dailyAt('02:00')->timezone('Asia/Bangkok');
+        foreach ($scheduledCommandService->getSchedulerDefinitions() as $definition) {
+            $commandToRun = isset($definition['id'])
+                ? 'scheduled-command:run ' . $definition['id']
+                : $definition['command'];
 
-        // Update citations for existing papers every day at 03:00 AM
-        $schedule->command('papers:update-citations')->dailyAt('03:00')->timezone('Asia/Bangkok');
+            $schedule->command($commandToRun)
+                ->cron($definition['cron_expression'])
+                ->timezone($definition['timezone'] ?? 'Asia/Bangkok');
+        }
     }
      
     /**

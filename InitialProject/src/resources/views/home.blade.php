@@ -1,48 +1,6 @@
 @extends('layouts.layout')
-<style>
-    .count {
-        background-color: #f5f5f5;
-        padding: 20px 0;
-        border-radius: 5px;
-    }
+{{-- Inline styles removed — now in style.css (stat-card, count-title, count-text, mixpaper accordion, mobile queries) --}}
 
-    .count-title {
-        font-size: 40px;
-        font-weight: normal;
-        margin-top: 10px;
-        margin-bottom: 0;
-        text-align: center;
-    }
-
-    .count-text {
-        font-size: 15px;
-        font-weight: normal;
-        margin-top: 10px;
-        margin-bottom: 0;
-        text-align: center;
-    }
-
-    .fa-2x {
-        margin: 0 auto;
-        float: none;
-        display: table;
-        color: #4ad1e5;
-    }
-
-    .count-title {
-        color: #666;
-        /* สีตัวอักษร */
-        font-size: 40px;
-        font-weight: normal;
-        margin-top: 10px;
-        margin-bottom: 0;
-        text-align: center;
-    }
-
-    .papers-pagination .btn-group {
-        gap: 6px;
-    }
-</style>
 
 @section('content')
 <div class="container home">
@@ -87,18 +45,18 @@
     <br>
 
     <!-- Count Section -->
-    <div class="container mt-3">
+    <div class="container mt-3 count-section">
         <div class="row text-center">
-            <div class="col">
+            <div class="col-6 col-lg-3">
                 <div class="count" id='all'></div>
             </div>
-            <div class="col">
+            <div class="col-6 col-lg-3">
                 <div class="count" id='scopus'></div>
             </div>
-            <div class="col">
+            <div class="col-6 col-lg-3">
                 <div class="count" id='wos'></div>
             </div>
-            <div class="col">
+            <div class="col-6 col-lg-3">
                 <div class="count" id='tci'></div>
             </div>
         </div>
@@ -138,7 +96,7 @@
                         @if (!$loop->last)
                         {{$n}}
                         @else
-                        Before {{$n}}
+                        Before {{$n + 1}}
                         @endif
                     </button>
                 </h2>
@@ -179,6 +137,7 @@
 
         // Accordion handlers
         const beforeYear = @json(array_key_last($papers));
+        const beforeYearLabel = Number(beforeYear) + 1;
         const accordionButtons = document.querySelectorAll('.accordion-button');
         const loadingYears = new Set();
 
@@ -263,7 +222,7 @@
         function renderPapers(year, papers, pagination = null) {
             if (!papers || papers.length === 0) {
                 const message = String(year) === String(beforeYear)
-                    ? `ไม่พบข้อมูลก่อนปี ${year}`
+                    ? `ไม่พบข้อมูลก่อนปี ${beforeYearLabel}`
                     : `ไม่พบข้อมูลในปี ${year}`;
 
                 return `

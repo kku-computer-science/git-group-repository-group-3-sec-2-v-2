@@ -11,17 +11,20 @@ use App\Traits\LogsUserActions;
 use Illuminate\Support\Facades\DB;
 use App\Models\SecurityEvent;
 use App\Http\Controllers\Admin\SecurityController;
+use App\Services\ScheduledCommandService;
 
 class ProfileuserController extends Controller
 {
     use LogsUserActions;
 
     protected $securityController;
+    protected $scheduledCommandService;
 
-    public function __construct(SecurityController $securityController)
+    public function __construct(SecurityController $securityController, ScheduledCommandService $scheduledCommandService)
     {
         $this->middleware('auth');
         $this->securityController = $securityController;
+        $this->scheduledCommandService = $scheduledCommandService;
     }
 
     public function index()
@@ -37,53 +40,15 @@ class ProfileuserController extends Controller
             'total_monitoring' => 0
         ];
         $securityEvents = collect([]);
-
-        // Get security data if user is admin
-        if ($user->hasRole('admin')) {
-            $securityStats = $this->securityController->getSecurityStats();
-            
-            // Optimize the query to reduce memory usage
-            $securityEvents = SecurityEvent::select('id', 'event_type', 'icon_class', 'user_id', 'ip_address', 'details', 'threat_level', 'created_at')
-                ->with(['user:id,fname_en,lname_en,fname_th,lname_th,email'])
-                ->orderBy('created_at', 'desc')
-                ->limit(10)
-                ->get();
-        }
-
-        // Get user activities (latest 10)
-        $userActivities = DB::table('activity_logs')
-            ->join('users', 'activity_logs.user_id', '=', 'users.id')
-            ->select('activity_logs.*', 
-                DB::raw("CASE 
-                    WHEN users.fname_en IS NULL OR users.fname_en = '' THEN CONCAT(users.fname_th, ' ', users.lname_th)
-                    ELSE CONCAT(users.fname_en, ' ', users.lname_en) 
-                END as user_name"))
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
-
-        // Get total count of user activities
-        $totalActivities = DB::table('activity_logs')->count();
-        
-        // Get error logs (last 10 entries)
-        $errorLogs = DB::table('error_logs')
-            ->orderBy('created_at', 'desc')
-            ->limit(10)
-            ->get();
-
-        // Get total count of error logs
-        $totalErrorLogs = DB::table('error_logs')->count();
-
-        // Get system information
-        $systemInfo = [
-            'php_version' => PHP_VERSION,
-            'laravel_version' => app()->version(),
-            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
-            'database_name' => env('DB_DATABASE'),
-            'total_users' => DB::table('users')->count(),
-            'total_papers' => DB::table('papers')->count(),
-            'disk_free_space' => $this->formatBytes(disk_free_space('/')),
-            'disk_total_space' => $this->formatBytes(disk_total_space('/')),
-        ];
+        $userActivities = collect([]);
+        $errorLogs = collect([]);
+        $totalActivities = 0;
+        $totalErrorLogs = 0;
+        $systemInfo = [];
+        $scheduledCommands = collect([]);
+        $recentCommandRuns = collect([]);
+        $totalCommandRuns = 0;
+        $scheduledCommandsManageable = $this->scheduledCommandService->canManageCommands();
 
         // ข้อมูลพื้นฐานสำหรับทุก role
         $data = [
@@ -95,13 +60,26 @@ class ProfileuserController extends Controller
             'errorLogs' => $errorLogs,
             'totalActivities' => $totalActivities,
             'totalErrorLogs' => $totalErrorLogs,
-            'systemInfo' => $systemInfo
+            'systemInfo' => $systemInfo,
+            'scheduledCommands' => $scheduledCommands,
+            'recentCommandRuns' => $recentCommandRuns,
+            'totalCommandRuns' => $totalCommandRuns,
+            'scheduledCommandsManageable' => $scheduledCommandsManageable,
         ];
 
         // ถ้าเป็น admin ให้เพิ่มข้อมูล dashboard
         if ($user->hasRole('admin')) {
+            $data['securityStats'] = $this->securityController->getSecurityStats();
+
+            // Optimize the query to reduce memory usage
+            $data['securityEvents'] = SecurityEvent::select('id', 'event_type', 'icon_class', 'user_id', 'ip_address', 'details', 'threat_level', 'created_at')
+                ->with(['user:id,fname_en,lname_en,fname_th,lname_th,email'])
+                ->orderBy('created_at', 'desc')
+                ->limit(10)
+                ->get();
+
             // Get user activities (paginated)
-            $userActivities = DB::table('activity_logs')
+            $data['userActivities'] = DB::table('activity_logs')
                 ->join('users', 'activity_logs.user_id', '=', 'users.id')
                 ->select('activity_logs.*', 
                     DB::raw("CASE 
@@ -111,14 +89,21 @@ class ProfileuserController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(10);
 
+            $data['totalActivities'] = DB::table('activity_logs')->count();
+
             // Get error logs (last 10 entries)
-            $errorLogs = DB::table('error_logs')
+            $data['errorLogs'] = DB::table('error_logs')
                 ->orderBy('created_at', 'desc')
                 ->limit(10)
                 ->get();
 
+            $data['totalErrorLogs'] = DB::table('error_logs')->count();
+            $data['scheduledCommands'] = $this->scheduledCommandService->getCommandsForDashboard();
+            $data['recentCommandRuns'] = $this->scheduledCommandService->getRecentRuns(10);
+            $data['totalCommandRuns'] = $this->scheduledCommandService->getTotalRuns();
+
             // Get system information
-            $systemInfo = [
+            $data['systemInfo'] = [
                 'php_version' => PHP_VERSION,
                 'laravel_version' => app()->version(),
                 'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
@@ -128,10 +113,6 @@ class ProfileuserController extends Controller
                 'disk_free_space' => $this->formatBytes(disk_free_space('/')),
                 'disk_total_space' => $this->formatBytes(disk_total_space('/')),
             ];
-
-            $data['userActivities'] = $userActivities;
-            $data['errorLogs'] = $errorLogs;
-            $data['systemInfo'] = $systemInfo;
         }
 
         // ถ้าเป็น researcher ให้เพิ่มข้อมูลที่เกี่ยวข้อง

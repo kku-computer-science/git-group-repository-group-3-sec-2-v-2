@@ -99,13 +99,7 @@
                         <label class="col-sm-3 col-form-label"><b>หัวหน้ากลุ่มวิจัย</b></label>
                         <div class="col-sm-8">
                             <select id="head0" name="head" class="form-control">
-                                @foreach($users as $user)
-                                    @if($user->hasRole('teacher'))
-                                        <option value="{{ $user->id }}">
-                                            {{ $user->fname_th }} {{ $user->lname_th }}
-                                        </option>
-                                    @endif
-                                @endforeach
+                                <option value="">Select User</option>
                             </select>
                         </div>
                     </div>
@@ -161,7 +155,24 @@
 
     $(document).ready(function() {
         // Initialize select2 สำหรับหัวหน้ากลุ่ม (head)
-        $("#head0").select2();
+        $("#head0").select2({
+            placeholder: "Select User",
+            ajax: {
+                url: "{{ route('api.users.search') }}",
+                dataType: 'json',
+                delay: 250,
+                data: function (params) {
+                    return { q: params.term };
+                },
+                processResults: function (data) {
+                    var filtered = data.results.filter(function(item) {
+                        return item.usertype === 'teacher';
+                    });
+                    return { results: filtered };
+                },
+                cache: true
+            }
+        });
 
         // เมื่อมีการเปลี่ยนแปลงใน Head ให้ update options ของทั้ง Head และ Member
         $("#head0").on("change", function() {
@@ -182,11 +193,6 @@
             rowHtml += "  <td>";
             rowHtml += "    <select id=\"selUser" + index + "\" name=\"moreFields[" + index + "][userid]\" class=\"member-select form-control\" style=\"width:200px;\">";
             rowHtml += "      <option value=\"\">Select User</option>";
-            @foreach($users as $u)
-                @if($u->hasAnyRole(['teacher','student']))
-                    rowHtml += "      <option value=\"{{ $u->id }}\" data-usertype=\"{{ $u->hasRole('teacher') ? 'teacher' : 'student' }}\">{{ $u->fname_th }} {{ $u->lname_th }}</option>";
-                @endif
-            @endforeach
             rowHtml += "    </select>";
             rowHtml += "  </td>";
             // Role
@@ -218,7 +224,21 @@
             rowHtml += "</tr>";
 
             $("#dynamicAddRemove").append(rowHtml);
-            $("#selUser" + index).select2();
+            $("#selUser" + index).select2({
+                placeholder: "Select User",
+                ajax: {
+                    url: "{{ route('api.users.search') }}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return { q: params.term };
+                    },
+                    processResults: function (data) {
+                        return { results: data.results };
+                    },
+                    cache: true
+                }
+            });
             updateMemberOptions();
             updateHeadOptions();
         }
@@ -229,9 +249,9 @@
             updateHeadOptions();
         });
 
-        $(document).on("change", ".member-select", function() {
+        $(document).on("select2:select", ".member-select", function(e) {
             var $userSelect = $(this);
-            var userType = $userSelect.find(":selected").data("usertype");
+            var userType = e.params.data.usertype;
             var $row = $userSelect.closest("tr");
             var $roleSelect = $row.find(".role-select");
             if(userType === "student") {
@@ -307,9 +327,6 @@
             entryHtml += "  <select class='visiting-author-select form-control' name='visiting[" + v + "][author_id]'>";
             entryHtml += "      <option value=''>-- เลือกจากรายชื่อ --</option>";
             entryHtml += "      <option value='manual'>เพิ่มด้วยตัวเอง</option>";
-            @foreach($authors as $author)
-                entryHtml += "      <option value='{{ $author->id }}' data-first_name='{{ $author->author_fname }}' data-last_name='{{ $author->author_lname }}' data-affiliation='{{ $author->belong_to }}'>{{ $author->author_fname }} {{ $author->author_lname }} ({{ $author->belong_to }})</option>";
-            @endforeach
             entryHtml += "  </select>";
             entryHtml += "</div>";
             
@@ -381,21 +398,39 @@
 
             $("#visitingContainer").append(entryHtml);
             
+            // Initialize select2 with AJAX
+            var $newSelect = $("#visitingContainer .visiting-author-select").last();
+            $newSelect.select2({
+                placeholder: "-- เลือกจากรายชื่อ --",
+                ajax: {
+                    url: "{{ route('api.authors.search') }}",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return { q: params.term };
+                    },
+                    processResults: function (data) {
+                        var results = data.results;
+                        results.unshift({ id: 'manual', text: 'เพิ่มด้วยตัวเอง' });
+                        return { results: results };
+                    },
+                    cache: true
+                }
+            });
+
             // เรียกใช้ฟังก์ชันตรวจสอบวุฒิการศึกษาเพื่อควบคุมการเลือก Postdoctoral
             checkDoctoralForPostdoc();
         });
 
-        $(document).on("change", ".visiting-author-select", function() {
+        $(document).on("select2:select", ".visiting-author-select", function(e) {
             updateVisitingOptions();
-            var selectedVal = $(this).val();
+            var data = e.params.data;
+            var selectedVal = data.id;
             var $entry = $(this).closest(".visiting-scholar-entry");
             if(selectedVal && selectedVal !== "manual"){
-                var firstName = $(this).find("option:selected").data("first_name");
-                var lastName = $(this).find("option:selected").data("last_name");
-                var affiliation = $(this).find("option:selected").data("affiliation");
-                $entry.find(".visiting-first-name").val(firstName).prop("readonly", false);
-                $entry.find(".visiting-last-name").val(lastName).prop("readonly", false);
-                $entry.find(".visiting-affiliation").val(affiliation).prop("readonly", false);
+                $entry.find(".visiting-first-name").val(data.first_name).prop("readonly", false);
+                $entry.find(".visiting-last-name").val(data.last_name).prop("readonly", false);
+                $entry.find(".visiting-affiliation").val(data.affiliation).prop("readonly", false);
             } else {
                 $entry.find(".visiting-first-name").val("").prop("readonly", false);
                 $entry.find(".visiting-last-name").val("").prop("readonly", false);

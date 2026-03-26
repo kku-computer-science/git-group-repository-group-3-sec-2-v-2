@@ -125,13 +125,13 @@ Route::get('excel', [PDFController::class, 'generateInvoiceExcel'])->name('excel
 Route::get('/bib/{id}', [BibtexController::class, 'getbib']);
 
 Route::get('detail/{id}', [ProfileController::class, 'request'])->name('detail');
+Route::get('/profile/{id}/papers', [ProfileController::class, 'getPapers'])->name('profile.papers');
+Route::get('/profile/{id}/academic-works', [ProfileController::class, 'getAcademicWorks'])->name('profile.academic-works');
 Route::get('index', [LocalizationController::class, 'index']);
 Route::get('lang/{lang}', ['as' => 'langswitch', 'uses' => 'App\Http\Controllers\LocalizationController@switchLang']);
 Route::get('/export', [ExportPaperController::class, 'exportUsers'])->name('export-papers');
 Route::get('bib/{id}', [BibtexController::class, 'getbib'])->name('bibtex');
 
-//Route::get('bib/{id}', [BibtexController::class, 'index'])->name('bibtex');
-//Route::get('change/lang', [LocalizationController::class,'lang_change'])->name('LangChange');
 
     Route::get('/callscopus/{id}', [App\Http\Controllers\ScopuscallController::class, 'create'])->name('callscopus');
     Route::get('/callscopus-all', [App\Http\Controllers\ScopuscallController::class, 'callAll'])->name('callscopus.all');
@@ -167,6 +167,8 @@ Route::group(['middleware' => ['auth', 'PreventBackHistory']], function () {
     Route::get('sources/{id}/edit/', [SourceController::class, 'edit']);
     Route::resource('researchProjects', ResearchProjectController::class);
     Route::resource('researchGroups', ResearchGroupController::class);
+    Route::get('api/users/search', [ResearchGroupController::class, 'searchUsers'])->name('api.users.search');
+    Route::get('api/authors/search', [ResearchGroupController::class, 'searchAuthors'])->name('api.authors.search');
     Route::resource('papers', PaperController::class);
     Route::resource('books', BookController::class);
     Route::resource('patents', PatentController::class);
@@ -215,6 +217,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard/activities-data', [App\Http\Controllers\AdminDashboardController::class, 'getDashboardActivities'])->name('admin.dashboard.activities-data');
     Route::get('/dashboard/errors-data', [App\Http\Controllers\AdminDashboardController::class, 'getDashboardErrors'])->name('admin.dashboard.errors-data');
     Route::get('/dashboard/security-events-data', [App\Http\Controllers\AdminDashboardController::class, 'getDashboardSecurityEvents'])->name('admin.dashboard.security-events-data');
+    Route::post('/dashboard/scheduled-commands/{scheduledCommand}', [App\Http\Controllers\AdminDashboardController::class, 'updateScheduledCommand'])->name('admin.dashboard.scheduled-commands.update');
     
     // Security Routes
     Route::get('/security/events', [App\Http\Controllers\Admin\SecurityController::class, 'events'])->name('admin.security.events');

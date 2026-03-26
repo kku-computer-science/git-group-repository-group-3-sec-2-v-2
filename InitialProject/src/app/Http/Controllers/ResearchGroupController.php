@@ -45,10 +45,68 @@ class ResearchGroupController extends Controller
      */
     public function create()
     {
-        $users = User::all();
         $funds = Fund::all(); // ถ้ามีตาราง Fund
-        $authors = Author::all(); // ดึงข้อมูลนักวิจัยรับเชิญจากตาราง Author
-        return view('research_groups.create', compact('users', 'funds', 'authors'));
+        return view('research_groups.create', compact('funds'));
+    }
+
+    public function searchUsers(Request $request)
+    {
+        $term = $request->input('q');
+        
+        $query = User::whereHas('roles', function($q) {
+            $q->whereIn('name', ['teacher', 'student']);
+        })->with('roles');
+
+        if ($term) {
+            $query->where(function($q) use ($term) {
+                $q->where('fname_th', 'like', '%' . $term . '%')
+                  ->orWhere('lname_th', 'like', '%' . $term . '%')
+                  ->orWhere('fname_en', 'like', '%' . $term . '%')
+                  ->orWhere('lname_en', 'like', '%' . $term . '%');
+            });
+        }
+        
+        $users = $query->limit(20)->get();
+        
+        $results = [];
+        foreach ($users as $u) {
+            $type = $u->hasRole('teacher') ? 'teacher' : 'student';
+            $results[] = [
+                'id' => $u->id,
+                'text' => $u->fname_th . ' ' . $u->lname_th,
+                'usertype' => $type
+            ];
+        }
+
+        return response()->json(['results' => $results]);
+    }
+
+    public function searchAuthors(Request $request)
+    {
+        $term = $request->input('q');
+        $query = Author::query();
+
+        if ($term) {
+            $query->where(function($q) use ($term) {
+                $q->where('author_fname', 'like', '%' . $term . '%')
+                  ->orWhere('author_lname', 'like', '%' . $term . '%');
+            });
+        }
+
+        $authors = $query->limit(20)->get();
+
+        $results = [];
+        foreach ($authors as $a) {
+            $results[] = [
+                'id' => $a->id,
+                'text' => $a->author_fname . ' ' . $a->author_lname . ' (' . ($a->belong_to ?? '') . ')',
+                'first_name' => $a->author_fname,
+                'last_name' => $a->author_lname,
+                'affiliation' => $a->belong_to
+            ];
+        }
+
+        return response()->json(['results' => $results]);
     }
 
     /**
@@ -461,9 +519,7 @@ class ResearchGroupController extends Controller
             }
         }
         
-        $users = User::all();
         $funds = Fund::all();
-        $authors = Author::all();
 
         // ดึงข้อมูล Postdoctoral จาก users และ authors
         $postdoctoralUsers = $researchGroup->user()->wherePivot('role', 3)->get();
@@ -488,7 +544,7 @@ class ResearchGroupController extends Controller
             ];
         }));
 
-        return view('research_groups.edit', compact('researchGroup', 'users', 'funds', 'authors', 'postdoctorals'));
+        return view('research_groups.edit', compact('researchGroup', 'funds', 'postdoctorals'));
     }
 
     /**
