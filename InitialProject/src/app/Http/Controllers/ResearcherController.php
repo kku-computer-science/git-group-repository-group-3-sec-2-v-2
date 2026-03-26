@@ -169,9 +169,13 @@ class ResearcherController extends Controller
         })->keys()->toArray();
         
         $noResults = !empty($search) && $totalResearchers === 0;
+
+        // Programs list for sidebar filter
+        $programs = Program::orderBy('program_name_en')->get(['id', 'program_name_en', 'program_name_th']);
     
-        return view('researchers.index', compact('roleUsers', 'search', 'expandedRoleIds', 'noResults'));
+        return view('researchers.index', compact('roleUsers', 'search', 'expandedRoleIds', 'noResults', 'programs'));
     }
+
     
 
     // แสดงนักวิจัยในโปรแกรมที่ระบุ
