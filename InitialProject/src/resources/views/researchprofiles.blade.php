@@ -37,7 +37,7 @@
         background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 50%, #e0efff 100%);
         border: 1px solid rgba(255, 255, 255, 0.4);
         border-radius: 32px;
-        box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.1), 
+        box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.1),
                     inset 0 0 0 1px rgba(255,255,255,0.6);
         padding: 2.5rem;
         overflow: hidden;
@@ -76,7 +76,7 @@
     .research-profile-page .profile-photo {
         width: 160px;
         height: 160px;
-        object-fit: cover;
+        object-fit: contain;
         border-radius: 50%;
         border: 5px solid #ffffff;
         box-shadow: 0 15px 35px rgba(29, 78, 216, 0.15),
@@ -86,7 +86,7 @@
         z-index: 2;
         transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
-    
+
     .research-profile-page .profile-photo:hover {
         transform: scale(1.05);
     }
@@ -151,7 +151,7 @@
         text-decoration: none;
         transition: color 0.2s ease, transform 0.2s ease;
     }
-    
+
     .research-profile-page a.profile-link-item:hover {
         color: var(--rp-primary);
         transform: translateY(-1px);
@@ -184,7 +184,7 @@
         font-weight: 500;
         transition: all 0.2s ease;
     }
-    
+
     .research-profile-page .profile-chip:hover {
         background: var(--rp-primary);
         color: #fff;
@@ -378,7 +378,7 @@
         background: radial-gradient(circle, rgba(37, 99, 235, 0.08) 0%, rgba(37, 99, 235, 0) 70%);
         transition: transform 0.3s ease;
     }
-    
+
     .research-profile-page .metric-card:hover::after {
         transform: scale(1.1);
     }
@@ -422,7 +422,7 @@
         -webkit-overflow-scrolling: touch;
         scrollbar-width: none;
     }
-    
+
     .research-profile-page .custom-tabs-nav::-webkit-scrollbar {
         display: none;
     }
@@ -790,17 +790,6 @@
                 <aside class="profile-side">
                     <div class="side-card">
                         <h3 class="side-card-title">Find Publications</h3>
-                        <div class="filter-stack">
-                            <div class="filter-input-wrap">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                                <input
-                                    id="profileQuickSearch"
-                                    class="filter-control"
-                                    type="text"
-                                    placeholder="Search publications, year, or source..."
-                                >
-                            </div>
-
                             <div class="filter-row">
                                 <div class="select-wrap">
                                     <select id="profileYearFilter" class="filter-control">
