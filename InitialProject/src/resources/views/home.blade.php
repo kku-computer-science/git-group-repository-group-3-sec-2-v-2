@@ -3,7 +3,7 @@
 
 
 @section('content')
-<div class="container home">
+<div class="home">
     <!-- Carousel Section -->
     <div class="container d-sm-flex justify-content-center mt-5">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
@@ -63,7 +63,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+    <div class="modal fade home-reference-modal" id="myModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -244,7 +244,7 @@
                         <div class="col-sm-11">
                             <p class="hidden">
                                 ${paper.paper_name ? `<b>${paper.paper_name}</b>` : '<b>ไม่มีชื่อบทความ</b>'}
-                                ${paper.author ? `(<link>${paper.author}</link>)` : ''}
+                                ${paper.author ? `<span class="paper-author">(${paper.author})</span>` : ''}
                                 ${paper.paper_sourcetitle ? paper.paper_sourcetitle : ''}
                                 ${paper.paper_volume ? ', ' + paper.paper_volume : ''}
                                 ${paper.paper_yearpub ? ', ' + paper.paper_yearpub : ''}.

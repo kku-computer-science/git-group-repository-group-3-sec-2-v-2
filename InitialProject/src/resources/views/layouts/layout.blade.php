@@ -15,8 +15,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400&family=Mitr:wght@200;300;400;500&family=Prompt:wght@100;300;400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
     <!-- CSS Files - Critical Path CSS -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/load-more-button.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <!-- CSS - Icons & UI Components -->
@@ -30,9 +30,9 @@
 
     <!-- DataTable CSS -->
     <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css" />
+        href="https://cdn.datatables.net/1.11.3/css/dataTables.bootstrap5.css" />
     <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css" />
+        href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap5.css" />
 
     <!-- Font Optimization - Prevent FOUC -->
     <style>
@@ -53,7 +53,7 @@
 
     <!-- Deferred JS Files -->
     <script src="{{ asset('js/jquery-3.6.0.min.js') }}" defer></script>
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}" defer></script>
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" defer></script>
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js" defer></script>
 </head>
