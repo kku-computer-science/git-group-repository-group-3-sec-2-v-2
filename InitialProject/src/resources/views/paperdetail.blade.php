@@ -44,7 +44,7 @@
                     </tr>
                     <tr>
                         <th class="text-end">ปีที่เผยแพร่</th>
-                        <td>{{ date('Y', strtotime($paper->created_at)) }}</td>
+                        <td>{{ $paper->paper_yearpub ?? date('Y', strtotime($paper->created_at)) }}</td>
                     </tr>
                     <tr>
                         <th class="text-end">ประเภทบทความ</th>

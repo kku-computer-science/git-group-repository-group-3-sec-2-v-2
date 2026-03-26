@@ -122,9 +122,6 @@
 
 <!-- Scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<!-- เพิ่ม jQuery และ countTo plugin -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-countto/1.2.0/jquery.countTo.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Modal handlers
@@ -434,12 +431,27 @@
             tci: 'TCI'
         };
 
+        function animateCounter(element, targetValue, duration = 1500) {
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const progress = Math.min((currentTime - startTime) / duration, 1);
+                const currentValue = Math.round(progress * targetValue);
+                element.textContent = currentValue.toLocaleString();
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
         function initializeCounter(elementId, value) {
             const element = document.getElementById(elementId);
             const label = counterLabels[elementId] || elementId.toUpperCase();
 
-            // ตรวจสอบว่ามีข้อมูลหรือไม่
-            if (value === null || value === undefined || value === 0 || isNaN(value)) {
+            if (value === null || value === undefined || Number.isNaN(value)) {
                 element.innerHTML = `
             <i class="fa fa-book fa-2x"></i>
             <h2 class="count-title">ไม่มีข้อมูล</h2>
@@ -450,37 +462,17 @@
             <h2 class="timer count-title count-number" id="count-${elementId}" data-to="${value}" data-speed="1500">0</h2>
             <p class="count-text">${label}</p>`;
 
-                // Start counter animation only if we have data
-                $(`#count-${elementId}`).countTo({
-                    formatter: function(value, options) {
-                        return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-                    }
-                });
+                animateCounter(document.getElementById(`count-${elementId}`), value);
             }
         }
 
         // Initialize counters after a slight delay
         setTimeout(function() {
-            initializeCounter('total-publications', sum > 0 ? sum : null);
+            initializeCounter('total-publications', sum);
             initializeCounter('scopus', paper_scopus_all);
             initializeCounter('wos', paper_wos_all);
             initializeCounter('tci', paper_tci_all);
         }, 500);
-
-        // Counter animation
-        jQuery(function($) {
-            $('.count-number').data('countToOptions', {
-                formatter: function(value, options) {
-                    return value.toFixed(options.decimals).replace(/\B(?=(?:\d{3})+(?!\d))/g, ',');
-                }
-            });
-
-            $('.timer').each(function() {
-                var $this = $(this);
-                var options = $.extend({}, $this.data('countToOptions') || {});
-                $this.countTo(options);
-            });
-        });
     });
 </script>
 @endsection

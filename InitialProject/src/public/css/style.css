@@ -46,6 +46,15 @@ html {
     --bg-light: #f8fafc;
     --text-dark: #1e293b;
     --text-light: #64748b;
+    --primary: #1075bb;
+    --primary-dark: #0c5f92;
+    --primary-light: #e8f5fe;
+    --primary-text: #003e80;
+    --body-font: "Prompt", "Kanit", sans-serif;
+    --heading-font: "Kanit", sans-serif;
+    --accent-teal: #4ad1e5;
+    --border-radius-card: 12px;
+    --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
@@ -124,7 +133,7 @@ a {
     /* font-weight: bold; */
 }
 
-a teacher {
+.teacher {
     color: #144ee0;
     text-decoration: underline;
     font-weight: bold;
@@ -734,7 +743,7 @@ select {
     font-size: 20px;
     color: #fff;
     background-color: #19568a;
-    border: #fff 0.2 solid;
+    border: 1px solid #fff;
 }
 
 .mixpaper .accordion-item .accordion-header #headingOne {
@@ -811,7 +820,7 @@ select {
 }
 
 .card-3 .card {
-    max-width: auto;
+    max-width: none;
     border: 1px solid #bfbfbf;
     /* margin-left: auto;
             margin-right: auto; */
@@ -882,7 +891,7 @@ select {
 /************************************/
 
 .card-4 .card {
-    max-width: auto;
+    max-width: none;
     max-height: max-content;
     border: 1px solid #bfbfbf;
     /* margin-left: auto;
@@ -1059,7 +1068,7 @@ select {
     position: relative;
     display: flex;
     flex-direction: column;
-    width: 60%;
+    width: min(60%, 720px);
     pointer-events: auto;
     background-color: #fff;
     background-clip: padding-box;
@@ -1922,19 +1931,6 @@ select {
 /*   SYSTEM DESIGN — Shared across all pages  */
 /***********************************************/
 
-/* ── Design Tokens ──────────────────────────── */
-:root {
-    --primary: #1075bb;
-    --primary-dark: #0c5f92;
-    --primary-light: #e8f5fe;
-    --primary-text: #003e80;
-    --body-font: "Prompt", "Kanit", sans-serif;
-    --heading-font: "Kanit", sans-serif;
-    --accent-teal: #4ad1e5;
-    --border-radius-card: 12px;
-    --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
 /* ── Page Header Banner ─────────────────────── */
 .page-header {
     background-color: var(--primary);
@@ -2383,6 +2379,13 @@ select {
     color: white;
 }
 
+.paper-detail-img {
+    width: 180px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
 /***********************************************
          * MOBILE — Global Responsive Rules
          ***********************************************/
@@ -2580,6 +2583,13 @@ select {
     /* Member cards: smallest */
     .member-card {
         width: 120px;
+    }
+}
+
+@media (max-width: 767px) {
+    .cardprofile .modal-content {
+        width: 95%;
+        margin: 0 auto;
     }
 }
 

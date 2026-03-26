@@ -3,26 +3,25 @@
 
 {{-- All styles moved to style.css --}}
 <style>
-    /* Profile page: count cards in profile use stat-card-sm class */
-    .count { display:none; } /* legacy, replaced by stat-card-sm */
     /* Table styling for publication tables */
-    thead { background-color: var(--primary, #1075BB); color: white; }
-    thead th { font-size: 15px !important; font-weight: 600 !important; padding: 12px 16px !important; white-space: nowrap; border: none !important; }
-    tbody tr:nth-child(odd)  { background-color: rgba(190,228,254,0.35) !important; }
-    tbody tr:nth-child(even) { background-color: rgb(229,239,247) !important; }
-    tbody tr:hover { background-color: rgba(16,117,187,0.06) !important; }
-    tbody td { padding: 16px !important; vertical-align: top; line-height: 1.5; border-bottom: 1px solid #E0E8EF; font-size: 14px !important; }
+    .cardprofile thead { background-color: var(--primary, #1075BB); color: white; }
+    .cardprofile thead th { font-size: 15px !important; font-weight: 600 !important; padding: 12px 16px !important; white-space: nowrap; border: none !important; }
+    .cardprofile tbody tr:nth-child(odd)  { background-color: rgba(190,228,254,0.35) !important; }
+    .cardprofile tbody tr:nth-child(even) { background-color: rgb(229,239,247) !important; }
+    .cardprofile tbody tr:hover { background-color: rgba(16,117,187,0.06) !important; }
+    .cardprofile tbody td { padding: 16px !important; vertical-align: top; line-height: 1.5; border-bottom: 1px solid #E0E8EF; font-size: 14px !important; }
     .paper-link { color: #1075BB; text-decoration: none; font-weight: 600; font-size: 15px; display: block; margin-bottom: 6px; line-height: 1.4; }
     .paper-link:hover { color: #0c5f92; text-decoration: underline; }
     .paper-meta { display: flex; align-items: center; gap: 10px; margin-top: 6px; flex-wrap: wrap; }
     .source-title { color: #666; font-size: 13px; font-style: italic; }
     .citation-count { font-weight: 600; color: #1075BB; text-align: center; font-size: 15px; }
     .badge.bg-info { background-color: rgba(16,117,187,0.1) !important; color: #1075BB !important; padding: 5px 10px; border-radius: 20px; font-weight: 500; font-size: 13px; }
-    table { width:100%; border-collapse:separate; border-spacing:0; border-radius:10px; overflow:hidden; margin-bottom:24px; box-shadow:0 0 16px rgba(0,0,0,0.05); }
+    .cardprofile table { width:100%; border-collapse:separate; border-spacing:0; border-radius:10px; overflow:hidden; margin-bottom:24px; box-shadow:0 0 16px rgba(0,0,0,0.05); }
+    .profile-info-column { flex: 0 0 40%; max-width: 40%; }
     @media(max-width:600px) {
-        .cardprofile .card .col-md-6 { width:100% !important; }
-        tbody td { padding: 10px !important; font-size: 13px !important; }
-        thead th { font-size: 13px !important; padding: 10px !important; }
+        .profile-info-column { flex-basis: 100%; max-width: 100%; }
+        .cardprofile tbody td { padding: 10px !important; font-size: 13px !important; }
+        .cardprofile thead th { font-size: 13px !important; padding: 10px !important; }
     }
 </style>
 
@@ -34,8 +33,8 @@
             <div class="col-md-2">
                 <img class="card-image" src="{{ $res->profile_picture_url ?? ($res->picture ?? asset('img/default-profile.png')) }}" alt="">
             </div>
-            <div class="col-md-6" style="width:40%">
-                <div class="card-body" style="width:auto">
+            <div class="col-md-6 profile-info-column">
+                <div class="card-body">
                     <h6 class="card-text"><b>{{$res->position_th}} {{$res->fname_th}} {{$res->lname_th}}</b></h6>
                     @if($res->doctoral_degree == 'Ph.D.')
                     <h6 class="card-text"><b>{{$res->fname_en}} {{$res->lname_en}}, {{$res->doctoral_degree}} </b>
@@ -78,19 +77,19 @@
                     <div class="clearfix"></div>
                     <div class="row text-center gx-1">
                         <div class="col">
-                            <div class="count" id='all'>
+                            <div class="count stat-card-sm" id='all'>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="count" id='scopus_sum'>
+                            <div class="count stat-card-sm" id='scopus_sum'>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="count" id='wos_sum'>
+                            <div class="count stat-card-sm" id='wos_sum'>
                             </div>
                         </div>
                         <div class="col">
-                            <div class="count" id='tci_sum'>
+                            <div class="count stat-card-sm" id='tci_sum'>
                             </div>
                         </div>
                     </div>
@@ -165,7 +164,7 @@
                         <th>Document Type</th>
                         <th>Page</th>
                         <th>Journals/Transactions</th> -->
-                        <th>Ciations</th>
+                        <th>Citations</th>
                         <!-- <th>Doi</th>
                         <th>Source</th> -->
                     </tr>
@@ -183,7 +182,7 @@
                     <tr>
                         <th>Year</th>
                         <th>Paper Name</th>
-                        <th>Ciations</th>
+                        <th>Citations</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -199,7 +198,7 @@
                     <tr>
                         <th>Year</th>
                         <th>Paper Name</th>
-                        <th>Ciations</th>
+                        <th>Citations</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -215,7 +214,7 @@
                     <tr>
                         <th>Year</th>
                         <th>Paper Name</th>
-                        <th>Ciations</th>
+                        <th>Citations</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -273,6 +272,7 @@
         // ค่าตั้งต้นของ DataTable
         const tableConfig = {
             responsive: true,
+            dom: 'lrtip',
             order: [
                 [0, 'desc']
             ], // เรียงลำดับปีจากใหม่ไปเก่า
@@ -287,7 +287,7 @@
                     previous: "ก่อนหน้า"
                 }
             },
-            searching: false, // ปิดการค้นหาในตาราง
+            searching: true,
             columnDefs: [{
                     targets: '_all',
                     searchable: true
@@ -387,7 +387,7 @@
                         }
                         if (row.user) {
                             // Note: We bypass decrypting here since it relies on PHP, but it just displays names cleanly.
-                            row.user.forEach(u => authors.push(`<span><teacher>${u.fname_en} ${u.lname_en}</teacher></span>`));
+                            row.user.forEach(u => authors.push(`<span class="teacher">${u.fname_en} ${u.lname_en}</span>`));
                         }
                         return authors.join(' ');
                     }
@@ -403,7 +403,7 @@
 
         // เพิ่ม input ค้นหากลางสำหรับทุกตาราง
         const searchBox = $('<div class="mb-3"><input type="text" id="globalSearch" class="form-control" placeholder="🔍 ค้นหาชื่อ, ปี, หรือรายละเอียด..." style="width: 100%; padding: 8px; border: 1px solid #1075BB; border-radius: 4px;"></div>');
-        $(".nav-container").after(searchBox);
+        $(".custom-tabs-wrap").after(searchBox);
 
         // ฟังก์ชันค้นหาทั่วไป
         $('#globalSearch').on('keyup', function() {
