@@ -56,7 +56,7 @@
                     </td>
                     <td style="vertical-align:top;">
                         @if($re->status == 1)
-                            <span class="badge badge-success">ยื่นขอ</span>
+                            <span class="badge bg-success">ยื่นขอ</span>
                         @elseif($re->status == 2)
                             <span class="badge bg-warning text-dark">ดำเนินการ</span>
                         @else

@@ -48,7 +48,7 @@
     <div class="container mt-3 count-section">
         <div class="row text-center">
             <div class="col-6 col-lg-3">
-                <div class="count" id='all'></div>
+                <div class="count" id='total-publications'></div>
             </div>
             <div class="col-6 col-lg-3">
                 <div class="count" id='scopus'></div>
@@ -427,21 +427,28 @@
         var paper_scopus_all = <?php echo $paper_scopus_numall ?? 0; ?>;
         var paper_wos_all = <?php echo $paper_wos_numall ?? 0; ?>;
         var sum = paper_wos_all + paper_tci_all + paper_scopus_all;
+        const counterLabels = {
+            'total-publications': 'ALL',
+            scopus: 'SCOPUS',
+            wos: 'WOS',
+            tci: 'TCI'
+        };
 
         function initializeCounter(elementId, value) {
             const element = document.getElementById(elementId);
+            const label = counterLabels[elementId] || elementId.toUpperCase();
 
             // ตรวจสอบว่ามีข้อมูลหรือไม่
             if (value === null || value === undefined || value === 0 || isNaN(value)) {
                 element.innerHTML = `
             <i class="fa fa-book fa-2x"></i>
             <h2 class="count-title">ไม่มีข้อมูล</h2>
-            <p class="count-text">${elementId.toUpperCase()}</p>`;
+            <p class="count-text">${label}</p>`;
             } else {
                 element.innerHTML = `
             <i class="fa fa-book fa-2x"></i>
             <h2 class="timer count-title count-number" id="count-${elementId}" data-to="${value}" data-speed="1500">0</h2>
-            <p class="count-text">${elementId.toUpperCase()}</p>`;
+            <p class="count-text">${label}</p>`;
 
                 // Start counter animation only if we have data
                 $(`#count-${elementId}`).countTo({
@@ -454,7 +461,7 @@
 
         // Initialize counters after a slight delay
         setTimeout(function() {
-            initializeCounter('all', sum > 0 ? sum : null);
+            initializeCounter('total-publications', sum > 0 ? sum : null);
             initializeCounter('scopus', paper_scopus_all);
             initializeCounter('wos', paper_wos_all);
             initializeCounter('tci', paper_tci_all);

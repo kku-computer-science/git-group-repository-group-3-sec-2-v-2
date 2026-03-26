@@ -49,7 +49,7 @@
 
 <style>
     /* Card hover effect for research group cards (page-specific) */
-    .card:hover {
+    .research-group-item .card:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 20px rgba(0,0,0,0.15) !important;
     }
