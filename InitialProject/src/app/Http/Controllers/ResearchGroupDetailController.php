@@ -7,6 +7,7 @@ use App\Models\Paper;
 use App\Models\ResearchGroup;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ResearchGroupDetailController extends Controller
 {
@@ -14,28 +15,55 @@ class ResearchGroupDetailController extends Controller
     public function request($id)
     {
         $researchGroup = ResearchGroup::with([
-            'user',
+            'user.roles',
             'visitingScholars'
         ])->findOrFail($id);
 
         if (!empty($researchGroup->link)) {
             return redirect()->away($researchGroup->link);
         }
-        $researchGroup->user = $researchGroup->user->map(function ($user) {
-            $user->role = $user->pivot->role;
-            $user->can_edit = $user->pivot->can_edit;
-            $user->author_id = $user->pivot->author_id;
-            return $user;
-        });
 
-        $researchGroup->visitingScholars = $researchGroup->visitingScholars->map(function ($author) {
-            $author->author_id = $author->pivot->author_id;
-            return $author;
-        });
+        $users = $researchGroup->user;
 
-        // dd($researchGroup);
+        $headLabs = $users->filter(function ($user) {
+            return $user->hasRole('teacher') && (int) optional($user->pivot)->role === 1;
+        })->values();
 
-        return view('researchgroupdetail', ['resgd' => collect([$researchGroup])]);
+        $members = $users->filter(function ($user) {
+            return $user->hasRole('teacher') && (int) optional($user->pivot)->role === 2;
+        })->values();
+
+        $postdocInternal = $users->filter(function ($user) {
+            return (int) optional($user->pivot)->role === 3;
+        })->values();
+
+        $students = $users->filter(function ($user) {
+            return $user->hasRole('student') && (int) optional($user->pivot)->role === 2;
+        })->unique('id')->values();
+
+        $postdocExternalIds = DB::table('work_of_research_groups')
+            ->where('research_group_id', $researchGroup->id)
+            ->where('role', 3)
+            ->whereNull('user_id')
+            ->whereNotNull('author_id')
+            ->distinct()
+            ->pluck('author_id');
+
+        $postdocExternal = $postdocExternalIds->isNotEmpty()
+            ? Author::whereIn('id', $postdocExternalIds)->get()->values()
+            : collect();
+
+        $visitingScholars = $researchGroup->visitingScholars->values();
+
+        return view('researchgroupdetail', compact(
+            'researchGroup',
+            'headLabs',
+            'members',
+            'postdocInternal',
+            'postdocExternal',
+            'students',
+            'visitingScholars'
+        ));
     }
 
 
