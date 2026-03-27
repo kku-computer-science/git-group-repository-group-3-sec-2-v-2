@@ -175,6 +175,7 @@ class ResearchGroupController extends Controller
     
         // ประมวลผลข้อมูล Visiting Scholars
         if ($request->has('visiting')) {
+            $hasAcademicFields = \Illuminate\Support\Facades\Schema::hasColumn("authors", "doctoral_degree");
             $newVisiting = [];
             foreach ($request->visiting as $key => $visiting) {
                 if (
@@ -219,6 +220,12 @@ class ResearchGroupController extends Controller
                             $updated = true;
                         }
                     }
+                    if ($hasAcademicFields) {
+                        if (isset($visiting["doctoral_degree"])) { $author->doctoral_degree = $visiting["doctoral_degree"]; $updated = true; }
+                        if (isset($visiting["academic_ranks_en"])) { $author->academic_ranks_en = $visiting["academic_ranks_en"]; $updated = true; }
+                        if (isset($visiting["academic_ranks_th"])) { $author->academic_ranks_th = $visiting["academic_ranks_th"]; $updated = true; }
+                    }
+
                     if ($updated) {
                         $author->save();
                     }
@@ -304,6 +311,7 @@ class ResearchGroupController extends Controller
     
         // ส่วนของ Visiting Scholars
         if ($request->has('visiting')) {
+            $hasAcademicFields = \Illuminate\Support\Facades\Schema::hasColumn("authors", "doctoral_degree");
             // เก็บรายการ author_id ที่ส่งมาจากฟอร์ม
             $submittedAuthorIds = [];
             $postdoctoralAuthors = [];
@@ -326,9 +334,11 @@ class ResearchGroupController extends Controller
                             $author->author_fname = $visiting['first_name'];
                             $author->author_lname = $visiting['last_name'];
                             $author->belong_to = $visiting['affiliation'] ?? null;
-                            $author->doctoral_degree = $visiting['doctoral_degree'] ?? null;
-                            $author->academic_ranks_en = $visiting['academic_ranks_en'] ?? null;
-                            $author->academic_ranks_th = $visiting['academic_ranks_th'] ?? null;
+                            if ($hasAcademicFields) {
+                                $author->doctoral_degree = $visiting["doctoral_degree"] ?? null;
+                                $author->academic_ranks_en = $visiting["academic_ranks_en"] ?? null;
+                                $author->academic_ranks_th = $visiting["academic_ranks_th"] ?? null;
+                            }
                             
                             // ตรวจสอบว่ามีการอัพโหลดรูปภาพหรือไม่
                             if ($request->hasFile("visiting.$key.picture")) {
@@ -356,9 +366,11 @@ class ResearchGroupController extends Controller
                             $author->author_fname = $visiting['first_name'];
                             $author->author_lname = $visiting['last_name'];
                             $author->belong_to = $visiting['affiliation'] ?? null;
-                            $author->doctoral_degree = $visiting['doctoral_degree'] ?? null;
-                            $author->academic_ranks_en = $visiting['academic_ranks_en'] ?? null;
-                            $author->academic_ranks_th = $visiting['academic_ranks_th'] ?? null;
+                            if ($hasAcademicFields) {
+                                $author->doctoral_degree = $visiting["doctoral_degree"] ?? null;
+                                $author->academic_ranks_en = $visiting["academic_ranks_en"] ?? null;
+                                $author->academic_ranks_th = $visiting["academic_ranks_th"] ?? null;
+                            }
                             
                             if ($request->hasFile("visiting.$key.picture")) {
                                 $file = $request->file("visiting.$key.picture");
@@ -383,9 +395,11 @@ class ResearchGroupController extends Controller
                         $author->author_fname = $visiting['first_name'];
                         $author->author_lname = $visiting['last_name'];
                         $author->belong_to = $visiting['affiliation'] ?? null;
-                        $author->doctoral_degree = $visiting['doctoral_degree'] ?? null;
-                        $author->academic_ranks_en = $visiting['academic_ranks_en'] ?? null;
-                        $author->academic_ranks_th = $visiting['academic_ranks_th'] ?? null;
+                        if ($hasAcademicFields) {
+                                $author->doctoral_degree = $visiting["doctoral_degree"] ?? null;
+                                $author->academic_ranks_en = $visiting["academic_ranks_en"] ?? null;
+                                $author->academic_ranks_th = $visiting["academic_ranks_th"] ?? null;
+                            }
                         
                         if ($request->hasFile("visiting.$key.picture")) {
                             $file = $request->file("visiting.$key.picture");

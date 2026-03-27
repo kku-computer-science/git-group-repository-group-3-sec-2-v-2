@@ -15,7 +15,7 @@ class AddOrcidToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             if (!Schema::hasColumn('users', 'orcid')) {
-                $table->string('orcid')->nullable()->after('username');
+                $table->string('orcid')->nullable();
             }
         });
     }
