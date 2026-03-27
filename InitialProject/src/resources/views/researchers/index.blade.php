@@ -2,46 +2,35 @@
 
 @section('content')
 
-{{-- ── Blue page-header banner ─────────────────────────────── --}}
-<div class="page-header">
-    <div class="container">
-        <h1>OUR RESEARCHERS</h1>
-        <form method="GET" action="{{ route('researchers.index') }}" class="search-form" id="researcherSearchForm">
-            <div class="position-relative">
+<div class="container mt-5 mb-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+        <h3 class="mb-3 mb-md-0 fw-bold" style="font-weight: 500; text-transform: uppercase;">OUR RESEARCHERS</h3>
+        <form method="GET" action="{{ route('researchers.index') }}" class="d-flex w-100" style="max-width: 400px;" id="researcherSearchForm">
+            <div class="input-group">
                 <input
                     type="text"
                     id="researcherSearchInput"
-                    class="form-control search-input"
+                    class="form-control"
                     name="textsearch"
                     value="{{ $search ?? '' }}"
                     placeholder="Search by name, expertise, or program..."
                     aria-label="Search researchers"
                 >
-                <button type="submit" class="search-btn">
-                    <ion-icon name="search" size="large"></ion-icon>
+                @if(!empty($search))
+                <button type="button" class="btn btn-outline-secondary" onclick="document.getElementById('researcherSearchInput').value=''; document.getElementById('researcherSearchForm').submit();" title="Clear">
+                    <i class="fa fa-times"></i>
+                </button>
+                @endif
+                <button type="submit" class="btn btn-outline-primary">
+                    <i class="fa fa-search"></i>
                 </button>
             </div>
         </form>
     </div>
 </div>
 
-{{-- ── No Results ───────────────────────────────────────────── --}}
-@if(isset($noResults) && $noResults)
-<div class="no-results-message">
-    <h3><ion-icon name="search-outline" class="me-2"></ion-icon> No Results Found</h3>
-    @if(!empty($search))
-    <p>Sorry, we couldn't find any researchers matching "{{ $search }}".</p>
-    @else
-    <p>No researchers match the selected filters.</p>
-    @endif
-    <a href="{{ route('researchers.index') }}" class="btn btn-primary">
-        <ion-icon name="refresh-outline" class="me-1"></ion-icon> Clear All
-    </a>
-</div>
-
-@else
 {{-- ── Main Layout: Sidebar + Grid ─────────────────────────── --}}
-<div class="researchers-layout container-fluid px-3 px-md-4 pb-5">
+<div class="researchers-layout container pb-5">
 
     {{-- ── Sidebar ─────────── --}}
     <aside class="researchers-sidebar" id="researchersSidebar">
@@ -131,6 +120,20 @@
 
     {{-- ── Grid Section ─────── --}}
     <section class="researchers-grid-section">
+
+        @if(isset($noResults) && $noResults)
+        <div class="no-results-message">
+            <h3><ion-icon name="search-outline" class="me-2"></ion-icon> No Results Found</h3>
+            @if(!empty($search))
+            <p>Sorry, we couldn't find any researchers matching "{{ $search }}".</p>
+            @else
+            <p>No researchers match the selected filters.</p>
+            @endif
+            <a href="{{ route('researchers.index') }}" class="btn btn-primary">
+                <ion-icon name="refresh-outline" class="me-1"></ion-icon> Clear All
+            </a>
+        </div>
+        @else
 
         @foreach($roleUsers as $roleId => $roleData)
             @if($roleData['total_users'] > 0)
@@ -256,11 +259,11 @@
             </div>{{-- /.rs-role-group --}}
             @endif
         @endforeach
+        @endif
 
     </section>{{-- /.researchers-grid-section --}}
 
 </div>{{-- /.researchers-layout --}}
-@endif
 
 <script>
 (function () {

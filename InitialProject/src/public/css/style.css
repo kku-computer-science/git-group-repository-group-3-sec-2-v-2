@@ -3077,3 +3077,419 @@ select {
     .rs-card-photo { height: 220px; }
 }
 
+
+/* ==========================================
+   2026 Unified Research System Design Layer
+   ========================================== */
+:root {
+    --brand-900: #0b2e4f;
+    --brand-700: #1075bb;
+    --brand-600: #1f8bd5;
+    --surface-0: #ffffff;
+    --surface-50: #f8fafc;
+    --surface-100: #eef2f7;
+    --text-900: #0f172a;
+    --text-700: #334155;
+    --text-500: #64748b;
+    --success-600: #16a34a;
+    --warning-600: #f59e0b;
+    --neutral-600: #64748b;
+    --radius-lg: 16px;
+    --radius-md: 12px;
+    --shadow-soft: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+body,
+html {
+    color: var(--text-900);
+    font-family: "Inter", "Prompt", "Kanit", sans-serif;
+}
+
+.page-header {
+    background: linear-gradient(135deg, #0b2e4f 0%, #1075bb 62%, #3aa3e8 100%);
+    border-radius: var(--radius-lg);
+    margin: 0 auto 1.5rem;
+    max-width: 1280px;
+    box-shadow: var(--shadow-soft);
+}
+
+.page-header h1 {
+    font-family: "Inter", "Prompt", "Kanit", sans-serif;
+    font-size: clamp(1.8rem, 2.3vw, 2.6rem);
+    letter-spacing: 0.02em;
+}
+
+.page-header .search-input {
+    border-radius: 12px !important;
+    border: 1px solid rgba(148, 163, 184, 0.35);
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.18);
+}
+
+.page-header .search-btn {
+    color: #1e293b;
+}
+
+.uds-btn {
+    appearance: none;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    line-height: 1;
+    padding: 0.72rem 1rem;
+    transition: all 0.2s ease;
+}
+
+.uds-btn-primary {
+    color: #fff;
+    background: linear-gradient(135deg, var(--brand-700), var(--brand-600));
+    box-shadow: 0 8px 20px rgba(16, 117, 187, 0.28);
+}
+
+.uds-btn-primary:hover {
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.uds-btn-secondary {
+    color: #fff;
+    background: #334155;
+}
+
+.uds-btn-ghost {
+    color: var(--brand-700);
+    background: #e7f4fd;
+    border-color: #c7e5f9;
+}
+
+.uds-btn-ghost:hover {
+    color: var(--brand-900);
+    background: #d7edfb;
+}
+
+.uds-input {
+    width: 100%;
+    border: 1px solid #dbe3ee;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--text-700);
+    min-height: 44px;
+    padding: 0.65rem 0.8rem;
+}
+
+.uds-input:focus {
+    outline: none;
+    border-color: rgba(16, 117, 187, 0.55);
+    box-shadow: 0 0 0 4px rgba(16, 117, 187, 0.12);
+}
+
+.uds-status {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    padding: 0.35rem 0.68rem;
+    text-transform: uppercase;
+}
+
+.uds-status-success {
+    background: #dcfce7;
+    color: var(--success-600);
+}
+
+.uds-status-progress {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.uds-status-neutral {
+    background: #e2e8f0;
+    color: var(--neutral-600);
+}
+
+/* style-guide page */
+.uds-page .uds-intro-card,
+.uds-page .uds-demo-card,
+.uds-page .uds-content-card {
+    border: 1px solid #e2e8f0;
+    background: #fff;
+    border-radius: var(--radius-md);
+    padding: 1.1rem;
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.04);
+}
+
+.uds-page .uds-section {
+    margin-bottom: 1.5rem;
+}
+
+.uds-page .uds-section-title {
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    color: #0f172a;
+    border-left: 4px solid var(--brand-700);
+    padding-left: 0.6rem;
+}
+
+.uds-page .uds-label {
+    margin-bottom: 0.5rem;
+    color: var(--text-500);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.uds-color-grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.uds-color-swatch {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    background: #fff;
+    padding: 0.75rem;
+}
+
+.uds-color-swatch strong,
+.uds-color-swatch small {
+    display: block;
+}
+
+.uds-color-swatch small {
+    color: var(--text-500);
+}
+
+.uds-chip {
+    width: 100%;
+    height: 18px;
+    border-radius: 8px;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.uds-chip-primary { background: var(--brand-700); }
+.uds-chip-secondary { background: var(--text-700); }
+.uds-chip-muted { background: var(--surface-50); border: 1px solid #dbe3ee; }
+.uds-chip-success { background: var(--success-600); }
+.uds-chip-progress { background: var(--warning-600); }
+.uds-chip-neutral { background: var(--neutral-600); }
+
+.uds-chart-demo {
+    display: grid;
+    gap: 0.5rem;
+    align-items: end;
+    grid-template-columns: repeat(4, 1fr);
+    min-height: 120px;
+}
+
+.uds-chart-bar {
+    height: var(--bar);
+    border-radius: 8px 8px 2px 2px;
+    background: linear-gradient(180deg, #60a5fa, var(--brand-700));
+}
+
+.uds-list {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+/* research groups unified view */
+.rg-unified-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.rg-unified-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid #dfe6f1;
+    background: #fff;
+    box-shadow: var(--shadow-soft);
+}
+
+.rg-media-link,
+.rg-media-link:hover {
+    text-decoration: none;
+}
+
+.rg-media-wrap {
+    position: relative;
+    padding-top: 56%;
+    overflow: hidden;
+    background: #e2e8f0;
+}
+
+.rg-media-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.rg-unified-card:hover .rg-media-image {
+    transform: scale(1.04);
+}
+
+.rg-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 1rem;
+}
+
+.rg-title {
+    font-size: 1.1rem;
+    line-height: 1.35;
+    margin-bottom: 0.5rem;
+}
+
+.rg-desc,
+.rg-focus {
+    color: var(--text-700);
+    font-size: 0.92rem;
+    line-height: 1.6;
+}
+
+.rg-focus {
+    margin-bottom: 0.9rem;
+}
+
+/* research projects unified view */
+.rp-unified-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.rp-unified-item {
+    border: 1px solid #dfe6f1;
+    border-radius: var(--radius-md);
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    padding: 1rem;
+}
+
+.rp-item-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.9rem;
+    margin-bottom: 0.85rem;
+}
+
+.rp-title-wrap {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+}
+
+.rp-index {
+    color: var(--brand-700);
+    background: #e7f4fd;
+    border-radius: 8px;
+    padding: 0.2rem 0.48rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.rp-title {
+    margin: 0;
+    font-size: 1.08rem;
+    line-height: 1.45;
+}
+
+.rp-meta-top {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+}
+
+.rp-year {
+    font-weight: 700;
+    color: var(--text-700);
+}
+
+.rp-info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 0.7rem;
+    margin-bottom: 0.85rem;
+}
+
+.rp-info-block {
+    border: 1px solid #edf2f7;
+    background: #fafcff;
+    border-radius: 10px;
+    padding: 0.72rem;
+}
+
+.rp-label {
+    display: block;
+    font-size: 0.72rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-500);
+    margin-bottom: 0.22rem;
+    font-weight: 700;
+}
+
+.rp-info-block p {
+    margin: 0;
+    color: var(--text-700);
+}
+
+.rp-owner-block {
+    border-top: 1px dashed #d9e3f0;
+    padding-top: 0.72rem;
+}
+
+.rp-owner-block ul {
+    margin: 0;
+    padding-left: 1rem;
+    color: var(--text-700);
+}
+
+.no-results-message {
+    border: 1px solid #dbe7f3;
+    background: #f8fbff;
+}
+
+.pagination {
+    gap: 0.2rem;
+}
+
+.pagination .page-link {
+    border-radius: 8px;
+    border-color: #d5e1ee;
+    color: var(--brand-700);
+}
+
+.pagination .page-item.active .page-link {
+    background: var(--brand-700);
+    border-color: var(--brand-700);
+}
+
+@media (max-width: 767px) {
+    .page-header {
+        border-radius: 0;
+    }
+
+    .rp-item-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}

@@ -39,7 +39,7 @@
         border-radius: 32px;
         box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.1),
                     inset 0 0 0 1px rgba(255,255,255,0.6);
-        padding: 2.5rem;
+        padding: 1.5rem 1.75rem;
         overflow: hidden;
     }
 
@@ -58,24 +58,24 @@
     .research-profile-page .profile-hero-grid {
         display: grid;
         grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.85fr);
-        gap: 1.75rem;
+        gap: 1.25rem;
         align-items: start;
     }
 
     .research-profile-page .profile-main {
         display: flex;
-        gap: 1.5rem;
+        gap: 1rem;
         min-width: 0;
     }
 
     .research-profile-page .profile-photo-wrap {
-        flex: 0 0 160px;
+        flex: 0 0 125px;
         position: relative;
     }
 
     .research-profile-page .profile-photo {
-        width: 160px;
-        height: 160px;
+        width: 125px;
+        height: 125px;
         object-fit: contain;
         border-radius: 50%;
         border: 5px solid #ffffff;
@@ -99,11 +99,11 @@
         display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        padding: 0.5rem 1rem;
+        padding: 0.35rem 0.75rem;
         border-radius: 999px;
         background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(14, 165, 233, 0.1));
         color: var(--rp-primary-dark);
-        font-size: 0.85rem;
+        font-size: 0.75rem;
         font-weight: 600;
         letter-spacing: 0.05em;
         text-transform: uppercase;
@@ -112,7 +112,7 @@
 
     .research-profile-page .profile-name-th {
         margin: 0.5rem 0 0.3rem;
-        font-size: clamp(1.8rem, 2.5vw, 2.25rem);
+        font-size: clamp(1.3rem, 2vw, 1.75rem);
         font-weight: 700;
         line-height: 1.2;
         color: #0f172a;
@@ -121,14 +121,14 @@
 
     .research-profile-page .profile-name-en {
         margin: 0;
-        font-size: clamp(1.2rem, 1.5vw, 1.4rem);
+        font-size: clamp(1rem, 1.2vw, 1.15rem);
         font-weight: 500;
         color: var(--rp-slate);
     }
 
     .research-profile-page .profile-rank {
         margin: 0.75rem 0 0;
-        font-size: 1rem;
+        font-size: 0.85rem;
         font-weight: 500;
         color: var(--rp-primary);
     }
@@ -136,9 +136,9 @@
     .research-profile-page .profile-links {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.85rem 1.5rem;
-        margin-top: 1.25rem;
-        padding-top: 1.25rem;
+        gap: 0.5rem 1rem;
+        margin-top: 1rem;
+        padding-top: 1rem;
         border-top: 1px dashed rgba(203, 213, 225, 0.8);
     }
 
@@ -147,7 +147,7 @@
         align-items: center;
         gap: 0.6rem;
         color: var(--rp-slate);
-        font-size: 0.95rem;
+        font-size: 0.85rem;
         text-decoration: none;
         transition: color 0.2s ease, transform 0.2s ease;
     }
@@ -175,7 +175,7 @@
     }
 
     .research-profile-page .profile-chip {
-        padding: 0.35rem 0.85rem;
+        padding: 0.25rem 0.65rem;
         border-radius: 8px;
         background: #f1f5f9;
         border: 1px solid #e2e8f0;
@@ -223,7 +223,7 @@
     }
 
     .research-profile-page .education-year {
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 700;
         color: var(--rp-primary-dark);
     }
@@ -250,7 +250,7 @@
 
     .research-profile-page .side-card-title {
         margin: 0 0 0.85rem;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 700;
         letter-spacing: 0.08em;
         text-transform: uppercase;
@@ -434,7 +434,7 @@
         background: var(--rp-surface);
         border: 1px solid var(--rp-border);
         color: var(--rp-slate);
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 600;
         letter-spacing: 0.02em;
         box-shadow: 0 2px 5px rgba(0,0,0,0.02);
@@ -509,7 +509,7 @@
         gap: 0.65rem;
         flex-shrink: 0;
         color: #475569;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         font-weight: 500;
     }
 
@@ -788,34 +788,6 @@
                 </div>
 
                 <aside class="profile-side">
-                    <div class="side-card">
-                        <h3 class="side-card-title">Find Publications</h3>
-                            <div class="filter-row">
-                                <div class="select-wrap">
-                                    <select id="profileYearFilter" class="filter-control">
-                                        <option value="">All Years</option>
-                                        @foreach($yearOptions as $yearOption)
-                                            <option value="{{ $yearOption }}">{{ $yearOption }}</option>
-                                        @endforeach
-                                    </select>
-                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </div>
-
-                                <div class="select-wrap">
-                                    <select id="profileCategoryFilter" class="filter-control">
-                                        <option value="#home">Summary</option>
-                                        <option value="#scopus">SCOPUS</option>
-                                        <option value="#wos">Web of Science</option>
-                                        <option value="#tci">TCI</option>
-                                        <option value="#book">Books</option>
-                                        <option value="#patent">Other Academic Works</option>
-                                    </select>
-                                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="side-card chart-card">
                         <div class="chart-meta">
                             <div>
@@ -851,13 +823,13 @@
         </section>
 
         <div class="custom-tabs-wrap profile-tabs-wrap">
-            <nav class="custom-tabs-nav" id="myTab" role="tablist">
-                <button class="custom-tab-btn active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Summary</button>
-                <button class="custom-tab-btn" id="scopus-tab" data-bs-toggle="tab" data-bs-target="#scopus" type="button" role="tab" aria-controls="scopus" aria-selected="false">SCOPUS</button>
-                <button class="custom-tab-btn" id="wos-tab" data-bs-toggle="tab" data-bs-target="#wos" type="button" role="tab" aria-controls="wos" aria-selected="false">WEB OF SCIENCE</button>
-                <button class="custom-tab-btn" id="tci-tab" data-bs-toggle="tab" data-bs-target="#tci" type="button" role="tab" aria-controls="tci" aria-selected="false">TCI</button>
-                <button class="custom-tab-btn" id="book-tab" data-bs-toggle="tab" data-bs-target="#book" type="button" role="tab" aria-controls="book" aria-selected="false">หนังสือ</button>
-                <button class="custom-tab-btn" id="patent-tab" data-bs-toggle="tab" data-bs-target="#patent" type="button" role="tab" aria-controls="patent" aria-selected="false">ผลงานวิชาการด้านอื่นๆ</button>
+            <nav class="nav nav-tabs custom-tabs-nav border-0" id="myTab" role="tablist">
+                <button class="nav-link custom-tab-btn active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Summary</button>
+                <button class="nav-link custom-tab-btn" id="scopus-tab" data-bs-toggle="tab" data-bs-target="#scopus" type="button" role="tab" aria-controls="scopus" aria-selected="false">SCOPUS</button>
+                <button class="nav-link custom-tab-btn" id="wos-tab" data-bs-toggle="tab" data-bs-target="#wos" type="button" role="tab" aria-controls="wos" aria-selected="false">WEB OF SCIENCE</button>
+                <button class="nav-link custom-tab-btn" id="tci-tab" data-bs-toggle="tab" data-bs-target="#tci" type="button" role="tab" aria-controls="tci" aria-selected="false">TCI</button>
+                <button class="nav-link custom-tab-btn" id="book-tab" data-bs-toggle="tab" data-bs-target="#book" type="button" role="tab" aria-controls="book" aria-selected="false">หนังสือ</button>
+                <button class="nav-link custom-tab-btn" id="patent-tab" data-bs-toggle="tab" data-bs-target="#patent" type="button" role="tab" aria-controls="patent" aria-selected="false">ผลงานวิชาการด้านอื่นๆ</button>
             </nav>
 
             @if($showExport)
