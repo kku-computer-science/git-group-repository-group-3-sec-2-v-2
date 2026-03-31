@@ -1,0 +1,1 @@
+Author: วิทวัช ปริยานนท์ 653380148-0 Section: 2 My Personal Quote: believe you can and you are halfway there

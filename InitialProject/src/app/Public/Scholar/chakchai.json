@@ -1,0 +1,128 @@
+{
+    "name": "Chakchai So-In",
+    "affiliation": "Professor of Computer Science, Khon Kaen University (IEEE/ACM SMs)",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Scheduling in IEEE 802.16 e mobile WiMAX networks: key issues and a survey",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:u5HHmVD_uO8C",
+            "authors": "C So-In, R Jain, AK Tamimi",
+            "year": "2009"
+        },
+        {
+            "title": "Capacity evaluation for IEEE 802.16 e mobile WiMAX",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:u-x6o8ySG0sC",
+            "authors": "C So-In, R Jain, AK Tamimi",
+            "year": "2010"
+        },
+        {
+            "title": "Search: A collaborative and intelligent nids architecture for sdn-based cloud iot networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:sSrBHYA8nusC",
+            "authors": "TG Nguyen, TV Phan, BT Nguyen, C So-In, ZA Baig, S Sanguanpong",
+            "year": "2019"
+        },
+        {
+            "title": "Averaged dependence estimators for DoS attack detection in IoT networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:geHnlv5EZngC",
+            "authors": "ZA Baig, S Sanguanpong, SN Firdous, TG Nguyen, C So-In",
+            "year": "2020"
+        },
+        {
+            "title": "A hybrid model using fuzzy logic and an extreme learning machine with vector particle swarm optimization for wireless sensor network localization",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:dfsIfKJdRG4C",
+            "authors": "S Phoemphon, C So-In, DT Niyato",
+            "year": "2018"
+        },
+        {
+            "title": "MILSA: A new evolutionary architecture for scalability, mobility, and multihoming in the future internet",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:2osOgNQ5qMEC",
+            "authors": "J Pan, R Jain, S Paul, C So-In",
+            "year": "2010"
+        },
+        {
+            "title": "System-level modeling of IEEE 802.16 E mobile WiMAX networks: key issues",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:9yKSN-GCB0IC",
+            "authors": "R Jain, C So-In",
+            "year": "2008"
+        },
+        {
+            "title": "eOCSA: An algorithm for burst mapping with strict QoS requirements in IEEE 802.16 e mobile WiMAX networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:d1gkVwhDpl0C",
+            "authors": "C So-In, R Jain, AK Al Tamimi",
+            "year": "2009"
+        },
+        {
+            "title": "A survey of network traffic monitoring and analysis tools",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:zYLM7Y9cAGgC",
+            "authors": "C So-In",
+            "year": "2009"
+        },
+        {
+            "title": "Efficient SDN-Based Traffic Monitoring in IoT Networks with Double Deep Q-Network",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:J-pR_7NvFogC",
+            "authors": "TG Nguyen, TV Phan, DT Hoang, TN Nguyen, C So-In",
+            "year": "2020"
+        },
+        {
+            "title": "A hybrid localization model using node segmentation and improved particle swarm optimization with obstacle-awareness for wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:VOx2b1Wkg3QC",
+            "authors": "S Phoemphon, C So-In, N Leelathakul",
+            "year": "2020"
+        },
+        {
+            "title": "Modeling and resource allocation for mobile video over WiMAX broadband wireless networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:qjMakFHDy7sC",
+            "authors": "AK Al Tamimi, C So-In, R Jain",
+            "year": "2010"
+        },
+        {
+            "title": "Federated deep reinforcement learning for traffic monitoring in SDN-based IoT networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:_B80troHkn4C",
+            "authors": "TG Nguyen, TV Phan, DT Hoang, TN Nguyen, C So-In",
+            "year": "2021"
+        },
+        {
+            "title": "Secrecy performance analysis of energy harvesting wireless sensor networks with a friendly jammer",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:fPk4N6BV_jEC",
+            "authors": "TG Nguyen, C So-In, DB Ha",
+            "year": "2017"
+        },
+        {
+            "title": "A hybrid mobile environmental and population density management system for smart poultry farms",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:3fE2CSJIrl8C",
+            "authors": "C So-In, S Poolsanguan, K Rujirakul",
+            "year": "2014"
+        },
+        {
+            "title": "Secrecy outage performance analysis for energy harvesting sensor networks with a jammer using relay selection strategy",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:pyW8ca7W8N0C",
+            "authors": "TG Nguyen, C So-In, ZA Baig, S Sanguanpong",
+            "year": "2018"
+        },
+        {
+            "title": "Fuzzy weighted centroid localization with virtual node approximation in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:a0OBvERweLwC",
+            "authors": "S Phoemphon, C So-In, N Leelathakul",
+            "year": "2018"
+        },
+        {
+            "title": "An evaluation of data mining classification models for network intrusion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:WF5omc3nYNoC",
+            "authors": "C So-In, N Mongkonchai, P Aimtongkham, K Wijitsopon, K Rujirakul",
+            "year": "2014"
+        },
+        {
+            "title": "Soft computing-based localizations in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:0EnyYjriUFMC",
+            "authors": "C So-In, S Permpol, K Rujirakul",
+            "year": "2016"
+        },
+        {
+            "title": "An enhanced deep learning neural network for the detection and identification of android malware",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=X0qzPOIAAAAJ&citation_for_view=X0qzPOIAAAAJ:ZfRJV9d4-WMC",
+            "authors": "P Musikawan, Y Kongsorot, I You, C So-In",
+            "year": "2022"
+        }
+    ]
+}

@@ -1,0 +1,128 @@
+{
+    "name": "Saiyan Saiyod",
+    "affiliation": "Assistant Professor of Computer Science, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Sensor data collection and irrigation control on vegetable crop using smart phone and wireless sensor networks for smart farm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:WF5omc3nYNoC",
+            "authors": "N Kaewmard, S Saiyod",
+            "year": "2014"
+        },
+        {
+            "title": "Improving intrusion detection system based on snort rules for network probe attack detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:MXK_kJrjxJIC",
+            "authors": "N Khamphakdee, N Benjamas, S Saiyod",
+            "year": "2014"
+        },
+        {
+            "title": "Improving Intrusion Detection System Based on Snort Rules for Network Probe Attacks Detection with Association Rules Technique of Data Mining.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:qxL8FJ1GzNcC",
+            "authors": "N Khamphakdee, N Benjamas, S Saiyod",
+            "year": "2015"
+        },
+        {
+            "title": "Mobile animal tracking systems using light sensor for efficient power and cost saving motion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:YsMSGLbcyi4C",
+            "authors": "C So-In, C Phaudphut, S Tesana, N Weeramongkonlert, K Wijitsopon, ...",
+            "year": "2012"
+        },
+        {
+            "title": "Creating snort-IDS rules for detection behavior using multi-sensors in private cloud",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:mVmsd5A6BfQC",
+            "authors": "K Sengaphay, S Saiyod, N Benjamas",
+            "year": "2016"
+        },
+        {
+            "title": "A hybrid technique for overlapped chromosome segmentation of G-band mataspread images automatic",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:9ZlFYXVOiuMC",
+            "authors": "S Saiyod, P Wayalun",
+            "year": "2014"
+        },
+        {
+            "title": "Performance evaluation of big data technology on designing big network traffic data analysis system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:Tyk-4Ss8FVUC",
+            "authors": "N Khamphakdee, N Benjamas, S Saiyod",
+            "year": "2016"
+        },
+        {
+            "title": "Improving intrusion detection on snort rules for botnets detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:_kc_bZDykSQC",
+            "authors": "Y Chanthakoummane, S Saiyod, N Benjamas, N Khamphakdee",
+            "year": "2016"
+        },
+        {
+            "title": "Distance measurement using 3D stereoscopic technique for robot eyes",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:_FxGoFyzp5QC",
+            "authors": "S Boonkwang, S Saiyod",
+            "year": "2015"
+        },
+        {
+            "title": "Network traffic data to ARFF converter for association rules technique of data mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:LkGwnXOMwfcC",
+            "authors": "N Khamphakdee, N Benjamas, S Saiyod",
+            "year": "2014"
+        },
+        {
+            "title": "Thai speech synthesis with emotional tone: Based on Formant synthesis for Home Robot",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:4DMP91E08xMC",
+            "authors": "C Khorinphan, S Phansamdaeng, S Saiyod",
+            "year": "2014"
+        },
+        {
+            "title": "A new technique for edge detection of chromosome g-band images for segmentation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:3fE2CSJIrl8C",
+            "authors": "S Saiyod, P Wayalun",
+            "year": "2014"
+        },
+        {
+            "title": "Angle of arrival estimation by using stereo ultrasonic technique for local positioning system",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:0EnyYjriUFMC",
+            "authors": "W Nonsakhoo, P Sirisawat, S Saiyod, N Benjamas",
+            "year": "2017"
+        },
+        {
+            "title": "Landscape analysis system using 3D stereoscopic for drone",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:9yKSN-GCB0IC",
+            "authors": "N Thanomsieng, N Boonruam, P Sirisawat, W Nonsakhoo, S Saiyod",
+            "year": "2017"
+        },
+        {
+            "title": "A novel lightweight hybrid intrusion detection method using a combination of data mining techniques",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:u5HHmVD_uO8C",
+            "authors": "J Juanchaiyaphum, N Arch-int, S Arch-int, S Saiyod",
+            "year": "2015"
+        },
+        {
+            "title": "A novel technique of liver ultrasound image enhancement by modified Fourier transform for bile duct cancer surveillance",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:ufrVoPGSRksC",
+            "authors": "S Saiyod, P Wayalun, C Khorinphan, J Chaichawananit, S Boonkwang",
+            "year": "2016"
+        },
+        {
+            "title": "Evaluation snort-IDS rules for botnets detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:Zph67rFs4hoC",
+            "authors": "Y Chanthakoummane, S Saiyod, N Khamphakdee",
+            "year": "2015"
+        },
+        {
+            "title": "Improving intrusion detection on snort rules for botnet detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:roLk4NBRz8UC",
+            "authors": "S Saiyod, Y Chanthakoummane, N Benjamas, N Khamphakdee, ...",
+            "year": "2018"
+        },
+        {
+            "title": "Solving inverse kinematics problem of robot arm based on a-star algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:hqOjcs7Dif8C",
+            "authors": "J Chaichawananit, S Saiyod",
+            "year": "2016"
+        },
+        {
+            "title": "A hybrid technique of noise reduction with periductal fibrosis ultrasound images for periductal fibrosis detection system of cholangiocarcinoma surveillance",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=ksJyxM4AAAAJ&citation_for_view=ksJyxM4AAAAJ:UebtZRa9Y70C",
+            "authors": "P Wayalun, S Saiyod, N Chamadol",
+            "year": "2014"
+        }
+    ]
+}

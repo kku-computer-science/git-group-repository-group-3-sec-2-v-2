@@ -1,0 +1,128 @@
+{
+    "name": "Pakarat Musikawan",
+    "affiliation": "Department of Computer Science, College of Computing, Khon Kaen University, Khon Kaen, 40002",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "An enhanced deep learning neural network for the detection and identification of android malware",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:kNdYIx-mwKoC",
+            "authors": "P Musikawan, Y Kongsorot, I You, C So-In",
+            "year": "2022"
+        },
+        {
+            "title": "Kernel extreme learning machine based on fuzzy set theory for multi-label classification",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "Y Kongsorot, P Horata, P Musikawan, K Sunat",
+            "year": "2019"
+        },
+        {
+            "title": "An enhanced obstacle-aware deployment scheme with an opposition-based competitive swarm optimizer for mobile WSNs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:Se3iqnhoufwC",
+            "authors": "P Musikawan, Y Kongsorot, P Muneesawang, C So-In",
+            "year": "2022"
+        },
+        {
+            "title": "Parallelized metaheuristic-ensemble of heterogeneous feedforward neural networks for regression problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:WF5omc3nYNoC",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot, P Horata, S Chiewchanwattana",
+            "year": "2019"
+        },
+        {
+            "title": "An incremental kernel extreme learning machine for multi-label learning with emerging new labels",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:_FxGoFyzp5QC",
+            "authors": "Y Kongsorot, P Horata, P Musikawan",
+            "year": "2020"
+        },
+        {
+            "title": "Improved differential evolution via cuckoo search operator",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:MXK_kJrjxJIC",
+            "authors": "P Musigawan, S Chiewchanwattana, K Sunat",
+            "year": "2012"
+        },
+        {
+            "title": "Harmonic extreme learning machine for data clustering",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:UeHWp8X0CEIC",
+            "authors": "S Boriratrit, S Chiewchanwattana, K Sunat, P Musikawan, P Horata",
+            "year": "2016"
+        },
+        {
+            "title": "An enhanced fuzzy-based clustering protocol with an improved shuffled frog leaping algorithm for WSNs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:5nxA0vEk-isC",
+            "authors": "Y Kongsorot, P Musikawan, P Muneesawang, C So-In",
+            "year": "2022"
+        },
+        {
+            "title": "A two-phase ensemble-based method for predicting learners’ grade in MOOCs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:KlAtU1dfN6UC",
+            "authors": "W Wunnasri, P Musikawan, C So-In",
+            "year": "2023"
+        },
+        {
+            "title": "Evolutionary circular extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:8k81kl-MbHgC",
+            "authors": "S Atsawaraungsuk, P Horata, K Sunat, S Chiewchanwattana, ...",
+            "year": "2013"
+        },
+        {
+            "title": "Improvement flower pollination extreme learning machine based on meta-learning",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:2osOgNQ5qMEC",
+            "authors": "S Boriratrit, S Chiewchanwattana, K Sunat, P Musikawan, P Horata",
+            "year": "2016"
+        },
+        {
+            "title": "An Intrusion Detection and Identification System for Internet of Things Networks Using a Hybrid Ensemble Deep Learning Framework",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:Zph67rFs4hoC",
+            "authors": "Y Kongsorot, P Musikawan, P Aimtongkham, I You, A Benslimane, ...",
+            "year": "2023"
+        },
+        {
+            "title": "Improved convex incremental extreme learning machine based on ridgelet and PSO algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:qjMakFHDy7sC",
+            "authors": "P Musikawan, K Sunat, S Chiewchanwattana, P Horata, Y Kongsorot",
+            "year": "2016"
+        },
+        {
+            "title": "Evolutionary extreme learning machine based on optimized step-size random search firefly algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:3fE2CSJIrl8C",
+            "authors": "P Musigawan, S Chiewchanwattana, K Sunat",
+            "year": "2012"
+        },
+        {
+            "title": "Wind power forecasting using a heterogeneous ensemble of decomposition-based nnrw techniques",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:LkGwnXOMwfcC",
+            "authors": "P Musikawan, K Sunat, Y Kongsorot",
+            "year": "2020"
+        },
+        {
+            "title": "A fast convolutional denoising autoencoder based extreme learning machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:YsMSGLbcyi4C",
+            "authors": "J Sawaengchob, P Horata, P Musikawan, Y Kongsorot",
+            "year": "2017"
+        },
+        {
+            "title": "Multidirectional Trust-Based Security Mechanisms for Sinkhole Attack Detection in the RPL Routing Protocol for Internet of Things",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:ULOm3_A8WrAC",
+            "authors": "S Khoeurt, C So-In, P Musikawan, P Aimtongkham",
+            "year": ""
+        },
+        {
+            "title": "Enhanced Multigrained Scanning-Based Deep Stacking Network for Intrusion Detection in IoMT Networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:_kc_bZDykSQC",
+            "authors": "P Musikawan, Y Kongsorot, P Aimtongkham, C So-In",
+            "year": "2024"
+        },
+        {
+            "title": "A Novel Congestion Control Scheme Using Fuzzy Logic Systems to Enhance the Path Selection Criteria in Routing Protocols for Low-Power and Lossy Networks on the Internet of Things",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:YOwf2qJgpHMC",
+            "authors": "P Aimtongkham, P Musikawan, Y Kongsorot, C So-In",
+            "year": "2024"
+        },
+        {
+            "title": "Tomato Maturity Classification: A Transfer Learning Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=dxQuB2QAAAAJ&citation_for_view=dxQuB2QAAAAJ:UebtZRa9Y70C",
+            "authors": "C Sakunrasrisuay, P Musikawan, AN Nguyen, Y Kongsorot, ...",
+            "year": "2021"
+        }
+    ]
+}

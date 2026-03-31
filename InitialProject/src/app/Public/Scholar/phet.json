@@ -1,0 +1,128 @@
+{
+    "name": "Phet Aimtongkham",
+    "affiliation": "Lecturer at the Department of Computer Science, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "An evaluation of data mining classification models for network intrusion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:u5HHmVD_uO8C",
+            "authors": "C So-In, N Mongkonchai, P Aimtongkham, K Wijitsopon, K Rujirakul",
+            "year": "2014"
+        },
+        {
+            "title": "An energy-efficient fuzzy-based scheme for unequal multihop clustering in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:WF5omc3nYNoC",
+            "authors": "S Phoemphon, C So-In, P Aimtongkham, TG Nguyen",
+            "year": "2021"
+        },
+        {
+            "title": "Parallel KNN and neighborhood classification implementations on GPU for network intrusion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:qjMakFHDy7sC",
+            "authors": "P Kuttranont, K Boonprakob, C Phaudphut, S Permpol, ...",
+            "year": "2017"
+        },
+        {
+            "title": "Congestion control and prediction schemes using Fuzzy logic system with adaptive membership function in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:zYLM7Y9cAGgC",
+            "authors": "P Aimtongkham, TG Nguyen, C So-In",
+            "year": "2018"
+        },
+        {
+            "title": "A novel IoT authorization architecture on hyperledger fabric with optimal consensus using genetic algorithm",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:Tyk-4Ss8FVUC",
+            "authors": "N Klaokliang, P Teawtim, P Aimtongkham, C So-In, A Niruntasukrat",
+            "year": "2018"
+        },
+        {
+            "title": "On security and throughput for energy harvesting untrusted relays in IoT systems using NOMA",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:Y0pCki6q_DkC",
+            "authors": "C So-In, H Tran, DD Tran, S Heng, P Aimtongkham, AN Nguyen",
+            "year": "2019"
+        },
+        {
+            "title": "Fuzzy logic-based path planning for data gathering mobile sinks in WSNs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:Se3iqnhoufwC",
+            "authors": "C Punriboon, C So-In, P Aimtongkham, N Leelathakul",
+            "year": "2021"
+        },
+        {
+            "title": "A novel web caching scheme using hybrid least frequently used and support vector machine",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:d1gkVwhDpl0C",
+            "authors": "P Aimtongkham, C So-In, S Sanguanpong",
+            "year": "2016"
+        },
+        {
+            "title": "Multistage fuzzy logic congestion-aware routing using dual-stage notification and the relative barring distance in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:LkGwnXOMwfcC",
+            "authors": "P Aimtongkham, P Horkaew, C So-In",
+            "year": "2021"
+        },
+        {
+            "title": "An enhanced CoAP scheme using fuzzy logic with adaptive timeout for IoT congestion control",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:roLk4NBRz8UC",
+            "authors": "P Aimtongkham, P Horkaew, C So-In",
+            "year": "2021"
+        },
+        {
+            "title": "Enhanced DDoS detection using hybrid genetic algorithm and decision tree for SDN",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:W7OEmFMy1HYC",
+            "authors": "P Preamthaisong, A Auyporntrakool, P Aimtongkham, T Sriwuttisap, ...",
+            "year": "2019"
+        },
+        {
+            "title": "An efficient distributed algorithm for target-coverage preservation in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:ufrVoPGSRksC",
+            "authors": "TG Nguyen, TV Phan, HH Nguyen, P Aimtongkham, C So-In",
+            "year": "2021"
+        },
+        {
+            "title": "Fuzzy logic rate adjustment controls using a circuit breaker for persistent congestion in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:YsMSGLbcyi4C",
+            "authors": "P Aimtongkham, S Heng, P Horkaew, TG Nguyen, C So-In",
+            "year": "2020"
+        },
+        {
+            "title": "A Bio-Inspired Capacitated Vehicle-Routing Problem Scheme Using Artificial Bee Colony with Crossover Optimizations.",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:eQOLeE2rZwMC",
+            "authors": "C Punriboon, C So-In, P Aimtongkham, K Rujirakul",
+            "year": "2019"
+        },
+        {
+            "title": "Video steganography with LSB color detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:2osOgNQ5qMEC",
+            "authors": "A Suttichaiya, Y Sombatkiripaiboon, P Imtongkhua, C Poonriboon, ...",
+            "year": "2017"
+        },
+        {
+            "title": "On secrecy analysis of uav-enabled relaying noma systems with rf energy harvesting",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:8k81kl-MbHgC",
+            "authors": "AN Nguyen, DB Ha, VT Truong, C So-In, P Aimtongkham, ...",
+            "year": "2022"
+        },
+        {
+            "title": "Fuzzy adaptive-sampling block compressed sensing for wireless multimedia sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:_FxGoFyzp5QC",
+            "authors": "S Heng, P Aimtongkham, VN Vo, TG Nguyen, C So-In",
+            "year": "2020"
+        },
+        {
+            "title": "An Intrusion Detection and Identification System for Internet of Things Networks Using a Hybrid Ensemble Deep Learning Framework",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:MXK_kJrjxJIC",
+            "authors": "Y Kongsorot, P Musikawan, P Aimtongkham, I You, A Benslimane, ...",
+            "year": "2023"
+        },
+        {
+            "title": "A novel transceiver and an asynchronous mode for the hybrid multiple-access HetNet architecture",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:KlAtU1dfN6UC",
+            "authors": "J Ghosh, C Vargas-Rosales, LL Mendes, IH Ra, P Aimtongkham, C So-In",
+            "year": "2023"
+        },
+        {
+            "title": "Brain Cancer Cell Detection Optimization Schemes Using Image Processing and Soft Computing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=HZNNCj4AAAAJ&citation_for_view=HZNNCj4AAAAJ:u-x6o8ySG0sC",
+            "authors": "C Thammasakorn, C So-In, W Punjaruk, U Kokaew, B Waikham, ...",
+            "year": "2016"
+        }
+    ]
+}

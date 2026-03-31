@@ -1,0 +1,56 @@
+{
+    "name": "Boonsup Waikham",
+    "affiliation": "Assistant Professor of Computer Science, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "Parallel KNN and neighborhood classification implementations on GPU for network intrusion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:In6cVmBjs0IC",
+            "authors": "P Kuttranont, K Boonprakob, C Phaudphut, S Permpol, ...",
+            "year": "2017"
+        },
+        {
+            "title": "Mobile animal tracking systems using light sensor for efficient power and cost saving motion detection",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:iyewoVqAXLQC",
+            "authors": "C So-In, C Phaudphut, S Tesana, N Weeramongkonlert, K Wijitsopon, ...",
+            "year": "2012"
+        },
+        {
+            "title": "MAP: An optimized energy-efficient cluster header selection technique for wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:sfnaS5RM6jYC",
+            "authors": "K Udompongsuk, C So-In, C Phaudphut, K Rujirakul, C Soomlek, ...",
+            "year": "2014"
+        },
+        {
+            "title": "H-FCD: hybrid fuzzy centroid and DV-Hop localization algorithm in wireless sensor networks",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:Azgs6IHzeyYC",
+            "authors": "W Katekaew, C So-In, K Rujirakul, B Waikham",
+            "year": "2014"
+        },
+        {
+            "title": "Android OS mobile monitoring systems using an efficient transmission technique over Tmote sky WSNs",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:ji7lAbPyDbYC",
+            "authors": "C So-In, N Weeramongkonlert, C Phaudphut, B Waikham, C Khunboa, ...",
+            "year": "2012"
+        },
+        {
+            "title": "Brain Cancer Cell Detection Optimization Schemes Using Image Processing and Soft Computing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:QoJ_w57xiyAC",
+            "authors": "C Thammasakorn, C So-In, W Punjaruk, U Kokaew, B Waikham, ...",
+            "year": "2016"
+        },
+        {
+            "title": "A novel architecture for mobile ECG recognition systems using hybrid wavelet transform feature extraction schemes",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:4e5Qn2KL_jwC",
+            "authors": "C So-In, C Phaudphut, K Rujirakul, N Phokaped, S Poolsanguan, ...",
+            "year": "2013"
+        },
+        {
+            "title": "DNA forensic system for police forensic science center cooperation: Architectural design and implementation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=sAp1BWsAAAAJ&citation_for_view=sAp1BWsAAAAJ:tz746QTLzJkC",
+            "authors": "A Rattanamuang, S Chiewchanwattana, K Sunat, B Waikham",
+            "year": "2016"
+        }
+    ]
+}

@@ -1,0 +1,128 @@
+{
+    "name": "Assoc.Prof. Wararat Songpan, Ph.D",
+    "affiliation": "College of Computing, Khon Kaen University",
+    "interests": [],
+    "image": null,
+    "publications": [
+        {
+            "title": "The analysis and prediction of customer review rating using opinion mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:UeHWp8X0CEIC",
+            "authors": "W Songpan",
+            "year": "2017"
+        },
+        {
+            "title": "Improved ensemble learning for classification techniques based on majority voting",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:qjMakFHDy7sC",
+            "authors": "A Rojarath, W Songpan, C Pong-inwong",
+            "year": "2016"
+        },
+        {
+            "title": "Sentiment analysis in teaching evaluations using sentiment phrase pattern matching (SPPM) based on association mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:IjCSPb-OGe4C",
+            "authors": "C Pong-Inwong, W Songpan",
+            "year": "2019"
+        },
+        {
+            "title": "Teaching senti-lexicon for automated sentiment polarity definition in teaching evaluation",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:Y0pCki6q_DkC",
+            "authors": "C Pong-Inwong, WS Rungworawut",
+            "year": "2014"
+        },
+        {
+            "title": "Using ontology search in the design of class diagram from business process model",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:kNdYIx-mwKoC",
+            "authors": "W Rungworawut, T Senivongse",
+            "year": "2006"
+        },
+        {
+            "title": "Cost-sensitive probability for weighted voting in an ensemble model for multi-class classification problems",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:l7t_Zn2s7bgC",
+            "authors": "A Rojarath, W Songpan",
+            "year": "2021"
+        },
+        {
+            "title": "A guideline to mapping business processes to UML class diagrams",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:8k81kl-MbHgC",
+            "authors": "W Rungworawut, T Senivongse",
+            "year": "2005"
+        },
+        {
+            "title": "Improved skin lesion image classification using clustering with local-GLCM normalization",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:YsMSGLbcyi4C",
+            "authors": "W Songpan",
+            "year": "2018"
+        },
+        {
+            "title": "Teaching evaluation using data mining on moodle LMS forum",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:GnPB-g6toBAC",
+            "authors": "C Pong-inwong, W Rungworawut",
+            "year": "2012"
+        },
+        {
+            "title": "From business world to software world: deriving class diagrams from business process models",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:geHnlv5EZngC",
+            "authors": "W Rungworawut, T Senivongse",
+            "year": "2005"
+        },
+        {
+            "title": "Emotion analysis and classification of movie reviews using data mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:WbkHhVStYXYC",
+            "authors": "K Moolthaisong, W Songpan",
+            "year": "2020"
+        },
+        {
+            "title": "Probability-Weighted Voting Ensemble Learning for Classification Model",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:8AbLer7MMksC",
+            "authors": "A Rojarath, W Songpan",
+            "year": "2020"
+        },
+        {
+            "title": "Advancing Facial Expression Recognition in Online Learning Education Using a Homogeneous Ensemble Convolutional Neural Network Approach",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:AXPGKjj_ei8C",
+            "authors": "R Lawpanom, W Songpan, J Kaewyotha",
+            "year": "2024"
+        },
+        {
+            "title": "Mutation‐Based Harmony Search Algorithm for Hybrid Testing of Web Service Composition",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:2osOgNQ5qMEC",
+            "authors": "E Maythaisong, W Songpan",
+            "year": "2018"
+        },
+        {
+            "title": "Achieving managerial goals in business process components design using genetic algorithms",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:_Qo2XoVZTnwC",
+            "authors": "W Rungworawut, T Senivongse, K Cox",
+            "year": "2007"
+        },
+        {
+            "title": "Feature selection and reduction based on SMOTE and information gain for sentiment mining",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:eQOLeE2rZwMC",
+            "authors": "P Pongthanoo, W Songpan",
+            "year": "2020"
+        },
+        {
+            "title": "A study on the optimization algorithm for solving the supermarket shopping path problem",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:u5HHmVD_uO8C",
+            "authors": "J Kaewyotha, W Songpan",
+            "year": "2018"
+        },
+        {
+            "title": "Classification model for skin lesion image",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:d1gkVwhDpl0C",
+            "authors": "N Danpakdee, W Songpan",
+            "year": "2017"
+        },
+        {
+            "title": "Solving bird image overlapping for automatic population counts of birds using image processing",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:Tyk-4Ss8FVUC",
+            "authors": "N Tidmerng, W Songpan, M Wattana",
+            "year": "2016"
+        },
+        {
+            "title": "Multi-objective design of profit volumes and closeness ratings using mbhs optimizing based on the prefixspan mining approach (Psma) for product layout in supermarkets",
+            "link": "https://scholar.google.com/citations?view_op=view_citation&hl=th&user=VfmVWLIAAAAJ&citation_for_view=VfmVWLIAAAAJ:08ZZubdj9fEC",
+            "authors": "J Kaewyotha, W Songpan",
+            "year": "2021"
+        }
+    ]
+}
