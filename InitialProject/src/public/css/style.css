@@ -40,22 +40,7 @@ html {
 /* body {
             background-color: #E5E5E5;
         } */
-:root {
-    --primary-color: #2563eb;
-    --primary-hover: #1d4ed8;
-    --bg-light: #f8fafc;
-    --text-dark: #1e293b;
-    --text-light: #64748b;
-    --primary: #1075bb;
-    --primary-dark: #0c5f92;
-    --primary-light: #e8f5fe;
-    --primary-text: #003e80;
-    --body-font: "Prompt", "Kanit", sans-serif;
-    --heading-font: "Kanit", sans-serif;
-    --accent-teal: #4ad1e5;
-    --border-radius-card: 12px;
-    --shadow-card: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+/* CSS Variables defined in shared.css - ไม่ต้องกำหนดซ้ำที่นี่ */
 
 h1 {
     color: #222222;
@@ -2709,7 +2694,7 @@ select {
     width: 260px;
     flex-shrink: 0;
     position: sticky;
-    top: 80px;        /* below the fixed navbar */
+    top: 80px; /* below the fixed navbar */
 }
 
 .rs-sidebar-inner {
@@ -2717,7 +2702,7 @@ select {
     border: 1px solid #e2e8f0;
     border-radius: 14px;
     padding: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 /* mobile toggle button */
@@ -2793,7 +2778,9 @@ select {
     cursor: pointer;
     line-height: 1.4;
 }
-.rs-check-label:hover { color: #1e293b; }
+.rs-check-label:hover {
+    color: #1e293b;
+}
 .rs-check-label input[type="checkbox"] {
     width: 15px;
     height: 15px;
@@ -2823,7 +2810,9 @@ select {
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s;
+    transition:
+        background 0.2s,
+        color 0.2s;
     text-align: center;
 }
 .rs-clear-btn:hover {
@@ -2881,15 +2870,19 @@ select {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
 }
 
-.rs-card.is-clickable { cursor: pointer; }
+.rs-card.is-clickable {
+    cursor: pointer;
+}
 
 .rs-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
 .rs-card.is-clickable:focus-visible {
@@ -2993,7 +2986,10 @@ select {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-.rs-card-email:hover { text-decoration: underline; color: var(--primary-dark); }
+.rs-card-email:hover {
+    text-decoration: underline;
+    color: var(--primary-dark);
+}
 
 /* Stats footer */
 .rs-card-stats {
@@ -3038,13 +3034,19 @@ select {
 
 /* 3 columns — large tablets */
 @media (max-width: 1300px) {
-    .researchers-grid { grid-template-columns: repeat(3, 1fr); }
+    .researchers-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 /* 2 columns + sidebar collapses at md */
 @media (max-width: 1100px) {
-    .researchers-grid { grid-template-columns: repeat(2, 1fr); }
-    .researchers-sidebar { width: 220px; }
+    .researchers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .researchers-sidebar {
+        width: 220px;
+    }
 }
 
 /* Sidebar becomes full-width above content on tablet/mobile */
@@ -3064,19 +3066,28 @@ select {
     .rs-sidebar-inner.rs-sidebar-open {
         display: block;
     }
-    .researchers-grid { grid-template-columns: repeat(3, 1fr); }
+    .researchers-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
 
 @media (max-width: 767px) {
-    .researchers-grid { grid-template-columns: repeat(2, 1fr); }
-    .rs-card-photo { height: 160px; }
+    .researchers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .rs-card-photo {
+        height: 160px;
+    }
 }
 
 @media (max-width: 480px) {
-    .researchers-grid { grid-template-columns: 1fr; }
-    .rs-card-photo { height: 220px; }
+    .researchers-grid {
+        grid-template-columns: 1fr;
+    }
+    .rs-card-photo {
+        height: 220px;
+    }
 }
-
 
 /* ==========================================
    2026 Unified Research System Design Layer
@@ -3275,12 +3286,25 @@ html {
     margin-bottom: 0.5rem;
 }
 
-.uds-chip-primary { background: var(--brand-700); }
-.uds-chip-secondary { background: var(--text-700); }
-.uds-chip-muted { background: var(--surface-50); border: 1px solid #dbe3ee; }
-.uds-chip-success { background: var(--success-600); }
-.uds-chip-progress { background: var(--warning-600); }
-.uds-chip-neutral { background: var(--neutral-600); }
+.uds-chip-primary {
+    background: var(--brand-700);
+}
+.uds-chip-secondary {
+    background: var(--text-700);
+}
+.uds-chip-muted {
+    background: var(--surface-50);
+    border: 1px solid #dbe3ee;
+}
+.uds-chip-success {
+    background: var(--success-600);
+}
+.uds-chip-progress {
+    background: var(--warning-600);
+}
+.uds-chip-neutral {
+    background: var(--neutral-600);
+}
 
 .uds-chart-demo {
     display: grid;

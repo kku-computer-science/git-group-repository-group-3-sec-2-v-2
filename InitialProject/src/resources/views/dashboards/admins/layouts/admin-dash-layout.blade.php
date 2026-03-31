@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="{{ asset('vendors/simple-line-icons/css/simple-line-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
     <link rel="stylesheet" href="{{ asset('js/select.dataTables.min.css') }}">
+    <!-- Shared CSS Design Tokens (ใช้ร่วมกันทุก layout) -->
+    <link rel="stylesheet" href="{{ asset('css/shared.css') }}">
     <link rel="stylesheet" href="{{ asset('css/styleadmin.css') }}">
 
     <style>

@@ -14,9 +14,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;200;300;400&family=Mitr:wght@200;300;400;500&family=Prompt:wght@100;300;400;500&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- CSS Files - Critical Path CSS -->
-    <link href="{{ asset('css/load-more-button.css') }}" rel="stylesheet">
+    <!-- Bootstrap 5 (shared across all layouts) -->
     <link rel="stylesheet" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
+
+    <!-- Shared CSS Design Tokens (ใช้ร่วมกันทุก layout) -->
+    <link rel="stylesheet" href="{{ asset('css/shared.css') }}">
+
+    <!-- Public page CSS -->
+    <link href="{{ asset('css/load-more-button.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 
     <!-- CSS - Icons & UI Components -->
@@ -50,6 +55,9 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         }
     </style>
+
+    <!-- Page-specific styles -->
+    @stack('styles')
 
     <!-- Core JS Files -->
     <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
@@ -128,6 +136,7 @@
         @yield('content')
     </div>
     @yield('javascript')
+    @stack('scripts')
 
     <!-- Footer -->
     <footer class="footer">

@@ -35,17 +35,20 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="{{asset('js/select.dataTables.min.css')}}">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
+    <!-- Shared CSS Design Tokens (ใช้ร่วมกันทุก layout) -->
+    <link rel="stylesheet" href="{{asset('css/shared.css')}}">
     <link rel="stylesheet" href="{{asset('css/styleadmin.css')}}">
 
     <!-- endinject -->
     <!-- <link rel="shortcut icon" href="images/favicon.png" /> -->
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"> </script> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Page-specific styles -->
+    @stack('styles')
+
+    <!-- jQuery (ใช้ vendor version เดียวกันกับ layout.blade.php) -->
+    <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
 </head>
 
 <body>
@@ -343,13 +346,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="{{asset('js/Chart.roundedBarCharts.js')}}"></script>
     <!-- End custom js for this page-->
 
-    <!-- Bootstrap 4 -->
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap 5 JS (เดียวกับ layout.blade.php) -->
+    <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('plugins/ijaboCropTool/ijaboCropTool.min.js') }}"></script>
-    <!-- AdminLTE App -->
-    <script src="dist/js/adminlte.min.js"></script>
 
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
 
     <!-- Select2 JS -->
@@ -357,6 +357,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 
     @yield('javascript')
+    @stack('scripts')
 
 
 </body>
